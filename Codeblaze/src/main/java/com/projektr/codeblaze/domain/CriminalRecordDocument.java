@@ -8,11 +8,10 @@ import lombok.Data;
 
 @Entity
 @Data
-public class IdentificationDocument {
+public class CriminalRecordDocument {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String url;
-
 }
