@@ -11,7 +11,7 @@ public class UserService {
     private static UserRepository userRepository;
 
     public static User getUserById(Long userId) {
-        return userRepository.findById(userId);
+        return userRepository.findById(userId).orElse(null);
     }
 
     public User createUser(User user) {

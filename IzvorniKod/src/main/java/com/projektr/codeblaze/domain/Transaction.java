@@ -13,10 +13,11 @@ public class Transaction {
     private Long id;
 
     @ManyToOne
-    private User client; // Reference to the client (user) involved in the transaction
+    private User user; // Reference to the client (user) involved in the transaction
 
     @ManyToOne
     private User lessor; // Reference to the lessor (user) involved in the transaction
+
 
     @ManyToOne
     private Scooter scooter; // Reference to the rented electric scooter

@@ -1,9 +1,6 @@
 package com.projektr.codeblaze.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -14,4 +11,8 @@ public class CriminalRecordDocument {
     private long id;
 
     private String url;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

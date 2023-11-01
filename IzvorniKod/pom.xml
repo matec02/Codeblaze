@@ -18,13 +18,23 @@
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
-		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+		<dependency><!-- TEST -->
+			<groupId>io.projectreactor</groupId>
+			<artifactId>reactor-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency><!-- TEST -->
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
+		COMMENTED BECAUSE junit.jupiter ALREADY IN spring-boot-starter-test
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
 			<version>5.10.0</version>
 
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -37,12 +47,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.springframework/spring-web -->
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-web
+		COMMENTED BECAUSE spring-web ALREADY IN spring-boot-starter-web
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
 			<version>6.0.11</version>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web-services</artifactId>
@@ -62,6 +73,7 @@
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
@@ -76,7 +88,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-websocket</artifactId>
-			<version>6.0.13</version>
+			<version>6.0.11</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-messaging -->
@@ -99,12 +111,12 @@
 			<version>2.15.3</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security -->
+		<!--https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 			<version>3.1.5</version>
-		</dependency>
+		</dependency>-->
 
 
 	</dependencies>
