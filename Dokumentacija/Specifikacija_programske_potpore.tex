@@ -58,43 +58,203 @@
 				\textbf{\textit{dio 1. revizije}}
 				
 				\subsubsection{Opis obrazaca uporabe}
-					\textit{Funkcionalne zahtjeve razraditi u obliku obrazaca uporabe. Svaki obrazac je potrebno razraditi prema donjem predlošku. Ukoliko u nekom koraku može doći do odstupanja, potrebno je to odstupanje opisati i po mogućnosti ponuditi rješenje kojim bi se tijek obrasca vratio na osnovni tijek.}\\
 					
-
-					\noindent \underbar{\textbf{UC$<$broj obrasca$>$ -$<$ime obrasca$>$}}
+					
+					\noindent \underbar{\textbf{UC1 - Pregledaj romobile}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }$<$sudionik$>$
-						\item  \textbf{Cilj:} $<$cilj$>$
-						\item  \textbf{Sudionici:} $<$sudionici$>$
-						\item  \textbf{Preduvjet:} $<$preduvjet$>$
+						\item \textbf{Glavni sudionik: }Korisnik
+						\item  \textbf{Cilj:} Pregledati romobile dostupne za iznajmljivanje
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} -
 						\item  \textbf{Opis osnovnog tijeka:}
 						
 						\item[] \begin{packed_enum}
 	
-							\item $<$opis korak jedan$>$
-							\item $<$opis korak dva$>$
-							\item $<$opis korak tri$>$
-							\item $<$opis korak četiri$>$
-							\item $<$opis korak pet$>$
+							\item Učitava se početna stranica aplikacije
+							\item Prikazuje se ponuda romobila dostupnih za iznajmljivanje
+							\item Sudionik pregledava dostupne romobile i informacije o njima
+						
 						\end{packed_enum}
+					\end{packed_item}
 						
-						\item  \textbf{Opis mogućih odstupanja:}
-						
-						\item[] \begin{packed_item}
-	
-							\item[2.a] $<$opis mogućeg scenarija odstupanja u koraku 2$>$
+							\noindent \underbar{\textbf{UC2 - Registriraj korisnika}}
+						\begin{packed_item}
+							
+							\item \textbf{Glavni sudionik: } Neregistrirani korisnik
+							\item  \textbf{Cilj:} Napraviti korisnički račun kojim se pristupa sustavu
+							\item  \textbf{Sudionici:} Administrator, baza podataka
+							\item  \textbf{Preduvjet:} -
+							\item  \textbf{Opis osnovnog tijeka:}
+							
 							\item[] \begin{packed_enum}
 								
-								\item $<$opis rješenja mogućeg scenarija korak 1$>$
-								\item $<$opis rješenja mogućeg scenarija korak 2$>$
+								\item Neregistrirani korisnik odabire opciju „Registriraj se“ 
+								\item Neregistriranom korisniku prikazuje se stranica za registraciju 
+								\item Neregistrirani korisnik unosi podatke za registraciju 
+								\item Unesena kopija osobne iskaznice i potvrda o nekažnjavanju šalju se administratoru na pregled 
+								\item Stvara se novi korisnički račun čiji se podatci pohranjuju u bazu podataka 
+								\item Korisnika se preusmjerava na stranicu za prijavu u sustav 
 								
 							\end{packed_enum}
-							\item[2.b] $<$opis mogućeg scenarija odstupanja u koraku 2$>$
-							\item[3.a] $<$opis mogućeg scenarija odstupanja  u koraku 3$>$
 							
+							\item  \textbf{Opis mogućih odstupanja:}
+							
+							\item[] \begin{packed_item}
+								
+								\item[3.a] Unos podataka u nedozvoljenom formatu ili unos već zauzetog nadimka ili e-mail adrese 
+								\item[] \begin{packed_enum}
+									
+									\item Korisnik dobiva odgovarajuću obavijest o neispravnosti podataka 
+									\item Korisnik mijenja potrebne podatke i završava s unosom ili odustaje od registracije 
+									
+								\end{packed_enum}
+								
+								
+							\end{packed_item}
 						\end{packed_item}
-					\end{packed_item}
+						\noindent \underbar{\textbf{UC3 - Prijavi korisnika}}
+						\begin{packed_item}
+							
+							\item \textbf{Glavni sudionik: } Klijent, iznajmljivač
+							\item  \textbf{Cilj:} Dobiti pristup korisničkim funkcijama
+							\item  \textbf{Sudionici:} Baza podataka
+							\item  \textbf{Preduvjet:} Korisnik je registriran
+							\item  \textbf{Opis osnovnog tijeka:}
+							
+							\item[] \begin{packed_enum}
+								
+								\item Korisnik odabire opciju „Prijavi se“ 
+								\item Korisniku se prikazuje stranica za prijavu  
+								\item Korisnik unosi podatke za prijavu 
+								\item Prijava je odobrena i korisnik dobiva pristup korisničkim funkcijama 
+								 
+								
+							\end{packed_enum}
+							
+							\item  \textbf{Opis mogućih odstupanja:}
+							
+							\item[] \begin{packed_item}
+								
+								\item[3.a] Unos podataka koji ne odgovaraju nijednom registriranom korisniku u bazi podataka  
+								\item[] \begin{packed_enum}
+									
+									\item Korisnik dobiva odgovarajuću obavijest o neispravnosti podataka 
+									\item Korisnik mijenja potrebne podatke i završava s unosom ili odustaje od prijave 
+									
+								\end{packed_enum}
+								\item[4.a] Prijava nije odobrena jer korisnik čeka na odobrenje registracije    
+								\item[] \begin{packed_enum}
+									
+									\item Korisnik dobiva obavijest da je njegov zahtjev za registraciju na čekanju  
+									\item Ako se zahtjev za registraciju odobri, korisnik se uspješno prijavljuje u sustav, a ako se zahtjev za registraciju odbije, korisnika se preusmjerava na stranicu gdje može ponovno predati dokumentaciju za registraciju na provjeru 
+									
+								\end{packed_enum}
+									\item[4.b] Prijava nije odobrena jer je korisnik blokiran i nema pristup sustavu 
+								\item[] \begin{packed_enum}
+									
+									\item Korisnik dobiva obavijest da je blokiran i nema više pristup sustavu   
+									
+									
+								\end{packed_enum}
+								
+								
+							\end{packed_item}
+						\end{packed_item}
+						\noindent \underbar{\textbf{UC4 - Ponovno predaj dokumentaciju}}
+						\begin{packed_item}
+							
+							\item \textbf{Glavni sudionik: }Neregistrirani korisnik
+							\item  \textbf{Cilj:} Ponovno predati kopiju osobne iskaznice i potvrdu o nekažnjavanju na pregled
+							\item  \textbf{Sudionici:} Administrator, baza podataka
+							\item  \textbf{Preduvjet:} Prethodno odbijen zahtjev za registraciju
+							\item  \textbf{Opis osnovnog tijeka:}
+							
+							\item[] \begin{packed_enum}
+								
+								\item Korisnik unosi novu dokumentaciju za registraciju u sustav 
+								\item Dokumentacija se šalje administratoru na pregled 
+								\item Korisnika se preusmjerava na stranicu za prijavu gdje se pokušava ponovno prijaviti u sustav 
+								
+								
+							\end{packed_enum}
+							
+							\item  \textbf{Opis mogućih odstupanja:}
+							
+							\item[] \begin{packed_item}
+								
+								\item[1.a] Unos dokumentacije u nedozvoljenom formatu 
+								\item[] \begin{packed_enum}
+									
+									\item Korisnik dobiva odgovarajuću obavijest o neispravnosti podataka  
+									\item Korisnik unosi ispravnu dokumentaciju i završava s unosom ili odustaje od ponovne predaje dokumentacije  
+									
+								\end{packed_enum}
+								
+								
+							\end{packed_item}
+						\end{packed_item}
+						\noindent \underbar{\textbf{UC5 - Pregledaj profil}}
+						\begin{packed_item}
+							
+							\item \textbf{Glavni sudionik: } Klijent, iznajmljivač
+							\item  \textbf{Cilj:} Pregledati korisničke podatke svog profila
+							\item  \textbf{Sudionici:} Baza podataka
+							\item  \textbf{Preduvjet:} Korisnik je prijavljen
+							\item  \textbf{Opis osnovnog tijeka:}
+							
+							\item[] \begin{packed_enum}
+								
+								\item Korisnik odabire opciju „Moj profil“ 
+								\item Korisniku se prikazuje stranica vlastitog profila i svi njegovi korisnički podatci   
+								\item Korisnik pregledava informacije o svom profilu 
+							 
+							\end{packed_enum}
+						\end{packed_item}
+						\noindent \underbar{\textbf{UC6 - Uredi profil}}
+						\begin{packed_item}
+							
+							\item \textbf{Glavni sudionik: }Klijent, iznajmljivač
+							\item  \textbf{Cilj:}Promijeniti korisničke podatke i odlučiti koji će od njih biti javni, a koji privatni
+							\item  \textbf{Sudionici:} Baza podataka
+							\item  \textbf{Preduvjet:} Korisnik je prijavljen
+							\item  \textbf{Opis osnovnog tijeka:}
+							
+							\item[] \begin{packed_enum}
+								
+								\item Korisnik odabire opciju „Uredi profil“  
+								\item Korisnik mijenja svoje korisničke podatke i njihovu dostupnost 
+								\item Korisnik potvrđuje promjene odabirom opcije „Spremi promjene“ 
+								\item Baza podataka se ažurira 
+								
+								
+							\end{packed_enum}
+							
+							\item  \textbf{Opis mogućih odstupanja:}
+							
+							\item[] \begin{packed_item}
+								
+								\item[2.a] Unos podataka u nedozvoljenom formatu ili unos već zauzetog nadimka ili e-mail adrese 
+								\item[] \begin{packed_enum}
+									
+									\item Korisnik dobiva odgovarajuću obavijest o neispravnosti podataka 
+									\item Korisnik mijenja potrebne podatke i završava s unosom ili odustaje od promjene 
+									
+								\end{packed_enum}
+								\item[3.a] Korisnik ne potvrdi promjenu odabirom opcije „Spremi promjene“    
+								\item[] \begin{packed_enum}
+									
+									\item Korisnik dobiva obavijest da nije spremio podatke prije izlaska iz prozora za promjenu podataka   
+									\item Korisnik sprema promjene 
+									
+								\end{packed_enum}
+								
+								
+								
+							\end{packed_item}
+						\end{packed_item}
+								
+						
 				
 					
 				\subsubsection{Dijagrami obrazaca uporabe}
