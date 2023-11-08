@@ -5,38 +5,33 @@ import com.projektr.codeblaze.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class UserService {
-    @Autowired
     private static UserRepository userRepository;
 
-    public static User getUserById(Long userId) {
-        return userRepository.findById(userId).orElse(null);
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
-    public User createUser(User user) {
-//        TODO
+    public User findById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+    public User save(User user) {
         return userRepository.save(user);
     }
 
-    public User updateUser(Long userId, User updatedUser) {
-        User existingUser = getUserById(userId);
-        if (existingUser == null) {
-            return null;
-        }
-
-        existingUser.setFirstName(updatedUser.getFirstName());
-        existingUser.setLastName(updatedUser.getLastName());
-
-        return userRepository.save(existingUser);
+    public static Optional<User> getUserById(Long userId) {
+        return userRepository.findById(userId);
     }
 
-    public boolean deleteUser(Long userId) {
-        User userToDelete = getUserById(userId);
-        if (userToDelete == null) {
-            return false;
-        }
-        userRepository.delete(userToDelete);
-        return true;
+    public void delete(Long id) {
+        userRepository.deleteById(id);
     }
 }
