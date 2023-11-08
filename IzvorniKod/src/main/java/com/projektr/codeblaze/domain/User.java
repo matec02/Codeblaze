@@ -32,7 +32,7 @@ public class User {
     @Column(name = "phoneNumber", nullable = false, unique = true, length = 13)
     private String phoneNumber;
 
-    @Column(name = "password", length = 60, nullable = false)
+    @Column(name = "password", nullable = false, length = 60)
     private String password;
 
     @Enumerated(EnumType.STRING)

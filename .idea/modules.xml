@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/IzvorniKod/Codeblaze.iml" filepath="$PROJECT_DIR$/IzvorniKod/Codeblaze.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Codeblaze.iml" filepath="$PROJECT_DIR$/Codeblaze.iml" />
     </modules>
   </component>
 </project>
