@@ -3,24 +3,44 @@ package com.projektr.codeblaze.domain;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.List;
 
 @Data
 @Entity
+@Table(name = "scooter")
 public class Scooter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "scooterId", updatable = false, nullable = false)
+    private Long scooterId;
 
+    @Column(name = "manufacturer")
+    private String manufacturer;
+
+    @Column(name = "model")
     private String model;
-    private String brand;
-    private double batteryLevel;
-    private double pricePerKilometer;
-    private double lateReturnPenalty = 0;
+
+    @Column(name = "batteryCapacity")
+    private int batteryCapacity;
+
+    @Column(name = "maxSpeed")
+    private int maxSpeed;
+
+    @Column(name= "imageURL", length = 500)
+    private String imageURL;
+
+    @Column(name = "maxRange")
+    private double maxRange;
+
+    @Column(name = "yearOfManufacture")
+    private int yearOfManufacture;
+
+    @Column(name = "additionalInformation")
+    private String additionalInformation;
 
     @ManyToOne
-    private User owner;
+    @JoinColumn(name = "userId", referencedColumnName = "userId", nullable = false)
+    private User user;
 
-    @OneToMany(mappedBy = "scooter")
-    private List<Transaction> pastTransactionsOfScooter;
+    @Column(nullable = false)
+    private Boolean availability;
 }
