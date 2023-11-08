@@ -253,6 +253,375 @@
 								
 							\end{packed_item}
 						\end{packed_item}
+						\noindent \underbar{\textbf{UC7 - Pregledaj dokumentaciju za registraciju}}
+						\begin{packed_item}
+							
+							\item \textbf{Glavni sudionik: }Administrator
+							\item  \textbf{Cilj:} Odlučiti o valjanosti kopije osobne iskaznice i potvrde o nekažnjavanju
+							\item  \textbf{Sudionici:} Baza podataka
+							\item  \textbf{Preduvjet:} Poslan zahtjev za pregled dokumentacije
+							\item  \textbf{Opis osnovnog tijeka:}
+							
+							\item[] \begin{packed_enum}
+								
+								\item Administrator pregledava dokumentaciju poslane pri registraciji korisnika ili pri ponovnom slanju dokumentacije 
+								\item Administrator odlučuje o potvrđivanju dokumenata i njegova odluka se zapisuje u bazu podataka 
+							\end{packed_enum}
+							
+						\end{packed_item}
+						\noindent \underbar{\textbf{UC8 - Blokiraj korisnika}}
+						\begin{packed_item}
+							
+							\item \textbf{Glavni sudionik: }Administrator
+							\item  \textbf{Cilj: }Korisniku zabraniti pristup aplikaciji 
+							\item  \textbf{Sudionici: }Baza podataka
+							\item  \textbf{Preduvjet: }Korisnik je prijavljen u sustav
+							\item  \textbf{Opis osnovnog tijeka:}
+							
+							\item[] \begin{packed_enum}
+								
+								\item Administrator posjećuje profil korisnika 
+								\item Administrator odabire opciju „Blokiraj korisnika“ 
+								\item U bazu podataka se zapisuje da je korisnik blokiran i pri sljedećoj prijavi bit će mu onemogućen pristup sustavu   
+							\end{packed_enum}
+							
+							
+						\end{packed_item}
+						\noindent \underbar{\textbf{UC9 - Registriraj romobil}}
+						\begin{packed_item}
+							
+							\item \textbf{Glavni sudionik: }Klijent, iznajmljivač
+							\item  \textbf{Cilj: }Registriranje romobila u aplikaciji
+							\item  \textbf{Sudionici: }Baza podataka
+							\item  \textbf{Preduvjet: }Korisnik je prijavljen u sustav
+							\item  \textbf{Opis osnovnog tijeka:}
+							
+							\item[] \begin{packed_enum}
+								
+								\item Korisnik odabire opciju „Registriraj romobil“ 
+								\item Korisnik unosi podatke o romobilu i sliku trenutnog stanja romobila 
+								\item Registracija romobila se zabilježi u bazi podataka 
+								\item Ako je korisnik klijent, on postaje iznajmljivač   
+							\end{packed_enum}
+							
+							\item  \textbf{Opis mogućih odstupanja:}
+							
+							\item[] \begin{packed_item}
+								
+								\item[2.a] Unos podataka o romobilu u nedozvoljenom formatu 
+								\item[] \begin{packed_enum}
+									
+									\item Korisnik dobiva odgovarajuću obavijest o neispravnosti podataka 
+									\item Korisnik mijenja potrebne podatke i završava s unosom ili odustaje od registracije romobila 
+									
+								\end{packed_enum}
+								
+								
+							\end{packed_item}
+						\end{packed_item}
+						\noindent \underbar{\textbf{UC10 - Izbriši romobil}}
+						\begin{packed_item}
+							
+							\item \textbf{Glavni sudionik: }Iznajmljivač
+							\item  \textbf{Cilj: }Izbrisati romobil iz registriranih romobila
+							\item  \textbf{Sudionici:} Baza podataka
+							\item  \textbf{Preduvjet:} Romobil je registriran u bazi podataka 
+							\item  \textbf{Opis osnovnog tijeka:}
+							
+							\item[] \begin{packed_enum}
+								
+								\item Iznajmljivač na svom profilu pregledava svoje registrirane romobile 
+								\item Iznajmljivač kod određenog romobila odabire opciju „Izbriši romobil“ 
+								\item Romobil se briše iz registriranih romobila 
+								\item Ako nakon brisanja romobila iznajmljivač nema više registriranih romobila on postaje klijent   
+							\end{packed_enum}
+							
+						\end{packed_item}
+						\noindent \underbar{\textbf{UC11 - Postavi romobil}}
+						\begin{packed_item}
+							
+							\item \textbf{Glavni sudionik: }Iznajmljivač
+							\item  \textbf{Cilj: }Objaviti da je romobil dostupan za iznajmljivanje
+							\item  \textbf{Sudionici:} Baza podataka
+							\item  \textbf{Preduvjet:} Romobil je registriran
+							\item  \textbf{Opis osnovnog tijeka:}
+							
+							\item[] \begin{packed_enum}
+								
+								\item Iznajmljivač pregledava svoje registrirane romobile 
+								\item Iznajmljivač kod određenog romobila odabire opciju „Postavi romobil“ 
+								\item Iznajmljivač unosi podatke o iznajmljivanju 
+								\item Oglas se prikazuje među dostupnim romobilima   
+							\end{packed_enum}
+							
+							\item  \textbf{Opis mogućih odstupanja:}
+							
+							\item[] \begin{packed_item}
+								
+								\item[3.a] Unos neispravnih podataka o iznajmljivanju 
+								\item[] \begin{packed_enum}
+									
+									\item Iznajmljivač dobiva odgovarajuću obavijest o neispravnosti podataka 
+									\item Iznajmljivač mijenja potrebne podatke i završava unos ili odustaje od postavljanja 
+									
+								\end{packed_enum}
+								
+								
+							\end{packed_item}
+						\end{packed_item}
+						\noindent \underbar{\textbf{UC12 - Objavi na društvene mreže}}
+						\begin{packed_item}
+							
+							\item \textbf{Glavni sudionik: }Iznajmljivač
+							\item  \textbf{Cilj: }Objaviti oglas za iznajmljivanje romobila na odabranu društvenu mrežu
+							\item  \textbf{Sudionici: }Baza podataka
+							\item  \textbf{Preduvjet: }Romobil dostupan za iznajmljivanje
+							\item  \textbf{Opis osnovnog tijeka:}
+							
+							\item[] \begin{packed_enum}
+								
+								\item Iznajmljivač odabire opciju „Objavi na društvenu mrežu“  
+								\item Iznajmljivač odabire društvenu mrežu na koju bi htio objaviti svoj oglas 
+								\item Generira se objava za iznajmljivanje romobila 
+								\item Iznajmljivač potvrđuje objavu 
+								\item Oglas se objavljuje na društvenoj mreži 
+							\end{packed_enum}
+							
+							
+						\end{packed_item}
+						\noindent \underbar{\textbf{UC13 - Pošalji poruku!!!!}}
+						\begin{packed_item}
+							
+							\item \textbf{Glavni sudionik: }Administrator
+							\item  \textbf{Cilj: }Korisniku zabraniti pristup aplikaciji 
+							\item  \textbf{Sudionici: }Baza podataka
+							\item  \textbf{Preduvjet: }Korisnik je prijavljen u sustav
+							\item  \textbf{Opis osnovnog tijeka:}
+							
+							\item[] \begin{packed_enum}
+								
+								
+							\end{packed_enum}
+							
+							
+						\end{packed_item}
+						\noindent \underbar{\textbf{UC14 - Iznajmi romobil}}
+						\begin{packed_item}
+							
+							\item \textbf{Glavni sudionik: }Klijent
+							\item  \textbf{Cilj: }Iznajmiti romobil
+							\item  \textbf{Sudionici: }Iznajmljivač
+							\item  \textbf{Preduvjet: }Romobil dostupan za iznajmljivanje
+							\item  \textbf{Opis osnovnog tijeka:}
+							
+							\item[] \begin{packed_enum}
+								
+								\item Klijent odabire romobil koji želi iznajmiti 
+								\item Iznajmljivaču se šalje obavijest sa zahtjevom za iznajmljivanje 
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+						\noindent \underbar{\textbf{UC15 - Prihvati ponudu}}
+						\begin{packed_item}
+							
+							\item \textbf{Glavni sudionik: }Iznajmljivač
+							\item  \textbf{Cilj: }Prihvatiti zahtjev klijenta za iznajmljivanje romobila
+							\item  \textbf{Sudionici: }Klijent, baza podataka
+							\item  \textbf{Preduvjet: }Klijent poslao zahtjev za iznajmljivanje romobila
+							\item  \textbf{Opis osnovnog tijeka:}
+							
+							\item[] \begin{packed_enum}
+								
+								\item Iznajmljivač pregledava zahtjev za iznajmljivanje 
+								\item Iznajmljivač prihvaća ponudu i klijentu se šalje obavijest da je iznajmljivanje odobreno 
+								\item Oglas o romobilu se briše iz oglasa dostupnih romobila    
+							\end{packed_enum}
+							
+							\item  \textbf{Opis mogućih odstupanja:}
+							
+							\item[] \begin{packed_item}
+								
+								\item[2.a] Iznajmljivač odbija ponudu 
+								\item[] \begin{packed_enum}
+									
+									\item Klijentu se šalje obavijest da iznajmljivanje nije odobreno 
+									\item Romobil ostaje među dostupnim romobilima 
+									
+								\end{packed_enum}
+								
+							\end{packed_item}
+						\end{packed_item}
+						\noindent \underbar{\textbf{UC16 - Zamijeni sliku romobila}}
+						\begin{packed_item}
+							
+							\item \textbf{Glavni sudionik: }Klijent
+							\item  \textbf{Cilj: }Zamijeniti sliku romobila kako bi prikazivala trenutno stanje romobila
+							\item  \textbf{Sudionici: }Iznajmljivač, baza podataka
+							\item  \textbf{Preduvjet: }Iznajmljivanje je potvrđeno
+							\item  \textbf{Opis osnovnog tijeka:}
+							
+							\item[] \begin{packed_enum}
+								
+								\item Klijent odabire opciju „Zamijeni sliku“ 
+								\item Klijent postavlja novu sliku romobila i opis što je drugačije na slici 
+								\item Šalje se obavijest iznajmljivaču da je došlo do zamjene slike   
+							\end{packed_enum}
+							
+							\item  \textbf{Opis mogućih odstupanja:}
+							
+							\item[] \begin{packed_item}
+								
+								\item[2.a] Unos slike u nedozvoljenom formatu 
+								\item[] \begin{packed_enum}
+									
+									\item Korisnik dobiva odgovarajuću obavijest o neispravnosti formata slike 
+									\item Korisnik unosi ispravnu sliku i završava s unosom ili odustaje od zamjene slike 
+									
+								\end{packed_enum}		
+							\end{packed_item}
+						\end{packed_item}
+						\noindent \underbar{\textbf{UC17 - Žali se na zamjenu slike}}
+						\begin{packed_item}
+							
+							\item \textbf{Glavni sudionik: }Iznajmljivač
+							\item  \textbf{Cilj: }Poslati žalbu na zamjenu slike romobila koju je obavio klijent
+							\item  \textbf{Sudionici: }Administrator
+							\item  \textbf{Preduvjet: }Klijent napravio zamjenu slike romobila, iznajmljivač smatra sliku neispravnom
+							\item  \textbf{Opis osnovnog tijeka:}
+							
+							\item[] \begin{packed_enum}
+								
+								\item Klijent pregledava zamjenu slike romobila 
+								\item Iznajmljivač šalje žalbu administratoru 
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+						\noindent \underbar{\textbf{UC18 - Odluči i obavijesti o zamjeni slike}}
+						\begin{packed_item}
+							
+							\item \textbf{Glavni sudionik: }Administrator
+							\item  \textbf{Cilj: }Odlučiti poništava li se zamjena slike ili ne te obavijestiti korisnike o toj odluci
+							\item  \textbf{Sudionici: }Klijent, iznajmljivač, baza podataka
+							\item  \textbf{Preduvjet: }Iznajmljivač se žalio na zamjenu slike
+							\item  \textbf{Opis osnovnog tijeka:}
+							
+							\item[] \begin{packed_enum}
+								
+								\item Administrator pregledava žalbu 
+								\item Administrator odabire sliku koju želi pohraniti u bazu podataka 
+								\item Baza podataka se ažurira 
+								\item Šalju se odgovarajuće obavijesti o odluci klijentu i iznajmljivaču   
+							\end{packed_enum}
+							
+							
+						\end{packed_item}
+						\noindent \underbar{\textbf{UC19 - Vrati romobil}}
+						\begin{packed_item}
+							
+							\item \textbf{Glavni sudionik: }Klijent
+							\item  \textbf{Cilj: }Vratiti romobil iznajmljivaču kako bi iznajmljivanje završilo
+							\item  \textbf{Sudionici: }Iznajmljivač, baza podataka
+							\item  \textbf{Preduvjet: }Klijent je iznajmio romobil
+							\item  \textbf{Opis osnovnog tijeka:}
+							
+							\item[] \begin{packed_enum}
+								
+								\item Klijent u aplikaciji potvrđuje da je vratio romobil čime iznajmljivanje završava 
+								\item Provjerava se da je romobil vraćen u pravo vrijeme 
+								\item Izračunava se cijena koju klijent mora platiti iznajmljivaču 
+								\item Klijent i iznajmljivač dobivaju obavijest da je iznajmljivanje završeno i cijenu iznajmljivanja  
+							\end{packed_enum}
+							
+							\item  \textbf{Opis mogućih odstupanja:}
+							
+							\item[] \begin{packed_item}
+								
+								\item[2.a] Romobil je vraćen prekasno 
+								\item[] \begin{packed_enum}
+									
+									\item U ukupnu cijenu iznajmljivanja dodaje se iznos novčane kazne za prekasno vraćanje romobila 
+									
+									
+								\end{packed_enum}
+								
+							\end{packed_item}
+						\end{packed_item}
+						\noindent \underbar{\textbf{UC20 - Ocijeni klijenta}}
+						\begin{packed_item}
+							
+							\item \textbf{Glavni sudionik: }Iznajmljivač
+							\item  \textbf{Cilj: }Ocijeniti klijenta po završetku iznajmljivanja romobila
+							\item  \textbf{Sudionici: }Klijent, baza podataka
+							\item  \textbf{Preduvjet: }Klijent vratio romobil
+							\item  \textbf{Opis osnovnog tijeka:}
+							
+							\item[] \begin{packed_enum}
+								
+								\item Iznajmljivač ocjenjuje klijenta i ostavlja komentar  
+								\item Recenzija se prikazuje na profilu klijenta 
+								
+							\end{packed_enum}
+							
+							
+						\end{packed_item}
+						\noindent \underbar{\textbf{UC21 - Uplati novac banci}}
+						\begin{packed_item}
+							
+							\item \textbf{Glavni sudionik: }Klijent
+							\item  \textbf{Cilj: }Uplatiti cijenu iznajmljivanja banci 
+							\item  \textbf{Sudionici: }Banka
+							\item  \textbf{Preduvjet: }Romobil vraćen, iznajmljivanje je završilo
+							\item  \textbf{Opis osnovnog tijeka:}
+							
+							\item[] \begin{packed_enum}
+								
+								\item Po završetku iznajmljivanja dogovoreni iznos se prebacuje s računa klijenta u banku 
+								\item Banka prima iznos iznajmljivanja 
+								
+							\end{packed_enum}
+							
+							
+						\end{packed_item}
+						\noindent \underbar{\textbf{UC22 - Isplati iznajmljivača}}
+						\begin{packed_item}
+							
+							\item \textbf{Glavni sudionik: }Banka
+							\item  \textbf{Cilj: }Uplatiti cijenu iznajmljivanja na račun iznajmljivača 
+							\item  \textbf{Sudionici: }Iznajmljivač
+							\item  \textbf{Preduvjet: }Klijent uplatio dogovoreni iznos banci
+							\item  \textbf{Opis osnovnog tijeka:}
+							
+							\item[] \begin{packed_enum}
+								
+								\item Banka uplaćuje dogovoreni iznos na račun iznajmljivača 
+								
+							\end{packed_enum}
+							
+							
+						\end{packed_item}
+						\noindent \underbar{\textbf{UC23 - Pohrani transakciju}}
+						\begin{packed_item}
+							
+							\item \textbf{Glavni sudionik: }Baza podataka
+							\item  \textbf{Cilj: }Dokumentirati plaćanje s računa klijenta na račun iznajmljivača
+							\item  \textbf{Sudionici: }-
+							\item  \textbf{Preduvjet: }Završeno iznajmljivanje, vraćen romobil
+							\item  \textbf{Opis osnovnog tijeka:}
+							
+							\item[] \begin{packed_enum}
+								
+								\item Nakon završetka iznajmljivanja obračunava se cijena iznajmljivanja  
+								\item Cijena se zajedno s ostalim informacijama o transakciji sprema u bazu podataka 
+								
+							\end{packed_enum}
+							
+							
+						\end{packed_item}
+						
+						
+						
 								
 						
 				
