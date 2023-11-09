@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, {useState} from 'react';
+import {useNavigate} from 'react-router-dom';
+import './LoginForm.css'
 
 function LoginForm() {
     const [email, setEmail] = useState('');
@@ -41,30 +42,37 @@ function LoginForm() {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            {errorMessage && <div className="error">{errorMessage}</div>}
-            <div>
-                <label htmlFor="email">Email</label>
-                <input
-                    id="email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                />
-            </div>
-            <div>
-                <label htmlFor="password">Password</label>
-                <input
-                    id="password"
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
-            </div>
-            <button type="submit">Login</button>
-        </form>
+        <div className="login-form-container">
+            <h2 className="login-form-title">Prijava</h2>
+            <form onSubmit={handleSubmit} className="login-form">
+                <div className="form-group">
+                    <label htmlFor="email">Email:</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="password">Password:</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                </div>
+                <button type="submit" className="login-form-button">Prijava</button>
+            </form>
+            <p className="register-link">
+                Nemate račun? <span onClick={() => navigate('/register')}>Registrirajte se.</span>
+            </p>
+        </div>
     );
 }
 
