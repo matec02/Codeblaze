@@ -51,7 +51,7 @@
 \subsection{User}
 
 
-\textit{Ovaj entitet sadrzava sve važne informacije o korisniku aplikacije. Sadrži atribute: userId, nickname, firstName, lastName, cardNumber, email, phoneNumber, password, role te status. Ovaj entitet ima One-to-one vezu s entitetom Preferences preko atributa userId, One-to-one vezu s entitetom PrivacySettings preko atributa userId, One-to-one vezu s entitetom SocialMedia preko atributa userId, One-to-many vezu s entitetom Documents preko atributa userId, One-to-many vezu s entitetom Scooters preko atributa userId, One-to-many vezu s entitetom Listings preko atributa renterUsername, One-to-many vezu s entitetom Reviews preko atributa reviewerUsername, One-to-many vezu s entitetom ChatSessions preko atributa user1 ili atributa user2, One-to-many vezu s entitetom Messages preko atributa senderUsername, One-to-many vezu s entitetom ImageChangeRequest preko atributa requesterId te One-to-many vezu s entitetom Notifications preko atributa userId, requestingUser te decisionAdmin.}
+\textit{Ovaj entitet sadrzava sve važne informacije o korisniku aplikacije. Sadrži atribute: userId, nickname, firstName, lastName, cardNumber, email, phoneNumber, password, role te status. Ovaj entitet ima One-to-one vezu s entitetom Preferences preko atributa userId, One-to-one vezu s entitetom PrivacySettings preko atributa userId, One-to-one vezu s entitetom SocialMedia preko atributa userId, One-to-one vezu s entitetom Document preko atributa userId, One-to-many vezu s entitetom Scooter preko atributa userId, One-to-many vezu s entitetom Listing preko atributa renterUsername, One-to-one vezu s entitetom Review preko atributa reviewerUsername, One-to-one vezu s entitetom Review preko atributa renterUsername, One-to-many vezu s entitetom ChatSessions preko atributa user1 ili atributa user2, Many-to-one vezu s entitetom Messages preko atributa senderUsername, One-to-many vezu s entitetom ImageChangeRequest preko atributa requesterId te One-to-many vezu s entitetom Notification preko atributa userId, requestingUser te decisionAdmin.}
 
 
 \begin{longtblr}[
@@ -79,7 +79,7 @@
 \subsection{Preferences}
 
 
-\textit{Ovaj entitet sadrzava sve važne informacije o preferencama korisnika aplikacije. Sadrži atribute: userId, language i darkMode. Ovaj entitet ima One-to-one vezu s entitetom User preko atributa userId,}
+\textit{Ovaj entitet sadrzava sve važne informacije o preferencama korisnika aplikacije. Sadrži atribute: userId, language i darkMode. Ovaj entitet ima One-to-one vezu s entitetom User preko atributa userId.}
 
 
 \begin{longtblr}[
@@ -112,7 +112,7 @@
 } %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 	\hline \SetCell[c=3]{c}{\textbf{Social Media}}	 \\ \hline[3pt]
 	\SetCell{LightGreen}userId & INT	&  jedinstveni identifikator korisnika	 	\\ \hline
-	instagram	& VARCHAR &   	\\ instagram account korisnika \hline
+	instagram	& VARCHAR &   	instagram account korisnika \\ \hline
 	facebook & VARCHAR & facebook account korisnika  \\ \hline
 	google & VARCHAR	&  google account korisnika		\\ \hline
 	tikTok	& VARCHAR &  tikTok account korisnika 	\\ \hline
@@ -135,7 +135,7 @@
 	\hline \SetCell[c=3]{c}{\textbf{Privacy Settings}}	 \\ \hline[3pt]
 	\SetCell{LightGreen}userId & INT	&  	 jedinstveni identifikator korisnika	\\ \hline
 	isFirstNameVisible	& BOOLEAN &   omogućena vidljivost imena korisnika	\\ \hline
-	isLastNameVisible & BOOLEAN &   \\ omogućena vidljivost prezimena korisnika\hline
+	isLastNameVisible & BOOLEAN &   omogućena vidljivost prezimena korisnika\\ \hline
 	isNicknameVisible & BOOLEAN	&  		omogućena vidljivost nadimka korisnika\\ \hline
 	isEmailVisible & BOOLEAN	&  		omogućena vidljivost emaila korisnika\\ \hline
 \end{longtblr}
@@ -143,7 +143,7 @@
 \subsection{Document}
 
 
-\textit{Ovaj entitet sadrzava sve važne informacije o dokumentima korisnika aplikacije. Sadrži atribute: userId, documentType, url i status. Ovaj entitet ima One-to-one vezu s entitetom User preko atributa userId.}
+\textit{Ovaj entitet sadrzava sve važne informacije o dokumentima korisnika aplikacije. Sadrži atribute: userId, criminalRecordURL, identificationDocumentURL i status. Ovaj entitet ima One-to-one vezu s entitetom User preko atributa userId.}
 
 
 \begin{longtblr}[
@@ -156,15 +156,15 @@
 } %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 	\hline \SetCell[c=3]{c}{\textbf{Document}}	 \\ \hline[3pt]
 	\SetCell{LightGreen}userId & INT	&  jedinstveni identifikator korisnika	 	\\ \hline
-	documentType	& DocumentType &  tip dokumenta (criminalRecord, identification)	\\ \hline
-	url & VARCHAR &  url dokumenta \\ \hline
+	criminalRecordURL	& VARCHAR &  url kaznene evidencije	\\ \hline
+	identificationDocumentURL & VARCHAR &  url identifikacijskog dokumenta \\ \hline
 	status & DocumentStatus	& status dokumenta (pending, approved, rejected) 		\\ \hline
 \end{longtblr}
 
 \subsection{Scooter}
 
 
-\textit{Ovaj entitet sadrzava sve važne informacije o pojedinom romobilu. Sadrži atribute:scooterId, manufacturer, model, batteryCapacity, maxSpeed, imageUrl, maxRange, yearOfManufacture, additionalInformation, userId i availability. Ovaj entitet ima One-to-one vezu s entitetom User preko atributa userId te One-to-many vezu s entitetom Listings preko atributa scooterId.}
+\textit{Ovaj entitet sadrzava sve važne informacije o pojedinom romobilu. Sadrži atribute:scooterId, manufacturer, model, batteryCapacity, maxSpeed, imageUrl, maxRange, yearOfManufacture, additionalInformation, userId i availability. Ovaj entitet ima Many-to-one vezu s entitetom User preko atributa userId te One-to-many vezu s entitetom Listings preko atributa scooterId.}
 
 
 \begin{longtblr}[
@@ -192,7 +192,7 @@
 \subsection{Listing}
 
 
-\textit{Ovaj entitet sadrzava sve važne informacije o pojedinom oglasu. Sadrži atribute:listingId, currentAddress, returnAddress, returnByTime, pricePerKilometer, penaltyFee, scooterId, listingTime, notes i status. Ovaj entitet ima One-to-one vezu s entitetom Scooter preko atributa scooterId, One-to-many vezu s entitetom Reviews preko atributa transactionId te One-to-many vezu s entitetom Transactions preko atributa listingId.}
+\textit{Ovaj entitet sadrzava sve važne informacije o pojedinom oglasu. Sadrži atribute:listingId, currentAddress, returnAddress, returnByTime, pricePerKilometer, penaltyFee, scooterId, listingTime, notes i status. Ovaj entitet ima Many-to-one vezu s entitetom Scooter preko atributa scooterId te One-to-many vezu s entitetom Transactions preko atributa listingId.}
 
 
 \begin{longtblr}[
@@ -219,7 +219,7 @@
 \subsection{Review}
 
 
-\textit{Ovaj entitet sadrzava sve važne informacije o pojedinom osvrtu. Sadrži atribute: transactionId, reviewerUsername, renterUsername, stars, comment te reviewTime. Ovaj entitet ima Many-to-one vezu s entitetom User preko atributa reviewerUsername, Many-to-one vezu s entitetom User preko atributa renterUsername te One-to-one vezu s entitetom Transaction preko atributa transactionId.}
+\textit{Ovaj entitet sadrzava sve važne informacije o pojedinom osvrtu. Sadrži atribute: transactionId, reviewerUsername, renterUsername, stars, comment te reviewTime. Ovaj entitet ima Ona-to-one vezu s entitetom User preko atributa reviewerUsername, One-to-one vezu s entitetom User preko atributa renterUsername te One-to-one vezu s entitetom Transaction preko atributa transactionId.}
 
 
 \begin{longtblr}[
@@ -242,7 +242,7 @@
 \subsection{Transaction}
 
 
-\textit{Ovaj entitet sadrzava sve važne informacije o pojedinoj transakciji. Sadrži atribute: transactionId, kilometersTraveled, totalPrice, listingId, paymentTime te previousTransactionStatus. Ovaj entitet ima One-to-one vezu s entitetom Listing preko atributa listingId te One-to-one vezu s entitetom Invoice preko atributa transactionId.}
+\textit{Ovaj entitet sadrzava sve važne informacije o pojedinoj transakciji. Sadrži atribute: transactionId, kilometersTraveled, totalPrice, listingId, paymentTime te previousTransactionStatus. Ovaj entitet ima Many-to-one vezu s entitetom Listing preko atributa listingId te One-to-one vezu s entitetom Invoice preko atributa transactionId.}
 
 
 \begin{longtblr}[
@@ -331,7 +331,7 @@
 \subsection{Message}
 
 
-\textit{Ovaj entitet sadrzava sve važne informacije o pojedinoj poruci. Sadrži atribute:messageId, senderUsername, sessionId, text, sentTime te status. Ovaj entitet ima One-to-one vezu s entitetom User preko atributa senderUsername te Many-to-one vezu s entitetom ChatSession preko atributa sessionId.}
+\textit{Ovaj entitet sadrzava sve važne informacije o pojedinoj poruci. Sadrži atribute:messageId, senderUsername, sessionId, text, sentTime te status. Ovaj entitet ima One-to-many vezu s entitetom User preko atributa senderUsername te Many-to-one vezu s entitetom ChatSession preko atributa sessionId.}
 
 
 \begin{longtblr}[
@@ -354,7 +354,7 @@
 \subsection{ImageChangeRequest}
 
 
-\textit{Ovaj entitet sadrzava sve važne informacije o zahtjevu za promjenom slike. Sadrži atribute: imageId, requesterId, listingId, newImageUrl, complaintTime, additionalComments, status, approvalTime te rejectionReason. Ovaj entitet ima One-to-one vezu s entitetom User preko atributa requesterId te One-to-one vezu s entitetom Listing preko atributa listingId.}
+\textit{Ovaj entitet sadrzava sve važne informacije o zahtjevu za promjenom slike. Sadrži atribute: imageId, requesterId, listingId, newImageUrl, complaintTime, additionalComments, status, approvalTime te rejectionReason. Ovaj entitet ima Many-to-one vezu s entitetom User preko atributa requesterId te Many-to-one vezu s entitetom Listing preko atributa listingId.}
 
 
 \begin{longtblr}[
