@@ -63,7 +63,7 @@
 					\noindent \underbar{\textbf{UC1 - Pregledaj romobile}}
 					\begin{packed_item}
 	
-						\item \textbf{Glavni sudionik: }Korisnik
+						\item \textbf{Glavni sudionik: }Korisnik koji čeka potvrdu registracije, neregistrirani korisnik
 						\item  \textbf{Cilj:} Pregledati romobile dostupne za iznajmljivanje
 						\item  \textbf{Sudionici:} Baza podataka
 						\item  \textbf{Preduvjet:} -
@@ -105,8 +105,8 @@
 								\item[3.a] Unos podataka u nedozvoljenom formatu ili unos već zauzetog nadimka ili e-mail adrese 
 								\item[] \begin{packed_enum}
 									
-									\item Korisnik dobiva odgovarajuću obavijest o neispravnosti podataka 
-									\item Korisnik mijenja potrebne podatke i završava s unosom ili odustaje od registracije 
+									\item Neregistrirani korisnik dobiva odgovarajuću obavijest o neispravnosti podataka 
+									\item Neregistrirani korisnik mijenja potrebne podatke i završava s unosom ili odustaje od registracije 
 									
 								\end{packed_enum}
 								
@@ -116,10 +116,10 @@
 						\noindent \underbar{\textbf{UC3 - Prijavi korisnika}}
 						\begin{packed_item}
 							
-							\item \textbf{Glavni sudionik: } Klijent, iznajmljivač
+							\item \textbf{Glavni sudionik: } Korisnik koji čeka potvrdu registracije
 							\item  \textbf{Cilj:} Dobiti pristup korisničkim funkcijama
 							\item  \textbf{Sudionici:} Baza podataka
-							\item  \textbf{Preduvjet:} Korisnik je registriran
+							\item  \textbf{Preduvjet:} Korisnik je obavio registraciju
 							\item  \textbf{Opis osnovnog tijeka:}
 							
 							\item[] \begin{packed_enum}
@@ -164,7 +164,7 @@
 						\noindent \underbar{\textbf{UC4 - Ponovno predaj dokumentaciju}}
 						\begin{packed_item}
 							
-							\item \textbf{Glavni sudionik: }Neregistrirani korisnik
+							\item \textbf{Glavni sudionik: }Korisnik koji čeka potvrdu registracije
 							\item  \textbf{Cilj:} Ponovno predati kopiju osobne iskaznice i potvrdu o nekažnjavanju na pregled
 							\item  \textbf{Sudionici:} Administrator, baza podataka
 							\item  \textbf{Preduvjet:} Prethodno odbijen zahtjev za registraciju
@@ -172,9 +172,9 @@
 							
 							\item[] \begin{packed_enum}
 								
-								\item Korisnik unosi novu dokumentaciju za registraciju u sustav 
+								\item Korisnik koji čeka potvrdu registracije unosi novu dokumentaciju za registraciju u sustav 
 								\item Dokumentacija se šalje administratoru na pregled 
-								\item Korisnika se preusmjerava na stranicu za prijavu gdje se pokušava ponovno prijaviti u sustav 
+								\item Korisnika koji čeka potvrdu registracije se preusmjerava na stranicu za prijavu gdje se pokušava ponovno prijaviti u sustav 
 								
 								
 							\end{packed_enum}
@@ -194,13 +194,13 @@
 								
 							\end{packed_item}
 						\end{packed_item}
-						\noindent \underbar{\textbf{UC5 - Pregledaj profil}}
+						\noindent \underbar{\textbf{UC5 - Pregledaj svoj profil}}
 						\begin{packed_item}
 							
-							\item \textbf{Glavni sudionik: } Klijent, iznajmljivač
+							\item \textbf{Glavni sudionik: } Klijent, administrator
 							\item  \textbf{Cilj:} Pregledati korisničke podatke svog profila
 							\item  \textbf{Sudionici:} Baza podataka
-							\item  \textbf{Preduvjet:} Korisnik je prijavljen
+							\item  \textbf{Preduvjet:} Klijent ima pristup korisničkim funkcijama
 							\item  \textbf{Opis osnovnog tijeka:}
 							
 							\item[] \begin{packed_enum}
@@ -214,10 +214,10 @@
 						\noindent \underbar{\textbf{UC6 - Uredi profil}}
 						\begin{packed_item}
 							
-							\item \textbf{Glavni sudionik: }Klijent, iznajmljivač
+							\item \textbf{Glavni sudionik: }Klijent, administrator
 							\item  \textbf{Cilj:}Promijeniti korisničke podatke i odlučiti koji će od njih biti javni, a koji privatni
 							\item  \textbf{Sudionici:} Baza podataka
-							\item  \textbf{Preduvjet:} Korisnik je prijavljen
+							\item  \textbf{Preduvjet:} Klijent ima pristup korisničkim funkcijama
 							\item  \textbf{Opis osnovnog tijeka:}
 							
 							\item[] \begin{packed_enum}
@@ -275,7 +275,7 @@
 							\item \textbf{Glavni sudionik: }Administrator
 							\item  \textbf{Cilj: }Korisniku zabraniti pristup aplikaciji 
 							\item  \textbf{Sudionici: }Baza podataka
-							\item  \textbf{Preduvjet: }Korisnik je prijavljen u sustav
+							\item  \textbf{Preduvjet: }-
 							\item  \textbf{Opis osnovnog tijeka:}
 							
 							\item[] \begin{packed_enum}
@@ -290,7 +290,7 @@
 						\noindent \underbar{\textbf{UC9 - Registriraj romobil}}
 						\begin{packed_item}
 							
-							\item \textbf{Glavni sudionik: }Iznajmljivač
+							\item \textbf{Glavni sudionik: }Klijent
 							\item  \textbf{Cilj: }Registriranje romobila u aplikaciji
 							\item  \textbf{Sudionici: }Baza podataka
 							\item  \textbf{Preduvjet: }Korisnik ima pristup korisničkim funkcijama
@@ -298,10 +298,10 @@
 							
 							\item[] \begin{packed_enum}
 								
-								\item Korisnik odabire opciju „Registriraj romobil“ 
-								\item Korisnik unosi podatke o romobilu i sliku trenutnog stanja romobila 
+								\item Klijent odabire opciju „Registriraj romobil“ 
+								\item Klijent unosi podatke o romobilu i sliku trenutnog stanja romobila 
 								\item Registracija romobila se zabilježi u bazi podataka 
-								\item Ako je korisnik klijent, on postaje iznajmljivač   
+								  
 							\end{packed_enum}
 							
 							\item  \textbf{Opis mogućih odstupanja:}
@@ -389,28 +389,59 @@
 							
 							
 						\end{packed_item}
-						\noindent \underbar{\textbf{UC13 - Pošalji poruku!!!!}}
+						\noindent \underbar{\textbf{UC13 - Pregledaj svoje razgovore}}
 						\begin{packed_item}
 							
-							\item \textbf{Glavni sudionik: }Administrator
-							\item  \textbf{Cilj: }Korisniku zabraniti pristup aplikaciji 
+							\item \textbf{Glavni sudionik: }Klijent
+							\item  \textbf{Cilj: }Dobiti pregled svih prijašnjih razgovora klijenta
 							\item  \textbf{Sudionici: }Baza podataka
-							\item  \textbf{Preduvjet: }Korisnik je prijavljen u sustav
+							\item  \textbf{Preduvjet: }Klijent ima pristup korisničkim funkcijama
 							\item  \textbf{Opis osnovnog tijeka:}
 							
 							\item[] \begin{packed_enum}
-								
+								\item Klijent odabire opciju „ Moji razgovori”
+								\item Klijent dobiva pregled svih korisnika s kojima je prethodno razgovarao i njihovih razgovora
 								
 							\end{packed_enum}
 							
 							
 						\end{packed_item}
-						\noindent \underbar{\textbf{UC14 - Iznajmi romobil}}
+						\noindent \underbar{\textbf{UC14 - Pošalji poruku}}
+						\begin{packed_item}
+							
+							\item \textbf{Glavni sudionik: }Klijent, iznajmljivač
+							\item  \textbf{Cilj: }Poslati poruku drugom korisniku
+							\item  \textbf{Sudionici: }Baza podataka
+							\item  \textbf{Preduvjet: }Korisnici su prijavljeni
+							\item  \textbf{Opis osnovnog tijeka:}
+							
+							\item[] \begin{packed_enum}
+								
+								\item Korisnik pronalazi korisnika kojem želi poslati poruku 
+								\item Korisnik otvara razgovor s drugim korisnikom
+								\item Korisnik upisuje poruku i šalje ju drugom korisniku    
+							\end{packed_enum}
+							
+							\item  \textbf{Opis mogućih odstupanja:}
+							
+							\item[] \begin{packed_item}
+								
+								\item[3.a] Korisnik unio poruku ali ju nije poslao prije izlaska iz razgovora
+								\item[] \begin{packed_enum}
+									
+									\item Poruka se briše i ne šalje 
+									
+									
+								\end{packed_enum}
+								
+							\end{packed_item}
+						\end{packed_item}
+						\noindent \underbar{\textbf{UC15 - Iznajmi romobil}}
 						\begin{packed_item}
 							
 							\item \textbf{Glavni sudionik: }Klijent
 							\item  \textbf{Cilj: }Iznajmiti romobil
-							\item  \textbf{Sudionici: }Iznajmljivač
+							\item  \textbf{Sudionici: }Iznajmljivač, baza podataka
 							\item  \textbf{Preduvjet: }Romobil dostupan za iznajmljivanje
 							\item  \textbf{Opis osnovnog tijeka:}
 							
@@ -422,7 +453,7 @@
 							\end{packed_enum}
 							
 						\end{packed_item}
-						\noindent \underbar{\textbf{UC15 - Prihvati ponudu}}
+						\noindent \underbar{\textbf{UC16 - Prihvati ponudu}}
 						\begin{packed_item}
 							
 							\item \textbf{Glavni sudionik: }Iznajmljivač
@@ -434,25 +465,29 @@
 							\item[] \begin{packed_enum}
 								
 								\item Iznajmljivač pregledava zahtjev za iznajmljivanje 
-								\item Iznajmljivač prihvaća ponudu i klijentu se šalje obavijest da je iznajmljivanje odobreno 
-								\item Oglas o romobilu se briše iz oglasa dostupnih romobila    
+								\item Iznajmljivač prihvaća ponudu, klijentu se šalje obavijest da je iznajmljivanje odobreno i oglas o romobilu se briše iz dostupnih oglasa    
 							\end{packed_enum}
 							
-							\item  \textbf{Opis mogućih odstupanja:}
 							
-							\item[] \begin{packed_item}
-								
-								\item[2.a] Iznajmljivač odbija ponudu 
-								\item[] \begin{packed_enum}
-									
-									\item Klijentu se šalje obavijest da iznajmljivanje nije odobreno 
-									\item Romobil ostaje među dostupnim romobilima 
-									
-								\end{packed_enum}
-								
-							\end{packed_item}
 						\end{packed_item}
-						\noindent \underbar{\textbf{UC16 - Zamijeni sliku romobila}}
+						\noindent \underbar{\textbf{UC17 - Odbij ponudu}}
+						\begin{packed_item}
+							
+							\item \textbf{Glavni sudionik: }Iznajmljivač
+							\item  \textbf{Cilj: }Odbiti zahtjev klijenta za iznajmljivanje romobila
+							\item  \textbf{Sudionici: }Klijent, baza podataka
+							\item  \textbf{Preduvjet: }Klijent poslao zahtjev za iznajmljivanje romobila
+							\item  \textbf{Opis osnovnog tijeka:}
+							
+							\item[] \begin{packed_enum}
+								
+								\item Iznajmljivač pregledava zahtjev za iznajmljivanje 
+								\item Iznajmljivač odbija ponudu, klijentu se šalje obavijest da je iznajmljivanje odbijeno i oglas o romobilu se ne briše iz dostupnih oglasa   
+							\end{packed_enum}
+							
+							
+						\end{packed_item}
+						\noindent \underbar{\textbf{UC18 - Zamijeni sliku romobila}}
 						\begin{packed_item}
 							
 							\item \textbf{Glavni sudionik: }Klijent
@@ -481,7 +516,7 @@
 								\end{packed_enum}		
 							\end{packed_item}
 						\end{packed_item}
-						\noindent \underbar{\textbf{UC17 - Žali se na zamjenu slike}}
+						\noindent \underbar{\textbf{UC19 - Žali se na zamjenu slike}}
 						\begin{packed_item}
 							
 							\item \textbf{Glavni sudionik: }Iznajmljivač
@@ -498,7 +533,7 @@
 							\end{packed_enum}
 							
 						\end{packed_item}
-						\noindent \underbar{\textbf{UC18 - Odluči i obavijesti o zamjeni slike}}
+						\noindent \underbar{\textbf{UC20 - Odluči i obavijesti o zamjeni slike}}
 						\begin{packed_item}
 							
 							\item \textbf{Glavni sudionik: }Administrator
@@ -517,13 +552,13 @@
 							
 							
 						\end{packed_item}
-						\noindent \underbar{\textbf{UC19 - Vrati romobil}}
+						\noindent \underbar{\textbf{UC21 - Vrati romobil}}
 						\begin{packed_item}
 							
 							\item \textbf{Glavni sudionik: }Klijent
-							\item  \textbf{Cilj: }Vratiti romobil iznajmljivaču kako bi iznajmljivanje završilo
+							\item  \textbf{Cilj: }Vratiti romobil iznajmljivaču kako bi iznajmljivanje završilo i zabilježilo se
 							\item  \textbf{Sudionici: }Iznajmljivač, baza podataka
-							\item  \textbf{Preduvjet: }Klijent je iznajmio romobil
+							\item  \textbf{Preduvjet: }Iznajmljivač potvrdio iznajmljivanje
 							\item  \textbf{Opis osnovnog tijeka:}
 							
 							\item[] \begin{packed_enum}
@@ -532,6 +567,7 @@
 								\item Provjerava se da je romobil vraćen u pravo vrijeme 
 								\item Izračunava se cijena koju klijent mora platiti iznajmljivaču 
 								\item Klijent i iznajmljivač dobivaju obavijest da je iznajmljivanje završeno i cijenu iznajmljivanja  
+								\item Izvršava se transakcija i sprema se u bazu podataka
 							\end{packed_enum}
 							
 							\item  \textbf{Opis mogućih odstupanja:}
@@ -548,13 +584,13 @@
 								
 							\end{packed_item}
 						\end{packed_item}
-						\noindent \underbar{\textbf{UC20 - Ocijeni klijenta}}
+						\noindent \underbar{\textbf{UC22 - Ocijeni klijenta}}
 						\begin{packed_item}
 							
 							\item \textbf{Glavni sudionik: }Iznajmljivač
 							\item  \textbf{Cilj: }Ocijeniti klijenta po završetku iznajmljivanja romobila
 							\item  \textbf{Sudionici: }Klijent, baza podataka
-							\item  \textbf{Preduvjet: }Klijent vratio romobil
+							\item  \textbf{Preduvjet: }Klijent vratio romobil, iznajmljivanje završeno
 							\item  \textbf{Opis osnovnog tijeka:}
 							
 							\item[] \begin{packed_enum}
@@ -566,12 +602,12 @@
 							
 							
 						\end{packed_item}
-						\noindent \underbar{\textbf{UC21 - Uplati novac banci}}
+						\noindent \underbar{\textbf{UC23 - Uplati novac banci}}
 						\begin{packed_item}
 							
 							\item \textbf{Glavni sudionik: }Klijent
 							\item  \textbf{Cilj: }Uplatiti cijenu iznajmljivanja banci 
-							\item  \textbf{Sudionici: }Banka
+							\item  \textbf{Sudionici: }Banka, baza podataka
 							\item  \textbf{Preduvjet: }Romobil vraćen, iznajmljivanje je završilo
 							\item  \textbf{Opis osnovnog tijeka:}
 							
@@ -584,12 +620,12 @@
 							
 							
 						\end{packed_item}
-						\noindent \underbar{\textbf{UC22 - Isplati iznajmljivača}}
+						\noindent \underbar{\textbf{UC24 - Isplati iznajmljivača}}
 						\begin{packed_item}
 							
 							\item \textbf{Glavni sudionik: }Banka
 							\item  \textbf{Cilj: }Uplatiti cijenu iznajmljivanja na račun iznajmljivača 
-							\item  \textbf{Sudionici: }Iznajmljivač
+							\item  \textbf{Sudionici: }Iznajmljivač, baza podataka
 							\item  \textbf{Preduvjet: }Klijent uplatio dogovoreni iznos banci
 							\item  \textbf{Opis osnovnog tijeka:}
 							
@@ -601,21 +637,36 @@
 							
 							
 						\end{packed_item}
-						\noindent \underbar{\textbf{UC23 - Pohrani transakciju}}
+						\noindent \underbar{\textbf{UC25 - Dodaj administratora}}
 						\begin{packed_item}
 							
-							\item \textbf{Glavni sudionik: }Baza podataka
-							\item  \textbf{Cilj: }Dokumentirati plaćanje s računa klijenta na račun iznajmljivača
-							\item  \textbf{Sudionici: }-
-							\item  \textbf{Preduvjet: }Završeno iznajmljivanje, vraćen romobil
+							\item \textbf{Glavni sudionik: }Administrator
+							\item  \textbf{Cilj: }Dodijeliti drugom korisniku ulogu administratora
+							\item  \textbf{Sudionici: }Baza podataka
+							\item  \textbf{Preduvjet: }-
 							\item  \textbf{Opis osnovnog tijeka:}
 							
 							\item[] \begin{packed_enum}
 								
-								\item Nakon završetka iznajmljivanja obračunava se cijena iznajmljivanja  
-								\item Cijena se zajedno s ostalim informacijama o transakciji sprema u bazu podataka 
+								\item Administrator odabire opciju ,,Dodaj administratora”
+								\item Administrator unosi podatke korisnika kojemu želi dodijeliti ulogu administratora
+								\item Administrator potvrđuje svoj odabir
 								
 							\end{packed_enum}
+							\item  \textbf{Opis mogućih odstupanja:}
+							
+							\item[] \begin{packed_item}
+								
+								\item[2.a] Unos podataka koji ne odgovaraju nijednom registriranom korisniku u bazi podataka 
+								\item[] \begin{packed_enum}
+									
+									\item Administrator dobiva odgovarajuću obavijest o neispravnosti podataka
+									\item Administrator mijenja potrebne podatke i završava s unosom ili odustaje od dodavanja
+									
+									
+								\end{packed_enum}
+								
+							\end{packed_item}
 							
 							
 						\end{packed_item}
