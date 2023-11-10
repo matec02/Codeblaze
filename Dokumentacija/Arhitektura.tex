@@ -72,8 +72,8 @@
 	email	& VARCHAR &    jedinstvena email adresa korisnika	\\ \hline
 	phoneNumber	& INT &   jedinstveni kontakt broj korisnika 	\\ \hline
 	password	& VARCHAR & zaporka za prijavu korisnika   	\\ \hline
-	role	& UserRole &  uloga korisnika ('unregistered', 'registered', 'renter', 'admin') 	\\ \hline
-	status	& UserStatus & status korisnika ('pending', 'rejected', 'accepted', 'blocked') 	\\ \hline
+	role	& UserRole &  uloga korisnika (unregistered, registered, renter, admin) 	\\ \hline
+	status	& UserStatus & status korisnika (pending, rejected, accepted, blocked) 	\\ \hline
 \end{longtblr}
 
 \subsection{Preferences}
@@ -156,9 +156,9 @@
 } %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 	\hline \SetCell[c=3]{c}{\textbf{Document}}	 \\ \hline[3pt]
 	\SetCell{LightGreen}userId & INT	&  jedinstveni identifikator korisnika	 	\\ \hline
-	documentType	& DocumentType &  tip dokumenta ('criminalRecord', 'identification')	\\ \hline
+	documentType	& DocumentType &  tip dokumenta (criminalRecord, identification)	\\ \hline
 	url & VARCHAR &  url dokumenta \\ \hline
-	status & DocumentStatus	& status dokumenta ('pending', 'approved', 'rejected') 		\\ \hline
+	status & DocumentStatus	& status dokumenta (pending, approved, rejected) 		\\ \hline
 \end{longtblr}
 
 \subsection{Scooter}
@@ -213,7 +213,7 @@
 	\SetCell{LightBlue}scooterId	& INT &  jedinstveni identifikator romobila 	\\ \hline
 	listingTime	& TIMESTAMP &   	vrijeme objave oglasa\\ \hline
 	notes	& TEXT &  bilješke 	\\ \hline
-	status	& ListingStatus &   	status oglasa ('active', 'finished', 'cancelled')\\ \hline
+	status	& ListingStatus &   	status oglasa (active, finished, cancelled)\\ \hline
 \end{longtblr}
 
 \subsection{Review}
@@ -279,7 +279,7 @@
 	\hline \SetCell[c=3]{c}{\textbf{Invoice}}	 \\ \hline[3pt]
 	\SetCell{LightGreen}transactionId  & INT	&  	 jedinstveni identifikator transakcije	\\ \hline
 	invoiceNumber	& INT &   broj fakture	\\ \hline
-	paymentMethod & PaymentMethod &   način plaćanja ('PayPal', 'kekspay', 'Revolut')\\ \hline
+	paymentMethod & PaymentMethod &   način plaćanja (PayPal, kekspay, Revolut)\\ \hline
 \end{longtblr}
 
 \subsection{Notification}
@@ -348,7 +348,7 @@
 	\SetCell{LightBlue}sessionId & INT &  jedinstveni identifikator razgovora \\ \hline
 	text & TEXT	&  	tekst	\\ \hline
 	sentTime 	& TIMESTAMP &   vrijeme slanja	\\ \hline
-	status	& MessageStatus &   status poruke ('read', 'unread')	\\ \hline
+	status	& MessageStatus &   status poruke (read, unread)	\\ \hline
 \end{longtblr}
 
 \subsection{ImageChangeRequest}
@@ -372,7 +372,7 @@
 	newImageUrl & VARCHAR	&  	url nove slike	\\ \hline
 	complaintTime 	& TIMESTAMP &   vrijeme žalbe	\\ \hline
 	additionalComments	& TEXT &   dodatni komentari	\\ \hline
-	status	& ImageChangeRequestStatu &  status zahtjeva ('approved', 'rejected', 'pending')	\\ \hline
+	status	& ImageChangeRequestStatu &  status zahtjeva (approved, rejected, pending)	\\ \hline
 	approvalTime	& TIMESTAMP &   vrijeme odobrenja	\\ \hline
 	rejectionReason	& TEXT &   razlog odbitka	\\ \hline
 \end{longtblr}
