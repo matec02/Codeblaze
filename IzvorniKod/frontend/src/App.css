@@ -117,3 +117,11 @@
     text-decoration: underline; /* Or any other hover effect you prefer */
 }
 
+.navbar-account img {
+    background-color: white;
+}
+
+.navbar-logo img {
+    width: 100px;
+    height: auto;
+}

@@ -1,7 +1,9 @@
 package com.projektr.codeblaze.rest;
 
 import com.projektr.codeblaze.domain.Scooter;
+import com.projektr.codeblaze.domain.User;
 import com.projektr.codeblaze.service.ScooterService;
+import com.projektr.codeblaze.utils.ScooterRegistrationDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,11 +22,8 @@ public class ScooterController {
         this.scooterService = scooterService;
     }
 
-    @GetMapping
-    public List<Scooter> getAllScooters() {
-        return scooterService.getAllScooters();
-    }
 
+//    TODO nakon dodavanja scootera obrisati token i ponovno ga dodijeliti korisniku!!!!
     @GetMapping("owner/{ownerId}")
     public ResponseEntity<List<Scooter>> getScootersByOwnerId(@PathVariable Long ownerId) {
         List<Scooter> scooters = scooterService.getScootersByUserId(ownerId);
@@ -38,6 +37,29 @@ public class ScooterController {
         return scooterService.getScooterById(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/register-scooter")
+    public ResponseEntity<?> registerScooter(@RequestBody ScooterRegistrationDTO registrationDTO) {
+        User user = registrationDTO.getUser();
+        Scooter scooter = registrationDTO.getScooter();
+        Scooter registeredScooter = scooterService.registerScooter(user, scooter);
+        if (registeredScooter != null) {
+            return ResponseEntity.ok(registeredScooter);
+        }
+        return ResponseEntity.badRequest().body("Scooter could not be registered");
+    }
+
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/get-all-scooters")
+    public ResponseEntity<List<Scooter>> getAllScooters() {
+        List<Scooter> scooters = scooterService.getAllScooters();
+        if (scooters.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(scooters);
     }
 
     @PostMapping

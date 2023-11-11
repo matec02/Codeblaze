@@ -19,8 +19,7 @@ function LoginForm() {
         };
 
         try {
-            // Replace with your actual backend endpoint
-            const response = await fetch('http://localhost:8080/api/login', {
+            const response = await fetch('http://localhost:8080/api/users/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -30,8 +29,16 @@ function LoginForm() {
 
             const data = await response.json();
             if (response.ok) {
-                localStorage.setItem('userToken', data.token);
-                navigate('/');
+                if (data.status == "PENDING"){
+                    navigate('/profile-pending')
+                } else if (data.status == "BLOCKED"){
+                    localStorage.setItem('authToken', data.authToken);
+                    navigate('/profile-blocked')
+                }
+                else {
+                    localStorage.setItem('authToken', data.authToken);
+                    navigate('/');
+                }
             } else {
                 setErrorMessage(data.message || 'Login failed. Please try again.');
             }

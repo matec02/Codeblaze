@@ -1,0 +1,41 @@
+.register-scooter-form {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.register-scooter-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.register-scooter-form label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.register-scooter-form input[type="text"],
+.register-scooter-form input[type="number"],
+.register-scooter-form textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.register-scooter-form button {
+    background-color: #0056b3;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.register-scooter-form button:hover {
+    background-color: #004494;
+}
