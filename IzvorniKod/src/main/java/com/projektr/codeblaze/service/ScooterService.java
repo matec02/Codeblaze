@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Service
 public class ScooterService {
-    private static ScooterRepository scooterRepository;
+    private final ScooterRepository scooterRepository;
 
     @Autowired
     public ScooterService(ScooterRepository scooterRepository){
@@ -43,6 +43,12 @@ public class ScooterService {
         return UserService.getUserById(userId)
                 .map(scooterRepository::findByUser)
                 .orElse(Collections.emptyList());
+    }
+
+    public Scooter registerScooter(User user, Scooter scooter) {
+        scooter.setUser(user);
+        scooter.setAvailability(false);
+        return scooterRepository.save(scooter);
     }
 
 
