@@ -39,6 +39,77 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/pendingUsers")
+    public ResponseEntity<List<User>> getAllPendingUsers() {
+        List<User> allUsers = userService.findAll();
+        List<User> pendingUsers = userService.getAllPendingUsers(allUsers);
+        if (pendingUsers.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(pendingUsers);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/acceptedUsers")
+    public ResponseEntity<List<User>> getAllAcceptedUsers() {
+        List<User> allUsers = userService.findAll();
+        List<User> acceptedUsers = userService.getAllAcceptedUsers(allUsers);
+        if (acceptedUsers.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(acceptedUsers);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/admins")
+    public ResponseEntity<List<User>> getAllAdmins() {
+        List<User> allUsers = userService.findAll();
+        List<User> admins = userService.getAllAdmins(allUsers);
+        if (admins.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(admins);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/blockedUsers")
+    public ResponseEntity<List<User>> getAllBlockedUsers() {
+        List<User> allUsers = userService.findAll();
+        List<User> blockedUsers = userService.getAllBlockedUsers(allUsers);
+        if (blockedUsers.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(blockedUsers);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/rejectedUsers")
+    public ResponseEntity<List<User>> getAllRejectedUsers() {
+        List<User> allUsers = userService.findAll();
+        List<User> rejectedUsers = userService.getAllRejectedUsers(allUsers);
+        if (rejectedUsers.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(rejectedUsers);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PutMapping("/{userId}/update-status")
+    public ResponseEntity<?> updateUserStatus(@PathVariable Long userId, @RequestBody Map<String, String> updates) {
+        String newStatus = updates.get("status");
+        User user = userService.updateUserStatus(userId, newStatus);
+        return ResponseEntity.ok(user);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PutMapping("/{userId}/update-role")
+    public ResponseEntity<?> updateRoleStatus(@PathVariable Long userId, @RequestBody Map<String, String> updates) {
+        String newRole = updates.get("role");
+        User user = userService.updateUserRole(userId, newRole);
+        return ResponseEntity.ok(user);
+    }
+
     @GetMapping("/{userId}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         User user = userService.findById(id);

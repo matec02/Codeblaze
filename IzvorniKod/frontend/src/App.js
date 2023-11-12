@@ -9,7 +9,9 @@ import RegisterScooterForm from './components/RegisterScooterForm';
 import './App.css';
 import NavBar from "./components/NavBar";
 import AdminHome from "./components/AdminHome";
+import AdminDashboard from "./components/AdminDashboard";
 import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
+import ImageChange from "./components/ImageChange";
 
 /* Import for ScooterCard test
 import ScooterCard from "./components/ScooterCard";*/
@@ -30,6 +32,8 @@ function App() {
                 <Route path="/scooters" element={<MyScooter/>}/>
                 <Route path="/add-scooter" element={<RegisterScooterForm/>}/>
                 <Route path="/admin-home" element={<AdminHome/>}/>
+                <Route path="/admin-dashboard" element={<AdminDashboard/>}/>
+                <Route path="/admin-dashboard/imageChange" element={<ImageChange/>}/>
                 {/* Test for just 1 ScooterCard - uncomment import and route to test
                 <Route path="/scooter" element={<ScooterCard/>}/>
                 */}

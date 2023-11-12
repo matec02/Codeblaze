@@ -88,6 +88,16 @@
     text-decoration: underline; /* Or any other hover effect you prefer */
 }
 
+.navbar-register a {
+    color: #FFD860;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+}
+
+.navbar-register a:hover {
+    text-decoration: underline; /* Or any other hover effect you prefer */
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .navbar {
@@ -119,6 +129,14 @@
 
 .navbar-account img {
     background-color: white;
+    display: flex;        /* Enable flexbox */
+    flex-direction: column; /* Stack flex items vertically */
+    align-items: center;  /* Center items horizontally */
+    cursor: pointer;
+    border-radius: 7px;
+}
+.navbar-account span{
+    margin-top: 5px;
 }
 
 .navbar-logo img {

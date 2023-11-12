@@ -1,0 +1,35 @@
+
+.admin-home-container {
+    text-align: center;
+}
+
+
+.admin-home-container h2 {
+    text-align: center;
+
+}
+
+.adminOptions button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.backToHome {
+    background-color: #0a0ab1;
+    color: white;
+}
+
+.backToHome:hover{
+    background-color: #61dafb;
+    border-color: black;
+}
+
+
+.adminDashboard:hover {
+    border-color: black;
+    background-color: #cccccc;
+}
