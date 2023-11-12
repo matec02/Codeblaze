@@ -199,7 +199,7 @@
 \subsection{Listing}
 
 
-\textit{Ovaj entitet sadrzava sve važne informacije o pojedinom oglasu. Sadrži atribute:listingId, currentAddress, returnAddress, returnByTime, pricePerKilometer, penaltyFee, scooterId, listingTime, notes i status. Ovaj entitet ima Many-to-one vezu s entitetom Scooter preko atributa scooterId te One-to-many vezu s entitetom Transactions preko atributa listingId.}
+\textit{Ovaj entitet sadrzava sve važne informacije o pojedinom oglasu. Sadrži atribute:listingId, currentAddress, returnAddress, returnByTime, pricePerKilometer, penaltyFee, scooterId, listingTime, notes i status. Ovaj entitet ima Many-to-one vezu s entitetom Scooter preko atributa scooterId, Many-to-one vezu s entitetom User preko atributa renterUsername te One-to-many vezu s entitetom Transactions preko atributa listingId.}
 
 
 \begin{longtblr}[
@@ -212,6 +212,7 @@
 } %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 	\hline \SetCell[c=3]{c}{\textbf{Listing}}	 \\ \hline[3pt]
 	\SetCell{LightGreen}listingId & INT	&  jedinstveni identifikator oglasa	 	\\ \hline
+	renterUsername	& VARCHAR & naziv iznajmljivača  	\\ \hline
 	currentAddress	& VARCHAR & trenutna adresa  	\\ \hline
 	returnAddress & VARCHAR	& adresa povratka 		\\ \hline
 	returnByTime 	& TIMESTAMP & vrijeme vraćanja   	\\ \hline
