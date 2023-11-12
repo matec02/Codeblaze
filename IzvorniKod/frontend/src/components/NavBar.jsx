@@ -1,10 +1,29 @@
 import {useNavigate} from 'react-router-dom';
 import myAccount from '../assets/my-account.png';
 import logo from '../assets/CodeblazeLogo.png';
+import { jwtDecode } from 'jwt-decode';
+import {useEffect, useState} from "react";
 
 function NavBar() {
     const navigate = useNavigate();  // Hook to get history object
+    const [userRole, setUserRole] = useState(null);
 
+    useEffect(() => {
+        const token = localStorage.getItem('authToken');
+        if (token) {
+            const decodedToken = jwtDecode(token);
+            setUserRole(decodedToken.role);
+        }
+    }, []);
+
+    const handleNavigation = () => {
+        let path = '/';
+        console.log("role:" + userRole)
+        if (userRole === 'ADMIN') {
+            path = '/admin-home';
+        }
+        navigate(path);
+    };
 
     return (
         <header>
@@ -13,7 +32,7 @@ function NavBar() {
                     <img src={logo} alt="Logo"/>
                 </div>
                 <ul className="navbar-links">
-                    <li onClick={() => navigate('/')}>Početna</li>
+                    <li onClick={(handleNavigation)}>Početna</li>
                     <li onClick={() => navigate('/scooters')}>Tvoji Romobili</li>
                     <li onClick={() => navigate('/#')}>Poruke</li>
                 </ul>

@@ -8,6 +8,7 @@ import MyScooter from './components/MyScooter';
 import RegisterScooterForm from './components/RegisterScooterForm';
 import './App.css';
 import NavBar from "./components/NavBar";
+import AdminHome from "./components/AdminHome";
 import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 
 /* Import for ScooterCard test
@@ -28,6 +29,7 @@ function App() {
                 <Route path="/profile-blocked" element={<ProfileBlocked/>}/>
                 <Route path="/scooters" element={<MyScooter/>}/>
                 <Route path="/add-scooter" element={<RegisterScooterForm/>}/>
+                <Route path="/admin-home" element={<AdminHome/>}/>
                 {/* Test for just 1 ScooterCard - uncomment import and route to test
                 <Route path="/scooter" element={<ScooterCard/>}/>
                 */}
