@@ -4,18 +4,13 @@
 			
 			\textbf{\textit{dio 1. revizije}}\\
 			
-			\textit{Navesti \textbf{dionike} koji imaju \textbf{interes u ovom sustavu} ili  \textbf{su nositelji odgovornosti}. To su prije svega korisnici, ali i administratori sustava, naručitelji, razvojni tim.}\\
-				
-			\textit{Navesti \textbf{aktore} koji izravno \textbf{koriste} ili \textbf{komuniciraju sa sustavom}. Oni mogu imati inicijatorsku ulogu, tj. započinju određene procese u sustavu ili samo sudioničku ulogu, tj. obavljaju određeni posao. Za svakog aktora navesti funkcionalne zahtjeve koji se na njega odnose.}\\
-			
-			
 			\noindent \textbf{Dionici:}
 			
 			\begin{packed_enum}
 				
-				\item Dionik 1
-				\item Dionik 2				
-				\item ...
+				\item Korisnici				
+				\item Administrator sustava
+				\item Razvojni tim 
 				
 			\end{packed_enum}
 			
@@ -23,31 +18,74 @@
 			
 			
 			\begin{packed_enum}
-				\item  \underbar{Aktor 1 (inicijator) može:}
+				\item  \underbar {Neregistrirani korisnik/posjetilac (inicijator) može:}
 				
 				\begin{packed_enum}
 					
-					\item funkcionalnost 1
-					\item funkcionalnost 2
-					\begin{packed_enum}
-						
-						\item  podfunkcionalnost 1 
-						\item  podfunkcionalnost 2
-				
-					\end{packed_enum}
-					\item  funkcionalnost 3
+					\item pregledavati romobile
+					\item odabrati romobil da dobije dodatne podatke o njemu
+					\item registrirati se
+					
 					
 				\end{packed_enum}
 			
-				\item  \underbar{Aktor 2 (sudionik) može:}
+				\item  \underbar{Klijent (inicijator) može:}
 				
 				\begin{packed_enum}
 					
-					\item funkcionalnost 1
-					\item funkcionalnost 2
+					\item prijaviti se u sustav
+					\item pregledati dostupne romobile
+					\item odabrati romobil da dobije dodatne podatke o njemu
+					\item unajmiti romobil
+					\item pregledati svoj profil
+					\item urediti svoj profil
+					\item registrirati romobil
+					\item pregledati svoje razgovore
+					\item poslati poruku drugom klijentu
+					\item promijeniti sliku na oglasu romobila
+					\item vratiti romobil
 					
 				\end{packed_enum}
+				\item  \underbar {Iznajmljivač (inicijator) može:}
+				
+				\begin{packed_enum}
+				
+				\item izbrisati registrirani romobil
+				\item postaviti oglas za registrirani romobil
+				\item objaviti oglas na društvene mreže
+				\item prihvatiti ili odbiti zahtjev za iznajmljivanja
+				\item pregledati profil klijenta
+				\item žaliti se na zamjenu slika
+				\item ocijeniti klijenta
+				
 			\end{packed_enum}
+			\item  \underbar {Administrator (inicijator) može:}
+			
+			\begin{packed_enum}
+			
+			\item prijaviti se u sustav
+			\item pregledati dostupne romobile 
+			\item odabrati romobil da dobije dodatne podatke o njemu
+			\item pregledati svoj profil
+			\item urediti svoj profil
+			\item pregledati dokumentaciju za registraciju i prihvatiti ili odbiti zahtjev za registraciju
+			\item blokirati korisnika
+			\item odlučiti o zamjeni slike, ostaviti novu ili vratiti staru
+			\item dodati novog administratora
+			
+			\end{packed_enum}
+			\item  \underbar {Baza podataka(sudionik)}
+			
+			\item  \underbar {Banka (inicijator) može:}
+			
+			\begin{packed_enum}
+			
+			\item isplatiti cijenu iznajmljivanja iznajmljivaču na račun
+			
+			
+			
+			\end{packed_enum}
+		\end{packed_enum}
 			
 			\eject 
 			
@@ -453,7 +491,24 @@
 							\end{packed_enum}
 							
 						\end{packed_item}
-						\noindent \underbar{\textbf{UC16 - Prihvati ponudu}}
+						\noindent \underbar{\textbf{UC16 - Pogledaj profil klijenta}}
+						\begin{packed_item}
+							
+							\item \textbf{Glavni sudionik: }Iznajmljivač
+							\item  \textbf{Cilj: }Pogledati profil klijenta
+							\item  \textbf{Sudionici: }Baza podataka
+							\item  \textbf{Preduvjet: }-
+							\item  \textbf{Opis osnovnog tijeka:}
+							
+							\item[] \begin{packed_enum}
+								
+								\item Iznajmljivač pregledava dostupne podatke klijenta te ocjene i komentare drugih iznajmljivača
+		 
+							\end{packed_enum}
+							
+							
+						\end{packed_item}
+						\noindent \underbar{\textbf{UC17 - Prihvati ponudu}}
 						\begin{packed_item}
 							
 							\item \textbf{Glavni sudionik: }Iznajmljivač
@@ -470,7 +525,7 @@
 							
 							
 						\end{packed_item}
-						\noindent \underbar{\textbf{UC17 - Odbij ponudu}}
+						\noindent \underbar{\textbf{UC18 - Odbij ponudu}}
 						\begin{packed_item}
 							
 							\item \textbf{Glavni sudionik: }Iznajmljivač
@@ -487,7 +542,7 @@
 							
 							
 						\end{packed_item}
-						\noindent \underbar{\textbf{UC18 - Zamijeni sliku romobila}}
+						\noindent \underbar{\textbf{UC19 - Zamijeni sliku romobila}}
 						\begin{packed_item}
 							
 							\item \textbf{Glavni sudionik: }Klijent
@@ -516,7 +571,7 @@
 								\end{packed_enum}		
 							\end{packed_item}
 						\end{packed_item}
-						\noindent \underbar{\textbf{UC19 - Žali se na zamjenu slike}}
+						\noindent \underbar{\textbf{UC20 - Žali se na zamjenu slike}}
 						\begin{packed_item}
 							
 							\item \textbf{Glavni sudionik: }Iznajmljivač
@@ -533,7 +588,7 @@
 							\end{packed_enum}
 							
 						\end{packed_item}
-						\noindent \underbar{\textbf{UC20 - Odluči i obavijesti o zamjeni slike}}
+						\noindent \underbar{\textbf{UC21 - Odluči i obavijesti o zamjeni slike}}
 						\begin{packed_item}
 							
 							\item \textbf{Glavni sudionik: }Administrator
@@ -552,7 +607,7 @@
 							
 							
 						\end{packed_item}
-						\noindent \underbar{\textbf{UC21 - Vrati romobil}}
+						\noindent \underbar{\textbf{UC22 - Vrati romobil}}
 						\begin{packed_item}
 							
 							\item \textbf{Glavni sudionik: }Klijent
@@ -584,7 +639,7 @@
 								
 							\end{packed_item}
 						\end{packed_item}
-						\noindent \underbar{\textbf{UC22 - Ocijeni klijenta}}
+						\noindent \underbar{\textbf{UC23 - Ocijeni klijenta}}
 						\begin{packed_item}
 							
 							\item \textbf{Glavni sudionik: }Iznajmljivač
@@ -602,7 +657,7 @@
 							
 							
 						\end{packed_item}
-						\noindent \underbar{\textbf{UC23 - Uplati novac banci}}
+						\noindent \underbar{\textbf{UC24 - Uplati novac banci}}
 						\begin{packed_item}
 							
 							\item \textbf{Glavni sudionik: }Klijent
@@ -620,7 +675,7 @@
 							
 							
 						\end{packed_item}
-						\noindent \underbar{\textbf{UC24 - Isplati iznajmljivača}}
+						\noindent \underbar{\textbf{UC25 - Isplati iznajmljivača}}
 						\begin{packed_item}
 							
 							\item \textbf{Glavni sudionik: }Banka
@@ -637,7 +692,7 @@
 							
 							
 						\end{packed_item}
-						\noindent \underbar{\textbf{UC25 - Dodaj administratora}}
+						\noindent \underbar{\textbf{UC26 - Dodaj administratora}}
 						\begin{packed_item}
 							
 							\item \textbf{Glavni sudionik: }Administrator
