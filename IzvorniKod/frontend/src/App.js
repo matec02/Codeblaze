@@ -13,6 +13,7 @@ import NavBar from "./components/NavBar";
 import AdminHome from "./components/AdminHome";
 import AdminDashboard from "./components/AdminDashboard";
 import ImageChange from "./components/ImageChange";
+import MyProfile from "./components/MyProfile";
 
 import AdminRoute from "./components/AdminRoute";
 import ProtectedRoutes from "./components/ProtectedRoutes"
@@ -47,6 +48,11 @@ function App() {
                 <Route path="/add-scooter" element={
                     <ProtectedRoutes>
                         <RegisterScooterForm />
+                    </ProtectedRoutes>
+                }/>
+                <Route path="/profile" element={
+                    <ProtectedRoutes>
+                        <MyProfile/>
                     </ProtectedRoutes>
                 }/>
                 <Route path="/admin-home" element={
