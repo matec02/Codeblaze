@@ -1,6 +1,7 @@
 package com.projektr.codeblaze.service;
 
 import com.projektr.codeblaze.dao.UserRepository;
+import com.projektr.codeblaze.domain.PrivacySettings;
 import com.projektr.codeblaze.domain.User;
 import com.projektr.codeblaze.domain.UserRole;
 import com.projektr.codeblaze.domain.UserStatus;
@@ -9,6 +10,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.SignatureException;
+import jakarta.transaction.Transactional;
 import jakarta.xml.bind.DatatypeConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,6 +29,10 @@ import java.util.stream.Collectors;
 @Service
 public class UserService {
     private static UserRepository userRepository;
+
+    @Autowired
+    private PrivacySettingsService privacySettingsService;
+
     private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     @Value("${secretKey}")
@@ -55,12 +61,24 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
+    @Transactional
     public User register(User user) {
         String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
         user.setRole(UserRole.GUEST);
         user.setStatus(UserStatus.PENDING);
-        return userRepository.save(user);
+        User savedUser = userRepository.save(user);
+
+        // Initialize Privacy Settings for the user
+        PrivacySettings privacySettings = new PrivacySettings();
+        privacySettings.setUser(savedUser);
+        privacySettings.setFirstNameVisible(false);
+        privacySettings.setSecondNameVisible(false);
+        privacySettings.setEmailNameVisible(false);
+        privacySettings.setPhoneNumberVisible(false);
+        privacySettingsService.initializePrivacySettings(privacySettings);
+
+        return savedUser;
     }
 
 

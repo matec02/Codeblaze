@@ -3,6 +3,8 @@ package com.projektr.codeblaze.service;
 import com.projektr.codeblaze.dao.PrivacySettingsRepository;
 import com.projektr.codeblaze.domain.PrivacySettings;
 import com.projektr.codeblaze.domain.User;
+import com.projektr.codeblaze.domain.UserRole;
+import com.projektr.codeblaze.domain.UserStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,16 +21,7 @@ public class PrivacySettingsService {
         return privacySettingsRepository.findById(userId).orElse(null);
     }
 
-    public PrivacySettings initializePrivacySettings(User user) {
-        PrivacySettings privacySettings = new PrivacySettings();
-
-        privacySettings.setUserSocialMediaId(user.getUserId());
-        privacySettings.setEmailNameVisible(false);
-        privacySettings.setPhoneNumberVisible(false);
-        privacySettings.setFirstNameVisible(false);
-        privacySettings.setSecondNameVisible(false);
-        privacySettings.setEmailNameVisible(false);
-
+    public PrivacySettings initializePrivacySettings(PrivacySettings privacySettings) {
         return privacySettingsRepository.save(privacySettings);
     }
 }

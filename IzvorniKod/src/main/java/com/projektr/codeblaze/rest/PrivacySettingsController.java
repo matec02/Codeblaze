@@ -30,16 +30,4 @@ public class PrivacySettingsController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/initialize")
-    public ResponseEntity<PrivacySettings> initializePrivacySettings(@RequestBody User user) {
-        PrivacySettings privacySettings = privacySettingsService.initializePrivacySettings(user);
-
-        if (privacySettings != null) {
-            return ResponseEntity.ok(privacySettings);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
 }
