@@ -143,12 +143,10 @@ public class UserService {
 
     public boolean validateToken(String token) {
         try {
-            // Parse the token. If this fails, it will throw an exception
             Jwts.parser()
                     .setSigningKey(secretKey.getBytes())
                     .parseClaimsJws(token);
 
-            // If we reach this point, it's valid
             return true;
         } catch (SignatureException ex) {
         } catch (ExpiredJwtException ex) {
@@ -169,5 +167,15 @@ public class UserService {
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority(UserRole.USER.getCode());
 
         return new UsernamePasswordAuthenticationToken(username, null, Collections.singletonList(authority));
+    }
+
+    public UserRole upgradeUserRole(Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user != null) {
+            user.setRole(UserRole.RENTER);
+            userRepository.save(user);
+            return user.getRole();
+        }
+        return null;
     }
 }

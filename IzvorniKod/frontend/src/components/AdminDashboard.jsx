@@ -35,6 +35,7 @@ function AdminDashboard() {
             }
 
             if (status === 'ACCEPTED') {
+                handleRoleChange(userId, "USER")
                 setPendingUsers(prevUsers => prevUsers.filter(user => user.userId !== userId));
                 const acceptedUser = pendingUsers.find(user => user.userId === userId);
                 if (acceptedUser) {

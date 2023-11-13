@@ -53,6 +53,27 @@ function RegisterForm() {
             console.error('An error occurred:', error);
             setErrorMessage('Registration failed.');
         }
+
+        // Initialize Privacy Settings
+        try {
+            const response = await fetch('http://localhost:8080/api/privacy-settings/initialize', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(user),
+            });
+
+            if (response.ok) {
+                console.log('Default privacy settings are set')
+            } else {
+                setErrorMessage('Privacy Settings initialization failed.');
+                console.error('Privacy settings initialization failed:', response.statusText);
+            }
+        } catch (error) {
+            console.error('An error occurred:', error);
+            setErrorMessage('Initialization failed.');
+        }
     };
 
     return (

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './RegisterScooterForm.css';
 import { useNavigate } from "react-router-dom";
 import { jwtDecode }  from 'jwt-decode';
+import { upgradeUserRole } from "../utils/UpgradeUserRole"
 
 export const getNicknameFromToken = () => {
     const token = localStorage.getItem('authToken');
@@ -68,7 +69,14 @@ function RegisterScooterForm() {
 
             if (response.ok) {
                 const result = await response.json();
-                console.log(result);
+                console.log("Scooter Registered: ", result);
+                const newToken = await upgradeUserRole(user.id);
+                if (newToken) {
+                    localStorage.setItem('authToken', newToken);
+                    console.log('User role upgraded and token refreshed');
+                } else {
+                    console.error('Failed to upgrade user role or refresh token');
+                }
                 navigate('/home');
             } else {
                 setErrorMessage('Scooter registration failed.');

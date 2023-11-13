@@ -133,11 +133,12 @@ public class UserController {
         User user = userService.login(email, password);
         if (user != null) {
             Map<String, Object> claims = new HashMap<>();
-            claims.put("role", UserRole.USER.getCode());
+            UserRole userRole = user.getRole() != null ? user.getRole() : UserRole.USER;
+
+            claims.put("role", userRole);
             claims.put("nickname", user.getNickname());
             Map<String, String> response = new HashMap<>();
             response.put("message", "User logged in successfully");
-//            TODO ROLE: iznajmljivac ovisno o tome ima li registriranih romobila
             response.put("authToken",
                     userService.generateJWTToken(user, claims)
             );
@@ -145,6 +146,18 @@ public class UserController {
             return ResponseEntity.ok().body(response);
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/upgrade-role/{userId}")
+    public ResponseEntity<UserRole> upgradeUserRole(@PathVariable Long userId) {
+        UserRole updatedRole = userService.upgradeUserRole(userId);
+
+        if (updatedRole != null) {
+            return ResponseEntity.ok(updatedRole);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping
