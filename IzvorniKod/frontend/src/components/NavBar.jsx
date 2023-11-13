@@ -1,7 +1,7 @@
 import {useNavigate} from 'react-router-dom';
 import myAccount from '../assets/my-account.png';
 import logo from '../assets/CodeblazeLogo.png';
-import { jwtDecode } from 'jwt-decode';
+import {jwtDecode} from 'jwt-decode';
 import {useEffect, useState} from "react";
 
 function NavBar() {
@@ -78,7 +78,7 @@ function NavBar() {
                 </ul>
                 {(localStorage.getItem('authToken')) ? (
                     <div className="navbar-account" onClick={() => navigate('/profile')}>
-                        <img src={myAccount} alt="My Account" />
+                        <img src={myAccount} alt="My Account"/>
                         <span>{loggedUserNickname}</span>
                     </div>
                 ) : (
@@ -87,7 +87,7 @@ function NavBar() {
                             Login
                         </div>
                         <div className="navbar-login" onClick={() => navigate('/register')}>
-                        Register
+                            Register
                         </div>
                     </div>
                 )}
