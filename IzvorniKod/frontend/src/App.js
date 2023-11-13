@@ -34,14 +34,10 @@ function App() {
                 <Route path="/register" element={<RegisterForm/>}/>
 
                 <Route path="/profile-pending" element={
-                    <ProtectedRoutes>
-                        <ProfilePending />
-                    </ProtectedRoutes>
+                    <ProfilePending />
                 }/>
                 <Route path="/profile-blocked" element={
-                    <ProtectedRoutes>
-                        <ProfileBlocked />
-                    </ProtectedRoutes>
+                    <ProfileBlocked />
                 }/>
                 <Route path="/scooters" element={
                     <ProtectedRoutes>

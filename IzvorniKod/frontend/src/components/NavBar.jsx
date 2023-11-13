@@ -1,13 +1,14 @@
-import {useNavigate} from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import myAccount from '../assets/my-account.png';
 import logo from '../assets/CodeblazeLogo.png';
 import { jwtDecode } from 'jwt-decode';
-import {useEffect, useState} from "react";
 
 function NavBar() {
-    const navigate = useNavigate();  // Hook to get history object
+    const navigate = useNavigate();
     const [loggedUserNickname, setLoggedUserNickname] = useState(null);
     const [admins, setAdmins] = useState([]);
+    const [showDropdown, setShowDropdown] = useState(false);
     const [acceptedUsers, setAcceptedUsers] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -25,6 +26,28 @@ function NavBar() {
         }
     }, []);
 
+    const dropdownRef = useRef(null);
+
+    useEffect(() => {
+        const closeDropdown = (e) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+                setShowDropdown(false);
+            }
+        };
+
+        document.addEventListener('mousedown', closeDropdown);
+
+        return () => document.removeEventListener('mousedown', closeDropdown);
+    }, []);
+
+    const toggleDropdown = () => {
+        setShowDropdown(!showDropdown);
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem('authToken');
+        navigate('/login');
+    };
 
     const fetchUsers = async (url, setState) => {
         setErrorMessage(''); // Resetting the error message
@@ -68,18 +91,26 @@ function NavBar() {
     return (
         <header>
             <nav className="navbar">
-                <div className="navbar-logo" onClick={(handleNavigation)}>
-                    <img src={logo} alt="Logo"/>
+                <div className="navbar-logo" onClick={() => navigate('/')}>
+                    <img src={logo} alt="Logo" />
                 </div>
                 <ul className="navbar-links">
-                    <li onClick={(handleNavigation)}>Početna</li>
+                    <li onClick={() => navigate('/')}>Početna</li>
                     <li onClick={() => navigate('/scooters')}>Tvoji Romobili</li>
                     <li onClick={() => navigate('/#')}>Poruke</li>
                 </ul>
-                {(localStorage.getItem('authToken')) ? (
-                    <div className="navbar-account" onClick={() => navigate('/profile')}>
-                        <img src={myAccount} alt="My Account" />
-                        <span>{loggedUserNickname}</span>
+                {localStorage.getItem('authToken') ? (
+                    <div className="navbar-account">
+                        <button onClick={toggleDropdown}>
+                            <img src={myAccount} alt="My Account" />
+                            <span>{loggedUserNickname}</span>
+                        </button>
+                        {showDropdown && (
+                            <div className="dropdown-menu" ref={dropdownRef}>
+                                <button onClick={() => navigate('/profile')}>My Account</button>
+                                <button onClick={handleLogout}>Logout</button>
+                            </div>
+                        )}
                     </div>
                 ) : (
                     <div>
@@ -87,21 +118,12 @@ function NavBar() {
                             Login
                         </div>
                         <div className="navbar-login" onClick={() => navigate('/register')}>
-                        Register
+                            Register
                         </div>
                     </div>
                 )}
-
-                {/*   TODO dodati novi page za profil, dodati page za postaviti romobil (ne treba backend),
-                 dodati page za iznajmiti romobil(oglas) dodati page za poruke, generirati logo gpt skuter poslagati s bazom (drive upload)
-                 postaviti constrainte na upis login (neke card, broj telefona (nema char), lozinka omogućiti gledanje čitave,
-                 dodati register button pored login kako god, urediti registracija, hash za card number BEncrypt
-                 Phone number splitati +385 i ostatak broja), dodati constraint na password
-                 Nakon prijave maknuti login/register i onda ima profil inace ga nemaa*/}
-
             </nav>
         </header>
-
     );
 }
 
