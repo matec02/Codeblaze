@@ -2,29 +2,32 @@
 
 \subsection{Opis arhitekture}
 
-\textit{Detaljnom razradom cilja projektnog zadatka, u kojem je fokus izrada aplikacije za iznajmljivanje električnih romobila, definirali smo razinu klijenta, razinu web-aplikacije te sloj pristupa podatcima kao osnovne razine naše aplikacije.}
-
+Detaljnom razradom cilja projektnog zadatka, u kojem je fokus izrada aplikacije za iznajmljivanje električnih romobila, definirali smo razinu klijenta, razinu web-aplikacije te sloj pristupa podatcima kao osnovne razine naše aplikacije.
+\newline
 \subsubsection{Razina klijenta}
 
-\textit{Razina klijenta predstavlja korisničko sučelje web-aplikacije koje korisnici vide i s kojim interagiraju. U razvoju projekta korišten je React, odnosno JavaScript knjižica za izradu korisničkog sučelja. Organizirano je u komponente koje predstavljaju određene dijelove korisničkog sučelja. Korišten je virtualni DOM (Document Object Model), kojim se ubrzava proces ažuriranja promjena korisničkog sučelja u svrhu poboljšavanja performansi web-aplikacije. }
+Razina klijenta predstavlja korisničko sučelje web-aplikacije koje korisnici vide i s kojim interagiraju. U razvoju projekta korišten je React, odnosno JavaScript knjižica za izradu korisničkog sučelja. Organizirano je u komponente koje predstavljaju određene dijelove korisničkog sučelja. Korišten je virtualni DOM (Document Object Model), kojim se ubrzava proces ažuriranja promjena korisničkog sučelja u svrhu poboljšavanja performansi web-aplikacije.
+\newline
 \subsubsection{Razina web-aplikacije}
 
-\textit{Sloj web-aplikacije je odgovoran za obradu zahtjeva korisnika, poslovnu logiku i komunikaciju s bazom podataka. U razvoju projekta korišten je okvir za razvoj web aplikacija Spring Boot u programskom jeziku Java. U Spring Bootu, kontroleri su odgovorni za obradu HTTP zahtjeva i usmjeravanje na odgovarajuće servise za obradu zahtjeva. Obradu podataka, validaciju te logiku obavljaju servisi, dok modeli predstavljaju strukturu podataka koja se koristi za komunkaciju s bazom podataka te prenošenje podataka između kontrolera i servisa.}
+Sloj web-aplikacije je odgovoran za obradu zahtjeva korisnika, poslovnu logiku i komunikaciju s bazom podataka. U razvoju projekta korišten je okvir za razvoj web aplikacija Spring Boot u programskom jeziku Java. U Spring Bootu, kontroleri su odgovorni za obradu HTTP zahtjeva i usmjeravanje na odgovarajuće servise za obradu zahtjeva. Obradu podataka, validaciju te logiku obavljaju servisi, dok modeli predstavljaju strukturu podataka koja se koristi za komunkaciju s bazom podataka te prenošenje podataka između kontrolera i servisa.
+\newline
+
 \subsubsection{Sloj pristupa podatcima}
 
-\textit{Sloj pristupa podacima je odgovoran za komunikaciju s bazom podataka i pristupanje podacima. Građen je od entiteta s vlastitim atributima koji predstavljaju modele podataka koji odgovaraju tablicama u bazi podataka.}
-
-\textit{Sinteza ovih slojeva - korisničkog sučelja na razini Reacta, web-aplikacijskog sloja u Spring Bootu i sloja pristupa podacima u Spring Bootu - stvara temelj za razvoj visoko skalabilnih i funkcionalnih web-aplikacija. Korisnici ostvaruju interakciju s aplikacijom preko intuitivnog React korisničkog sučelja, dok Spring Boot preuzima odgovornost za obradu njihovih zahtjeva i poslovne logike. Istovremeno, sloj pristupa podacima omogućuje efikasnu komunikaciju s bazom podataka, omogućujući pohranu i dohvat podataka s pouzdanošću i učinkovitošću.}
-
+Sloj pristupa podacima je odgovoran za komunikaciju s bazom podataka i pristupanje podacima. Građen je od entiteta s vlastitim atributima koji predstavljaju modele podataka koji odgovaraju tablicama u bazi podataka.
+\newline
+Sinteza ovih slojeva - korisničkog sučelja na razini Reacta, web-aplikacijskog sloja u Spring Bootu i sloja pristupa podacima u Spring Bootu - stvara temelj za razvoj visoko skalabilnih i funkcionalnih web-aplikacija. Korisnici ostvaruju interakciju s aplikacijom preko intuitivnog React korisničkog sučelja, dok Spring Boot preuzima odgovornost za obradu njihovih zahtjeva i poslovne logike. Istovremeno, sloj pristupa podacima omogućuje efikasnu komunikaciju s bazom podataka, omogućujući pohranu i dohvat podataka s pouzdanošću i učinkovitošću.
+\newline
 \subsection{MVC arhitektura}
-\textit{Model-View-Controller (MVC) je arhitekturni obrazac koji se koristi za organizaciju komponenti u softverskim aplikacijama, posebno u razvoju web-aplikacija. Osnovna svrha MVC-a je odvajanje različitih aspekata aplikacije kako bi se omogućila bolja organizacija, održavanje i skalabilnost. Sastoji se od tri glavne komponente:}
+Model-View-Controller (MVC) je arhitekturni obrazac koji se koristi za organizaciju komponenti u softverskim aplikacijama, posebno u razvoju web-aplikacija. Osnovna svrha MVC-a je odvajanje različitih aspekata aplikacije kako bi se omogućila bolja organizacija, održavanje i skalabilnost. Sastoji se od tri glavne komponente:
 \begin{itemize}
-	\item\textit{Model - predstavlja sloj koji je odgovoran za obradu podataka i poslovnu logiku aplikacije te sadrži podatke i pravila za njihovu obradu.}
-	\item\textit{View - predstavlja sloj koji se odnosi na korisničko sučelje aplikacije i odgovoran je za prikazivanje podataka korisnicima. Ne obavlja nikakvu poslovnu logiku, samo prikazuje podatke koji mu se dostave iz modela.}
-	\item\textit{Kontroler - posrednik između Model i View komponenti. Prima korisničke zahtjeve, obrađuje ih te komunicira s Modelom radi dohvaćanja ili ažuriranja podataka. Također, odlučuje koji View treba biti prikazan korisniku na temelju podataka iz Modela te korisničkih zahtjeva, upravlja tokom aplikacije te sadrži logiku za validaciju, autorizaciju i upravljanje sesijama.}
+	\item\textbf{Model} - predstavlja sloj koji je odgovoran za obradu podataka i poslovnu logiku aplikacije te sadrži podatke i pravila za njihovu obradu.
+	\item\textbf{View} - predstavlja sloj koji se odnosi na korisničko sučelje aplikacije i odgovoran je za prikazivanje podataka korisnicima. Ne obavlja nikakvu poslovnu logiku, samo prikazuje podatke koji mu se dostave iz modela.
+	\item\textbf{Kontroler} - posrednik između Model i View komponenti. Prima korisničke zahtjeve, obrađuje ih te komunicira s Modelom radi dohvaćanja ili ažuriranja podataka. Također, odlučuje koji View treba biti prikazan korisniku na temelju podataka iz Modela te korisničkih zahtjeva, upravlja tokom aplikacije te sadrži logiku za validaciju, autorizaciju i upravljanje sesijama.
 \end{itemize}
 
-\textit{MVC arhitektura omogućuje precizno razgraničenje odgovornosti unutar aplikacije. Ovo strukturalno odvajanje olakšava razvoj aplikacije, čini ju lakšom za održavanje i omogućava efikasnije testiranje. Svaka od tri glavne komponente - Model, View i Controller - može se ponovno koristiti na različitim dijelovima aplikacije. To potiče efikasnost razvoja jer se već razvijeni dijelovi aplikacije mogu lako iskoristiti u drugim kontekstima. MVC omogućuje skalabilnost aplikacije jer se jasno razdvajaju različiti aspekti. Novi dijelovi funkcionalnosti mogu se dodavati bez narušavanja postojeće arhitekture, što omogućava aplikaciji da raste i prilagodi se promjenama. }
+MVC arhitektura omogućuje precizno razgraničenje odgovornosti unutar aplikacije. Ovo strukturalno odvajanje olakšava razvoj aplikacije, čini ju lakšom za održavanje i omogućava efikasnije testiranje. Svaka od tri glavne komponente - Model, View i Controller - može se ponovno koristiti na različitim dijelovima aplikacije. To potiče efikasnost razvoja jer se već razvijeni dijelovi aplikacije mogu lako iskoristiti u drugim kontekstima. MVC omogućuje skalabilnost aplikacije jer se jasno razdvajaju različiti aspekti. Novi dijelovi funkcionalnosti mogu se dodavati bez narušavanja postojeće arhitekture, što omogućava aplikaciji da raste i prilagodi se promjenama.
 
 \begin{figure} [H]
 
@@ -36,7 +39,7 @@
 
 \section{Baza podataka}
 
-\textit{U kontekstu našeg sustava, baza podataka igra ključnu ulogu, pružajući strukturiranu platformu za modeliranje stvarnog svijeta. Temeljni građevni blok ove baze je relacija, odnosno tablica koja je jasno definirana svojim imenom i skupom atributa. Glavna svrha baze podataka je olakšati brzu i jednostavnu pohranu, promjenu te izvlačenje podataka kako bi se omogućila daljnja analiza i obrada. Unutar baze podataka za našu aplikaciju, identificiramo nekoliko ključnih entiteta:
+U kontekstu našeg sustava, baza podataka igra ključnu ulogu, pružajući strukturiranu platformu za modeliranje stvarnog svijeta. Temeljni građevni blok ove baze je relacija, odnosno tablica koja je jasno definirana svojim imenom i skupom atributa. Glavna svrha baze podataka je olakšati brzu i jednostavnu pohranu, promjenu te izvlačenje podataka kako bi se omogućila daljnja analiza i obrada. Unutar baze podataka za našu aplikaciju, identificiramo nekoliko ključnih entiteta:
 	\begin{itemize}
 		\item 	\textit{User}
 		\item 	\textit{Preferences}
@@ -53,12 +56,12 @@
 		\item 	\textit{Message}
 		\item 	\textit{ImageChangeRequest}
 	\end{itemize}
-}
+
 
 \subsection{User}
 
 
-\textit{Ovaj entitet sadrzava sve važne informacije o korisniku aplikacije. Sadrži atribute: userId, nickname, firstName, lastName, cardNumber, email, phoneNumber, password, role te status. Ovaj entitet ima One-to-one vezu s entitetom Preferences preko atributa userId, One-to-one vezu s entitetom PrivacySettings preko atributa userId, One-to-one vezu s entitetom SocialMedia preko atributa userId, One-to-one vezu s entitetom Document preko atributa userId, One-to-many vezu s entitetom Scooter preko atributa userId, One-to-many vezu s entitetom Listing preko atributa renterUsername, One-to-one vezu s entitetom Review preko atributa reviewerUsername, One-to-one vezu s entitetom Review preko atributa renterUsername, One-to-many vezu s entitetom ChatSessions preko atributa user1 ili atributa user2, Many-to-one vezu s entitetom Messages preko atributa senderUsername, One-to-many vezu s entitetom ImageChangeRequest preko atributa requesterId te One-to-many vezu s entitetom Notification preko atributa userId, requestingUser te decisionAdmin.}
+Ovaj entitet sadrzava sve važne informacije o korisniku aplikacije. Sadrži atribute: userId, nickname, firstName, lastName, cardNumber, email, phoneNumber, password, role te status. Ovaj entitet ima One-to-one vezu s entitetom Preferences preko atributa userId, One-to-one vezu s entitetom PrivacySettings preko atributa userId, One-to-one vezu s entitetom SocialMedia preko atributa userId, One-to-one vezu s entitetom Document preko atributa userId, One-to-many vezu s entitetom Scooter preko atributa userId, One-to-many vezu s entitetom Listing preko atributa renterUsername, One-to-one vezu s entitetom Review preko atributa reviewerUsername, One-to-one vezu s entitetom Review preko atributa renterUsername, One-to-many vezu s entitetom ChatSessions preko atributa user1 ili atributa user2, Many-to-one vezu s entitetom Messages preko atributa senderUsername, One-to-many vezu s entitetom ImageChangeRequest preko atributa requesterId te One-to-many vezu s entitetom Notification preko atributa userId, requestingUser te decisionAdmin.
 
 
 \begin{longtblr}[
@@ -86,7 +89,7 @@
 \subsection{Preferences}
 
 
-\textit{Ovaj entitet sadrzava sve važne informacije o preferencama korisnika aplikacije. Sadrži atribute: userId, language i darkMode. Ovaj entitet ima One-to-one vezu s entitetom User preko atributa userId.}
+Ovaj entitet sadrzava sve važne informacije o preferencama korisnika aplikacije. Sadrži atribute: userId, language i darkMode. Ovaj entitet ima One-to-one vezu s entitetom User preko atributa userId.
 
 
 \begin{longtblr}[
@@ -106,7 +109,7 @@
 \subsection{Social Media}
 
 
-\textit{Ovaj entitet sadrzava sve važne informacije o socijalnim mrežama korisnika aplikacije. Sadrži atribute: userId, instagram, facebook, google i tikTok. Ovaj entitet ima One-to-one vezu s entitetom User preko atributa userId.}
+Ovaj entitet sadrzava sve važne informacije o socijalnim mrežama korisnika aplikacije. Sadrži atribute: userId, instagram, facebook, google i tikTok. Ovaj entitet ima One-to-one vezu s entitetom User preko atributa userId.
 
 
 \begin{longtblr}[
@@ -128,7 +131,7 @@
 \subsection{PrivacySettings}
 
 
-\textit{Ovaj entitet sadrzava sve važne informacije o postavkama privatnosti korisnika aplikacije. Sadrži atribute: userId, isFirstNameVisible, isLastNameVisible, isNicknameVisible i isEmailVisible. Ovaj entitet ima One-to-one vezu s entitetom User preko atributa userId.}
+Ovaj entitet sadrzava sve važne informacije o postavkama privatnosti korisnika aplikacije. Sadrži atribute: userId, isFirstNameVisible, isLastNameVisible, isNicknameVisible i isEmailVisible. Ovaj entitet ima One-to-one vezu s entitetom User preko atributa userId.
 
 
 \begin{longtblr}[
@@ -150,7 +153,7 @@
 \subsection{Document}
 
 
-\textit{Ovaj entitet sadrzava sve važne informacije o dokumentima korisnika aplikacije. Sadrži atribute: userId, criminalRecordURL, identification- \newline DocumentURL i status. Ovaj entitet ima One-to-one vezu s entitetom User preko atributa userId.}
+Ovaj entitet sadrzava sve važne informacije o dokumentima korisnika aplikacije. Sadrži atribute: userId, criminalRecordURL, identificationDocumentURL i status. Ovaj entitet ima One-to-one vezu s entitetom User preko atributa userId.
 
 
 \begin{longtblr}[
@@ -164,14 +167,14 @@
 	\hline \SetCell[c=3]{c}{\textbf{Document}}	 \\ \hline[3pt]
 	\SetCell{LightGreen}userId & INT	&  jedinstveni identifikator korisnika	 	\\ \hline
 	criminalRecordURL	& VARCHAR &  url kaznene evidencije	\\ \hline
-	identification- DocumentURL & VARCHAR &  url identifikacijskog dokumenta \\ \hline
+	identificationDocumentURL & VARCHAR &  url identifikacijskog dokumenta \\ \hline
 	status & DocumentStatus	& status dokumenta (pending, approved, rejected) 		\\ \hline
 \end{longtblr}
 
 \subsection{Scooter}
 
 
-\textit{Ovaj entitet sadrzava sve važne informacije o pojedinom romobilu. Sadrži atribute:scooterId, manufacturer, model, batteryCapacity, maxSpeed, imageUrl, maxRange, yearOfManufacture, additionalInformation, userId i availability. Ovaj entitet ima Many-to-one vezu s entitetom User preko atributa userId te One-to-many vezu s entitetom Listings preko atributa scooterId.}
+Ovaj entitet sadrzava sve važne informacije o pojedinom romobilu. Sadrži atribute:scooterId, manufacturer, model, batteryCapacity, maxSpeed, imageUrl, maxRange, yearOfManufacture, additionalInformation, userId i availability. Ovaj entitet ima Many-to-one vezu s entitetom User preko atributa userId te One-to-many vezu s entitetom Listings preko atributa scooterId.
 
 
 \begin{longtblr}[
@@ -199,7 +202,7 @@
 \subsection{Listing}
 
 
-\textit{Ovaj entitet sadrzava sve važne informacije o pojedinom oglasu. Sadrži atribute:listingId, currentAddress, returnAddress, returnByTime, pricePerKilometer, penaltyFee, scooterId, listingTime, notes i status. Ovaj entitet ima Many-to-one vezu s entitetom Scooter preko atributa scooterId, Many-to-one vezu s entitetom User preko atributa renterUsername te One-to-many vezu s entitetom Transactions preko atributa listingId.}
+Ovaj entitet sadrzava sve važne informacije o pojedinom oglasu. Sadrži atribute:listingId, currentAddress, returnAddress, returnByTime, pricePerKilometer, penaltyFee, scooterId, listingTime, notes i status. Ovaj entitet ima Many-to-one vezu s entitetom Scooter preko atributa scooterId, Many-to-one vezu s entitetom User preko atributa renterUsername te One-to-many vezu s entitetom Transactions preko atributa listingId.
 
 
 \begin{longtblr}[
@@ -227,7 +230,7 @@
 \subsection{Review}
 
 
-\textit{Ovaj entitet sadrzava sve važne informacije o pojedinom osvrtu. Sadrži atribute: transactionId, reviewerUsername, renterUsername, stars, comment te reviewTime. Ovaj entitet ima Ona-to-one vezu s entitetom User preko atributa reviewerUsername, One-to-one vezu s entitetom User preko atributa renterUsername te One-to-one vezu s entitetom Transaction preko atributa transactionId.}
+Ovaj entitet sadrzava sve važne informacije o pojedinom osvrtu. Sadrži atribute: transactionId, reviewerUsername, renterUsername, stars, comment te reviewTime. Ovaj entitet ima Ona-to-one vezu s entitetom User preko atributa reviewerUsername, One-to-one vezu s entitetom User preko atributa renterUsername te One-to-one vezu s entitetom Transaction preko atributa transactionId.
 
 
 \begin{longtblr}[
@@ -250,7 +253,7 @@
 \subsection{Transaction}
 
 
-\textit{Ovaj entitet sadrzava sve važne informacije o pojedinoj transakciji. Sadrži atribute: transactionId, kilometersTraveled, totalPrice, listingId, paymentTime te previousTransactionStatus. Ovaj entitet ima Many-to-one vezu s entitetom Listing preko atributa listingId te One-to-one vezu s entitetom Invoice preko atributa transactionId.}
+Ovaj entitet sadrzava sve važne informacije o pojedinoj transakciji. Sadrži atribute: transactionId, kilometersTraveled, totalPrice, listingId, paymentTime te previousTransactionStatus. Ovaj entitet ima Many-to-one vezu s entitetom Listing preko atributa listingId te One-to-one vezu s entitetom Invoice preko atributa transactionId.
 
 
 \begin{longtblr}[
@@ -273,7 +276,7 @@
 \subsection{Invoice}
 
 
-\textit{Ovaj entitet sadrzava sve važne informacije o pojedinoj dostavnici. Sadrži atribute:transactionId, invoiceNumber te paymentMethod. Ovaj entitet ima One-to-one vezu s entitetom Transaction preko atributa transactionId.}
+Ovaj entitet sadrzava sve važne informacije o pojedinoj dostavnici. Sadrži atribute:transactionId, invoiceNumber te paymentMethod. Ovaj entitet ima One-to-one vezu s entitetom Transaction preko atributa transactionId.
 
 
 \begin{longtblr}[
@@ -293,7 +296,7 @@
 \subsection{Notification}
 
 
-\textit{Ovaj entitet sadrzava sve važne informacije o pojedinoj obavijesti. Sadrži atribute: notificationId, userId, requestingUser, decisionAdmin, content, isRead te sentTime. Ovaj entitet ima Many-to-one vezu s entitetom User preko atributa userId, Many-to-one vezu s entitetom User preko atributa requestingUser te Many-to-one vezu s entitetom User preko atributa decisionAdmin.}
+Ovaj entitet sadrzava sve važne informacije o pojedinoj obavijesti. Sadrži atribute: notificationId, userId, requestingUser, decisionAdmin, content, isRead te sentTime. Ovaj entitet ima Many-to-one vezu s entitetom User preko atributa userId, Many-to-one vezu s entitetom User preko atributa requestingUser te Many-to-one vezu s entitetom User preko atributa decisionAdmin.
 
 
 \begin{longtblr}[
@@ -317,7 +320,7 @@
 \subsection{ChatSession}
 
 
-\textit{Ovaj entitet sadrzava sve važne informacije o pojedinom razgovoru. Sadrži atribute: chatId, user1, user2, startCommunication- \newline Time te lastMessageTime. Ovaj entitet ima Many-to-one vezu s entitetom User preko atributa user1, Many-to-one vezu s entitetom User preko atributa user2 te One-to-many vezu s entitetom Messages preko atributa sessionId.}
+Ovaj entitet sadrzava sve važne informacije o pojedinom razgovoru. Sadrži atribute: chatId, user1, user2, startCommunicationTime te lastMessageTime. Ovaj entitet ima Many-to-one vezu s entitetom User preko atributa user1, Many-to-one vezu s entitetom User preko atributa user2 te One-to-many vezu s entitetom Messages preko atributa sessionId.
 
 
 \begin{longtblr}[
@@ -332,14 +335,13 @@
 	\SetCell{LightGreen} chatId & INT	&  	jedinstveni identifikator razgovora 	\\ \hline
 	\SetCell{LightBlue}user1	& INT &   korisnik 1	\\ \hline
 	\SetCell{LightBlue}user2 & INT &  korisnik 2 \\ \hline
-	startCommunication- Time 	& TIMESTAMP &   vrijeme početka komunikacije	\\ \hline
+	startCommunicationTime 	& TIMESTAMP &   vrijeme početka komunikacije	\\ \hline
 	lastMessageTime	& TIMESTAMP &   vrijeme zadnje poslane poruke	\\ \hline
 \end{longtblr}
 
 \subsection{Message}
 
-
-\textit{Ovaj entitet sadrzava sve važne informacije o pojedinoj poruci. Sadrži atribute:messageId, senderUsername, sessionId, text, sentTime te status. Ovaj entitet ima One-to-many vezu s entitetom User preko atributa senderUsername te Many-to-one vezu s entitetom ChatSession preko atributa sessionId.}
+Ovaj entitet sadrzava sve važne informacije o pojedinoj poruci. Sadrži atribute:messageId, senderUsername, sessionId, text, sentTime te status. Ovaj entitet ima One-to-many vezu s entitetom User preko atributa senderUsername te Many-to-one vezu s entitetom ChatSession preko atributa sessionId.
 
 
 \begin{longtblr}[
@@ -362,7 +364,7 @@
 \subsection{ImageChangeRequest}
 
 
-\textit{Ovaj entitet sadrzava sve važne informacije o zahtjevu za promjenom slike. Sadrži atribute: imageId, requesterId, listingId, newImageUrl, complaintTime, additionalComments, status, approvalTime te rejectionReason. Ovaj entitet ima Many-to-one vezu s entitetom User preko atributa requesterId te Many-to-one vezu s entitetom Listing preko atributa listingId.}
+Ovaj entitet sadrzava sve važne informacije o zahtjevu za promjenom slike. Sadrži atribute: imageId, requesterId, listingId, newImageUrl, complaintTime, additionalComments, status, approvalTime te rejectionReason. Ovaj entitet ima Many-to-one vezu s entitetom User preko atributa requesterId te Many-to-one vezu s entitetom Listing preko atributa listingId.
 
 
 \begin{longtblr}[
