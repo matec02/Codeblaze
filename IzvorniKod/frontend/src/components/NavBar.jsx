@@ -8,20 +8,29 @@ function NavBar() {
     const navigate = useNavigate();  // Hook to get history object
     const [loggedUserNickname, setLoggedUserNickname] = useState(null);
     const [admins, setAdmins] = useState([]);
+    const [acceptedUsers, setAcceptedUsers] = useState([]);
+    const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
+        fetchUsers("http://localhost:8080/api/users/acceptedUsers", setAcceptedUsers);
+        fetchUsers("http://localhost:8080/api/users/admins", setAdmins);
         const token = localStorage.getItem('authToken');
         if (token) {
-            const decodedToken = jwtDecode(token);
-            setLoggedUserNickname(decodedToken.nickname);
-            console.log("nickname " + decodedToken.nickname);
+            try {
+                const decodedToken = jwtDecode(token); // Corrected usage
+                setLoggedUserNickname(decodedToken.nickname);
+            } catch (error) {
+                console.error("Error decoding token: ", error);
+            }
         }
-        handleAdmins();
     }, []);
 
-    const handleAdmins = async (event) => {
+
+    const fetchUsers = async (url, setState) => {
+        setErrorMessage(''); // Resetting the error message
+
         try {
-            const response = await fetch("http://localhost:8080/api/users/admins", {
+            const response = await fetch(url, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -29,17 +38,21 @@ function NavBar() {
             });
 
             if (!response.ok) {
-                throw new Error(`Error: ${response.status}`);
+                throw new Error(`Error in AdminDashboard: ${response.status}`);
             }
 
+
             const data = await response.json();
+            console.log("DATA");
             console.log(data);
-            setAdmins(data);
+            setState(data); // Setting the state with the fetched data
 
         } catch (error) {
-            console.error("Failed to get Admins: ", error);
+            console.error("Failed to fetch users: ", error);
+            setErrorMessage(error.message);
         }
     };
+
 
     const handleNavigation = () => {
         let path = '/';
@@ -63,7 +76,7 @@ function NavBar() {
                     <li onClick={() => navigate('/scooters')}>Tvoji Romobili</li>
                     <li onClick={() => navigate('/#')}>Poruke</li>
                 </ul>
-                {localStorage.getItem('authToken') ? (
+                {(localStorage.getItem('authToken')) ? (
                     <div className="navbar-account" onClick={() => navigate('/profile')}>
                         <img src={myAccount} alt="My Account" />
                         <span>{loggedUserNickname}</span>
