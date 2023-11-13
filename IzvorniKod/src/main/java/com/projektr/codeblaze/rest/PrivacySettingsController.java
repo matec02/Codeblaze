@@ -1,6 +1,7 @@
 package com.projektr.codeblaze.rest;
 
 import com.projektr.codeblaze.domain.PrivacySettings;
+import com.projektr.codeblaze.domain.User;
 import com.projektr.codeblaze.service.PrivacySettingsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,4 +29,17 @@ public class PrivacySettingsController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/initialize")
+    public ResponseEntity<PrivacySettings> initializePrivacySettings(@RequestBody User user) {
+        PrivacySettings privacySettings = privacySettingsService.initializePrivacySettings(user);
+
+        if (privacySettings != null) {
+            return ResponseEntity.ok(privacySettings);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }
