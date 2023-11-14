@@ -16,11 +16,11 @@ public class Document {
     @JoinColumn(name = "userId")
     private User user;
 
-    @Column(name = "urlIdentification", nullable = false, length = 500)
-    private String urlIdentification;
+    @Column(name = "pathIdentification", nullable = false, length = 500)
+    private String pathIdentification;
 
-    @Column(name = "urlCriminalRecord", nullable = false, length = 500)
-    private String urlCriminalRecord;
+    @Column(name = "pathCriminalRecord", nullable = false, length = 500)
+    private String pathCriminalRecord;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 50)

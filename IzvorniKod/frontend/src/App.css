@@ -64,6 +64,92 @@
     align-items: center;
     flex-grow: 1;
 }
+/* Navbar styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    padding: 10px 20px;
+}
+
+.navbar-logo img {
+    height: 50px; /* Adjust as needed */
+    cursor: pointer;
+}
+
+.navbar-links {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-links li {
+    margin-left: 20px;
+    color: white;
+    cursor: pointer;
+}
+
+.navbar-links li:hover {
+    color: #ddd; /* Adjust hover color as needed */
+}
+
+/* Account and dropdown styles */
+.navbar-account {
+    position: relative;
+}
+
+.navbar-account button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 16px; /* Adjust as needed */
+}
+
+.navbar-account img {
+    margin-right: 10px;
+    height: 30px; /* Adjust as needed */
+}
+
+.dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+    z-index: 1000;
+}
+
+.dropdown-menu button {
+    background: none;
+    border: none;
+    color: #333;
+    padding: 10px 20px;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+}
+
+.dropdown-menu button:hover {
+    background-color: #f5f5f5;
+}
+
+.navbar-login {
+    color: white;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.navbar-login:hover {
+    color: #ddd;
+}
+
 
 .navbar-links li {
     padding: 0 1rem; /* Adjust spacing as necessary */
@@ -85,6 +171,16 @@
 }
 
 .navbar-login a:hover {
+    text-decoration: underline; /* Or any other hover effect you prefer */
+}
+
+.navbar-register a {
+    color: #FFD860;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+}
+
+.navbar-register a:hover {
     text-decoration: underline; /* Or any other hover effect you prefer */
 }
 
@@ -119,9 +215,19 @@
 
 .navbar-account img {
     background-color: white;
+    display: flex;        /* Enable flexbox */
+    flex-direction: column; /* Stack flex items vertically */
+    align-items: center;  /* Center items horizontally */
+    cursor: pointer;
+    border-radius: 7px;
+}
+.navbar-account span{
+    margin-top: 5px;
 }
 
 .navbar-logo img {
     width: 100px;
     height: auto;
 }
+
+

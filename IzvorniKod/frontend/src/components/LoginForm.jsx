@@ -1,12 +1,39 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import './LoginForm.css'
+import {jwtDecode} from "jwt-decode";
 
 function LoginForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [admins, setAdmins] = useState([]);
     const navigate = useNavigate();  // Hook to get history object
+
+    useEffect(() => {
+        handleAdmins();
+    }, []);
+
+    const handleAdmins = async () => {
+        try {
+            const response = await fetch("http://localhost:8080/api/users/admins", {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status}`);
+            }
+
+            const data = await response.json();
+            setAdmins(data.map(admin => admin.nickname));
+
+        } catch (error) {
+            console.error("Failed to get Admins: ", error);
+        }
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -17,6 +44,8 @@ function LoginForm() {
             email,
             password
         };
+
+
 
         try {
             const response = await fetch('http://localhost:8080/api/users/login', {
@@ -32,12 +61,18 @@ function LoginForm() {
                 if (data.status == "PENDING"){
                     navigate('/profile-pending')
                 } else if (data.status == "BLOCKED"){
-                    localStorage.setItem('authToken', data.authToken);
+                    //localStorage.setItem('authToken', data.authToken); commented because of profilePicture
                     navigate('/profile-blocked')
                 }
                 else {
                     localStorage.setItem('authToken', data.authToken);
-                    navigate('/');
+                    console.log("DODAN TOKEN")
+                    const decodedToken = jwtDecode(data.authToken);
+                    // Determine the navigation path based on whether the user is an admin
+                    const isAdmin = admins.includes(decodedToken.nickname);
+                    const path = isAdmin ? '/admin-home' : '/home';
+                    navigate(path);
+                    window.location.reload() //only used for showing nickname under the account logo
                 }
             } else {
                 setErrorMessage(data.message || 'Login failed. Please try again.');
@@ -47,6 +82,9 @@ function LoginForm() {
             setErrorMessage('Login failed. Please try again.');
         }
     };
+
+
+
 
     return (
         <div className="login-form-container">
