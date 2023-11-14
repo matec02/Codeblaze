@@ -1,17 +1,24 @@
 package com.projektr.codeblaze.rest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.projektr.codeblaze.domain.User;
 import com.projektr.codeblaze.domain.UserRole;
 import com.projektr.codeblaze.service.UserService;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/api/users")
@@ -19,10 +26,14 @@ public class UserController {
 
     private final UserService userService;
 
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
+
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
+
 
     @GetMapping
     public List<User> getAllUsers() {
@@ -118,13 +129,26 @@ public class UserController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody User user) {
-        User registeredUser = userService.register(user);
-        if (registeredUser != null) {
-            return ResponseEntity.ok(registeredUser);
+    public ResponseEntity<?> registerUser(@RequestPart("user") String userJson) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            User user = objectMapper.readValue(userJson, User.class);
+
+            User registeredUser = userService.register(user);
+            if (registeredUser != null) {
+                logger.info("User registered successfully");
+                // Return the registered user or user ID here
+                return ResponseEntity.ok(registeredUser);
+            } else {
+                logger.debug("Registered User is null");
+                return ResponseEntity.badRequest().body("Registration failed");
+            }
+        } catch (Exception e) {
+            logger.error("Error during registration", e);
+            return ResponseEntity.internalServerError().body("Registration error");
         }
-        return ResponseEntity.badRequest().body("User could not be registered");
     }
+
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody Map<String, String> credentials) {

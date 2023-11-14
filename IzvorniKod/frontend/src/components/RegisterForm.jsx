@@ -21,6 +21,13 @@ function RegisterForm() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
 
+    // File upload
+    const [criminalRecord, setCriminalRecord] = useState(null);
+    const [identificationDocument, setIdentificationDocument] = useState(null);
+
+    const handleFileChange = (event, setFileState) => {
+        setFileState(event.target.files[0]);
+    }
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -42,28 +49,30 @@ function RegisterForm() {
         };
 
         try {
-            const response = await fetch('http://localhost:8080/api/users/register', {
+            const formData = new FormData();
+            formData.append('user', new Blob([JSON.stringify(user)], { type: "application/json" }));
+            formData.append('criminalRecord', criminalRecord);
+            formData.append('identificationDocument', identificationDocument);
+
+            const response = await fetch('http://localhost:8080/api/registration/complete', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(user),
+                body: formData,
             });
 
             if (response.ok) {
                 const result = await response.json();
-                console.log(result);
-
-                localStorage.setItem('userStatus', result.status);
-
+                // Handle success
+                localStorage.setItem('userStatus', 'registered'); // Update as needed
                 navigate('/login');
             } else {
+                // Handle registration failure
                 setErrorMessage('Registration failed.');
                 console.error('Registration failed:', response.statusText);
             }
         } catch (error) {
-            console.error('An error occurred:', error);
+            // Handle errors that occurred during the fetch call
             setErrorMessage('Registration failed.');
+            console.error('An error occurred:', error);
         }
     };
 
@@ -101,6 +110,16 @@ function RegisterForm() {
                         <PhoneInput defaultCountry="HR" value={phoneNumber}
                                     onChange={setPhoneNumber} required/>
                     </div>
+                </div>
+
+                {/* File Upload Section */}
+                <div className="form-group">
+                    <label>Kaznena Evidencija:</label>
+                    <input type="file" onChange={(e) => handleFileChange(e, setCriminalRecord)} required/>
+                </div>
+                <div className="form-group">
+                    <label>Dokument Identifikacije:</label>
+                    <input type="file" onChange={(e) => handleFileChange(e, setIdentificationDocument)} required/>
                 </div>
 
                 {/* Payment and Security Section */}
