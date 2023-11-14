@@ -16,15 +16,15 @@ public class PrivacySettings {
     @JoinColumn(name = "userSocialMediaId")
     private User user;
 
-    @Column(name = "isFirstNameVisible", nullable = false)
-    private boolean isFirstNameVisible;
+    @Column(name = "firstNameVisible", nullable = false)
+    private boolean firstNameVisible;
 
-    @Column(name = "isSecondNameVisible", nullable = false)
-    private boolean isSecondNameVisible;
+    @Column(name = "lastNameVisible", nullable = false)
+    private boolean lastNameVisible;
 
-    @Column(name = "isEmailNameVisible", nullable = false)
-    private boolean isEmailNameVisible;
+    @Column(name = "emailNameVisible", nullable = false)
+    private boolean emailVisible;
 
-    @Column(name = "isPhoneNumberVisible", nullable = false)
-    private boolean isPhoneNumberVisible;
+    @Column(name = "phoneNumberVisible", nullable = false)
+    private boolean phoneNumberVisible;
 }

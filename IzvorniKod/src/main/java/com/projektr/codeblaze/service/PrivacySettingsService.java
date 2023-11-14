@@ -25,7 +25,7 @@ public class PrivacySettingsService {
     }
 
     public PrivacySettings getPrivacySettings(Long userId) {
-        return privacySettingsRepository.findById(userId).orElse(null);
+        return privacySettingsRepository.findByUserSocialMediaId(userId).orElse(null);
     }
 
     public PrivacySettings initializePrivacySettings(PrivacySettings privacySettings) {
@@ -55,8 +55,8 @@ public class PrivacySettingsService {
 
         // Update fields from DTO.
         privacySettings.setFirstNameVisible(privacySettingsSaveDTO.getPrivacySettings().isFirstNameVisible());
-        privacySettings.setSecondNameVisible(privacySettingsSaveDTO.getPrivacySettings().isSecondNameVisible());
-        privacySettings.setEmailNameVisible(privacySettingsSaveDTO.getPrivacySettings().isEmailNameVisible());
+        privacySettings.setLastNameVisible(privacySettingsSaveDTO.getPrivacySettings().isLastNameVisible());
+        privacySettings.setEmailVisible(privacySettingsSaveDTO.getPrivacySettings().isEmailVisible());
         privacySettings.setPhoneNumberVisible(privacySettingsSaveDTO.getPrivacySettings().isPhoneNumberVisible());
 
         // Save and return the updated/created PrivacySettings.

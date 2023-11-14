@@ -29,10 +29,19 @@ function MyProfile() {
             const nickname = getNicknameFromToken();
             if (nickname) {
                 try {
-                    const response = await fetch(`http://localhost:8080/api/users/by-nickname/${nickname}`);
+                    const response = await fetch(`http://localhost:8080/api/users/by-nickname/${nickname}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    });
+
                     if (response.ok) {
                         const userData = await response.json();
+                        //console.log("OVO JE NAS USER");
+                        //console.log(userData);
                         setUser(userData);
+
                         fetchPrivacySettings(userData.userId);
                     } else {
                         setErrorMessage('Unable to fetch user data.');
@@ -48,10 +57,18 @@ function MyProfile() {
 
         const fetchPrivacySettings = async (userId) => {
             try {
-                console.log("USER ID: ", userId)
-                const response = await fetch(`http://localhost:8080/api/privacy-settings/${userId}`)
+                //console.log("USER ID: ", userId);
+                const response = await fetch(`http://localhost:8080/api/privacy-settings/${userId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
                 if (response.ok) {
                     const settings = await response.json();
+                    //console.log("privacy settings pri kliku na account: ");
+                    //console.log(settings);
                     setPrivacySettings(settings);
                 } else {
                     setErrorMessage('Unable to fetch privacy settings.');
@@ -61,6 +78,9 @@ function MyProfile() {
                 setErrorMessage('An error occurred while fetching privacy settings.');
             }
         };
+
+
+
 
         fetchUserData();
     }, []);
@@ -86,7 +106,10 @@ function MyProfile() {
             });
 
             if (response.ok) {
+                //console.log("ono sta se treba pospremit");
+                //console.log(privacySettings);
                 navigate("/")
+
                 //     TODO POPUP ili ALERT changes have been saved
             } else {
                 // Handle errors here
@@ -150,8 +173,8 @@ function MyProfile() {
                                 <input
                                     type="radio"
                                     name="isFirstNameVisible"
-                                    checked={privacySettings.isFirstNameVisible}
-                                    onChange={() => handlePrivacyChange('isFirstNameVisible', true)}
+                                    checked={privacySettings.firstNameVisible}
+                                    onChange={() => handlePrivacyChange('firstNameVisible', true)}
                                 />
                                 Javno
                             </label>
@@ -159,8 +182,8 @@ function MyProfile() {
                                 <input
                                     type="radio"
                                     name="isFirstNameVisible"
-                                    checked={!privacySettings.isFirstNameVisible}
-                                    onChange={() => handlePrivacyChange('isFirstNameVisible', false)}
+                                    checked={!privacySettings.firstNameVisible}
+                                    onChange={() => handlePrivacyChange('firstNameVisible', false)}
                                 />
                                 Privatno
                             </label>
@@ -174,8 +197,8 @@ function MyProfile() {
                                 <input
                                     type="radio"
                                     name="isLastNameVisible"
-                                    checked={privacySettings.isLastNameVisible}
-                                    onChange={() => handlePrivacyChange('isLastNameVisible', true)}
+                                    checked={privacySettings.lastNameVisible}
+                                    onChange={() => handlePrivacyChange('lastNameVisible', true)}
                                 />
                                 Javno
                             </label>
@@ -183,8 +206,8 @@ function MyProfile() {
                                 <input
                                     type="radio"
                                     name="isLastNameVisible"
-                                    checked={!privacySettings.isLastNameVisible}
-                                    onChange={() => handlePrivacyChange('isLastNameVisible', false)}
+                                    checked={!privacySettings.lastNameVisible}
+                                    onChange={() => handlePrivacyChange('lastNameVisible', false)}
                                 />
                                 Privatno
                             </label>
@@ -199,8 +222,8 @@ function MyProfile() {
                                 <input
                                     type="radio"
                                     name="isPhoneNumberVisible"
-                                    checked={privacySettings.isPhoneNumberVisible}
-                                    onChange={() => handlePrivacyChange('isPhoneNumberVisible', true)}
+                                    checked={privacySettings.phoneNumberVisible}
+                                    onChange={() => handlePrivacyChange('phoneNumberVisible', true)}
                                 />
                                 Javno
                             </label>
@@ -208,8 +231,8 @@ function MyProfile() {
                                 <input
                                     type="radio"
                                     name="isPhoneNumberVisible"
-                                    checked={!privacySettings.isPhoneNumberVisible}
-                                    onChange={() => handlePrivacyChange('isPhoneNumberVisible', false)}
+                                    checked={!privacySettings.phoneNumberVisible}
+                                    onChange={() => handlePrivacyChange('phoneNumberVisible', false)}
                                 />
                                 Privatno
                             </label>
@@ -223,9 +246,9 @@ function MyProfile() {
                             <label>
                                 <input
                                     type="radio"
-                                    name="isEmailVisible"
-                                    checked={privacySettings.isEmailVisible}
-                                    onChange={() => handlePrivacyChange('isEmailVisible', true)}
+                                    name="isEmailNameVisible"
+                                    checked={privacySettings.emailVisible}
+                                    onChange={() => handlePrivacyChange('emailVisible', true)}
                                 />
                                 Javno
                             </label>
@@ -233,8 +256,8 @@ function MyProfile() {
                                 <input
                                     type="radio"
                                     name="isEmailVisible"
-                                    checked={!privacySettings.isEmailVisible}
-                                    onChange={() => handlePrivacyChange('isEmailVisible', false)}
+                                    checked={!privacySettings.emailVisible}
+                                    onChange={() => handlePrivacyChange('emailVisible', false)}
                                 />
                                 Privatno
                             </label>

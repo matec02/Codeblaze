@@ -73,8 +73,8 @@ public class UserService {
         PrivacySettings privacySettings = new PrivacySettings();
         privacySettings.setUser(savedUser);
         privacySettings.setFirstNameVisible(false);
-        privacySettings.setSecondNameVisible(false);
-        privacySettings.setEmailNameVisible(false);
+        privacySettings.setLastNameVisible(false);
+        privacySettings.setEmailVisible(false);
         privacySettings.setPhoneNumberVisible(false);
         privacySettingsService.initializePrivacySettings(privacySettings);
 
