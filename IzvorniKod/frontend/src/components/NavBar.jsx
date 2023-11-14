@@ -73,8 +73,8 @@ function NavBar() {
                 </div>
                 <ul className="navbar-links">
                     <li onClick={(handleNavigation)}>Početna</li>
-                    <li onClick={() => navigate('/scooters')}>Tvoji Romobili</li>
-                    <li onClick={() => navigate('/#')}>Poruke</li>
+                    <li onClick={() => navigate('/scooters')}>Moji Romobili</li>
+                    <li onClick={() => navigate('/chat-panel')}>Poruke</li>
                 </ul>
                 {(localStorage.getItem('authToken')) ? (
                     <div className="navbar-account" onClick={() => navigate('/profile')}>

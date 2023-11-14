@@ -7,7 +7,7 @@ function MyScooter() {
     const [scooters, setScooters] = useState([]);
     const [activeTab, setActiveTab] = useState('viewScooters'); // 'viewScooters' or 'addScooter'
 
-    useEffect( () => {
+    useEffect(() => {
         handleViewScooters()
     })
     const addScooter = (newScooter) => {
@@ -39,22 +39,23 @@ function MyScooter() {
 
     return (
         <div className="my-scooter-container">
-            <h2>My Scooters</h2>
             <div className="tabs">
+
                 <button onClick={() => setActiveTab('viewScooters')}
                         className={activeTab === 'viewScooters' ? 'active' : ''}>
-                    View Scooters
+                    Pregled romobila
                 </button>
+
                 <button onClick={() => setActiveTab('addScooter')}
                         className={activeTab === 'addScooter' ? 'active' : ''}>
-                    Add Scooter
+                    Dodaj romobil
                 </button>
             </div>
-
+            <h2>Moji romobili</h2>
             {activeTab === 'viewScooters' && (
                 <div className="scooter-list">
                     {scooters.map((scooter, index) => (
-                        <div  onClick={() => handleViewScooters(scooter)}>
+                        <div onClick={() => handleViewScooters(scooter)}>
                             <ScooterCard key={index} scooter={scooter}/>
                         </div>
                     ))}

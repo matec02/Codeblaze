@@ -23,14 +23,16 @@
 }
 
 .scooter-name {
-    font-size: 1.2em;
+    font-size: 1.4em; /* Povećana veličina fonta */
     font-weight: bold;
-    margin-bottom: 4px;
+    margin-bottom: 8px; /* Povećan razmak */
+    text-align: left; /* Poravnanje teksta ulijevo */
 }
 
 .scooter-details p {
     margin: 4px 0;
     line-height: 1.4;
+    text-align: left;
 }
 
 .scooter-button {
