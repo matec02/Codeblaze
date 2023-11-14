@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './AdminDashboard.css'
 import {Link} from "react-router-dom";
+import {getNicknameFromToken} from "./RegisterScooterForm";
 
 function AdminDashboard() {
     const [pendingUsers, setPendingUsers] = useState([]);
@@ -35,11 +36,13 @@ function AdminDashboard() {
             }
 
             if (status === 'ACCEPTED') {
-                handleRoleChange(userId, "USER")
+                let role = 'USER'
+                handleRoleChange(userId, role);
                 setPendingUsers(prevUsers => prevUsers.filter(user => user.userId !== userId));
-                const acceptedUser = pendingUsers.find(user => user.userId === userId);
+                setBlockedUsers(prevUsers => prevUsers.filter(user => user.userId !== userId));
+                const acceptedUser = pendingUsers.find(user => user.userId === userId) || blockedUsers.find(user => user.userId === userId);
                 if (acceptedUser) {
-                    setAcceptedUsers(prevUsers => [...prevUsers, { ...acceptedUser, status }]);
+                    setAcceptedUsers(prevUsers => [...prevUsers, { ...acceptedUser, status, role: role }]);
                 }
             } else if (status === 'REJECTED') {
                 const rejectedUser = pendingUsers.find(user => user.userId === userId);
@@ -84,6 +87,14 @@ function AdminDashboard() {
                     setAdmins(prevAdmins => [...prevAdmins, { ...adminUser, role }]);
                     // Remove from accepted users list
                     setAcceptedUsers(prevUsers => prevUsers.filter(user => user.userId !== userId));
+                }
+            } else if ( role === 'USER') {
+                const User = admins.find(user => user.userId === userId);
+                if (User) {
+                    // Add to admins list
+                    setAcceptedUsers(prevAccepted => [...prevAccepted, { ...User, role }]);
+                    // Remove from accepted users list
+                    setAdmins(prevUsers => prevUsers.filter(user => user.userId !== userId));
                 }
             }
 
@@ -172,6 +183,28 @@ function AdminDashboard() {
         </>
     );
 
+    const removeAdmin = (user) => {
+        // Assuming getNicknameFromToken() gets the nickname of the currently logged-in user
+        const currentUserNickname = getNicknameFromToken();
+
+        return (
+            <>
+                {(user.nickname !== currentUserNickname && user.nickname !== "admin") ? (
+                    <button className="block" onClick={() => handleRoleChange(user.userId, 'USER')}>
+                        Remove Admin
+                    </button>
+                ):(<span>No possible actions</span>)
+                }
+            </>
+        );
+    };
+
+    const unblockUser = (user) => (
+        <>
+            <button className="make-admin" onClick={() => handleStatusChange(user.userId, 'ACCEPTED')}>Unblock User</button>
+        </>
+    );
+
 
     return (
 
@@ -188,8 +221,8 @@ function AdminDashboard() {
                 </div>
                 <UserTable users={pendingUsers} category="Pending Users" renderActions={renderPendingActions} id="pendingUsers" />
                 <UserTable users={acceptedUsers} category="Accepted Users" renderActions={renderAcceptedActions} id="acceptedUsers"/>
-                <UserTable users={admins} category="ADMINS" id="admins"/>
-                <UserTable users={blockedUsers} category="BLOCKED USERS" id="blockedUsers"/>
+                <UserTable users={admins} category="ADMINS" id="admins" renderActions={removeAdmin}/>
+                <UserTable users={blockedUsers} category="BLOCKED USERS" id="blockedUsers" renderActions={unblockUser}/>
                 <UserTable users={rejectedUsers} category="Rejected Users" id="rejectedUsers"/>
             </div>
 
