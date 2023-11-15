@@ -1,0 +1,203 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* subtle shadow for depth */
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center; /* Center-align data */
+    vertical-align: middle; /* Align data vertically in the middle */
+}
+
+th {
+    background-color: #eaecef; /* Smooth, light gray background for the header */
+    color: #333; /* Darker text for contrast */
+    font-size: 16px;
+}
+
+
+tbody tr:hover {
+    background-color: #f1f1f1; /* Slight change in background color on hover */
+}
+
+.approve {
+    padding: 6px 12px;
+    background-color: #4da852; /* A pleasant green background for buttons */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.approve:hover {
+    background-color: #8ae58c; /* Darker shade of green on hover */
+}
+
+.adminNavBar {
+    background-color: #f2f2f2; /* Light gray background */
+    padding: 10px 20px; /* Padding around the content */
+    margin-bottom: 20px; /* Space below the navbar */
+    text-align: center; /* Center the links */
+    border-radius: 5px; /* Slightly rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+h1 {
+    text-align: center; /* Centers the text */
+    color: #332929; /* White text for readability */
+    padding: 20px; /* Adds space around the text */
+    margin-top: 0; /* Removes the default top margin */
+    border-radius: 5px; /* Rounds the corners of the background */
+}
+
+h3 {
+    background-color: #555; /* Slightly lighter background than h1 */
+    color: #fff; /* Maintains white text for consistency */
+    padding: 10px; /* Less padding than h1 to denote less importance */
+    margin-top: 30px; /* Adds separation from the content above */
+    text-align: center; /* Aligns text to the left */
+    border-bottom: 2px solid #777; /* Adds a subtle border */
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Ensure it's above other content */
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+    overflow-y: auto;
+}
+
+.modal-content img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Target the action buttons specifically within the user table */
+.user-table-action-buttons {
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* Apply to all cells within the user table if needed */
+.user-table td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* If the button inside the user table cells needs centering */
+.user-table-button {
+    display: block;
+    margin: 0 auto;
+    /* Other styles */
+}
+
+
+.action-buttons {
+    text-align: center; /* Center the content of the cell */
+    padding: 8px; /* Add some padding */
+}
+
+.action-buttons button {
+    margin: 0 5px; /* Add space between buttons */
+    /* Additional button styles */
+}
+
+/* You might also want to add styles for the buttons themselves */
+button.approve, button.reject, button.make-admin, button.block {
+    padding: 5px 10px; /* Padding inside the buttons */
+    border: none; /* Remove the border */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Change the cursor to a pointer */
+    /* Add more styles if needed */
+}
+
+button.approve, button.make-admin {
+    background-color: #4CAF50; /* Green background for approve */
+    color: white;
+}
+
+button.reject, button.block {
+    background-color: #f44336; /* Red background for reject */
+    color: white;
+}
+
+/* Hover effect for buttons */
+button.approve:hover {
+    background-color: #45a049;
+}
+
+button.reject:hover {
+    background-color: #d32f2f;
+}
+
+
+.adminNavBar a {
+    color: #333; /* Darker text color for better contrast */
+    margin: 0 10px; /* Spacing between links */
+    text-decoration: none; /* Remove underline from links */
+    font-weight: bold; /* Make text bold */
+}
+
+.adminNavBar a:hover {
+    color: #007bff; /* Change color on hover for interactivity */
+    text-decoration: underline; /* Add underline on hover */
+}
+
+/* Other styles... */
+
+/* Responsive table */
+@media screen and (max-width: 800px) {
+    /* Make table rows behave like rows */
+    table, thead, tbody, tr {
+        display: block;
+    }
+
+    /* Hide table headers */
+    thead {
+        display: none;
+    }
+
+    /* Style each cell */
+    td {
+        display: block;
+        text-align: right;
+        padding-left: 50%;  /* Adjust as needed */
+        position: relative;
+    }
+
+    /* Add the header text before each cell */
+    td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 0;
+        width: 50%;  /* Adjust as needed */
+        padding-right: 10px; /* Space between header text and cell content */
+        font-weight: bold;
+        text-align: left;
+    }
+
+    /* Additional styling for cells to separate them visually */
+    td {
+        border-bottom: 1px solid #ddd;
+        padding: 8px;
+    }
+}
+
