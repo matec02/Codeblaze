@@ -26,7 +26,7 @@ public class ScooterService {
     private final ScooterRepository scooterRepository;
     private static final Logger logger = LoggerFactory.getLogger(DocumentService.class);
 
-    private static String UPLOAD_FOLDER  = "./IzvorniKod/src/main/resources/static/images/";
+    private static String UPLOAD_FOLDER  = "./IzvorniKod/src/main/resources/static/images";
 
     @Autowired
     public ScooterService(ScooterRepository scooterRepository){
@@ -83,10 +83,11 @@ public class ScooterService {
     }
 
     @Transactional
-    public Scooter registerScooterAndUploadPhoto(Scooter scooter, MultipartFile scooterPhoto, User user) throws IOException {
-        String photoPath = saveFile(scooterPhoto, "SP", user);
+    public Scooter registerScooterAndUploadPhoto(Scooter scooter, User user, String photoUrl) throws IOException {
+//        String photoPath = saveFile(scooterPhoto, "SP", user);
+        logger.error(photoUrl);
         scooter.setUser(user);
-        scooter.setImagePath(photoPath);
+        scooter.setImagePath(photoUrl);
         scooter.setAvailability(false);
         return scooterRepository.save(scooter);
     }

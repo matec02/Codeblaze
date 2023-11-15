@@ -20,7 +20,7 @@ public class DocumentController {
     private final DocumentService documentService;
     private final UserService userService;
 
-    private static String UPLOAD_FOLDER  = "./IzvorniKod/src/main/resources/static/images/";
+    private static String UPLOAD_FOLDER  = "./IzvorniKod/src/main/resources/static/images";
 
 
     @Autowired

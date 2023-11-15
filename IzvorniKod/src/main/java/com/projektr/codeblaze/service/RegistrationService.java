@@ -24,20 +24,16 @@ public class RegistrationService {
     private DocumentService documentService;
 
     @Transactional
-    public User registerUserAndUploadDocuments(User user, MultipartFile criminalRecordFile, MultipartFile identificationDocumentFile) throws IOException {
+    public User registerUserAndUploadDocuments(User user, String criminalRecordFile, String identificationDocumentFile) throws IOException {
         User registeredUser = userService.register(user);
 
         logger.info("Preparing to save documents!");
-
-        String criminalRecordPath = documentService.saveFile(criminalRecordFile, registeredUser, "CR").substring(2);
-        String identificationDocumentPath = documentService.saveFile(identificationDocumentFile, registeredUser, "ID").substring(2);
-
         logger.info("Successfully saved the documents!");
 
         Document document = new Document();
         document.setUser(registeredUser);
-        document.setPathCriminalRecord(criminalRecordPath);
-        document.setPathIdentification(identificationDocumentPath);
+        document.setPathCriminalRecord(criminalRecordFile);
+        document.setPathIdentification(identificationDocumentFile);
         document.setStatus(DocumentStatus.PENDING);
 
         documentService.saveDocumentPaths(document);

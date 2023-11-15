@@ -10,6 +10,7 @@ function MyScooter() {
     useEffect(() => {
         handleViewScooters();
     }, []);
+
     const addScooter = (newScooter) => {
         setScooters([...scooters, newScooter]);
         setActiveTab('viewScooters'); // Switch back to the view tab after adding
@@ -23,13 +24,11 @@ function MyScooter() {
                     'Content-Type': 'application/json',
                 },
             });
-
             if (!response.ok) {
                 throw new Error(`Error: ${response.status}`);
             }
 
             const data = await response.json();
-
             setScooters(data);
 
         } catch (error) {
@@ -39,17 +38,18 @@ function MyScooter() {
 
     return (
         <div className="my-scooter-container">
+            <h2>My Scooters</h2>
             <div className="tabs">
                 <button onClick={() => setActiveTab('viewScooters')}
                         className={activeTab === 'viewScooters' ? 'active' : ''}>
-                    Pregled romobila
+                    View Scooters
                 </button>
                 <button onClick={() => setActiveTab('addScooter')}
                         className={activeTab === 'addScooter' ? 'active' : ''}>
-                    Dodaj romobil
+                    Add Scooter
                 </button>
             </div>
-            <h2>Moji romobili</h2>
+
             {activeTab === 'viewScooters' && (
                 <div className="scooter-list">
                     {scooters.map((scooter, index) => (

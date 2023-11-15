@@ -25,7 +25,7 @@ public class DocumentService {
     private final DocumentRepository documentRepository;
     private static final Logger logger = LoggerFactory.getLogger(DocumentService.class);
 
-    private static String UPLOAD_FOLDER  = "./IzvorniKod/src/main/resources/static/images/";
+    private static String UPLOAD_FOLDER  = "./IzvorniKod/src/main/resources/static/images";
 
     @Autowired
     public DocumentService(DocumentRepository documentRepository) {

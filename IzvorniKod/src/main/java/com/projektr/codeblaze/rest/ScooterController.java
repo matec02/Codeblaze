@@ -38,6 +38,7 @@ public class ScooterController {
         }
         return ResponseEntity.ok(scooters);
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<Scooter> getScooterById(@PathVariable Long id) {
         return scooterService.getScooterById(id)
@@ -59,15 +60,16 @@ public class ScooterController {
     @PostMapping(value = "/register", consumes = "multipart/form-data")
     public ResponseEntity<?> registerScooter(
             @RequestPart("scooter") String scooterJson,
-            @RequestPart("scooterFile") MultipartFile scooterPhoto,
+            @RequestPart("photoUrl") String photoUrlJson,
             @RequestPart("user") String userJson) {
 
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             User user = objectMapper.readValue(userJson, User.class);
             Scooter scooter = objectMapper.readValue(scooterJson, Scooter.class);
+            String photoUrl = objectMapper.readValue(photoUrlJson, String.class);
 
-            Scooter registeredScooter = scooterService.registerScooterAndUploadPhoto(scooter, scooterPhoto, user);
+            Scooter registeredScooter = scooterService.registerScooterAndUploadPhoto(scooter, user, photoUrl);
 
             if (registeredScooter != null) {
                 return ResponseEntity.ok(registeredScooter);

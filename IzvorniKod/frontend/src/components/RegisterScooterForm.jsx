@@ -66,34 +66,61 @@ function RegisterScooterForm() {
             }
             const user = await userResponse.json();
 
-            const formData = new FormData();
-            formData.append('user', new Blob([JSON.stringify(user)], { type: "application/json" }));
-            formData.append('scooter', new Blob([JSON.stringify(scooter)], { type: "application/json" }));
-            formData.append('scooterFile', scooterPhoto);
+            const imageFormData = new FormData();
+            imageFormData.append('file', scooterPhoto);
+            imageFormData.append('userkey', "fgJxNmfTGEu8wVx8yi21OVuUxeDefFXn");
 
-            const response = await fetch('http://localhost:8080/api/scooters/register', {
-                method: 'POST',
-                body: formData,
-            });
+            try {
+                const imageUploadResponse = await fetch('https://vgy.me/upload', {
+                    method: 'POST',
+                    body: imageFormData,
+                });
 
-            if (response.ok) {
-                const result = await response.json();
-                console.log("Scooter Registered: ", result);
-                const handleScootersAndUpgradeRole = async () => {
-                    const result = await checkScootersAndUpgrade(user.userId);
-                if (result.success) {
-                    setLoginNotification('Please log in again to update your permissions.');
-                    setTimeout(() => setLoginNotification(''), 5000);
+                if (!imageUploadResponse.ok) {
+                    throw new Error('Failed to upload image.');
                 }
+
+                const imageUploadResult = await imageUploadResponse.json();
+                console.log(imageUploadResult)
+                const photoUrl = imageUploadResult.image;
+
+                const formData = new FormData();
+                formData.append('user', new Blob([JSON.stringify(user)], { type: "application/json" }));
+                formData.append('scooter', new Blob([JSON.stringify(scooter)], { type: "application/json" }));
+                formData.append('photoUrl', new Blob([JSON.stringify(photoUrl)], { type: "application/json" }));
+
+                const response = await fetch('http://localhost:8080/api/scooters/register', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    console.log("Scooter Registered: ", result);
+                    const handleScootersAndUpgradeRole = async () => {
+                        const result = await checkScootersAndUpgrade(user.userId);
+                        if (result.success) {
+                            setLoginNotification('Please log in again to update your permissions.');
+                            setTimeout(() => setLoginNotification(''), 5000);
+                        }
+                    }
+                    setShowNotification(true);
+                    setTimeout(() => {
+                        setShowNotification(false);
+                        navigate('/home'); // Navigate after the notification
+                    }, 3000);
+                } else {
+                    setErrorMessage('Scooter registration failed.');
+                    console.error('Scooter registration failed:', response.statusText);
                 }
-                setShowNotification(true);
-                setTimeout(() => {
-                    setShowNotification(false);
-                    navigate('/home'); // Navigate after the notification
-                }, 3000);
-            } else {
-                setErrorMessage('Scooter registration failed.');
-                console.error('Scooter registration failed:', response.statusText);
+
+
+
+                const scooterData = { ...scooter, imagePath: photoUrl };
+
+            } catch (error) {
+                console.error('Image upload error:', error);
+                setErrorMessage('Image upload failed.');
             }
         } catch (error) {
             console.error('An error occurred:', error);

@@ -49,25 +49,60 @@ function RegisterForm() {
         };
 
         try {
-            const formData = new FormData();
-            formData.append('user', new Blob([JSON.stringify(user)], { type: "application/json" }));
-            formData.append('criminalRecord', criminalRecord);
-            formData.append('identificationDocument', identificationDocument);
+            const formDataCR = new FormData();
+            formDataCR.append('file', criminalRecord);
+            formDataCR.append('userkey', "fgJxNmfTGEu8wVx8yi21OVuUxeDefFXn");
 
-            const response = await fetch('http://localhost:8080/api/registration/complete', {
+            const responseCR = await fetch('https://vgy.me/upload', {
                 method: 'POST',
-                body: formData,
+                body: formDataCR,
             });
 
-            if (response.ok) {
-                const result = await response.json();
-                // Handle success
-                localStorage.setItem('userStatus', 'registered'); // Update as needed
-                navigate('/login');
+            console.log("OKEJ");
+            if (responseCR.ok) {
+                const imageUploadCR = await responseCR.json();
+
+                const photoUrlCR = imageUploadCR.image;
+
+
+                const formDataID = new FormData();
+                formDataID.append('file', identificationDocument);
+                formDataID.append('userkey', "fgJxNmfTGEu8wVx8yi21OVuUxeDefFXn");
+
+                const responseID = await fetch('https://vgy.me/upload', {
+                    method: 'POST',
+                    body: formDataID,
+                });
+
+                    if (responseID.ok) {
+                        const imageUploadId = await responseID.json();
+
+                        const photoUrlID = imageUploadId.image;
+                        const registrationFormData = new FormData();
+
+                        registrationFormData.append("photoUrlCR", new Blob([JSON.stringify(photoUrlCR)], {type: "application/json"}));
+                        registrationFormData.append("photoUrlID", new Blob([JSON.stringify(photoUrlID)], {type: "application/json"}));
+                        registrationFormData.append('user', new Blob([JSON.stringify(user)], {type: "application/json"}));
+
+                        const response = await fetch('http://localhost:8080/api/registration/complete', {
+                            method: 'POST',
+                            body: registrationFormData,
+                        });
+
+                        if (response.ok) {
+                            const result = await response.json();
+                            localStorage.setItem('userStatus', 'registered'); // Update as needed
+                            navigate('/login');
+                        } else {
+                            console.error("Registration API failed")
+                        }
+                    } else {
+                        console.error('ResponseId failed to upload');
+                    }
             } else {
                 // Handle registration failure
                 setErrorMessage('Registration failed.');
-                console.error('Registration failed:', response.statusText);
+                console.error('Registration failed:', responseCR.statusText);
             }
         } catch (error) {
             // Handle errors that occurred during the fetch call
