@@ -1,6 +1,6 @@
 export const upgradeUserRole = async (userId) => {
     try {
-        const upgradeResponse = await fetch(`http://localhost:8080/api/users/upgrade-role/${userId}`, {
+        const upgradeResponse = await fetch(`/api/users/upgrade-role/${userId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

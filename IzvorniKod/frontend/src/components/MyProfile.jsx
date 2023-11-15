@@ -29,7 +29,7 @@ function MyProfile() {
             const nickname = getNicknameFromToken();
             if (nickname) {
                 try {
-                    const response = await fetch(`http://localhost:8080/api/users/by-nickname/${nickname}`, {
+                    const response = await fetch(`/api/users/by-nickname/${nickname}`, {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ function MyProfile() {
         const fetchPrivacySettings = async (userId) => {
             try {
                 //console.log("USER ID: ", userId);
-                const response = await fetch(`http://localhost:8080/api/privacy-settings/${userId}`, {
+                const response = await fetch(`/api/privacy-settings/${userId}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -97,7 +97,7 @@ function MyProfile() {
         try {
             const PrivacySettingsSaveDTO = {user: user, privacySettings: privacySettings};
 
-            const response = await fetch(`http://localhost:8080/api/privacy-settings/save`, {
+            const response = await fetch(`/api/privacy-settings/save`, {
                 method: 'POST', // or 'PATCH' depending on your API
                 headers: {
                     'Content-Type': 'application/json',

@@ -16,11 +16,11 @@ function AdminDashboard() {
     const [currentImageSrc, setCurrentImageSrc] = useState('');
 
     useEffect(() => {
-        fetchUsers("http://localhost:8080/api/users/pendingUsers", setPendingUsers);
-        fetchUsers("http://localhost:8080/api/users/acceptedUsers", setAcceptedUsers);
-        fetchUsers("http://localhost:8080/api/users/admins", setAdmins);
-        fetchUsers("http://localhost:8080/api/users/blockedUsers", setBlockedUsers);
-        fetchUsers("http://localhost:8080/api/users/rejectedUsers", setRejectedUsers);
+        fetchUsers("/api/users/pendingUsers", setPendingUsers);
+        fetchUsers("/api/users/acceptedUsers", setAcceptedUsers);
+        fetchUsers("/api/users/admins", setAdmins);
+        fetchUsers("/api/users/blockedUsers", setBlockedUsers);
+        fetchUsers("/api/users/rejectedUsers", setRejectedUsers);
         handleDocument();
 
     }, []);
@@ -36,7 +36,7 @@ function AdminDashboard() {
 
     const handleDocument = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/api/documents/all`, {
+            const response = await fetch(`/api/documents/all`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -59,7 +59,7 @@ function AdminDashboard() {
 
     const handleStatusChange = async (userId, status) => {
         try {
-            const response = await fetch(`http://localhost:8080/api/users/${userId}/update-status`, {
+            const response = await fetch(`/api/users/${userId}/update-status`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -104,7 +104,7 @@ function AdminDashboard() {
 
     const handleRoleChange = async (userId, role) => {
         try {
-            const response = await fetch(`http://localhost:8080/api/users/${userId}/update-role`, {
+            const response = await fetch(`/api/users/${userId}/update-role`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

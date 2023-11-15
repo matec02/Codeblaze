@@ -2,7 +2,7 @@ import { upgradeUserRole } from "../utils/UpgradeUserRole"
 
 export const checkScootersAndUpgrade = async (ownerId) => {
     try {
-        const response = await fetch(`http://localhost:8080/api/scooters/owner/${ownerId}`, {
+        const response = await fetch(`/api/scooters/owner/${ownerId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
