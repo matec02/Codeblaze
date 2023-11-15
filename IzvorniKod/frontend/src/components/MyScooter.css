@@ -25,7 +25,7 @@
 
 .scooter-card-container:hover {
     transform: translateY(-5px);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 /* Register Scooter Form Styling */
@@ -33,7 +33,7 @@
     background-color: #ffffff;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     margin-top: 20px;
 }
 
@@ -54,8 +54,8 @@
 }
 
 .register-scooter-form button {
-    background-color: #0056b3;
-    color: white;
+    background-color: #000;
+    color: #FFD860;
     padding: 10px 20px;
     border: none;
     border-radius: 4px;
@@ -65,7 +65,9 @@
 }
 
 .register-scooter-form button:hover {
-    background-color: #004494;
+    background-color: #FFD860;
+    color: black;
+    transition: background-color 0.3s ease;
 }
 
 .tabs {
@@ -78,16 +80,23 @@
     padding: 10px 20px;
     margin: 0 10px;
     border: 1px solid #ddd;
-    background-color: white;
+    background-color: #000;
+    color: #FFD860;
+    font-weight: bold;
     cursor: pointer;
     border-radius: 4px;
     transition: background-color 0.3s ease;
 }
 
 .tabs button.active {
-    border-color: #0056b3;
-    background-color: #0056b3;
-    color: white;
+    background-color: #FFD860;
+    color: black;
+}
+
+.tabs button:hover {
+    background-color: #FFD860;
+    color: black;
+    transition: background-color 0.3s ease;
 }
 
 .scooter-list {

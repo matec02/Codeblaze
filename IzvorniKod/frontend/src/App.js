@@ -18,6 +18,9 @@ import MyProfile from "./components/MyProfile";
 import AdminRoute from "./components/AdminRoute";
 import ProtectedRoutes from "./components/ProtectedRoutes"
 import Unauthorized from "./components/Unauthorized";
+import ChatPanel from "./components/ChatPanel";
+import ChatWindow from "./components/ChatWindow";
+import ChatMessage from "./components/ChatMessage";
 
 /* Import for ScooterCard test
 import ScooterCard from "./components/ScooterCard";*/
@@ -33,12 +36,19 @@ function App() {
                 <Route path="/home" element={<Home/>}/>
                 <Route path="/login" element={<LoginForm/>}/>
                 <Route path="/register" element={<RegisterForm/>}/>
+                <Route path="/chat-panel" element={<ChatPanel/>}/>
+                <Route path="/chat-window" element={<ChatWindow/>}/>
+                <Route path="/chat-message" element={<ChatMessage/>}/>
 
                 <Route path="/profile-pending" element={
-                    <ProfilePending />
+                    <ProtectedRoutes>
+                        <ProfilePending />
+                    </ProtectedRoutes>
                 }/>
                 <Route path="/profile-blocked" element={
-                    <ProfileBlocked />
+                    <ProtectedRoutes>
+                        <ProfileBlocked />
+                    </ProtectedRoutes>
                 }/>
                 <Route path="/scooters" element={
                     <ProtectedRoutes>

@@ -39,6 +39,67 @@ public class DataInitializer {
                 // Save the admin user using UserService
                 userService.save(admin);
             }
+            if (userService.getUserByNickname("MLJ22") == null) {
+                User marko = new User();
+                marko.setUserId(2L);
+                marko.setNickname("MLJ22");
+                marko.setFirstName("Marko");
+                marko.setLastName("Ljubić");
+                marko.setPassword("marko");
+                marko.setRole(UserRole.USER);
+                marko.setStatus(UserStatus.BLOCKED);
+                marko.setEmail("marko@gmail.com");
+                marko.setCardNumber("123");
+                marko.setPhoneNumber("+3859123");
+
+                userService.save(marko);
+            }
+            if (userService.getUserByNickname("AA11") == null) {
+                User ana = new User();
+                ana.setUserId(3L);
+                ana.setNickname("AA11");
+                ana.setFirstName("Ana");
+                ana.setLastName("Anić");
+                ana.setPassword("ana");
+                ana.setRole(UserRole.GUEST);
+                ana.setStatus(UserStatus.REJECTED);
+                ana.setEmail("ana@gmail.com");
+                ana.setCardNumber("456");
+                ana.setPhoneNumber("+38592456");
+
+                userService.save(ana);
+            }
+            if (userService.getUserByNickname("II31") == null) {
+                User ivo = new User();
+                ivo.setUserId(4L);
+                ivo.setNickname("II31");
+                ivo.setFirstName("Ivo");
+                ivo.setLastName("Ivić");
+                ivo.setPassword("ivo");
+                ivo.setRole(UserRole.USER);
+                ivo.setStatus(UserStatus.ACCEPTED);
+                ivo.setEmail("ivo@gmail.com");
+                ivo.setCardNumber("367");
+                ivo.setPhoneNumber("+38591367");
+
+                userService.save(ivo);
+            }
+
+            if (userService.getUserByNickname("LL97") == null) {
+                User luka = new User();
+                luka.setUserId(5L);
+                luka.setNickname("LL97");
+                luka.setFirstName("Luka");
+                luka.setLastName("Lukić");
+                luka.setPassword("luka");
+                luka.setRole(UserRole.GUEST);
+                luka.setStatus(UserStatus.PENDING);
+                luka.setEmail("luka@gmail.com");
+                luka.setCardNumber("2865");
+                luka.setPhoneNumber("+385972865");
+
+                userService.save(luka);
+            }
         };
     }
 }

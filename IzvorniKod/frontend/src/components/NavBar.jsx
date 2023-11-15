@@ -95,9 +95,9 @@ function NavBar() {
                     <img src={logo} alt="Logo" />
                 </div>
                 <ul className="navbar-links">
-                    <li onClick={() => navigate('/')}>Početna</li>
-                    <li onClick={() => navigate('/scooters')}>Tvoji Romobili</li>
-                    <li onClick={() => navigate('/#')}>Poruke</li>
+                    <li onClick={(handleNavigation)}>Početna</li>
+                    <li onClick={() => navigate('/scooters')}>Moji Romobili</li>
+                    <li onClick={() => navigate('/chat-panel')}>Poruke</li>
                 </ul>
                 {localStorage.getItem('authToken') ? (
                     <div className="navbar-account">
@@ -124,6 +124,7 @@ function NavBar() {
                 )}
             </nav>
         </header>
+
     );
 }
 
