@@ -7,7 +7,6 @@ import lombok.Data;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
 @Entity

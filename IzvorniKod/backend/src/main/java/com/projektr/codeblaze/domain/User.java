@@ -3,8 +3,6 @@ package com.projektr.codeblaze.domain;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.List;
-
 @Data
 @Entity
 @Table(name = "\"user\"")

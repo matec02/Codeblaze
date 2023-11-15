@@ -1,6 +1,5 @@
 package com.projektr.codeblaze.domain;
 
-import jakarta.jws.soap.SOAPBinding;
 import jakarta.persistence.*;
 import lombok.Data;
 
