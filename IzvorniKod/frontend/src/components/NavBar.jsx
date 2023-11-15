@@ -2,11 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import myAccount from '../assets/my-account.png';
 import logo from '../assets/CodeblazeLogo.png';
-import { jwtDecode } from 'jwt-decode';
+import {getNicknameFromToken} from "./RegisterScooterForm";
 
 function NavBar() {
     const navigate = useNavigate();
-    const [loggedUserNickname, setLoggedUserNickname] = useState(null);
     const [admins, setAdmins] = useState([]);
     const [showDropdown, setShowDropdown] = useState(false);
     const [acceptedUsers, setAcceptedUsers] = useState([]);
@@ -15,15 +14,6 @@ function NavBar() {
     useEffect(() => {
         fetchUsers("http://localhost:8080/api/users/acceptedUsers", setAcceptedUsers);
         fetchUsers("http://localhost:8080/api/users/admins", setAdmins);
-        const token = localStorage.getItem('authToken');
-        if (token) {
-            try {
-                const decodedToken = jwtDecode(token); // Corrected usage
-                setLoggedUserNickname(decodedToken.nickname);
-            } catch (error) {
-                console.error("Error decoding token: ", error);
-            }
-        }
     }, []);
 
     const dropdownRef = useRef(null);
@@ -80,7 +70,7 @@ function NavBar() {
     const handleNavigation = () => {
         let path = '/';
 
-        const isAdmin = admins.some(admin => admin.nickname === loggedUserNickname);
+        const isAdmin = admins.some(admin => admin.nickname === getNicknameFromToken());
 
         if (isAdmin) {
             path = '/admin-home';
@@ -91,11 +81,11 @@ function NavBar() {
     return (
         <header>
             <nav className="navbar">
-                <div className="navbar-logo" onClick={() => navigate('/')}>
+                <div className="navbar-logo" onClick={handleNavigation}>
                     <img src={logo} alt="Logo" />
                 </div>
                 <ul className="navbar-links">
-                    <li onClick={() => navigate('/')}>Početna</li>
+                    <li onClick={handleNavigation}>Početna</li>
                     <li onClick={() => navigate('/scooters')}>Tvoji Romobili</li>
                     <li onClick={() => navigate('/#')}>Poruke</li>
                 </ul>
@@ -103,7 +93,7 @@ function NavBar() {
                     <div className="navbar-account">
                         <button onClick={toggleDropdown}>
                             <img src={myAccount} alt="My Account" />
-                            <span>{loggedUserNickname}</span>
+                            <span>{getNicknameFromToken()}</span>
                         </button>
                         {showDropdown && (
                             <div className="dropdown-menu" ref={dropdownRef}>

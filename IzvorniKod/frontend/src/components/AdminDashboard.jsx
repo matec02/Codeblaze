@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import './AdminDashboard.css'
 import {Link} from "react-router-dom";
+import ImageNotFound from '../assets/ImageNotFound.png';
 import {getNicknameFromToken} from "./RegisterScooterForm";
 
 function AdminDashboard() {
@@ -10,6 +11,9 @@ function AdminDashboard() {
     const [blockedUsers, setBlockedUsers] = useState([]);
     const [rejectedUsers, setRejectedUsers] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
+    const [documents, setDocuments] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [currentImageSrc, setCurrentImageSrc] = useState('');
 
     useEffect(() => {
         fetchUsers("http://localhost:8080/api/users/pendingUsers", setPendingUsers);
@@ -17,8 +21,41 @@ function AdminDashboard() {
         fetchUsers("http://localhost:8080/api/users/admins", setAdmins);
         fetchUsers("http://localhost:8080/api/users/blockedUsers", setBlockedUsers);
         fetchUsers("http://localhost:8080/api/users/rejectedUsers", setRejectedUsers);
+        handleDocument();
+
     }, []);
 
+    const openModal = useCallback((imageSrc) => {
+        setCurrentImageSrc(imageSrc);
+        setIsModalOpen(true);
+    }, []);
+
+    const closeModal = useCallback(() => {
+        setIsModalOpen(false);
+    }, []);
+
+    const handleDocument = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/documents/all`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log("dokumenti");
+            console.log(data);
+            setDocuments(data);
+
+        } catch (error) {
+            console.error("Failed to fetch documents: ", error);
+        }
+    };
 
     const handleStatusChange = async (userId, status) => {
         try {
@@ -129,7 +166,7 @@ function AdminDashboard() {
         }
     };
 
-    const UserTable = ({ users, category, renderActions, id }) => {
+    const UserTable = ({ users, category, renderActions, id, documents }) => {
         return (
             <div id={id}>
                 <h3>{category}</h3>
@@ -144,22 +181,34 @@ function AdminDashboard() {
                             <th>Phone Number</th>
                             <th>Role</th>
                             <th>Status</th>
+                            <th>Criminal Record Picture</th>
+                            <th>Identification Picture</th>
                             {renderActions && <th>Actions</th>}
                         </tr>
                         </thead>
                         <tbody>
-                        {users.map(user => (
-                            <tr key={user.userId}>
-                                <td>{user.nickname}</td>
-                                <td>{user.firstName}</td>
-                                <td>{user.lastName}</td>
-                                <td>{user.email}</td>
-                                <td>{user.phoneNumber}</td>
-                                <td>{user.role}</td>
-                                <td>{user.status}</td>
-                                <td className="action-buttons">{renderActions && renderActions(user)}</td>
-                            </tr>
-                        ))}
+                        {users.map(user => {
+                            // Find the document for the current user
+                            const document = documents.find(doc => doc.user.userId === user.userId);
+                            return (
+                                <tr key={user.userId}>
+                                    <td>{user.nickname}</td>
+                                    <td>{user.firstName}</td>
+                                    <td>{user.lastName}</td>
+                                    <td>{user.email}</td>
+                                    <td>{user.phoneNumber}</td>
+                                    <td>{user.role}</td>
+                                    <td>{user.status}</td>
+                                    <td className="user-table-action-buttons">
+                                        <button className="user-table-button" onClick={() => openModal(document?.pathCriminalRecord || ImageNotFound)}>View Criminal Record</button>
+                                    </td>
+                                    <td className="user-table-action-buttons">
+                                        <button  className="user-table-button" onClick={() => openModal(document?.pathIdentification || ImageNotFound)}>View Identification</button>
+                                    </td>
+                                    <td className="action-buttons">{renderActions && renderActions(user)}</td>
+                                </tr>
+                            );
+                        })}
                         </tbody>
                     </table>
                 ) : (
@@ -168,6 +217,20 @@ function AdminDashboard() {
             </div>
         );
     };
+
+    const ImageModal = ({ isOpen, onClose, imageSrc, altText }) => {
+        if (!isOpen) return null;
+
+        return (
+            <div className="modal-overlay" onClick={onClose}>
+                <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                    <img src={imageSrc} alt={altText} />
+                    <button onClick={onClose}>Close</button>
+                </div>
+            </div>
+        );
+    };
+
 
     const renderPendingActions = (user) => (
         <>
@@ -206,27 +269,34 @@ function AdminDashboard() {
     );
 
 
+    // ...
+
     return (
-
-
-            <div>
-                <h1>ADMIN DASHBOARD</h1>
-                <div className="adminNavBar">
-                    <a href="#pendingUsers">Pending Users</a> |
-                    <a href="#acceptedUsers">Accepted Users</a> |
-                    <a href="#admins">Admins</a> |
-                    <a href="#blockedUsers">Blocked Users</a> |
-                    <a href="#rejectedUsers">Rejected Users</a> |
-                    <Link to="/admin-dashboard/imageChange">Change Image</Link>
-                </div>
-                <UserTable users={pendingUsers} category="Pending Users" renderActions={renderPendingActions} id="pendingUsers" />
-                <UserTable users={acceptedUsers} category="Accepted Users" renderActions={renderAcceptedActions} id="acceptedUsers"/>
-                <UserTable users={admins} category="ADMINS" id="admins" renderActions={removeAdmin}/>
-                <UserTable users={blockedUsers} category="BLOCKED USERS" id="blockedUsers" renderActions={unblockUser}/>
-                <UserTable users={rejectedUsers} category="Rejected Users" id="rejectedUsers"/>
+        <div>
+            <h1>ADMIN DASHBOARD</h1>
+            <div className="adminNavBar">
+                {/* Links */}
             </div>
-
+            {documents && documents.length > 0 ? (
+                <>
+                    <UserTable users={pendingUsers} category="Pending Users" renderActions={renderPendingActions} id="pendingUsers" documents={documents}/>
+                    <UserTable users={acceptedUsers} category="Accepted Users" renderActions={renderAcceptedActions} id="acceptedUsers" documents={documents}/>
+                    <UserTable users={admins} category="ADMINS" id="admins" renderActions={removeAdmin} documents={documents}/>
+                    <UserTable users={blockedUsers} category="BLOCKED USERS" id="blockedUsers" renderActions={unblockUser} documents={documents}/>
+                    <UserTable users={rejectedUsers} category="Rejected Users" id="rejectedUsers" documents={documents}/>
+                </>
+            ) : (
+                <p>Loading documents...</p> // Or some other placeholder content
+            )}
+            <ImageModal
+                isOpen={isModalOpen}
+                onClose={closeModal}
+                imageSrc={currentImageSrc}
+                altText="Document Image"
+            />
+        </div>
     );
+
 }
 
 export default AdminDashboard;
