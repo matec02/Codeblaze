@@ -173,7 +173,7 @@ public class UserController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/upgrade-role/{userId}")
+    @PutMapping("/upgrade-role/{userId}")
     public ResponseEntity<UserRole> upgradeUserRole(@PathVariable Long userId) {
         UserRole updatedRole = userService.upgradeUserRole(userId);
 

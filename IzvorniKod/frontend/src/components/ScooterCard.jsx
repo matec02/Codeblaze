@@ -1,21 +1,21 @@
 import React from 'react';
 import './ScooterCard.css'
-import {useLocation} from 'react-router-dom';
+function ScooterCard({ scooter }) {
+    const { imagePath, model, maxSpeed, batteryCapacity } = scooter;
 
-function ScooterCard({scooter}) {
-    const location = useLocation();
-    const {imageUrl, model, maxSpeed, batteryCapacity} = scooter;
+    const baseURL = process.env.REACT_APP_API_BASE_URL.replace(/\/$/, '') || 'http://localhost:8080';
+    const imageURL = `${baseURL}/images/${imagePath}`;
+    console.log(imageURL)
 
-    const buttonText = location.pathname === '/home' ? 'Iznajmi' : 'Prijavi';
     return (
         <div className="scooter">
-            <img src={imageUrl} alt="Scooter_image" className="scooter-image"/>
-            <div className="scooter-name">{model}</div>
+            <img src={imageURL} alt={`${model} Scooter`} className="scooter-image"/>
+            <h3 className="scooter-name">{model}</h3>
             <div className="scooter-details">
                 <p><strong>Brzina:</strong> {maxSpeed} km/h</p>
                 <p><strong>Kapacitet:</strong> {batteryCapacity} kWh</p>
             </div>
-            <button className="scooter-button">{buttonText}</button>
+            <button className="scooter-button">Prijavi</button>
         </div>
     );
 }

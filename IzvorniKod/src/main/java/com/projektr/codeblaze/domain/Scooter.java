@@ -25,8 +25,8 @@ public class Scooter {
     @Column(name = "maxSpeed")
     private int maxSpeed;
 
-    @Column(name= "imageURL", length = 500)
-    private String imageURL;
+    @Column(name= "imagePath", length = 500)
+    private String imagePath;
 
     @Column(name = "maxRange")
     private double maxRange;

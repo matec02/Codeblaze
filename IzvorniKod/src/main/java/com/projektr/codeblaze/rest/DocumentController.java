@@ -17,7 +17,9 @@ public class DocumentController {
 
     private final DocumentService documentService;
     private final UserService userService;
-    private static String UPLOAD_FOLDER = "./com/projektr/codeblaze/userPhotos/";
+
+    private static String UPLOAD_FOLDER  = "./IzvorniKod/src/main/resources/static/images/";
+
 
     @Autowired
     public DocumentController(DocumentService documentService, UserService userService) {

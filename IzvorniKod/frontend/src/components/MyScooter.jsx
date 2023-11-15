@@ -8,8 +8,8 @@ function MyScooter() {
     const [activeTab, setActiveTab] = useState('viewScooters'); // 'viewScooters' or 'addScooter'
 
     useEffect(() => {
-        handleViewScooters()
-    })
+        handleViewScooters();
+    }, []);
     const addScooter = (newScooter) => {
         setScooters([...scooters, newScooter]);
         setActiveTab('viewScooters'); // Switch back to the view tab after adding
@@ -40,12 +40,10 @@ function MyScooter() {
     return (
         <div className="my-scooter-container">
             <div className="tabs">
-
                 <button onClick={() => setActiveTab('viewScooters')}
                         className={activeTab === 'viewScooters' ? 'active' : ''}>
                     Pregled romobila
                 </button>
-
                 <button onClick={() => setActiveTab('addScooter')}
                         className={activeTab === 'addScooter' ? 'active' : ''}>
                     Dodaj romobil
