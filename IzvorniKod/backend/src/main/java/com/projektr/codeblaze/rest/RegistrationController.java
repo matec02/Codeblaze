@@ -18,7 +18,7 @@ public class RegistrationController {
     private RegistrationService registrationService;
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "https://codeblazefe.onrender.com")
     @PostMapping(value = "/complete", consumes = "multipart/form-data")
     public ResponseEntity<?> completeRegistration(
             @RequestPart("user") String userJson,

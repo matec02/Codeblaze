@@ -18,7 +18,7 @@ public class PrivacySettingsController {
         this.privacySettingsService = privacySettingsService;
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "https://codeblazefe.onrender.com")
     @GetMapping("/{userId}")
     public ResponseEntity<PrivacySettings> getPrivacySettingsByUserId(@PathVariable Long userId) {
         PrivacySettings privacySettings = privacySettingsService.getPrivacySettings(userId);
@@ -30,7 +30,7 @@ public class PrivacySettingsController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "https://codeblazefe.onrender.com")
     @PostMapping("/save")
     public ResponseEntity<PrivacySettings> savePrivacySettings(@RequestBody PrivacySettingsSaveDTO privacySettingsSaveDTO) {
         PrivacySettings privacySettingsSaved = privacySettingsService.savePrivacySettings(privacySettingsSaveDTO);
