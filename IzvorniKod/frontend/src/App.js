@@ -17,6 +17,7 @@ import MyProfile from "./components/MyProfile";
 
 import AdminRoute from "./components/AdminRoute";
 import ProtectedRoutes from "./components/ProtectedRoutes"
+import ProtectedRouteScooter from "./components/ProtectedRouteScooter"
 import Unauthorized from "./components/Unauthorized";
 import ChatPanel from "./components/ChatPanel";
 import ChatWindow from "./components/ChatWindow";
@@ -41,18 +42,17 @@ function App() {
                 <Route path="/chat-message" element={<ChatMessage/>}/>
 
                 <Route path="/profile-pending" element={
-                    <ProtectedRoutes>
                         <ProfilePending />
-                    </ProtectedRoutes>
                 }/>
                 <Route path="/profile-blocked" element={
-                    <ProtectedRoutes>
                         <ProfileBlocked />
-                    </ProtectedRoutes>
                 }/>
                 <Route path="/scooters" element={
                     <ProtectedRoutes>
-                        <MyScooter />
+                        {/*pending se moze login, ali ne moze dodati scooter*/}
+                        <ProtectedRouteScooter>
+                            <MyScooter />
+                        </ProtectedRouteScooter>
                     </ProtectedRoutes>
                 }/>
                 <Route path="/add-scooter" element={

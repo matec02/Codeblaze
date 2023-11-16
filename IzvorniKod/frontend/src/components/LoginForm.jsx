@@ -59,9 +59,10 @@ function LoginForm() {
             const data = await response.json();
             if (response.ok) {
                 if (data.status == "PENDING"){
+                    localStorage.setItem('authToken', data.authToken);
                     navigate('/profile-pending')
                 } else if (data.status == "BLOCKED"){
-                    //localStorage.setItem('authToken', data.authToken); commented because of profilePicture
+                    //localStorage.setItem('authToken', data.authToken); TODO protect all routes
                     navigate('/profile-blocked')
                 }
                 else {
