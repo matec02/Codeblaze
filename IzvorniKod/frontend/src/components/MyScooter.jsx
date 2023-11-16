@@ -26,7 +26,7 @@ function MyScooter() {
 
     const handleUser = async (event) => {
         try {
-            const response = await fetch(`http://localhost:8080/api/users/by-nickname/${getNicknameFromToken()}`, {
+            const response = await fetch(`/api/users/by-nickname/${getNicknameFromToken()}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

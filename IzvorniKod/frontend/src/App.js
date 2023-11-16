@@ -37,9 +37,26 @@ function App() {
                 <Route path="/home" element={<Home/>}/>
                 <Route path="/login" element={<LoginForm/>}/>
                 <Route path="/register" element={<RegisterForm/>}/>
-                <Route path="/chat-panel" element={<ChatPanel/>}/>
-                <Route path="/chat-window" element={<ChatWindow/>}/>
-                <Route path="/chat-message" element={<ChatMessage/>}/>
+
+                <Route path="/chat-panel" element={
+                    <ProtectedRoutes>
+                        <ChatPanel/>
+                    </ProtectedRoutes>
+                    }/>
+
+
+                <Route path="/chat-window" element={
+                    <ProtectedRoutes>
+                        <ChatWindow/>
+                    </ProtectedRoutes>
+                }/>
+
+
+                <Route path="/chat-message" element={
+                    <ProtectedRoutes>
+                        <ChatMessage/>
+                    </ProtectedRoutes>
+                }/>
 
                 <Route path="/profile-pending" element={
                         <ProfilePending />

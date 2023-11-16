@@ -148,15 +148,17 @@ function RegisterForm() {
                 </div>
 
                 {/* File Upload Section */}
-                <div className="form-group">
-                    <label>Kaznena Evidencija:</label>
-                    <input type="file" onChange={(e) => handleFileChange(e, setCriminalRecord)} required/>
+                <div className="section-container">
+                    <div className="section-title">Dokumenti</div>
+                    <div className="form-group">
+                        <label>Kaznena Evidencija:</label>
+                        <input type="file" onChange={(e) => handleFileChange(e, setCriminalRecord)} required/>
+                    </div>
+                    <div className="form-group">
+                        <label>Dokument Identifikacije:</label>
+                        <input type="file" onChange={(e) => handleFileChange(e, setIdentificationDocument)} required/>
+                    </div>
                 </div>
-                <div className="form-group">
-                    <label>Dokument Identifikacije:</label>
-                    <input type="file" onChange={(e) => handleFileChange(e, setIdentificationDocument)} required/>
-                </div>
-
                 {/* Payment and Security Section */}
                 <div className="section-container">
                     <div className="section-title">Plaćanje i sigurnost</div>
