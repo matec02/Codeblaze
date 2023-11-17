@@ -1,42 +1,44 @@
-\contentsline {chapter}{\numberline {1}Dnevnik promjena dokumentacije}{3}{}%
-\contentsline {chapter}{\numberline {2}Opis projektnog zadatka}{6}{}%
-\contentsline {chapter}{\numberline {3}Specifikacija programske potpore}{7}{}%
-\contentsline {section}{\numberline {3.1}Funkcionalni zahtjevi}{7}{}%
-\contentsline {subsection}{\numberline {3.1.1}Obrasci uporabe}{9}{}%
-\contentsline {subsubsection}{Opis obrazaca uporabe}{9}{}%
-\contentsline {subsubsection}{Dijagrami obrazaca uporabe}{20}{}%
-\contentsline {subsection}{\numberline {3.1.2}Sekvencijski dijagrami}{21}{}%
-\contentsline {section}{\numberline {3.2}Ostali zahtjevi}{22}{}%
-\contentsline {chapter}{\numberline {4}Arhitektura i dizajn sustava}{23}{}%
-\contentsline {subsection}{\numberline {4.0.1}Opis arhitekture}{23}{}%
-\contentsline {subsubsection}{Razina klijenta}{23}{}%
-\contentsline {subsubsection}{Razina web-aplikacije}{24}{}%
-\contentsline {subsubsection}{Sloj pristupa podatcima}{24}{}%
-\contentsline {subsection}{\numberline {4.0.2}MVC arhitektura}{24}{}%
-\contentsline {section}{\numberline {4.1}Baza podataka}{25}{}%
-\contentsline {subsection}{\numberline {4.1.1}User}{27}{}%
-\contentsline {subsection}{\numberline {4.1.2}Preferences}{28}{}%
-\contentsline {subsection}{\numberline {4.1.3}Social Media}{28}{}%
-\contentsline {subsection}{\numberline {4.1.4}PrivacySettings}{29}{}%
-\contentsline {subsection}{\numberline {4.1.5}Document}{30}{}%
-\contentsline {subsection}{\numberline {4.1.6}Scooter}{30}{}%
-\contentsline {subsection}{\numberline {4.1.7}Listing}{31}{}%
-\contentsline {subsection}{\numberline {4.1.8}Review}{32}{}%
-\contentsline {subsection}{\numberline {4.1.9}Transaction}{33}{}%
-\contentsline {subsection}{\numberline {4.1.10}Invoice}{33}{}%
-\contentsline {subsection}{\numberline {4.1.11}Notification}{34}{}%
-\contentsline {subsection}{\numberline {4.1.12}ChatSession}{34}{}%
-\contentsline {subsection}{\numberline {4.1.13}Message}{35}{}%
-\contentsline {subsection}{\numberline {4.1.14}ImageChangeRequest}{35}{}%
-\contentsline {subsection}{\numberline {4.1.15}Dijagram baze podataka}{36}{}%
-\contentsline {chapter}{\numberline {5}Implementacija i korisničko sučelje}{37}{}%
-\contentsline {section}{\numberline {5.1}Korištene tehnologije i alati}{37}{}%
-\contentsline {section}{\numberline {5.2}Ispitivanje programskog rješenja}{38}{}%
-\contentsline {subsection}{\numberline {5.2.1}Ispitivanje komponenti}{38}{}%
-\contentsline {subsection}{\numberline {5.2.2}Ispitivanje sustava}{38}{}%
-\contentsline {section}{\numberline {5.3}Dijagram razmještaja}{40}{}%
-\contentsline {section}{\numberline {5.4}Upute za puštanje u pogon}{41}{}%
-\contentsline {chapter}{\numberline {6}Zaključak i budući rad}{42}{}%
-\contentsline {chapter}{Popis literature}{43}{}%
-\contentsline {chapter}{Indeks slika i dijagrama}{44}{}%
-\contentsline {chapter}{Dodatak: Prikaz aktivnosti grupe}{45}{}%
+\babel@toc {croatian}{}\relax 
+\contentsline {chapter}{\numberline {1}Dnevnik promjena dokumentacije}{3}{chapter.1}%
+\contentsline {chapter}{\numberline {2}Opis projektnog zadatka}{5}{chapter.2}%
+\contentsline {chapter}{\numberline {3}Specifikacija programske potpore}{10}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Funkcionalni zahtjevi}{10}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Obrasci uporabe}{12}{subsection.3.1.1}%
+\contentsline {subsubsection}{Opis obrazaca uporabe}{12}{subsubsection*.2}%
+\contentsline {subsubsection}{Dijagrami obrazaca uporabe}{26}{subsubsection*.3}%
+\contentsline {subsection}{\numberline {3.1.2}Sekvencijski dijagrami}{27}{subsection.3.1.2}%
+\contentsline {section}{\numberline {3.2}Ostali zahtjevi}{28}{section.3.2}%
+\contentsline {chapter}{\numberline {4}Arhitektura i dizajn sustava}{29}{chapter.4}%
+\contentsline {subsection}{\numberline {4.0.1}Opis arhitekture}{29}{subsection.4.0.1}%
+\contentsline {subsubsection}{Razina klijenta}{29}{subsubsection*.4}%
+\contentsline {subsubsection}{Razina web-aplikacije}{29}{subsubsection*.5}%
+\contentsline {subsubsection}{Sloj pristupa podatcima}{29}{subsubsection*.6}%
+\contentsline {subsection}{\numberline {4.0.2}MVC arhitektura}{30}{subsection.4.0.2}%
+\contentsline {section}{\numberline {4.1}Baza podataka}{31}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}User}{32}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Preferences}{33}{subsection.4.1.2}%
+\contentsline {subsection}{\numberline {4.1.3}Social Media}{34}{subsection.4.1.3}%
+\contentsline {subsection}{\numberline {4.1.4}PrivacySettings}{34}{subsection.4.1.4}%
+\contentsline {subsection}{\numberline {4.1.5}Document}{35}{subsection.4.1.5}%
+\contentsline {subsection}{\numberline {4.1.6}Scooter}{35}{subsection.4.1.6}%
+\contentsline {subsection}{\numberline {4.1.7}Listing}{36}{subsection.4.1.7}%
+\contentsline {subsection}{\numberline {4.1.8}Review}{36}{subsection.4.1.8}%
+\contentsline {subsection}{\numberline {4.1.9}Transaction}{37}{subsection.4.1.9}%
+\contentsline {subsection}{\numberline {4.1.10}Invoice}{38}{subsection.4.1.10}%
+\contentsline {subsection}{\numberline {4.1.11}Notification}{38}{subsection.4.1.11}%
+\contentsline {subsection}{\numberline {4.1.12}ChatSession}{38}{subsection.4.1.12}%
+\contentsline {subsection}{\numberline {4.1.13}Message}{39}{subsection.4.1.13}%
+\contentsline {subsection}{\numberline {4.1.14}ImageChangeRequest}{39}{subsection.4.1.14}%
+\contentsline {subsection}{\numberline {4.1.15}Dijagram baze podataka}{41}{subsection.4.1.15}%
+\contentsline {subsection}{\numberline {4.1.16}Dijagram razreda}{41}{subsection.4.1.16}%
+\contentsline {chapter}{\numberline {5}Implementacija i korisničko sučelje}{45}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Korištene tehnologije i alati}{45}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Ispitivanje programskog rješenja}{46}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Ispitivanje komponenti}{46}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Ispitivanje sustava}{46}{subsection.5.2.2}%
+\contentsline {section}{\numberline {5.3}Dijagram razmještaja}{47}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Upute za puštanje u pogon}{48}{section.5.4}%
+\contentsline {chapter}{\numberline {6}Zaključak i budući rad}{49}{chapter.6}%
+\contentsline {chapter}{Popis literature}{50}{chapter*.7}%
+\contentsline {chapter}{Indeks slika i dijagrama}{51}{chapter*.8}%
+\contentsline {chapter}{Dodatak: Prikaz aktivnosti grupe}{52}{chapter*.9}%
