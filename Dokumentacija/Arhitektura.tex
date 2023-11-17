@@ -167,14 +167,14 @@ Ovaj entitet sadrzava sve važne informacije o dokumentima korisnika aplikacije.
 	\hline \SetCell[c=3]{c}{\textbf{Document}}	 \\ \hline[3pt]
 	\SetCell{LightGreen}userId & INT	&  jedinstveni identifikator korisnika	 	\\ \hline
 	criminalRecordURL	& VARCHAR &  url kaznene evidencije	\\ \hline
-	identificationDocumentURL & VARCHAR &  url identifikacijskog dokumenta \\ \hline
+	identification- DocumentURL & VARCHAR &  url identifikacijskog dokumenta \\ \hline
 	status & DocumentStatus	& status dokumenta (pending, approved, rejected) 		\\ \hline
 \end{longtblr}
 
 \subsection{Scooter}
 
 
-Ovaj entitet sadrzava sve važne informacije o pojedinom romobilu. Sadrži atribute:scooterId, manufacturer, model, batteryCapacity, maxSpeed, imageUrl, maxRange, yearOfManufacture, additionalInformation, userId i availability. Ovaj entitet ima \textit{Many-to-one} vezu s entitetom User preko atributa userId te \textit{One-to-many} vezu s entitetom Listings preko atributa scooterId.
+Ovaj entitet sadrzava sve važne informacije o pojedinom romobilu. Sadrži atribute: scooterId, manufacturer, model, batteryCapacity, maxSpeed, imageUrl, maxRange, yearOfManufacture, additionalInformation, userId i availability. Ovaj entitet ima \textit{Many-to-one} vezu s entitetom User preko atributa userId te \textit{One-to-many} vezu s entitetom Listings preko atributa scooterId.
 
 
 \begin{longtblr}[
@@ -202,7 +202,7 @@ Ovaj entitet sadrzava sve važne informacije o pojedinom romobilu. Sadrži atrib
 \subsection{Listing}
 
 
-Ovaj entitet sadrzava sve važne informacije o pojedinom oglasu. Sadrži atribute:listingId, currentAddress, returnAddress, returnByTime, pricePerKilometer, penaltyFee, scooterId, listingTime, notes i status. Ovaj entitet ima \textit{Many-to-one} vezu s entitetom Scooter preko atributa scooterId, \textit{Many-to-one} vezu s entitetom User preko atributa renterUsername te \textit{One-to-many} vezu s entitetom Transactions preko atributa listingId.
+Ovaj entitet sadrzava sve važne informacije o pojedinom oglasu. Sadrži atribute: listingId, currentAddress, returnAddress, returnByTime, pricePerKilometer, penaltyFee, scooterId, listingTime, notes i status. Ovaj entitet ima \textit{Many-to-one} vezu s entitetom Scooter preko atributa scooterId, \textit{Many-to-one} vezu s entitetom User preko atributa renterUsername te \textit{One-to-many} vezu s entitetom Transactions preko atributa listingId.
 
 
 \begin{longtblr}[
@@ -335,13 +335,13 @@ Ovaj entitet sadrzava sve važne informacije o pojedinom razgovoru. Sadrži atri
 	\SetCell{LightGreen} chatId & INT	&  	jedinstveni identifikator razgovora 	\\ \hline
 	\SetCell{LightBlue}user1	& INT &   korisnik 1	\\ \hline
 	\SetCell{LightBlue}user2 & INT &  korisnik 2 \\ \hline
-	startCommunicationTime 	& TIMESTAMP &   vrijeme početka komunikacije	\\ \hline
+	startCommunication- Time 	& TIMESTAMP &   vrijeme početka komunikacije	\\ \hline
 	lastMessageTime	& TIMESTAMP &   vrijeme zadnje poslane poruke	\\ \hline
 \end{longtblr}
 
 \subsection{Message}
 
-Ovaj entitet sadrzava sve važne informacije o pojedinoj poruci. Sadrži atribute:messageId, senderUsername, sessionId, text, sentTime te status. Ovaj entitet ima \textit{One-to-many} vezu s entitetom User preko atributa senderUsername te \textit{Many-to-one} vezu s entitetom ChatSession preko atributa sessionId.
+Ovaj entitet sadrzava sve važne informacije o pojedinoj poruci. Sadrži atribute: messageId, senderUsername, sessionId, text, sentTime te status. Ovaj entitet ima \textit{One-to-many} vezu s entitetom User preko atributa senderUsername te \textit{Many-to-one} vezu s entitetom ChatSession preko atributa sessionId.
 
 
 \begin{longtblr}[
@@ -409,8 +409,7 @@ Prvi isječak dijagrama razreda sadrži klasu Dokument s vlastitim enumom Dokume
 	\caption{Prikaz prvog isječka dijagrama razreda}
 	\label{fig:Prikaz prvog isječka dijagrama razreda}
 \end{figure}
-\newline
-\newline
+
 Drugi isječak dijagrama razreda sadrži klasu Message s vlastitim enumom MessageStatus, klase ChatSession i SocialMedia te klasu Preference s vlastitim enumom PreferenceUserLanguage.
 \begin{figure} [H]
 
@@ -419,8 +418,7 @@ Drugi isječak dijagrama razreda sadrži klasu Message s vlastitim enumom Messag
 	\caption{Prikaz drugog isječka dijagrama razreda}
 	\label{fig:Prikaz drugog isječka dijagrama razreda}
 \end{figure}
-\newline
-\newline
+
 Treći isječak dijagrama razreda sadrži klasu Transaction s vlastitim enumom TransactionStatus, klasu ImageChangeRequest s vlastitim enumom ImageChangeRequestStatus, klasu Invoice s vlastitim enumom InvoicePaymentMethod te klase Listing i Review.
 \begin{figure} [H]
 
