@@ -1,184 +1,86 @@
 Pregled svih UC-ova: 
 
-UC1 – Pregledaj romobile
+UC1 – Pregledaj romobil
 
-UC2 – Odaberi romobil
+UC2 – Registriraj se
 
-UC3 – Registriraj se
+UC3 – Odobri ili odbij registraciju
 
-UC4 – Pregledaj dokumentaciju za registraciju
+UC4– Ponovno predaj dokumente
 
-UC5– Ponovno predaj dokumentaciju
+UC5 – Prijavi se
 
-UC6 – Prijavi se
+UC6 – Odjavi se
 
 UC7 – Pregledaj svoj profil
 
 UC8 – Uredi svoj profil
 
-UC9 – Registriraj romobil
+UC9 – Izbriši svoj profil
 
-UC10 – Izbriši romobil
+UC10 – Registriraj romobil
 
-UC11 – Postavi romobil
+UC11 – Pregledaj svoj romobil
 
-UC12 – Objavi na društvene mreže
+UC12 – Uredi svoj romobil
 
-UC13 – Iznajmi romobil
+UC13 - Izbriši svoj romobil
 
-UC14 – Reagiraj na zahtjev za iznajmljivanje
+UC14 – Oglasi romobil
 
-UC15 – Zamijeni sliku romobila
+UC15 – Objavi oglas na društvene mreže
 
-UC16 – Žali se na zamjenu slike
+UC16 – Pregledaj svoj oglas
 
-UC17 – Odluči o zamjeni slike
+UC17 – Uredi oglas
 
-UC18 – Pregledaj svoje razgovore
+UC18 - Izbriši oglas
 
-UC19 – Pošalji poruku
+UC19 – Iznajmi romobil
 
-UC20 – Vrati romobil
+UC20 – Reagiraj na zahtjev za iznajmljivanje
 
-UC21 – Ocijeni klijenta
+UC21 – Zamijeni sliku romobila
 
-UC22 – Pohrani transakciju
+UC22 – Prijavi zamjenu slike
 
-UC23 – Uplati novac banci
+UC23 - Odluči o zamjeni slike
 
-UC24 – Isplati iznajmljivača
+UC24 – Vrati romobil
 
-UC25 – Blokiraj korisnika
+UC25 – Ocijeni klijenta
 
-UC26 – Dodaj novog administratora
+UC26 – Isplati s računa
 
+UC27 – Uplati na račun
 
+UC28 – Pregledaj transakcije
 
+UC29 – Pregledaj profil korisnika
 
+UC30 - Izbriši recenziju
 
+UC31 – Pregledaj razgovor
 
+UC32 - Pošalji poruku
 
-Aktori:
+UC33 - Izbriši razgovor
 
-Neregistrirani korisnik/posjetilac (inicijator) može:
+UC34 – Blokiraj korisnika
 
-Pregledati dostupne romobile
+UC35 – Odblokiraj korisnika
 
-Odabrati romobil da dobije dodatne podatke o njemu (odlazi na stranicu s detaljnim pregledom odabranog romobila, na gumbu na kojem kod prijavljenih korisnika (klijenata) piše „Iznajmi romobil“ njemu piše „Prijavi se“ i kad klikne na njega odlazi na stranicu za prijavu)
+UC36 – Dodaj administratora
 
-Registrirati se (odabire gumb „Registriraj se“, ispunjava obrazac, predaje slike dokumenata i to se sprema u bazu i šalje administratoru, dok administrator ne potvrdi registraciju korisnik je na čekanju, odobreno -> prijava, odbijeno -> ponovno predaj dokumente, poseban slučaj je ako za vrijeme čekanja izađe iz stranice i ponovno se vrati, tad postoje 3 opcije:
+UC37 - Izbriši administratora
 
-U međuvremenu odobren, postao klijent, prijavljuje se
 
-U međuvremenu odbijen, pokušava se prijaviti, ali mu dolazi obavijest i link da preda ponovno dokumente
 
-I dalje na čekanju, pokušava se prijaviti ali mu se prikazuje stranica za čekanje kao i prije
-
-Ponovno predati dokumente za registraciju (predaje dokumente i ponovno mu se prikazuje stranica za čekanje potvrde, ako izađe iz stranice događa se sve isto kao kod registracije)
-
-Na početnoj stranici s pregledom romobila može se pokušati prijaviti, ali mu prijava ne prolazi dok ne postane klijent tako da u dijagramima neregistrirani korisnik nije aktor kod prijave (iako se može pokušati prijaviti)
-
-
-
-Klijent (inicijator) može:
-
-Prijaviti se u sustav (ne piše u primjeru dokumentacije, ali je aktor za prijavu na dijagramima i ja bih ostavila i ovdje)
-
-Pregledati dostupne romobile
-
-Odabrati romobil da dobije dodatne podatke o njemu (kao kod neregistriranog korisnika samo što sad klijent ima gumb „Iznajmi romobil“)
-
-Iznajmiti romobil (klikom na gumb „Iznajmi romobil“ odlazi na chat s iznajmljivačem i šalje se zahtjev za iznajmljivanje)
-
-Pregledati svoj profil
-
-Urediti svoj profil
-
-Registrirati romobil (na početnoj stranici ima gumb „Postani iznajmljivač“ (iznajmljivačima na tom gumbu piše „Moji romobili“) i taj gumb ga vodi na stranicu gdje ima opciju registrirati novi romobil i pregledati svoje romobile kad ih registrira i postane iznajmljivač)
-
-Pregledati svoje razgovore
-
-Poslati poruku drugom klijentu
-
-Promijeniti sliku romobila
-
-Vratiti romobil (posljedično mu se skidaju novci s kartice i transakcija se sprema u bazu, skida mu se iznos s računa)
-
-Na početnoj stranici s pregledom romobila može se pokušati registrirati, ali mu registracija ne prolazi jer već ima korisnički račun tako da u dijagramima klijent nije aktor kod registracije(iako se može pokušati registrirati)
-
-
-
-Iznajmljivač (inicijator) može:
-
-Sve što i klijent (nasljeđivanje)
-
-Izbrisati romobil (kad ode na pregled svojih romobila (početna stranica -> „Moji romobili“) kod svakog romobila ima opciju da ga izbriše, ako izbriše zadnji romobil postaje klijent, ali i dalje ima pristup toj stranici jer je tamo i opcija za registriranje novih romobila kojom ponovno može postati iznajmljivač)
-
-Postaviti romobil (kad ode na pregled svojih romobila (početna stranica -> „Moji romobili“) kod svakog romobila ima opciju da ga postavi, upisuje detalje o iznajmljivanju i objavljuje ga)
-
-Objaviti oglas na društvene mreže (nakon što postavi romobil)
-
-Reagirati na zahtjev za iznajmljivanje, prihvatiti ili odbiti (u porukama)
-
-Žaliti se na zamjenu slike
-
-Ocijeniti klijenta
-
-
-
-Administrator (inicijator) može:
-
-Prijaviti se u sustav (kao i kod klijenta)
-
-Nema funkcionalnosti kao klijent ili iznajmljivač nego samo ima funkcionalnosti administratora
-
-Pregledati dostupne romobile
-
-Odabrati romobil da dobije dodatne podatke o njemu (nema gumb „Prijavi se“ kao kod neregistriranog ili „Iznajmi romobil“ kao kod klijenta)
-
-Pregledati svoj profil
-
-Urediti svoj profil
-
-Pregledati dokumentaciju za registraciju, odobriti ili odbiti
-
-Blokirati korisnika
-
-Odlučiti o zamjeni slike, ostaviti novu ili vratiti staru
-
-Dodati novog administratora
-
-
-
-Baza podataka (sudionik)
-
-Banka (inicijator) može:
-
-Isplatiti cijenu iznajmljivanja iznajmljivaču na račun
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-UC1 –Pregledaj romobile
+UC1 – Pregledaj romobil
 
 Glavni sudionik: Neregistrirani korisnik, klijent, administrator
 
-Cilj: Pregledati oglase romobila dostupnih za iznajmljivanje
+Cilj: Pregledati dostupne romobile i detalje o njima i ponudi
 
 Sudionici: Baza podataka
 
@@ -186,33 +88,15 @@ Preduvjet: -
 
 Opis osnovnog tijeka:
 
-Učitava se početna stranica aplikacije
+Prilikom učitavanja aplikacije prikazuju se romobili dostupni za iznajmljivanje
 
-Prikazuje se ponuda romobila dostupnih za iznajmljivanje
+Korisnik pronalazi i odabire željeni romobil
 
-Korisnik pregledava dostupne romobile
-
-
-
-UC2 – Odaberi romobil
-
-Glavni sudionik: Neregistrirani korisnik, klijent, administrator
-
-Cilj: Dobiti detaljnije informacije o romobilu i uvjetima iznajmljivanja
-
-Sudionici: Baza podataka
-
-Preduvjet: -
-
-Opis osnovnog tijeka:
-
-Korisnik odabire romobil o kojem želi dobiti detaljnije informacije
-
-Korisnik pregledava detalje o oglasu
+Korisniku se prikazuju detaljnije informacije o romobilu i uvjetima iznajmljivanja
 
 
 
-UC3 – Registriraj se
+UC2 – Registriraj se
 
 Glavni sudionik: Neregistrirani korisnik
 
@@ -234,7 +118,7 @@ Unesena kopija osobne iskaznice i potvrda o nekažnjavanju šalju se administrat
 
 Stvara se novi korisnički račun čiji se podatci pohranjuju u bazu podataka
 
-Neregistriranom korisniku se prikazuje stranica za čekanje odobrenja registracije
+Neregistriranom korisniku se prikazuje stranica za čekanje odluke o registraciji
 
 Opis mogućih odstupanja:
 
@@ -244,15 +128,17 @@ Neregistrirani korisnik dobiva odgovarajuću obavijest o neispravnosti podataka
 
 Neregistrirani korisnik mijenja potrebne podatke i završava s unosom ili odustaje od registracije
 
-UC4 – Pregledaj dokumentaciju za registraciju
+
+
+UC3 – Odobri ili odbij registraciju
 
 Glavni sudionik: Administrator
 
 Cilj: Odlučiti o valjanosti kopije osobne iskaznice i potvrde o nekažnjavanju
 
-Sudionici: Baza podataka
+Sudionici: Klijent, baza podataka
 
-Preduvjet: Poslan zahtjev za pregled dokumentacije
+Preduvjet: Postoji barem jedan zahtjev za registraciju
 
 Opis osnovnog tijeka:
 
@@ -260,9 +146,11 @@ Administrator pregledava dokumentaciju poslanu pri registraciji korisnika ili pr
 
 Administrator odlučuje o potvrđivanju dokumenata i njegova odluka se zapisuje u bazu podataka
 
+Klijenta čija se registracija provjerava se preusmjerava na stranicu za prijavu
 
 
-UC5 – Ponovno predaj dokumentaciju
+
+UC4 – Ponovno predaj dokumente
 
 Glavni sudionik: Neregistrirani korisnik
 
@@ -278,7 +166,7 @@ Neregistrirani korisnik unosi novu dokumentaciju za registraciju u sustav
 
 Dokumentacija se šalje administratoru na pregled
 
-Neregistriranom korisniku se prikazuje stranica za čekanje odobrenja registracije
+Neregistriranom korisniku se prikazuje stranica za čekanje odluke o registraciji
 
 Opis mogućih odstupanja:
 
@@ -290,7 +178,7 @@ Neregistrirani korisnik ispravno unosi dokumentaciju i završava s unosom ili od
 
 
 
-UC6 – Prijavi korisnika
+UC5 – Prijavi se
 
 Glavni sudionik: Klijent, administrator
 
@@ -298,7 +186,7 @@ Cilj: Dobiti pristup određenim korisničkim funkcijama
 
 Sudionici: Baza podataka
 
-Preduvjet:  Korisnik je registriran
+Preduvjet:  Korisnik se registrirao i odobrena mu je registracija
 
 Opis osnovnog tijeka:
 
@@ -320,7 +208,7 @@ Korisnik mijenja potrebne podatke i završava s unosom ili odustaje od prijave
 
 Prijava nije odobrena jer korisnik čeka na odobrenje registracije
 
-Korisniku se prikazuje stranica za čekanje odobrenja registracije
+Korisniku se prikazuje stranica za čekanje odluke o registraciji
 
 Prijava nije odobrena jer je korisniku odbijena dokumentacija za registraciju
 
@@ -332,6 +220,24 @@ Korisnik dobiva obavijest da je blokiran i nema više pristup sustavu
 
 
 
+UC6 – Odjavi se
+
+Glavni sudionik: Klijent, administrator
+
+Cilj: Odjaviti se iz sustava
+
+Sudionici: Baza podataka
+
+Preduvjet: Korisnik je prijavljen
+
+Opis osnovnog tijeka:
+
+Korisnik odabire opciju „Odjavi se“
+
+Korisnik napušta sustav
+
+
+
 UC7 – Pregledaj svoj  profil
 
 Glavni sudionik: Klijent, administrator
@@ -340,7 +246,7 @@ Cilj: Pregledati korisničke podatke svog profila
 
 Sudionici: Baza podataka
 
-Preduvjet: -
+Preduvjet: Korisnik je prijavljen
 
 Opis osnovnog tijeka:
 
@@ -352,7 +258,7 @@ Korisnik pregledava informacije o svom profilu
 
 
 
-UC8 – Uredi profil
+UC8 – Uredi svoj profil
 
 Glavni sudionik: Klijent, administrator
 
@@ -360,11 +266,11 @@ Cilj: Promijeniti korisničke podatke i odlučiti koji će od njih biti javni, a
 
 Sudionici: Baza podataka
 
-Preduvjet: -
+Preduvjet: Korisnik je prijavljen
 
 Opis osnovnog tijeka:
 
-Korisnik odabire opciju „Uredi profil“
+Korisnik na stranici svog profila odabire opciju „Uredi profil“
 
 Korisnik mijenja svoje korisničke podatke i njihovu dostupnost
 
@@ -388,7 +294,29 @@ Korisnik sprema promjene
 
 
 
-UC9 – Registriraj romobil
+UC9 – Izbriši svoj profil
+
+Glavni sudionik: Klijent, administrator
+
+Cilj: Izbrisati svoj korisnički račun iz baze podataka
+
+Sudionici: Baza podataka
+
+Preduvjet: Korisnik je prijavljen
+
+Opis osnovnog tijeka:
+
+Korisnik na stranici svog profila odabire opciju „Izbriši profil“
+
+Korisnik potvrđuje svoj odabir
+
+Korisnikov profil se briše iz baze podataka
+
+Otvara se stranica za registraciju
+
+
+
+UC10 – Registriraj romobil
 
 Glavni sudionik: Klijent
 
@@ -396,7 +324,7 @@ Cilj: Dodavanje romobila na popis svojih romobila
 
 Sudionici: Baza podataka
 
-Preduvjet: -
+Preduvjet: Klijent je prijavljen
 
 Opis osnovnog tijeka:
 
@@ -416,21 +344,79 @@ Korisnik mijenja potrebne podatke i završava s unosom ili odustaje od registrac
 
 
 
-UC10 –Izbriši romobil
+UC11 – Pregledaj svoj romobil
 
 Glavni sudionik: Iznajmljivač
 
-Cilj: Izbrisati romobil iz registriranih romobila
+Cilj: Pregledati detaljne informacije o svom registriranom romobilu
 
 Sudionici: Baza podataka
 
-Preduvjet: Romobil je registriran u bazi podataka
+Preduvjet: Iznajmljivač je prijavljen, ima barem jedan registrirani romobil
 
 Opis osnovnog tijeka:
 
-Iznajmljivač pregledava svoje registrirane romobile
+Prikazuje se stranica s iznajmljivačevim registriranim romobilima
 
-Iznajmljivač kod određenog romobila odabire opciju „Izbriši romobil“
+Iznajmljivač pronalazi i odabire željeni romobil
+
+Iznajmljivaču se prikazuju detaljnije informacije o romobilu
+
+
+
+UC12 – Uredi svoj romobil
+
+Glavni sudionik: Iznajmljivač
+
+Cilj: Promijeniti informacije o svom registriranom romobilu
+
+Sudionici: Baza podataka
+
+Preduvjet: Iznajmljivač je prijavljen, ima barem jedan registrirani romobil
+
+Opis osnovnog tijeka:
+
+Prikazuje se stranica s iznajmljivačevim registriranim romobilima
+
+Iznajmljivač pronalazi i odabire željeni romobil i opciju „Uredi“
+
+Iznajmljivač mijenja informacije o romobilu
+
+Iznajmljivač potvrđuje promjene odabirom opcije „Spremi promjene“
+
+Baza podataka se ažurira
+
+Opis mogućih odstupanja:
+
+Unos podataka o romobilu u nedozvoljenom formatu
+
+Iznajmljivač dobiva odgovarajuću obavijest o neispravnosti podataka
+
+Iznajmljivač mijenja potrebne podatke i završava s unosom ili odustaje od registracije romobila
+
+Korisnik ne potvrdi promjenu odabirom opcije „Spremi promjene“
+
+Korisnik dobiva obavijest da nije spremio podatke prije izlaska iz prozora za zamjenu podataka
+
+Korisnik sprema podatke
+
+
+
+UC13 – Izbriši svoj romobil
+
+Glavni sudionik: Iznajmljivač
+
+Cilj: Izbrisati romobil iz svojih registriranih romobila
+
+Sudionici: Baza podataka
+
+Preduvjet: Iznajmljivač je prijavljen, ima barem jedan registrirani romobil
+
+Opis osnovnog tijeka:
+
+Prikazuje se stranica s iznajmljivačevim registriranim romobilima
+
+Iznajmljivač pronalazi i odabire željeni romobil i opciju „Izbriši romobil“
 
 Romobil se briše iz registriranih romobila
 
@@ -440,23 +426,23 @@ Baza podataka se ažurira
 
 
 
-UC11 – Postavi romobil
+UC14 – Oglasi romobil
 
 Glavni sudionik: Iznajmljivač
 
-Cilj: Objaviti da je romobil dostupan za iznajmljivanje
+Cilj: Objaviti oglas da je romobil dostupan za iznajmljivanje
 
 Sudionici: Baza podataka
 
-Preduvjet: Romobil je registriran
+Preduvjet: Iznajmljivač je prijavljen, ima barem jedan registrirani romobil
 
 Opis osnovnog tijeka:
 
-Iznajmljivač pregledava svoje registrirane romobile
+Prikazuje se stranica s iznajmljivačevim registriranim romobilima
 
-Iznajmljivač kod određenog romobila odabire opciju „Postavi romobil“
+Iznajmljivač pronalazi i odabire željeni romobil i opciju „Oglasi romobil“
 
-Iznajmljivač unosi uvjete iznajmljivanja
+Iznajmljivač unosi uvjete iznajmljivanja i objavljuje oglas
 
 Oglas se prikazuje među dostupnim romobilima
 
@@ -470,7 +456,7 @@ Iznajmljivač mijenja potrebne podatke i završava unos ili odustaje od postavlj
 
 
 
-UC12 – Objavi na društvene mreže
+UC15 – Objavi oglas na društvene mreže
 
 Glavni sudionik: Iznajmljivač
 
@@ -478,7 +464,7 @@ Cilj: Objaviti oglas za iznajmljivanje romobila na odabranu društvenu mrežu
 
 Sudionici: Baza podataka
 
-Preduvjet: -
+Preduvjet: Iznajmljivač je prijavljen, ima barem jedan aktivan oglas
 
 Opis osnovnog tijeka:
 
@@ -494,15 +480,95 @@ Oglas se objavljuje na društvenoj mreži
 
 
 
-UC13 – Iznajmi romobil
+UC16 – Pregledaj svoj oglas
+
+Glavni sudionik: Iznajmljivač
+
+Cilj: Pregledati detaljne informacije o svom oglasu
+
+Sudionici: Baza podataka
+
+Preduvjet: Iznajmljivač je prijavljen, ima barem jedan aktivan oglas
+
+Opis osnovnog tijeka:
+
+Prikazuje se stranica s iznajmljivačevim oglašenim romobilima
+
+Iznajmljivač pronalazi i odabire željeni oglas
+
+Iznajmljivaču se prikazuju detaljnije informacije o oglasu
+
+
+
+UC17 – Uredi oglas
+
+Glavni sudionik: Iznajmljivač
+
+Cilj: Promijeniti informacije o svom oglasu
+
+Sudionici: Baza podataka
+
+Preduvjet: Iznajmljivač je prijavljen, ima barem jedan aktivan oglas
+
+Opis osnovnog tijeka:
+
+Prikazuje se stranica s iznajmljivačevim oglašenim romobilima
+
+Iznajmljivač pronalazi i odabire željeni oglas i opciju „Uredi“
+
+Iznajmljivač mijenja informacije o uvjetima iznajmljivanja
+
+Iznajmljivač potvrđuje promjene odabirom opcije „Spremi promjene“
+
+Baza podataka se ažurira
+
+Opis mogućih odstupanja:
+
+Unos podataka o oglasu u nedozvoljenom formatu
+
+Iznajmljivač dobiva odgovarajuću obavijest o neispravnosti podataka
+
+Iznajmljivač mijenja potrebne podatke i završava s unosom ili odustaje od oglašavanja romobila
+
+Korisnik ne potvrdi promjenu odabirom opcije „Spremi promjene“
+
+Korisnik dobiva obavijest da nije spremio podatke prije izlaska iz prozora za zamjenu podataka
+
+Korisnik sprema podatke
+
+
+
+UC18 - Izbriši oglas
+
+Glavni sudionik: Iznajmljivač, administrator
+
+Cilj: Izbrisati oglas o romobilu s popisa oglašenih romobila
+
+Sudionici: Baza podataka
+
+Preduvjet: Korisnik je prijavljen, ako je korisnik iznajmljivač mora imati barem jedan svoj aktivan oglas, a ako je korisnik administrator mora postojati barem jedan aktivan oglas bilo kojeg iznajmljivača
+
+Opis osnovnog tijeka:
+
+Korisnik pronalazi oglas kojeg želi izbrisati
+
+Korisnik odabire opciju „Izbriši oglas“
+
+Oglas o romobilu se miče iz pregleda dostupnih oglasa
+
+Ažurira se baza podataka
+
+
+
+UC19 – Iznajmi romobil
 
 Glavni sudionik: Klijent
 
-Cilj: Iznajmiti romobil
+Cilj: Iznajmiti romobil od iznajmljivača
 
 Sudionici: Iznajmljivač, baza podataka
 
-Preduvjet: Romobil dostupan za iznajmljivanje
+Preduvjet: Klijent je prijavljen, postoji barem jedan aktivan oglas
 
 Opis osnovnog tijeka:
 
@@ -512,7 +578,7 @@ Iznajmljivaču se šalje poruka sa zahtjevom za iznajmljivanje
 
 
 
-UC14 – Reagiraj na zahtjev za iznajmljivanje
+UC20 – Reagiraj na zahtjev za iznajmljivanje
 
 Glavni sudionik: Iznajmljivač
 
@@ -520,19 +586,21 @@ Cilj: Prihvatiti ili odbiti zahtjev klijenta za iznajmljivanje romobila
 
 Sudionici: Klijent, baza podataka
 
-Preduvjet: Postoji zahtjev za iznajmljivanjem na kojeg iznajmljivač još nije reagirao
+Preduvjet: Postoji zahtjev za iznajmljivanje na kojeg iznajmljivač još nije reagirao
 
 Opis osnovnog tijeka:
 
 Iznajmljivač pregledava zahtjev za iznajmljivanje
 
-Iznajmljivač prihvaća ili odbija ponudu, klijentu se šalje obavijest o odluci
+Iznajmljivač prihvaća ili odbija ponudu
+
+Klijentu se šalje obavijest o odluci
 
 Ako je ponuda prihvaćena, oglas o romobilu se miče iz dostupnih romobila
 
 
 
-UC15 – Zamijeni sliku romobila
+UC21 – Zamijeni sliku romobila
 
 Glavni sudionik: Klijent
 
@@ -540,17 +608,19 @@ Cilj: Zamijeniti sliku romobila kako bi prikazivala trenutno stanje romobila
 
 Sudionici: Iznajmljivač, baza podataka
 
-Preduvjet: Iznajmljivanje je u tijeku
+Preduvjet: Klijent je prijavljen, trenutno iznajmljuje romobil
 
 Opis osnovnog tijeka:
 
-Klijent pronalazi iznajmljivanje koje je u tijeku
+Klijent pregledava uvjete trenutno aktivnog najma
 
 Klijent odabire opciju „Zamijeni sliku“
 
 Klijent postavlja novu sliku romobila i opis što je drugačije na slici
 
 Šalje se obavijest iznajmljivaču da je došlo do zamjene slike
+
+Ažurira se baza podataka
 
 Opis mogućih odstupanja:
 
@@ -562,7 +632,7 @@ Korisnik ispravno unosi sliku i završava s unosom ili odustaje od zamjene slike
 
 
 
-UC16 – Žali se na zamjenu slike
+UC22 – Prijavi zamjenu slike
 
 Glavni sudionik: Iznajmljivač
 
@@ -570,7 +640,7 @@ Cilj: Poslati žalbu na zamjenu slike romobila koju je obavio klijent
 
 Sudionici: Administrator, baza podataka
 
-Preduvjet: Klijent napravio zamjenu slike romobila, iznajmljivač smatra sliku neispravnom
+Preduvjet: Iznajmljivač je prijavljen, klijent napravio zamjenu slike romobila
 
 Opis osnovnog tijeka:
 
@@ -580,7 +650,7 @@ Iznajmljivač šalje žalbu administratoru
 
 
 
-UC17 – Odluči i obavijesti o zamjeni slike
+UC23 - Odluči o zamjeni slike
 
 Glavni sudionik: Administrator
 
@@ -602,51 +672,7 @@ Baza podataka se ažurira
 
 
 
-UC18 – Pregledaj svoje razgovore
-
-Glavni sudionik: Klijent
-
-Cilj: Dobiti pregled svih prijašnjih razgovora s drugim klijentima
-
-Sudionici: Baza podataka
-
-Preduvjet: -
-
-Opis osnovnog tijeka:
-
-Klijent odabire opciju „ Moji razgovori”
-
-Klijent dobiva pregled svih korisnika s kojima je prethodno razgovarao i njihovih razgovora
-
-
-
-UC19 – Pošalji poruku
-
-Glavni sudionik: Klijent
-
-Cilj: Poslati poruku drugom korisniku
-
-Sudionici: Baza podataka
-
-Preduvjet: -
-
-Opis osnovnog tijeka:
-
-Korisnik pronalazi korisnika kojem želi poslati poruku
-
-Korisnik otvara razgovor s drugim korisnikom
-
-Korisnik upisuje poruku i šalje ju drugom korisniku
-
-Opis mogućih odstupanja:
-
-Korisnik unio poruku ali ju nije poslao prije izlaska iz razgovora
-
-Poruka se briše i ne šalje
-
-
-
-UC20 – Vrati romobil
+UC24 – Vrati romobil
 
 Glavni sudionik: Klijent
 
@@ -654,7 +680,7 @@ Cilj: Vratiti romobil iznajmljivaču kako bi iznajmljivanje završilo i zabilje�
 
 Sudionici: Iznajmljivač, baza podataka
 
-Preduvjet: Iznajmljivanje je u tijeku
+Preduvjet: Klijent je prijavljen, trenutno iznajmljuje romobil
 
 Opis osnovnog tijeka:
 
@@ -666,6 +692,8 @@ Izračunava se cijena koju klijent mora platiti iznajmljivaču
 
 Klijent i iznajmljivač dobivaju obavijest da je iznajmljivanje završeno i cijenu iznajmljivanja koju klijent plaća iznajmljivaču
 
+Podatci o transakciji se spremaju u bazu podataka
+
 Opis mogućih odstupanja:
 
 Romobil je vraćen prekasno
@@ -674,7 +702,7 @@ U ukupnu cijenu iznajmljivanja dodaje se iznos novčane kazne za prekasno vraća
 
 
 
-UC21 – Ocijeni klijenta
+UC25 – Ocijeni klijenta
 
 Glavni sudionik: Iznajmljivač
 
@@ -682,67 +710,177 @@ Cilj: Ocijeniti klijenta po završetku iznajmljivanja romobila
 
 Sudionici: Klijent, baza podataka
 
-Preduvjet: Klijent vratio romobil, iznajmljivanje je završeno
+Preduvjet: Klijent je vratio romobil, iznajmljivanje je završeno
 
 Opis osnovnog tijeka:
 
-Iznajmljivač ocjenjuje klijenta i ostavlja komentar
+Iznajmljivač ocjenjuje klijenta i ostavlja komentar o klijentu
 
 Recenzija se prikazuje na profilu klijenta
 
-
-
-UC22 – Spremi transakciju
-
-Glavni sudionik: Baza podataka
-
-Cilj: Zabilježiti transakciju u bazi podataka
-
-Sudionici: -
-
-Preduvjet: Klijent vratio romobil, iznajmljivanje je završeno
-
-Opis osnovnog tijeka:
-
-Po završetku iznajmljivanja odrađuje se transakcija i podatci o njoj se spremaju u bazu podataka
+Ažurira se baza podataka
 
 
 
-UC23 – Uplati novac banci
+UC26 –Isplati s računa
 
-Glavni sudionik: Klijent
+Glavni sudionik: Banka
 
-Cilj: Uplatiti cijenu iznajmljivanja banci
+Cilj: Smanjiti iznos novaca na računu klijenta za iznos cijene iznajmljivanja
 
-Sudionici: Banka, baza podataka
+Sudionici: Baza podataka
 
-Preduvjet: Klijent vratio romobil, iznajmljivanje je završeno
+Preduvjet: Klijent je vratio romobil, iznajmljivanje je završeno
 
 Opis osnovnog tijeka:
 
-Po završetku iznajmljivanja dogovoreni iznos se prebacuje s računa klijenta u banku
+Po završetku iznajmljivanja dogovoreni iznos se skida s računa klijenta u banci
 
 Banka prima iznos cijene iznajmljivanja
 
 
 
-UC24 – Isplati iznajmljivača
+UC27 – Uplati na račun
 
 Glavni sudionik: Banka
 
-Cilj: Uplatiti cijenu iznajmljivanja na račun iznajmljivača
+Cilj: Povećati iznos novaca na računu iznajmljivača za iznos cijene iznajmljivanja
 
-Sudionici: Iznajmljivač, baza podataka
+Sudionici: Baza podataka
 
-Preduvjet: Klijent uplatio dogovoreni iznos banci
+Preduvjet: Klijent je vratio romobil, iznajmljivanje je završeno
 
 Opis osnovnog tijeka:
 
-Banka uplaćuje dogovoreni iznos na račun iznajmljivača
+Po završetku iznajmljivanja dogovoreni iznos se stavlja na račun iznajmljivača u banci
 
 
 
-UC25 – Blokiraj korisnika
+UC28 – Pregledaj transakcije
+
+Glavni sudionik: Klijent
+
+Cilj: Dobiti uvid u sve prethodne transakcije gdje je klijent iznajmljivao romobil
+
+Sudionici: Baza podataka
+
+Preduvjet: Klijent je prijavljen
+
+Opis osnovnog tijeka:
+
+Klijent odabire opciju „Moje transakcije“
+
+Klijent dobiva pregled svih njegovih prethodnih transakcija
+
+
+
+UC29 – Pregledaj profil korisnika
+
+Glavni sudionik: Klijent, administrator
+
+Cilj: Pregledati informacije o drugom korisniku, njegovu ocjenu i recenzije o njemu
+
+Sudionici: Baza podataka
+
+Preduvjet: Klijent/administrator je prijavljen
+
+Opis osnovnog tijeka:
+
+Korisnik pronalazi korisnika čiji profil želi pregledati
+
+Korisnik odlazi na profil tog korisnika
+
+Korisnik pregledava profil drugog korisnika, njegove javno dostupne podatke, ocjene i recenzije
+
+
+
+UC30 - Izbriši recenziju
+
+Glavni sudionik: Iznajmljivač, administrator
+
+Cilj: Izbrisati recenziju o drugom korisniku
+
+Sudionici: Baza podataka
+
+Preduvjet: Ako je korisnik iznajmljivač, mora postojati recenzija na profilu klijenta koju je iznajmljivač napisao i koju želi izbrisati. Administrator može obrisati bilo koju recenziju.
+
+Opis osnovnog tijeka:
+
+Korisnik pronalazi profil drugog korisnika
+
+Korisnik odabire opciju „Izbriši recenziju“
+
+Recenzija se briše s profila korisnika na kojem je bila objavljena
+
+
+
+UC31 – Pregledaj razgovor
+
+Glavni sudionik: Klijent
+
+Cilj: Pregledati razgovor s nekim drugim korisnikom
+
+Sudionici: Baza podataka
+
+Preduvjet: Klijent je prijavljen
+
+Opis osnovnog tijeka:
+
+Klijent pronalazi razgovor kojeg želi pregledati
+
+Klijent ulazi u razgovor i pregledava ga
+
+Opis mogućih odstupanja:
+
+
+
+UC32 - Pošalji poruku
+
+Glavni sudionik: Klijent
+
+Cilj: Poslati poruku drugom korisniku
+
+Sudionici: Baza podataka
+
+Preduvjet: Klijent je prijavljen
+
+Opis osnovnog tijeka:
+
+Klijent pronalazi razgovor s korisnikom kojem želi poslati poruku
+
+Klijent upisuje poruku i šalje ju drugom korisniku
+
+Opis mogućih odstupanja:
+
+Korisnik unio poruku ali ju nije poslao prije izlaska iz razgovora
+
+Poruka se briše i ne šalje
+
+
+
+UC33 - Izbriši razgovor
+
+Glavni sudionik: Klijent
+
+Cilj: Izbrisati razgovor s drugim korisnikom
+
+Sudionici: Baza podataka
+
+Preduvjet: Klijent je prijavljen
+
+Opis osnovnog tijeka:
+
+Klijent pronalazi razgovor s korisnikom koji želi obrisati
+
+Klijent odabire opciju „Izbriši razgovor“
+
+Razgovor se briše iz pregleda razgovora kod oba korisnika
+
+Ažurira se baza podataka
+
+
+
+UC34 – Blokiraj korisnika
 
 Glavni sudionik: Administrator
 
@@ -750,29 +888,39 @@ Cilj: Korisniku zabraniti pristup aplikaciji
 
 Sudionici: Baza podataka
 
-Preduvjet: -
+Preduvjet: Administrator je prijavljen
 
 Opis osnovnog tijeka:
 
-Administrator odabire opciju „Blokiraj korisnika“
+Administrator pregledava profile prijavljenih korisnika
 
-Administrator upisuje podatke korisnika kojeg želi blokirati
-
-Administrator potvrđuje da želi blokirati korisnika
+Administrator odabire opciju ,,Blokiraj korisnika” kod odabranog korisnika
 
 U bazu podataka se zapisuje da je korisnik blokiran i pri sljedećoj prijavi bit će mu onemogućen pristup sustavu
 
-Opis mogućih odstupanja:
-
-Unos neispravnih podataka o korisniku
-
-Administrator dobiva odgovarajuću obavijest o neispravnosti podataka
-
-Administrator mijenja potrebne podatke i završava s unosom ili odustaje od blokiranja
 
 
+UC35 – Odblokiraj korisnika
 
-UC26 – Dodaj administratora
+Glavni sudionik: Administrator
+
+Cilj: Ponovno omogućiti korisniku pristup sustavu
+
+Sudionici: Baza podataka
+
+Preduvjet: Administrator je prijavljen, postoji barem jedan blokirani korisnik
+
+Opis osnovnog tijeka:
+
+Administrator pregledava profile blokiranih korisnika
+
+Administrator odabire opciju ,,Odblokiraj korisnika” kod odabranog korisnika
+
+U bazu podataka se zapisuje da je korisnik odblokiran i pri sljedećoj prijavi bit će mu omogućen pristup sustavu
+
+
+
+UC36 – Dodaj administratora
 
 Glavni sudionik: Administrator
 
@@ -780,20 +928,37 @@ Cilj: Dodijeliti drugom korisniku ulogu administratora
 
 Sudionici: Baza podataka
 
-Preduvjet: -
+Preduvjet: Administrator je prijavljen
 
 Opis osnovnog tijeka:
 
-Administrator odabire opciju ,,Dodaj administratora”
+Administrator pregledava profile prijavljenih korisnika
 
-Administrator unosi podatke korisnika kojemu želi dodijeliti ulogu administratora
+Administrator odabire opciju ,,Dodaj administratora” kod odabranog korisnika
 
-Administrator potvrđuje svoj odabir
+Odabranom korisniku dodjeljuje se uloga administratora
 
-Opis mogućih odstupanja:
+Ažurira se baza podataka
 
-Unos podataka koji ne odgovaraju nijednom registriranom korisniku u bazi podataka
 
-Administrator dobiva odgovarajuću obavijest o neispravnosti podataka
 
-Administrator mijenja potrebne podatke i završava s unosom ili odustaje od dodavanja
+UC37 - Izbriši administratora
+
+Glavni sudionik: Administrator
+
+Cilj: Oduzeti drugom administratoru ulogu administratora
+
+Sudionici: Baza podataka
+
+Preduvjet: Administrator je prijavljen, postoji barem još jedan administrator osim njega
+
+Opis osnovnog tijeka:
+
+Administrator pregledava postojeće administratore
+
+Administrator odabire opciju ,,Izbriši administratora” kod odabranog administratora
+
+Odabranom korisniku oduzima se uloga administratora
+
+Ažurira se baza podataka
+
