@@ -101,7 +101,7 @@ Ovaj entitet sadrzava sve važne informacije o preferencama korisnika aplikacije
 	rowhead = 1,
 } %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 	\hline \SetCell[c=3]{c}{\textbf{Preferences}}	 \\ \hline[3pt]
-	\SetCell{LightGreen}userId & INT	&  jedinstveni identifikator korisnika	 	\\ \hline
+	\SetCell{LightGreen}userId & INT	&  jedinstveni identifikator korisnika (Ref: User.userId) \\ \hline
 	language	& UserLanguage & jezik korisnika   	\\ \hline
 	darkMode & BOOLEAN &  omogućen dark mode \\ \hline
 \end{longtblr}
@@ -121,7 +121,7 @@ Ovaj entitet sadrzava sve važne informacije o socijalnim mrežama korisnika apl
 	rowhead = 1,
 } %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 	\hline \SetCell[c=3]{c}{\textbf{Social Media}}	 \\ \hline[3pt]
-	\SetCell{LightGreen}userId & INT	&  jedinstveni identifikator korisnika	 	\\ \hline
+	\SetCell{LightGreen}userId & INT	&  jedinstveni identifikator korisnika (Ref: User.userId)	\\ \hline
 	instagram	& VARCHAR &   	instagram account korisnika \\ \hline
 	facebook & VARCHAR & facebook account korisnika  \\ \hline
 	google & VARCHAR	&  google account korisnika		\\ \hline
@@ -143,7 +143,7 @@ Ovaj entitet sadrzava sve važne informacije o postavkama privatnosti korisnika 
 	rowhead = 1,
 } %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 	\hline \SetCell[c=3]{c}{\textbf{Privacy Settings}}	 \\ \hline[3pt]
-	\SetCell{LightGreen}userId & INT	&  	 jedinstveni identifikator korisnika	\\ \hline
+	\SetCell{LightGreen}userId & INT	&  	 jedinstveni identifikator korisnika (Ref: User.userId)	\\ \hline
 	isFirstNameVisible	& BOOLEAN &   omogućena vidljivost imena korisnika	\\ \hline
 	isLastNameVisible & BOOLEAN &   omogućena vidljivost prezimena korisnika\\ \hline
 	isNicknameVisible & BOOLEAN	&  		omogućena vidljivost nadimka korisnika\\ \hline
@@ -165,7 +165,7 @@ Ovaj entitet sadrzava sve važne informacije o dokumentima korisnika aplikacije.
 	rowhead = 1,
 } %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 	\hline \SetCell[c=3]{c}{\textbf{Document}}	 \\ \hline[3pt]
-	\SetCell{LightGreen}userId & INT	&  jedinstveni identifikator korisnika	 	\\ \hline
+	\SetCell{LightGreen}userId & INT	&  jedinstveni identifikator korisnika (Ref: User.userId)	\\ \hline
 	criminalRecordURL	& VARCHAR &  url kaznene evidencije	\\ \hline
 	identification- DocumentURL & VARCHAR &  url identifikacijskog dokumenta \\ \hline
 	status & DocumentStatus	& status dokumenta (pending, approved, rejected) 		\\ \hline
@@ -195,7 +195,7 @@ Ovaj entitet sadrzava sve važne informacije o pojedinom romobilu. Sadrži atrib
 	maxRange	& FLOAT & maksimalni domet  	\\ \hline
 	yearOfManufacture	& INT &   	godina proizvodnje\\ \hline
 	additionalInformation	& TEXT &  dodatne informacije 	\\ \hline
-	\SetCell{LightBlue}userId	& INT & jedinstveni identifikator korisnika  	\\ \hline
+	\SetCell{LightBlue}userId	& INT & jedinstveni identifikator korisnika (Ref: User.userId)	\\ \hline
 	availability	& BOOLEAN &  dostupnost 	\\ \hline
 \end{longtblr}
 
@@ -221,7 +221,7 @@ Ovaj entitet sadrzava sve važne informacije o pojedinom oglasu. Sadrži atribut
 	returnByTime 	& TIMESTAMP & vrijeme vraćanja   	\\ \hline
 	pricePerKilometer	& FLOAT &   cijena po kilometru	\\ \hline
 	penaltyFee	& FLOAT &   	kaznena naknada\\ \hline
-	\SetCell{LightBlue}scooterId	& INT &  jedinstveni identifikator romobila 	\\ \hline
+	\SetCell{LightBlue}scooterId	& INT &  jedinstveni identifikator romobila (Ref: Scooter.scooterId)	\\ \hline
 	listingTime	& TIMESTAMP &   	vrijeme objave oglasa\\ \hline
 	notes	& TEXT &  bilješke 	\\ \hline
 	status	& ListingStatus &   	status oglasa (active, finished, cancelled)\\ \hline
@@ -242,9 +242,9 @@ Ovaj entitet sadrzava sve važne informacije o pojedinom osvrtu. Sadrži atribut
 	rowhead = 1,
 } %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 	\hline \SetCell[c=3]{c}{\textbf{Review}}	 \\ \hline[3pt]
-	\SetCell{LightGreen}transactionId & INT	&  jedinstveni identifikator transakcije	 	\\ \hline
-	\SetCell{LightBlue}reviewerUsername	& VARCHAR &  korisničko ime recenzenta 	\\ \hline
-	\SetCell{LightBlue}renterUsername & VARCHAR &  korisničko ime iznajmljivača \\ \hline
+	\SetCell{LightGreen}transactionId & INT	&  jedinstveni identifikator transakcije (Ref: Transaction.transactionId) 	\\ \hline
+	\SetCell{LightBlue}reviewerUsername	& VARCHAR &  korisničko ime recenzenta (Ref: User.nickname) 	\\ \hline
+	\SetCell{LightBlue}renterUsername & VARCHAR &  korisničko ime iznajmljivača (Ref: User.nickname) \\ \hline
 	stars & INT	&  	broj zvjezdica/ocjena	\\ \hline
 	comment	& TEXT &  komentar 	\\ \hline
 	reviewTime	& TIMESTAMP &   vrijeme osvrta	\\ \hline
@@ -268,7 +268,7 @@ Ovaj entitet sadrzava sve važne informacije o pojedinoj transakciji. Sadrži at
 	\SetCell{LightGreen}transactionId & INT	&  jedinstveni identifikator transakcije	 	\\ \hline
 	kilometersTraveled	& FLOAT &   broj prijeđenih kilometara	\\ \hline
 	totalPrice	& FLOAT &   ukupna cijena	\\ \hline
-	\SetCell{LightBlue}listingId	& INT &   jedinstveni identifikator oglasa	\\ \hline
+	\SetCell{LightBlue}listingId	& INT &   jedinstveni identifikator oglasa (Ref: Listing.listingId)\\ \hline
 	paymentTime	& TIMESTAMP &   vrijeme plaćanja	\\ \hline
 	transactionStatus	& Transaction- Status &   status transakcije	\\ \hline
 \end{longtblr}
@@ -276,7 +276,7 @@ Ovaj entitet sadrzava sve važne informacije o pojedinoj transakciji. Sadrži at
 \subsection{Invoice}
 
 
-Ovaj entitet sadrzava sve važne informacije o pojedinoj dostavnici. Sadrži atribute:transactionId, invoiceNumber te paymentMethod. Ovaj entitet ima \textit{One-to-one} vezu s entitetom Transaction preko atributa transactionId.
+Ovaj entitet sadrzava sve važne informacije o pojedinoj dostavnici. Sadrži atribute: transactionId, invoiceNumber te paymentMethod. Ovaj entitet ima \textit{One-to-one} vezu s entitetom Transaction preko atributa transactionId.
 
 
 \begin{longtblr}[
@@ -288,7 +288,7 @@ Ovaj entitet sadrzava sve važne informacije o pojedinoj dostavnici. Sadrži atr
 	rowhead = 1,
 } %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 	\hline \SetCell[c=3]{c}{\textbf{Invoice}}	 \\ \hline[3pt]
-	\SetCell{LightGreen}transactionId  & INT	&  	 jedinstveni identifikator transakcije	\\ \hline
+	\SetCell{LightGreen}transactionId  & INT	&  	 jedinstveni identifikator transakcije (Ref: Transaction.transactionId)	\\ \hline
 	invoiceNumber	& INT &   broj fakture	\\ \hline
 	paymentMethod & PaymentMethod &   način plaćanja (PayPal, kekspay, Revolut)\\ \hline
 \end{longtblr}
@@ -309,9 +309,9 @@ Ovaj entitet sadrzava sve važne informacije o pojedinoj obavijesti. Sadrži atr
 } %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 	\hline \SetCell[c=3]{c}{\textbf{Notification}}	 \\ \hline[3pt]
 	\SetCell{LightGreen}notificationId & INT	&  	jedinstveni identifikator obavijesti 	\\ \hline
-	\SetCell{LightBlue}userId	& INT &   	jedinstveni identifikator korisnika	\\ \hline
-	\SetCell{LightBlue}requestingUser & INT & korisnik koji zahtjeva  \\ \hline
-	\SetCell{LightBlue}decisionAdmin & INT	&  	admin za odluku	\\ \hline
+	\SetCell{LightBlue}userId	& INT &   	jedinstveni identifikator korisnika (Ref: User.userId)	\\ \hline
+	\SetCell{LightBlue}requestingUser & INT & korisnik koji zahtjeva (Ref: User.userId)  \\ \hline
+	\SetCell{LightBlue}decisionAdmin & INT	&  	admin za odluku (Ref: User.userId)	\\ \hline
 	content	& TEXT &  sadržaj 	\\ \hline
 	isRead	& BOOLEAN &   pročitanost	\\ \hline
 	sentTime	& TIMESTAMP &   vrijeme slanja	\\ \hline
@@ -333,8 +333,8 @@ Ovaj entitet sadrzava sve važne informacije o pojedinom razgovoru. Sadrži atri
 } %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 	\hline \SetCell[c=3]{c}{\textbf{ChatSession}}	 \\ \hline[3pt]
 	\SetCell{LightGreen} chatId & INT	&  	jedinstveni identifikator razgovora 	\\ \hline
-	\SetCell{LightBlue}user1	& INT &   korisnik 1	\\ \hline
-	\SetCell{LightBlue}user2 & INT &  korisnik 2 \\ \hline
+	\SetCell{LightBlue}user1	& INT &   korisnik 1 (Ref: User.userId)	\\ \hline
+	\SetCell{LightBlue}user2 & INT &  korisnik 2 (Ref: User.userId) \\ \hline
 	startCommunication- Time 	& TIMESTAMP &   vrijeme početka komunikacije	\\ \hline
 	lastMessageTime	& TIMESTAMP &   vrijeme zadnje poslane poruke	\\ \hline
 \end{longtblr}
@@ -354,8 +354,8 @@ Ovaj entitet sadrzava sve važne informacije o pojedinoj poruci. Sadrži atribut
 } %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 	\hline \SetCell[c=3]{c}{\textbf{Message}}	 \\ \hline[3pt]
 	\SetCell{LightGreen}messageId & INT	&  	jedinstveni identifikator poruke 	\\ \hline
-	\SetCell{LightBlue}senderUsername	& VARCHAR &   nadimak pošiljatelja	\\ \hline
-	\SetCell{LightBlue}sessionId & INT &  jedinstveni identifikator razgovora \\ \hline
+	\SetCell{LightBlue}senderUsername	& VARCHAR &   nadimak pošiljatelja (Ref: User.nickname)	\\ \hline
+	\SetCell{LightBlue}sessionId & INT &  jedinstveni identifikator razgovora (Ref: ChatSession.chatId) \\ \hline
 	text & TEXT	&  	tekst	\\ \hline
 	sentTime 	& TIMESTAMP &   vrijeme slanja	\\ \hline
 	status	& MessageStatus &   status poruke (read, unread)	\\ \hline
@@ -377,8 +377,8 @@ Ovaj entitet sadrzava sve važne informacije o zahtjevu za promjenom slike. Sadr
 } %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
 	\hline \SetCell[c=3]{c}{\textbf{ImageChangeRequest}}	 \\ \hline[3pt]
 	\SetCell{LightGreen}imageId & INT	&  	jedinstveni identifikator slike 	\\ \hline
-	\SetCell{LightBlue}requesterId	& INT &   jedinstveni identifikator pošiljatelja	\\ \hline
-	\SetCell{LightBlue}listingId & INT &  jedinstveni identifikator oglasa \\ \hline
+	\SetCell{LightBlue}requesterId	& INT &   jedinstveni identifikator pošiljatelja (Ref: User.userId)	\\ \hline
+	\SetCell{LightBlue}listingId & INT &  jedinstveni identifikator oglasa (Ref: Listing.listingId) \\ \hline
 	newImageUrl & VARCHAR	&  	url nove slike	\\ \hline
 	complaintTime 	& TIMESTAMP &   vrijeme žalbe	\\ \hline
 	additionalComments	& TEXT &   dodatni komentari	\\ \hline
