@@ -8,9 +8,9 @@
 			
 			\begin{packed_enum}
 				
-				\item Klijent
-				\item Iznajmljivač			
-				\item Administrator sustava
+				\item Klijenti
+				\item Iznajmljivači			
+				\item Administratori sustava
 				\item Razvojni tim 
 				
 			\end{packed_enum}
@@ -23,9 +23,9 @@
 				
 				\begin{packed_enum}
 					
-					\item pregledavati romobile
+					\item pregledavati dostupne romobile
 					\item odabrati romobil da dobije detaljnije podatke o njemu
-					\item registrirati se
+					\item registrirati se u sustav, stvoriti novi korisnički račun
 					
 					
 				\end{packed_enum}
@@ -33,7 +33,8 @@
 				\item  \underbar{Klijent (inicijator) može:}
 				
 				\begin{packed_enum}
-					\item pregledati podatke na svome profilu i urediti ih 
+					\item pregledavati dostupne romobile
+					\item pregledati osobne podatke na svome profilu i urediti ih 
 					\item izbrisati svoj profil
 					\item registrirati romobil
 					\item iznajmiti romobil
@@ -61,7 +62,7 @@
 				\item prihvatiti ili odbiti zahtjev za iznajmljivanje
 				\item poslati žalbu na zamjenu slika romobila 
 				\item ocijeniti klijenta
-				\item izbrisati recenziju o drugom korisniku
+				\item izbrisati svoju recenziju o drugom korisniku
 				
 			\end{packed_enum}
 			\item  \underbar {Administrator (inicijator) može:}
@@ -70,13 +71,13 @@
 		
 			\item pregledati dostupne romobile i detalje o njima
 			\item pregledati dokumentaciju za registraciju i prihvatiti ili odbiti zahtjev za registraciju
-			\item prijaviti se u sustav
 			\item pregledati svoj profil
 			\item urediti svoj profil
 			\item izbrisati svoj profil
 			\item Izbrisati oglas
-			\item odlučiti o poništava li se zamjena slika ili ne
-			\item izbrisati recenziju
+			\item odlučiti poništava li se zamjena slika ili ne
+			\item pogledati profil drugog korisnika
+			\item izbrisati recenziju o nekom korisniku
 			\item blokirati korisnika
 			\item odblokirati korisnika
 			\item dodati drugom korisniku ulogu administratora
@@ -86,7 +87,17 @@
 		
 			
 			\end{packed_enum}
-			\item  \underbar {Baza podataka(sudionik)}
+			\item  \underbar {Baza podataka(sudionik):}
+
+			\begin{packed_enum}
+				
+				\item pohranjuje sve podatke o korisnicima i njihovim ovlastima
+				
+				\item pohranjuje sve podatke o romobilima, njihovim iznajmljivanjima i transakcijama
+				
+				
+				
+			\end{packed_enum}
 			
 			\item  \underbar {Banka (inicijator) može:}
 			
@@ -112,7 +123,7 @@
 				\subsubsection{Opis obrazaca uporabe}
 					
 					
-					\noindent \underbar{\textbf{UC1 - Pregledaj romobile}}
+					\noindent \underbar{\textbf{UC1 - Pregledaj romobil}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }Neregistrirani korisnik, klijent, administrator 
@@ -803,10 +814,10 @@
 						\noindent \underbar{\textbf{UC29 - Pregledaj profil korisnika}}
 						\begin{packed_item}
 							
-							\item \textbf{Glavni sudionik: } Klijent
+							\item \textbf{Glavni sudionik: } Klijent, administrator 
 							\item  \textbf{Cilj:} Pregledati informacije o drugom korisniku, njegovu ocjenu i recenzije o njemu
 							\item  \textbf{Sudionici:} Baza podataka
-							\item  \textbf{Preduvjet:} Klijent je prijavljen
+							\item  \textbf{Preduvjet:} Klijent/administrator je prijavljen
 							\item  \textbf{Opis osnovnog tijeka:}
 							
 							\item[] \begin{packed_enum}
@@ -983,12 +994,25 @@
 				\eject		
 				
 			\subsection{Sekvencijski dijagrami}
+
+				\subsubsection{Obrazac uporabe UC10 - Registriraj romobil}
+						Klijent šalje zahtjev za prikaz stranice s njegovim registriranim romobilima. Poslužitelj iz baze dohvaća registrirane romobile tog klijenta. Ako klijent ima već registrirane romobile, poslužitelj ih prikazuje, inače poslužitelj prikazuje klijentu poruku da nema registriranih romobila. Klijent započinje registraciju romobila tako što zatraži od poslužitelja da mu prikaže obrazac za registraciju. Poslužitelj mu prikazuje prazan obrazac i klijent unosi podatke za registraciju te ih vraća poslužitelju. Poslužitelj provjerava jesu li podatci ispravno uneseni. Sve dok klijent ne unese ispravne podatke ispisuje mu se poruka da su podatci neispravni, unosi nove podatke koje zatim provjerava poslužitelj i vraća informaciju jesu li podatci ispravni ili ne. Kada klijent unese ispravne podatke za registraciju, potvrđuje svoj unos i poslužitelj te podatke prosljeđuje bazi koja pohranjuje registraciju. Romobil se nakon registracije prikazuje među klijentovim registriranim romobilima. Ako klijent do sada nije imao ulogu iznajmljivača, sada mu se dodjeljuje. 
 				
-				\textbf{\textit{dio 1. revizije}}\\
-				
-				\textit{Nacrtati sekvencijske dijagrame koji modeliraju najvažnije dijelove sustava (max. 4 dijagrama). Ukoliko postoji nedoumica oko odabira, razjasniti s asistentom. Uz svaki dijagram napisati detaljni opis dijagrama.}
+				\eject
+
+				\subsubsection{Obrazac uporabe UC14 - Oglasi romobil}
+						Iznajmljivač šalje zahtjev za prikaz stranice s njegovim registriranim romobilima. Poslužitelj iz baze dohvaća registrirane romobile tog iznajmljivača i prikazuje mu ih. Iznajmljivač započinje stvaranje oglasa tako što zatraži da mu poslužitelj pošalje obrazac koji mora ispuniti. Poslužitelj prikazuje iznajmljivaču obrazac i iznajmljivač unosi podatke o oglasu te ih vraća poslužitelju. Poslužitelj provjerava jesu li podatci ispravno uneseni. Sve dok iznajmljivač ne unese ispravne podatke ispisuje mu se poruka da su podatci neispravni, unosi nove podatke koje zatim provjerava poslužitelj i vraća informaciju jesu li podatci ispravni ili ne. Kada iznajmljivač unese ispravne podatke za registraciju, potvrđuje svoj unos i poslužitelj te podatke prosljeđuje bazi koja pohranjuje oglas. Iznajmljivač dobiva poruku da je oglas uspješno postavljen. Oglas se prikazuje među oglasima dostupnim za iznajmljivanje.
+				\eject
+
+				\subsubsection{Obrazac uporabe UC20 - Reagiraj na zahtjev za iznajmljivanje}
+						Karlin dio - piši sve u jednom redu
+				\eject
+
+				\subsubsection{Obrazac uporabe UC24 - Vrati romobil}
+						Pri povratku romobila na kraju iznajmljivanja klijent zatraži od poslužitelja sve svoje aktivne najmove. Baza podataka pronalazi aktivne najmove tog klijenta i vraća ih poslužitelju. Ako klijent nema nijedan aktivan najam poslužitelj mu vraća poruku koja ga o tome obavještava. U slučaju da aktivni najmovi postoje, poslužitelj ih vraća klijentu. Klijent odabire za koji romobil želi potvrditi da je vraćen i šalje poslužitelju zahtjev da završi iznajmljivanje. Poslužitelj zabilježava kraj u bazi podataka i izračunava broj prijeđenih kilometara i cijenu najma. Informacije o transakciji za taj najam spremaju se u bazu podataka. Poslužitelj prikazujje obavijest o cijeni najma iznajmljivaču i klijentu koji su u najmu sudjelovali.
 				\eject
 	
+
 		\section{Ostali zahtjevi}
 		
 			\textbf{\textit{dio 1. revizije}}\\
