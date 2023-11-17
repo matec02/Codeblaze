@@ -5,6 +5,8 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/Codeblaze/pom.xml" />
+        <option value="$PROJECT_DIR$/IzvorniKod/pom.xml" />
+        <option value="$PROJECT_DIR$/IzvorniKod/backend/pom.xml" />
       </list>
     </option>
   </component>
