@@ -1,1 +1,11 @@
 Dnevnik sastanaka
+
+Sastanak br1:
+Datum: 20.10.
+Prisutni: Svi
+Detalji: ...
+
+Sastanak br1:
+Datum: 25.10.
+Prisutni: Svi
+Detalji: ...
