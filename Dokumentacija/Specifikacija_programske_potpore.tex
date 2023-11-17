@@ -990,40 +990,105 @@
 					
 				\subsubsection{Dijagrami obrazaca uporabe}
 					
-					\textit{Prikazati odnos aktora i obrazaca uporabe odgovarajućim UML dijagramom. Nije nužno nacrtati sve na jednom dijagramu. Modelirati po razinama apstrakcije i skupovima srodnih funkcionalnosti.}
+					
+					
+					\begin{figure} [H]
+						
+						\includegraphics[width=1\linewidth]{dijagrami/iznajmljivac.png}
+						\centering
+						\caption{Dijagram obrasca uporabe - funkcionalnost iznajmljivača}
+						\label{fig:Dijagram obrasca uporabe - funkcionalnost iznajmljivača}
+					\end{figure}
+					
+					\begin{figure} [H]
+						
+						\includegraphics[width=1\linewidth]{dijagrami/klijent_i_banka.png}
+						\centering
+						\caption{Dijagram obrasca uporabe - funkcionalnost klijenta i banke}
+						\label{fig:Dijagram obrasca uporabe - funkcionalnost klijenta i banke}
+					\end{figure}
+					
+					\begin{figure} [H]
+						
+						\includegraphics[width=1\linewidth]{dijagrami/neregistrirani_i_admin.png}
+						\centering
+						\caption{Dijagram obrasca uporabe - funkcionalnost neregistriranog korisnika i administratora}
+						\label{fig:Dijagram obrasca uporabe - funkcionalnost neregistriranog korisnika i administratora}
+					\end{figure}
+					
+					
+					
 				\eject		
 				
 			\subsection{Sekvencijski dijagrami}
 
 				\subsubsection{Obrazac uporabe UC10 - Registriraj romobil}
 						Klijent šalje zahtjev za prikaz stranice s njegovim registriranim romobilima. Poslužitelj iz baze dohvaća registrirane romobile tog klijenta. Ako klijent ima već registrirane romobile, poslužitelj ih prikazuje, inače poslužitelj prikazuje klijentu poruku da nema registriranih romobila. Klijent započinje registraciju romobila tako što zatraži od poslužitelja da mu prikaže obrazac za registraciju. Poslužitelj mu prikazuje prazan obrazac i klijent unosi podatke za registraciju te ih vraća poslužitelju. Poslužitelj provjerava jesu li podatci ispravno uneseni. Sve dok klijent ne unese ispravne podatke ispisuje mu se poruka da su podatci neispravni, unosi nove podatke koje zatim provjerava poslužitelj i vraća informaciju jesu li podatci ispravni ili ne. Kada klijent unese ispravne podatke za registraciju, potvrđuje svoj unos i poslužitelj te podatke prosljeđuje bazi koja pohranjuje registraciju. Romobil se nakon registracije prikazuje među klijentovim registriranim romobilima. Ako klijent do sada nije imao ulogu iznajmljivača, sada mu se dodjeljuje. 
+						
+						\begin{figure} [H]
+							
+							\includegraphics[width=1\linewidth]{dijagrami/UC10 - Registriraj romobil.png}
+							\centering
+							\caption{Sekvencijski dijagram obrasca UC10 - Registriraj romobil}
+							\label{fig:Sekvencijski dijagram obrasca UC10 - Registriraj romobil}
+						\end{figure}
 				
 				\eject
 
 				\subsubsection{Obrazac uporabe UC14 - Oglasi romobil}
 						Iznajmljivač šalje zahtjev za prikaz stranice s njegovim registriranim romobilima. Poslužitelj iz baze dohvaća registrirane romobile tog iznajmljivača i prikazuje mu ih. Iznajmljivač započinje stvaranje oglasa tako što zatraži da mu poslužitelj pošalje obrazac koji mora ispuniti. Poslužitelj prikazuje iznajmljivaču obrazac i iznajmljivač unosi podatke o oglasu te ih vraća poslužitelju. Poslužitelj provjerava jesu li podatci ispravno uneseni. Sve dok iznajmljivač ne unese ispravne podatke ispisuje mu se poruka da su podatci neispravni, unosi nove podatke koje zatim provjerava poslužitelj i vraća informaciju jesu li podatci ispravni ili ne. Kada iznajmljivač unese ispravne podatke za registraciju, potvrđuje svoj unos i poslužitelj te podatke prosljeđuje bazi koja pohranjuje oglas. Iznajmljivač dobiva poruku da je oglas uspješno postavljen. Oglas se prikazuje među oglasima dostupnim za iznajmljivanje.
+						
+						\begin{figure} [H]
+							
+							\includegraphics[width=1\linewidth]{dijagrami/UC14 - Oglasi romobil.png}
+							\centering
+							\caption{Sekvencijski dijagram obrasca UC14 - Oglasi romobil}
+							\label{fig:Sekvencijski dijagram obrasca UC14 - Oglasi romobil}
+						\end{figure}
+						
 				\eject
 
 				\subsubsection{Obrazac uporabe UC20 - Reagiraj na zahtjev za iznajmljivanje}
 				Iznajmljivač inicira zahtjev za pregled trenutačnih zahtjeva za najam kako bi odgovorio na klijentovu želju za najmom romobila. Poslužitelj preuzima trenutne zahtjeve koje je iznajmljivač poslao i prikazuje ih. Iznajmljivač zatim donosi odluku o prihvaćanju ili odbijanju zahtjeva, a svoj odabir označava u aplikaciji. Poslužitelj prosljeđuje tu informaciju bazi podataka kako bi se ažurirao status zahtjeva. U slučaju prihvaćanja zahtjeva za najam, oglas za najam romobila se uklanja iz baze podataka, a informacija o nedostupnosti romobila se pohranjuje. Nakon što se promjene spreme u bazu podataka, sustav obavještava klijenta o odluci iznajmljivača putem aplikacijske obavijesti.
+				
+				\begin{figure} [H]
+					
+					\includegraphics[width=1\linewidth]{dijagrami/UC20 - Reagiraj na zahtjev za iznajmljivanje.png}
+					\centering
+					\caption{Sekvencijski dijagram obrasca UC20 - Reagiraj na zahtjev za iznajmljivanje}
+					\label{fig:Sekvencijski dijagram obrasca UC20 - Reagiraj na zahtjev za iznajmljivanje}
+				\end{figure}
+				
 				\eject
 
 				\subsubsection{Obrazac uporabe UC24 - Vrati romobil}
 						Pri povratku romobila na kraju iznajmljivanja klijent zatraži od poslužitelja sve svoje aktivne najmove. Baza podataka pronalazi aktivne najmove tog klijenta i vraća ih poslužitelju. Ako klijent nema nijedan aktivan najam poslužitelj mu vraća poruku koja ga o tome obavještava. U slučaju da aktivni najmovi postoje, poslužitelj ih vraća klijentu. Klijent odabire za koji romobil želi potvrditi da je vraćen i šalje poslužitelju zahtjev da završi iznajmljivanje. Poslužitelj zabilježava kraj u bazi podataka i izračunava broj prijeđenih kilometara i cijenu najma. Informacije o transakciji za taj najam spremaju se u bazu podataka. Poslužitelj prikazujje obavijest o cijeni najma iznajmljivaču i klijentu koji su u najmu sudjelovali.
+						
+						\begin{figure} [H]
+							
+							\includegraphics[width=1\linewidth]{dijagrami/UC24 - Vrati romobil.png}
+							\centering
+							\caption{Sekvencijski dijagram obrasca UC24 - Vrati romobil}
+							\label{fig:Sekvencijski dijagram obrasca UC24 - Vrati romobil}
+						\end{figure}
 				\eject
 	
 
 		\section{Ostali zahtjevi}
 		
-			\textbf{\textit{dio 1. revizije}}\\
+			
 		 
 			 \begin{packed_item}
+			 	\item Aplikacija mora se moći pokrenuti na svakome web-pregledniku
+			 	\item Aplikacija mora biti javno dostupna
 			 	\item Sustav mora omogućiti rad više korisnika u stvarnom vremenu
+			 	\item Korisničko sučelje i sustav moraju podržavati hrvatsku abecedu (dijakritičke znakove)
+			 	\item Neispravno korištenje korisničkog sučelja ne smije narušiti funkcionalnost i rad sustava
+			 	\item Službena valuta sustavu je EURO (€)
 			 	\item Sustav treba biti jednostavan za korištenje
 			 	\item Sustav mora biti ostvaren koristeći objektno orijentirane jezike
-			 	\item Neispravno korištenje korisničkog sučelja ne smije narušiti funkcionalnost i rad sustava
-			 	\item Korisničko sučelje i sustav moraju podržavati hrvatsku abecedu(dijakritičke znakove)
-			 	\item Službena valuta sustavu je EURO(€)
+			 	
+			 	
 			 \end{packed_item}
 			 
 			 
