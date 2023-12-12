@@ -33,7 +33,6 @@ public class UserController {
         return userService.findAll();
     }
 
-    @CrossOrigin(origins = "https://codeblazefe.onrender.com")
     @GetMapping("/by-nickname/{nickname}")
     public ResponseEntity<User> getUserByNickname(@PathVariable String nickname) {
         User user = userService.getUserByNickname(nickname);
@@ -43,7 +42,6 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @CrossOrigin(origins = "https://codeblazefe.onrender.com")
     @GetMapping("/pendingUsers")
     public ResponseEntity<List<User>> getAllPendingUsers() {
         List<User> allUsers = userService.findAll();
@@ -54,7 +52,6 @@ public class UserController {
         return ResponseEntity.ok(pendingUsers);
     }
 
-    @CrossOrigin(origins = "https://codeblazefe.onrender.com")
     @GetMapping("/acceptedUsers")
     public ResponseEntity<List<User>> getAllAcceptedUsers() {
         List<User> allUsers = userService.findAll();
@@ -65,7 +62,6 @@ public class UserController {
         return ResponseEntity.ok(acceptedUsers);
     }
 
-    @CrossOrigin(origins = "https://codeblazefe.onrender.com")
     @GetMapping("/admins")
     public ResponseEntity<List<User>> getAllAdmins() {
         List<User> allUsers = userService.findAll();
@@ -76,7 +72,6 @@ public class UserController {
         return ResponseEntity.ok(admins);
     }
 
-    @CrossOrigin(origins = "https://codeblazefe.onrender.com")
     @GetMapping("/blockedUsers")
     public ResponseEntity<List<User>> getAllBlockedUsers() {
         List<User> allUsers = userService.findAll();
@@ -87,7 +82,6 @@ public class UserController {
         return ResponseEntity.ok(blockedUsers);
     }
 
-    @CrossOrigin(origins = "https://codeblazefe.onrender.com")
     @GetMapping("/rejectedUsers")
     public ResponseEntity<List<User>> getAllRejectedUsers() {
         List<User> allUsers = userService.findAll();
@@ -98,7 +92,6 @@ public class UserController {
         return ResponseEntity.ok(rejectedUsers);
     }
 
-    @CrossOrigin(origins = "https://codeblazefe.onrender.com")
     @PutMapping("/{userId}/update-status")
     public ResponseEntity<?> updateUserStatus(@PathVariable Long userId, @RequestBody Map<String, String> updates) {
         String newStatus = updates.get("status");
@@ -106,7 +99,6 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @CrossOrigin(origins = "https://codeblazefe.onrender.com")
     @PutMapping("/{userId}/update-role")
     public ResponseEntity<?> updateRoleStatus(@PathVariable Long userId, @RequestBody Map<String, String> updates) {
         String newRole = updates.get("role");
@@ -120,7 +112,6 @@ public class UserController {
         return user != null ? ResponseEntity.ok(user) : ResponseEntity.notFound().build();
     }
 
-    @CrossOrigin(origins = "https://codeblazefe.onrender.com")
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestPart("user") String userJson) {
         try {
@@ -142,7 +133,6 @@ public class UserController {
         }
     }
 
-    @CrossOrigin(origins = "https://codeblazefe.onrender.com")
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody Map<String, String> credentials) {
         String email = credentials.get("email");
@@ -165,7 +155,6 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
     }
 
-    @CrossOrigin(origins = "https://codeblazefe.onrender.com")
     @PutMapping("/upgrade-role/{userId}")
     public ResponseEntity<UserRole> upgradeUserRole(@PathVariable Long userId) {
         UserRole updatedRole = userService.upgradeUserRole(userId);

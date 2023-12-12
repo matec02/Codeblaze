@@ -47,7 +47,7 @@ function MyScooter() {
 
     const handleViewScooters = async (event) => {
         try {
-            const response = await fetch("/api/scooters/get-all-scooters", {
+            const response = await fetch(`/api/scooters/owner/${user.userId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
