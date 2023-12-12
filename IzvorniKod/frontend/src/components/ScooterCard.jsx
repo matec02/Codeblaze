@@ -98,13 +98,13 @@ function ScooterCard({ scooter }) {
                 const imageUploadData = await imageResponse.json();
                 const photoUrlCR = imageUploadData.image;
 
-                const registrationFormData = new FormData();
-                registrationFormData.append("photoUrlNewImage", new Blob([JSON.stringify(photoUrlCR)], { type: "application/json" }));
-                registrationFormData.append('user', new Blob([JSON.stringify(user)], { type: "application/json" }));
+                const newImageFormData = new FormData();
+                newImageFormData.append("photoUrlNewImage", new Blob([JSON.stringify(photoUrlCR)], { type: "application/json" }));
+                newImageFormData.append('user', new Blob([JSON.stringify(user)], { type: "application/json" }));
 
                 const registrationResponse = await fetch('/api/registration/complete', {
                     method: 'POST',
-                    body: registrationFormData,
+                    body: newImageFormData,
                 });
 
                 if (registrationResponse.ok) {
