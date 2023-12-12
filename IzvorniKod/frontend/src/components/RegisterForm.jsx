@@ -84,7 +84,7 @@ function RegisterForm() {
                         registrationFormData.append("photoUrlID", new Blob([JSON.stringify(photoUrlID)], {type: "application/json"}));
                         registrationFormData.append('user', new Blob([JSON.stringify(user)], {type: "application/json"}));
 
-                        const response = await fetch('http://localhost:8080/api/registration/complete', {
+                        const response = await fetch('/api/registration/complete', {
                             method: 'POST',
                             body: registrationFormData,
                         });
@@ -148,15 +148,17 @@ function RegisterForm() {
                 </div>
 
                 {/* File Upload Section */}
-                <div className="form-group">
-                    <label>Kaznena Evidencija:</label>
-                    <input type="file" onChange={(e) => handleFileChange(e, setCriminalRecord)} required/>
+                <div className="section-container">
+                    <div className="section-title">Dokumenti</div>
+                    <div className="form-group">
+                        <label>Kaznena Evidencija:</label>
+                        <input type="file" onChange={(e) => handleFileChange(e, setCriminalRecord)} required/>
+                    </div>
+                    <div className="form-group">
+                        <label>Dokument Identifikacije:</label>
+                        <input type="file" onChange={(e) => handleFileChange(e, setIdentificationDocument)} required/>
+                    </div>
                 </div>
-                <div className="form-group">
-                    <label>Dokument Identifikacije:</label>
-                    <input type="file" onChange={(e) => handleFileChange(e, setIdentificationDocument)} required/>
-                </div>
-
                 {/* Payment and Security Section */}
                 <div className="section-container">
                     <div className="section-title">Plaćanje i sigurnost</div>

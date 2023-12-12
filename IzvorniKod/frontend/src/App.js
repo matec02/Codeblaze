@@ -17,6 +17,7 @@ import MyProfile from "./components/MyProfile";
 
 import AdminRoute from "./components/AdminRoute";
 import ProtectedRoutes from "./components/ProtectedRoutes"
+import ProtectedRouteScooter from "./components/ProtectedRouteScooter"
 import Unauthorized from "./components/Unauthorized";
 import ChatPanel from "./components/ChatPanel";
 import ChatWindow from "./components/ChatWindow";
@@ -36,23 +37,39 @@ function App() {
                 <Route path="/home" element={<Home/>}/>
                 <Route path="/login" element={<LoginForm/>}/>
                 <Route path="/register" element={<RegisterForm/>}/>
-                <Route path="/chat-panel" element={<ChatPanel/>}/>
-                <Route path="/chat-window" element={<ChatWindow/>}/>
-                <Route path="/chat-message" element={<ChatMessage/>}/>
 
-                <Route path="/profile-pending" element={
+                <Route path="/chat-panel" element={
                     <ProtectedRoutes>
-                        <ProfilePending />
+                        <ChatPanel/>
+                    </ProtectedRoutes>
+                    }/>
+
+
+                <Route path="/chat-window" element={
+                    <ProtectedRoutes>
+                        <ChatWindow/>
                     </ProtectedRoutes>
                 }/>
-                <Route path="/profile-blocked" element={
+
+
+                <Route path="/chat-message" element={
                     <ProtectedRoutes>
-                        <ProfileBlocked />
+                        <ChatMessage/>
                     </ProtectedRoutes>
+                }/>
+
+                <Route path="/profile-pending" element={
+                        <ProfilePending />
+                }/>
+                <Route path="/profile-blocked" element={
+                        <ProfileBlocked />
                 }/>
                 <Route path="/scooters" element={
                     <ProtectedRoutes>
-                        <MyScooter />
+                        {/*pending se moze login, ali ne moze dodati scooter*/}
+                        <ProtectedRouteScooter>
+                            <MyScooter />
+                        </ProtectedRouteScooter>
                     </ProtectedRoutes>
                 }/>
                 <Route path="/add-scooter" element={

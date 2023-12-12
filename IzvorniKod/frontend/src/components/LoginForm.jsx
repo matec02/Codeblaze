@@ -16,7 +16,7 @@ function LoginForm() {
 
     const handleAdmins = async () => {
         try {
-            const response = await fetch("http://localhost:8080/api/users/admins", {
+            const response = await fetch("/api/users/admins", {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ function LoginForm() {
 
 
         try {
-            const response = await fetch('http://localhost:8080/api/users/login', {
+            const response = await fetch('/api/users/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -59,9 +59,10 @@ function LoginForm() {
             const data = await response.json();
             if (response.ok) {
                 if (data.status == "PENDING"){
+                    localStorage.setItem('authToken', data.authToken);
                     navigate('/profile-pending')
                 } else if (data.status == "BLOCKED"){
-                    //localStorage.setItem('authToken', data.authToken); commented because of profilePicture
+                    //localStorage.setItem('authToken', data.authToken); TODO protect all routes
                     navigate('/profile-blocked')
                 }
                 else {

@@ -15,7 +15,7 @@ function Home() {
         setErrorMessage(''); // Assuming setErrorMessage is defined elsewhere in your component
 
         try {
-            const response = await fetch("http://localhost:8080/api/scooters/get-all-scooters", {
+            const response = await fetch("/api/scooters/get-all-scooters", {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

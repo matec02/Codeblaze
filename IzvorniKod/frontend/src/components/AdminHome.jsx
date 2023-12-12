@@ -5,13 +5,13 @@ function AdminHome() {
 
     return (
         <div className="admin-home-container">
-            <h2>Select option for Admin</h2>
+            <h2>Odaberi opciju za administratora</h2>
             <div className="adminOptions">
                 <button onClick={() => navigate("/")} className="backToHome">
-                    BACK TO HOME PAGE
+                    POVRATAK NA POČETNU STRANICU
                 </button>
                 <button onClick={() => navigate('/admin-dashboard')} className="adminDashboard">
-                    ADMIN DASHBOARD
+                    PANEL ZA ADMINA
                 </button>
             </div>
         </div>

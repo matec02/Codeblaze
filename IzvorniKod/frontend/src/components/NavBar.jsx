@@ -12,8 +12,8 @@ function NavBar() {
     const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
-        fetchUsers("http://localhost:8080/api/users/acceptedUsers", setAcceptedUsers);
-        fetchUsers("http://localhost:8080/api/users/admins", setAdmins);
+        fetchUsers("/api/users/acceptedUsers", setAcceptedUsers);
+        fetchUsers("/api/users/admins", setAdmins);
     }, []);
 
     const dropdownRef = useRef(null);

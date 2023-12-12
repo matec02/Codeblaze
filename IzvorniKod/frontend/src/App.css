@@ -64,14 +64,6 @@
     align-items: center;
     flex-grow: 1;
 }
-/* Navbar styles */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #333;
-    padding: 10px 20px;
-}
 
 .navbar-logo img {
     height: 50px; /* Adjust as needed */

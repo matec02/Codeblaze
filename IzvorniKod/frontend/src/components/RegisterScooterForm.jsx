@@ -57,7 +57,7 @@ function RegisterScooterForm() {
 
         try {
             // First, make a GET request to fetch the user by nickname
-            const userResponse = await fetch(`http://localhost:8080/api/users/by-nickname/${nickname}`);
+            const userResponse = await fetch(`/api/users/by-nickname/${nickname}`);
             if (!userResponse.ok) {
                 console.log(userResponse);
                 setErrorMessage('User not found.');
@@ -89,7 +89,7 @@ function RegisterScooterForm() {
                 formData.append('scooter', new Blob([JSON.stringify(scooter)], { type: "application/json" }));
                 formData.append('photoUrl', new Blob([JSON.stringify(photoUrl)], { type: "application/json" }));
 
-                const response = await fetch('http://localhost:8080/api/scooters/register', {
+                const response = await fetch('/api/scooters/register', {
                     method: 'POST',
                     body: formData,
                 });

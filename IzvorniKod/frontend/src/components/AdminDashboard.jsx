@@ -16,11 +16,11 @@ function AdminDashboard() {
     const [currentImageSrc, setCurrentImageSrc] = useState('');
 
     useEffect(() => {
-        fetchUsers("http://localhost:8080/api/users/pendingUsers", setPendingUsers);
-        fetchUsers("http://localhost:8080/api/users/acceptedUsers", setAcceptedUsers);
-        fetchUsers("http://localhost:8080/api/users/admins", setAdmins);
-        fetchUsers("http://localhost:8080/api/users/blockedUsers", setBlockedUsers);
-        fetchUsers("http://localhost:8080/api/users/rejectedUsers", setRejectedUsers);
+        fetchUsers("/api/users/pendingUsers", setPendingUsers);
+        fetchUsers("/api/users/acceptedUsers", setAcceptedUsers);
+        fetchUsers("/api/users/admins", setAdmins);
+        fetchUsers("/api/users/blockedUsers", setBlockedUsers);
+        fetchUsers("/api/users/rejectedUsers", setRejectedUsers);
         handleDocument();
 
     }, []);
@@ -36,7 +36,7 @@ function AdminDashboard() {
 
     const handleDocument = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/api/documents/all`, {
+            const response = await fetch(`/api/documents/all`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -59,7 +59,7 @@ function AdminDashboard() {
 
     const handleStatusChange = async (userId, status) => {
         try {
-            const response = await fetch(`http://localhost:8080/api/users/${userId}/update-status`, {
+            const response = await fetch(`/api/users/${userId}/update-status`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -104,7 +104,7 @@ function AdminDashboard() {
 
     const handleRoleChange = async (userId, role) => {
         try {
-            const response = await fetch(`http://localhost:8080/api/users/${userId}/update-role`, {
+            const response = await fetch(`/api/users/${userId}/update-role`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -174,15 +174,15 @@ function AdminDashboard() {
                     <table>
                         <thead>
                         <tr>
-                            <th>Nickname</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
+                            <th>Nadimak</th>
+                            <th>Ime</th>
+                            <th>Prezime</th>
                             <th>Email</th>
-                            <th>Phone Number</th>
-                            <th>Role</th>
+                            <th>Broj mobitela</th>
+                            <th>Tip korisnika</th>
                             <th>Status</th>
-                            <th>Criminal Record Picture</th>
-                            <th>Identification Picture</th>
+                            <th>Slika potvrde o nekažnjavanju</th>
+                            <th>Slika osobne iskaznice</th>
                             {renderActions && <th>Actions</th>}
                         </tr>
                         </thead>
@@ -200,10 +200,10 @@ function AdminDashboard() {
                                     <td>{user.role}</td>
                                     <td>{user.status}</td>
                                     <td className="user-table-action-buttons">
-                                        <button className="user-table-button" onClick={() => openModal(document?.pathCriminalRecord || ImageNotFound)}>View Criminal Record</button>
+                                        <button className="user-table-button" onClick={() => openModal(document?.pathCriminalRecord || ImageNotFound)}>Prikaži sliku potvrde</button>
                                     </td>
                                     <td className="user-table-action-buttons">
-                                        <button  className="user-table-button" onClick={() => openModal(document?.pathIdentification || ImageNotFound)}>View Identification</button>
+                                        <button  className="user-table-button" onClick={() => openModal(document?.pathIdentification || ImageNotFound)}>Prikaži sliku iskaznice</button>
                                     </td>
                                     <td className="action-buttons">{renderActions && renderActions(user)}</td>
                                 </tr>
@@ -224,8 +224,12 @@ function AdminDashboard() {
         return (
             <div className="modal-overlay" onClick={onClose}>
                 <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                    <img src={imageSrc} alt={altText} />
-                    <button onClick={onClose}>Close</button>
+                    <div className="image-container">
+                        <img src={imageSrc} alt={altText} />
+                    </div>
+                    <div className="modal-close-btn-container">
+                        <button className="modal-close-button" onClick={onClose}>Close</button>
+                    </div>
                 </div>
             </div>
         );
@@ -234,15 +238,15 @@ function AdminDashboard() {
 
     const renderPendingActions = (user) => (
         <>
-            <button className="approve" onClick={() => handleStatusChange(user.userId, 'ACCEPTED')}>Accept</button>
-            <button className="reject" onClick={() => handleStatusChange(user.userId, 'REJECTED')}>Reject</button>
+            <button className="approve" onClick={() => handleStatusChange(user.userId, 'ACCEPTED')}>Prihvati</button>
+            <button className="reject" onClick={() => handleStatusChange(user.userId, 'REJECTED')}>Odbij</button>
         </>
     );
 
     const renderAcceptedActions = (user) => (
         <>
-            <button className="make-admin" onClick={() => handleRoleChange(user.userId, 'ADMIN')}>Make Admin</button>
-            <button className="block" onClick={() => handleStatusChange(user.userId, 'BLOCKED')}>Block User</button>
+            <button className="make-admin" onClick={() => handleRoleChange(user.userId, 'ADMIN')}>Pretvori u administratora</button>
+            <button className="block" onClick={() => handleStatusChange(user.userId, 'BLOCKED')}>Blokiraj korisnika</button>
         </>
     );
 
@@ -264,7 +268,7 @@ function AdminDashboard() {
 
     const unblockUser = (user) => (
         <>
-            <button className="make-admin" onClick={() => handleStatusChange(user.userId, 'ACCEPTED')}>Unblock User</button>
+            <button className="make-admin" onClick={() => handleStatusChange(user.userId, 'ACCEPTED')}>Odblokiraj korisnika</button>
         </>
     );
 
@@ -273,21 +277,24 @@ function AdminDashboard() {
 
     return (
         <div>
-            <h1>ADMIN DASHBOARD</h1>
+            <h1>PANEL ZA ADMINA</h1>
             <div className="adminNavBar">
-                {/* Links */}
+                <a href="#pendingUsers">Korisnici na čekanju</a>
+                <a href="#acceptedUsers">Prihvaćeni korisnici</a>
+                <a href="#admins">Adminstratori</a>
+                <a href="#blockedUsers">Blokirani korisnici</a>
+                <a href="#rejectedUsers">Odbijeni korisnici</a>
+                <Link to="./imageChange">Promjena Slike</Link>
             </div>
-            {documents && documents.length > 0 ? (
+
                 <>
-                    <UserTable users={pendingUsers} category="Pending Users" renderActions={renderPendingActions} id="pendingUsers" documents={documents}/>
-                    <UserTable users={acceptedUsers} category="Accepted Users" renderActions={renderAcceptedActions} id="acceptedUsers" documents={documents}/>
-                    <UserTable users={admins} category="ADMINS" id="admins" renderActions={removeAdmin} documents={documents}/>
-                    <UserTable users={blockedUsers} category="BLOCKED USERS" id="blockedUsers" renderActions={unblockUser} documents={documents}/>
-                    <UserTable users={rejectedUsers} category="Rejected Users" id="rejectedUsers" documents={documents}/>
+                    <UserTable users={pendingUsers} category="Korisnici na čekanju" renderActions={renderPendingActions} id="pendingUsers" documents={documents}/>
+                    <UserTable users={acceptedUsers} category="Prihvaćeni korisnici" renderActions={renderAcceptedActions} id="acceptedUsers" documents={documents}/>
+                    <UserTable users={admins} category="Administratori" id="admins" renderActions={removeAdmin} documents={documents}/>
+                    <UserTable users={blockedUsers} category="Blokirani korisnici" id="blockedUsers" renderActions={unblockUser} documents={documents}/>
+                    <UserTable users={rejectedUsers} category="Odbijeni korisnici" id="rejectedUsers" documents={documents}/>
                 </>
-            ) : (
-                <p>Loading documents...</p> // Or some other placeholder content
-            )}
+
             <ImageModal
                 isOpen={isModalOpen}
                 onClose={closeModal}
