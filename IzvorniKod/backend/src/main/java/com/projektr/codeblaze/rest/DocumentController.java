@@ -29,7 +29,7 @@ public class DocumentController {
         this.userService = userService;
     }
 
-    @CrossOrigin(origins = "https://codeblazefe.onrender.com")
+
     @GetMapping("/all")
     public ResponseEntity<List<Document>> getDocumentsByUserId() {
         List<Document> documents = documentService.getDocuments();

@@ -15,7 +15,6 @@ import java.io.IOException;
 public class RegistrationService {
     private static final Logger logger = LoggerFactory.getLogger(DocumentService.class);
 
-
     @Autowired
     private UserService userService;
 

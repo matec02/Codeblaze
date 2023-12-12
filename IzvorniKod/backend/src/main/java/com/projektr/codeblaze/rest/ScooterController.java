@@ -27,7 +27,6 @@ public class ScooterController {
         this.scooterService = scooterService;
     }
 
-    @CrossOrigin(origins = "https://codeblazefe.onrender.com")
     @GetMapping("owner/{ownerId}")
     public ResponseEntity<List<Scooter>> getScootersByOwnerId(@PathVariable Long ownerId) {
         List<Scooter> scooters = scooterService.getScootersByUserId(ownerId);
@@ -44,7 +43,6 @@ public class ScooterController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @CrossOrigin(origins = "https://codeblazefe.onrender.com")
     @GetMapping("/get-all-scooters")
     public ResponseEntity<List<Scooter>> getAllScooters() {
         List<Scooter> scooters = scooterService.getAllScooters();
@@ -54,7 +52,6 @@ public class ScooterController {
         return ResponseEntity.ok(scooters);
     }
 
-    @CrossOrigin(origins = "https://codeblazefe.onrender.com")
     @PostMapping(value = "/register", consumes = "multipart/form-data")
     public ResponseEntity<?> registerScooter(
             @RequestPart("scooter") String scooterJson,
