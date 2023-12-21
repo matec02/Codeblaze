@@ -1,6 +1,7 @@
 package com.projektr.codeblaze.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.projektr.codeblaze.domain.ChatSession;
 import com.projektr.codeblaze.domain.User;
 import com.projektr.codeblaze.domain.UserRole;
 import com.projektr.codeblaze.service.UserService;
@@ -165,6 +166,7 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
+
 
     @PostMapping
     public User createUser(@RequestBody User user) {

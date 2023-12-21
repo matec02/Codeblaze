@@ -21,7 +21,7 @@ public class ChatSession {
         if (startCommunicationTime != null) {
             return Timestamp.valueOf(startCommunicationTime);
         }
-        return null; // Handle the case when paymentTime is null, if needed
+        return null;
     }
 
     @Column(name = "lastMessageTime")
@@ -30,7 +30,7 @@ public class ChatSession {
         if (lastMessageTime != null) {
             return Timestamp.valueOf(lastMessageTime);
         }
-        return null; // Handle the case when paymentTime is null, if needed
+        return null;
     }
 
     @ManyToOne

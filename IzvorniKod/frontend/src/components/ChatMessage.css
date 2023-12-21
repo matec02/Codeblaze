@@ -17,3 +17,9 @@
     color: black;
     align-self: flex-start; /* Poravnavanje na lijevu stranu za poruke drugih korisnika */
 }
+
+.seen-indicator {
+    font-size: 0.75em;
+    color: #aaa;
+    margin-left: 10px;
+}

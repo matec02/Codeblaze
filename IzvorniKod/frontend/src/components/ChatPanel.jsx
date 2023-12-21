@@ -1,27 +1,49 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import './ChatPanel.css';
+import {getUserIdFromToken} from "../utils/authService";
 
 function ChatPanel() {
     const navigate = useNavigate();
-    const chats = [
-        {id: 1, otherUserName: "Korisnik A", lastMessage: "Zadnja poruka u chatu A"},
-        {id: 2, otherUserName: "Korisnik B", lastMessage: "Zadnja poruka u chatu B"},
-        // Dodajte ostale chatove ovdje
-    ];
-    const handleChatClick = () => {
-        navigate('/chat-window'); // Preusmjeravanje na chat window
+    const userId = getUserIdFromToken();
+    const [chats, setChats] = useState([]);
+
+    useEffect(() => {
+        // Make sure the userId is not null
+        if (userId) {
+            fetch(`/api/chat-session/user/${userId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    setChats(data);
+                })
+                .catch(error => {
+                    console.error('There has been a problem with your fetch operation:', error);
+                });
+        }
+    }, [userId]);
+
+    const handleChatClick = (chatId) => {
+        navigate(`/chat-window/${chatId}`);
     };
 
 
     return (
         <div className="chat-panel">
-            {chats.map(chat => (
-                <div key={chat.id} className="chat-item" onClick={handleChatClick}>
-                    <div className="other-user-name">{chat.otherUserName}</div>
-                    <div className="last-message">{chat.lastMessage}</div>
-                </div>
-            ))}
+            {chats.length > 0 ? (
+                chats.map(chat => (
+                    <div key={chat.id} className="chat-item" onClick={() => handleChatClick(chat.id)}>
+                        <div className="other-user-name">{chat.otherUserName}</div>
+                        <div className="last-message">{chat.lastMessage}</div>
+                    </div>
+                ))
+            ) : (
+                <div>No chat sessions available.</div>
+            )}
         </div>
     );
 }
