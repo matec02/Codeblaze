@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useState, useEffect} from 'react';
 import './ScooterCard.css'
 import {useNavigate} from "react-router-dom";
 import {getNicknameFromToken} from "./RegisterScooterForm";
@@ -10,12 +10,23 @@ function ScooterCard({ scooter }) {
     const [isImageOpen, setIsImageOpen] = useState(false);
     const [currentImageSrc, setCurrentImageSrc] = useState('');
     const [isRequestOpen, setIsRequestOpen] = useState(false);
+    const [isExpanded, setIsExpanded] = useState(false);
+    const [isCurrentUserOwner, setIsCurrentUserOwner] = useState(false);
     const [newImage, setNewImage] = useState('');
     const [comments, setComments] = useState({
         comments: ''
     });
 
-    const { scooterId, imagePath, model, maxSpeed, batteryCapacity } = scooter;
+    const { userId, scooterId, imagePath, model, maxSpeed, batteryCapacity } = scooter;
+
+    const handleButtonClick = (event, action) => {
+        event.stopPropagation();
+
+        if (action === 'prijavi') {
+            openRequestModal(imagePath);
+        }
+        // ostale akcije koje još treba dodati
+    };
 
     const openImageModal = useCallback((imageSrc) => {
         setCurrentImageSrc(imageSrc);
@@ -34,6 +45,10 @@ function ScooterCard({ scooter }) {
     const closeRequestModal = useCallback(() => {
         setIsRequestOpen(false);
     }, []);
+
+    const handleCardClick = () => {
+        setIsExpanded(true);
+    };
 
     const ImageModal = ({isOpen, onClose, imageSrc, altText }) => {
         if (!isOpen) return null;
@@ -124,8 +139,33 @@ function ScooterCard({ scooter }) {
             setErrorMessage('Registration failed.');
         }
     };
+    useEffect(() => {
+        const checkOwnership = async () => {
+            const nickname = getNicknameFromToken();
+            try {
+                const response = await fetch(`/api/user-id-by-nickname/${nickname}`);
+                if (response.ok) {
+                    const fetchedUserId = await response.json();
+                    setIsCurrentUserOwner(scooter.userId === fetchedUserId);
+                }
+            } catch (error) {
+                console.error('Error fetching user ID:', error);
+            }
+        };
+
+        checkOwnership();
+    }, [scooter.userId]);
 
 
+
+    const buttons = [
+        { text: 'Unajmi', onClick: (e) => handleButtonClick(e, 'unajmi') },
+        { text: 'Prijavi', onClick: (e) => handleButtonClick(e, 'prijavi') }
+    ];
+
+    if (isCurrentUserOwner) {
+        buttons.push({ text: 'Oglasi', onClick: (e) => handleButtonClick(e, 'oglasi') });
+    }
 
     const RequestChangeModal = ({isOpen, onClose, imageSrc, altText }) => {
         if (!isOpen) return null;
@@ -154,15 +194,49 @@ function ScooterCard({ scooter }) {
     };
 
     return (
-        <div className="scooter">
-            <img src={imagePath} alt={`${model} Scooter`} className="scooter-image" onClick={() => openImageModal(imagePath)}/>
-            <h3 className="scooter-name">{model}</h3>
-            <div className="scooter-details">
-                <p><strong>Brzina:</strong> {maxSpeed} km/h</p>
-                <p><strong>Kapacitet:</strong> {batteryCapacity} kWh</p>
-            </div>
-            <button className="scooter-button">Unajmi</button>
-            <button className="scooter-button" onClick={() => openRequestModal(imagePath)}>Prijavi</button>
+        <div className={`scooter ${isExpanded ? 'expanded' : ''}`} onClick={handleCardClick}>
+            {isExpanded && (
+                <div className="modal-overlay" onClick={() => setIsExpanded(false)}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <img src={imagePath} alt={`${model} Scooter`} className="scooter-image"/>
+                        <div className="scooter-info">
+                            <ul className="scooter-buttons">
+                                {buttons.map((button, index) => (
+                                    <li key={index}>
+                                        <button className="scooter-button" onClick={button.onClick}>
+                                            {button.text}
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                            <div className="scooter-details">
+                                <h3>{model}</h3>
+                                <p><strong>Brzina:</strong> {maxSpeed} km/h</p>
+                                <p><strong>Kapacitet:</strong> {batteryCapacity} kWh</p>
+                            </div>
+                        </div>
+                        <button className="modal-close-button" onClick={() => setIsExpanded(false)}>Zatvori</button>
+                    </div>
+                </div>
+            )}
+            {!isExpanded && (
+                <>
+                    <img src={imagePath} alt={`${model} Scooter`} className="scooter-image"/>
+                    <div className="scooter-details">
+                        <p><strong>Brzina:</strong> {maxSpeed} km/h</p>
+                        <p><strong>Kapacitet:</strong> {batteryCapacity} kWh</p>
+                    </div>
+                    <ul className="scooter-buttons">
+                        {buttons.map((button, index) => (
+                            <li key={index}>
+                                <button className="scooter-button" onClick={button.onClick}>
+                                    {button.text}
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                </>
+            )}
             <ImageModal
                 isOpen={isImageOpen}
                 onClose={closeImageModal}
