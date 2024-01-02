@@ -12,9 +12,16 @@ function ScooterCard({ scooter }) {
     const [isRequestOpen, setIsRequestOpen] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
     const [isCurrentUserOwner, setIsCurrentUserOwner] = useState(false);
+    const [isAdModalOpen, setIsAdModalOpen] = useState(false);
     const [newImage, setNewImage] = useState('');
     const [comments, setComments] = useState({
         comments: ''
+    });
+    const [listing, setListing] = useState({
+        currentAddress: '',
+        returnAddress: '',
+        pricePerKilometer: 0.0,
+        penaltyFee: 0.0
     });
 
     const { userId, scooterId, imagePath, model, maxSpeed, batteryCapacity } = scooter;
@@ -24,6 +31,8 @@ function ScooterCard({ scooter }) {
 
         if (action === 'prijavi') {
             openRequestModal(imagePath);
+        } else if (action === 'oglasi') {
+            openAdModal();
         }
         // ostale akcije koje još treba dodati
     };
@@ -36,6 +45,15 @@ function ScooterCard({ scooter }) {
     const closeImageModal = useCallback(() => {
         setIsImageOpen(false);
     }, []);
+
+    const openAdModal = useCallback(() => {
+        setIsAdModalOpen(true);
+    }, []);
+
+    const closeAdModal = useCallback(() => {
+        setIsAdModalOpen(false);
+    }, []);
+
 
     const openRequestModal = useCallback((imageSrc) => {
         setCurrentImageSrc(imageSrc);
@@ -143,10 +161,14 @@ function ScooterCard({ scooter }) {
         const checkOwnership = async () => {
             const nickname = getNicknameFromToken();
             try {
-                const response = await fetch(`/api/user-id-by-nickname/${nickname}`);
+                const response = await fetch(`/api/users/by-nickname/${nickname}`);
                 if (response.ok) {
-                    const fetchedUserId = await response.json();
-                    setIsCurrentUserOwner(scooter.userId === fetchedUserId);
+                    var fetchedUserId = await response.json();
+                    fetchedUserId = fetchedUserId.userId;
+                    console.log("Fetched User ID: ", fetchedUserId);
+                    console.log("OBJEKTNI User ID: ", scooter.user.userId)
+                    console.log(scooter.userId == fetchedUserId);
+                    setIsCurrentUserOwner(scooter.user.userId == fetchedUserId);
                 }
             } catch (error) {
                 console.error('Error fetching user ID:', error);
@@ -163,6 +185,7 @@ function ScooterCard({ scooter }) {
         { text: 'Prijavi', onClick: (e) => handleButtonClick(e, 'prijavi') }
     ];
 
+    console.log("IsCUO: ", isCurrentUserOwner);
     if (isCurrentUserOwner) {
         buttons.push({ text: 'Oglasi', onClick: (e) => handleButtonClick(e, 'oglasi') });
     }
@@ -192,6 +215,65 @@ function ScooterCard({ scooter }) {
             </div>
         );
     };
+
+    const AdModal = ({ isOpen, onClose }) => {
+        const handleAdChange = (event) => {
+            setListing({ ...listing, [event.target.name]: event.target.value });
+        };
+
+        const handleAdSubmit = async (event) => {
+            event.preventDefault();
+            try {
+                const response = await fetch('/api/listing-info', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(listing),
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    console.log('Listing saved:', result);
+                    onClose();
+                } else {
+                    console.error('Error while saving:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+
+        if (!isOpen) return null;
+        return (
+            <div className="modal-overlay" onClick={onClose}>
+                <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                    <form onSubmit={handleAdSubmit} className="ad-form">
+                        <div className="form-group">
+                            <label>Trenutna adresa</label>
+                            <input type="text" name="currentAddress" value={listing.currentAddress} onChange={handleAdChange} />
+                        </div>
+                        <div className="form-group">
+                            <label>Adresa povratka</label>
+                            <input type="text" name="returnAddress" value={listing.returnAddress} onChange={handleAdChange} />
+                        </div>
+                        <div className="form-group">
+                            <label>Cijena po kilometru</label>
+                            <input type="number" step="0.1" name="pricePerKilometer" value={listing.pricePerKilometer} onChange={handleAdChange} />
+                        </div>
+                        <div className="form-group">
+                            <label>Iznos kazne</label>
+                            <input type="number" step="0.1" name="penaltyFee" value={listing.penaltyFee} onChange={handleAdChange} />
+                        </div>
+                        <button type="submit">Oglasi</button>
+                    </form>
+                    <button className="modal-close-button" onClick={onClose}>Zatvori</button>
+                </div>
+            </div>
+        );
+    };
+
+
 
     return (
         <div className={`scooter ${isExpanded ? 'expanded' : ''}`} onClick={handleCardClick}>
@@ -249,6 +331,11 @@ function ScooterCard({ scooter }) {
                 imageSrc={currentImageSrc}
                 altText="Romobil"
             />
+            <AdModal
+                isOpen={isAdModalOpen}
+                onClose={closeAdModal}
+            />
+
         </div>
     );
 }
