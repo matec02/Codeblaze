@@ -38,7 +38,7 @@ public class Message {
     private MessageStatus status;
 
     @ManyToOne
-    @JoinColumn(name = "sessionId", referencedColumnName = "chatSessionId", nullable = false)
+    @JoinColumn(name = "chatSession", referencedColumnName = "chatSessionId", nullable = false)
     private ChatSession chatSession;
 
     @ManyToOne

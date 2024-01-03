@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import "./ChatWindow.css";
 import { useParams } from "react-router-dom";
-import {getNicknameFromToken} from "../utils/authService";
+import {getNicknameFromToken, getUserFromToken} from "../utils/authService";
 import ChatMessage from "./ChatMessage";
+import {getChatSessionById} from "../utils/MessageUtils";
 
 function ChatWindow() {
     const [newMessage, setNewMessage] = useState('');
@@ -12,6 +13,7 @@ function ChatWindow() {
 
     useEffect(() => {
         // Fetch messages when the component mounts or when chatSessionId changes
+        console.log(messages);
         const fetchMessages = async () => {
             try {
                 const response = await fetch(`/api/messages/session/${chatSessionId}`);
@@ -28,22 +30,25 @@ function ChatWindow() {
 
     const sendMessage = async () => {
         if (!newMessage.trim()) return;
-        const senderNickname = getNicknameFromToken()
+        const senderNickname = await getNicknameFromToken();
+        const senderUser = await getUserFromToken();
+        const chatSession = await getChatSessionById(chatSessionId);
         const messageToSend = {
             senderUsername: senderNickname, // This should be the current user's username
-            sessionId: chatSessionId,          // The chat session ID from the URL params
+            chatSession: chatSession,          // The chat session ID from the URL params
             text: newMessage,                  // The message text from the state
-            sentTime: new Date().toISOString(), // The current timestamp
-            status: 'UNREAD'                    // default status
+            sentTime: new Date().toISOString().split('.')[0], // The current timestamp
+            status: 'UNREAD',                    // default status
+            user: senderUser
         };
 
         try {
+            console.log(messageToSend.sentTime);
+            const formData = new FormData();
+            formData.append('msgToBeSent', new Blob([JSON.stringify(messageToSend)], {type: "application/json"}));
             const response = await fetch('/api/messages/send', { // The URL should match your backend endpoint
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(messageToSend)
+                body: formData
             });
 
             if (!response.ok) {
@@ -67,14 +72,15 @@ function ChatWindow() {
     return (
         <div className="chat-container">
             <div className="messages-container">
-                {messages.map(message => {
+                {
+                    messages.map(message => {
                     const messageSenderClass = message.senderUsername === currentNickname ? 'mine' : 'theirs';
                     const isSeen = message.status
                     return (
                         <ChatMessage
                             key={message.messageId}
                             text={message.text}
-                            sender={messageSenderClass ? 'mine' : 'theirs'}
+                            sender={messageSenderClass}
                             isSeen={isSeen}
                         />
                     );

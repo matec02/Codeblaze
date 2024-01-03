@@ -1,14 +1,15 @@
 package com.projektr.codeblaze.rest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.projektr.codeblaze.domain.ChatSession;
+import com.projektr.codeblaze.domain.User;
 import com.projektr.codeblaze.service.ChatSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -29,5 +30,32 @@ public class ChatSessionController {
         } else {
             return ResponseEntity.ok(sessions);
         }
+    }
+
+    @PostMapping(value = "/start", consumes = "multipart/form-data")
+    public ResponseEntity<ChatSession> startChatSession(
+            @RequestPart("user1") String user1JSON,
+            @RequestPart("user2") String user2JSON
+    ) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        User user1 = objectMapper.readValue(user1JSON, User.class);
+        User user2 = objectMapper.readValue(user2JSON, User.class);
+
+        if (user1 == null || user2 == null || user1 == user2) {
+            return ResponseEntity.badRequest().build();
+        }
+        ChatSession chatSession = chatSessionService.startConversation(user1, user2);
+        if (chatSession != null) {
+            return ResponseEntity.ok(chatSession);
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("/{chatSessionId}")
+    public ResponseEntity<ChatSession> getChatSession(@PathVariable Long chatSessionId) {
+        return chatSessionService.findById(chatSessionId)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

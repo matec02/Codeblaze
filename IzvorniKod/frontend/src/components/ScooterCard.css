@@ -52,3 +52,16 @@
 .scooter-button:hover {
     background-color: #333;
 }
+
+.profile-avatar {
+    width: 60px; /* Adjust the size as needed */
+    height: 60px; /* Adjust the height as needed */
+    border-radius: 50%; /* Makes the image circular */
+    border: 2px solid #ddd; /* Adds a border around the avatar */
+    margin-bottom: 8px; /* Space below the avatar */
+    cursor: pointer; /* Changes the cursor to indicate it's clickable */
+}
+
+.profile-avatar:hover {
+    border-color: #aaa;
+}

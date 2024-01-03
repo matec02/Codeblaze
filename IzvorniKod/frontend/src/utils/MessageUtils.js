@@ -1,3 +1,6 @@
+import {getUserFromToken, getUserIdFromToken} from "./authService";
+
+
 export const chatHistory = function fetchChatHistory(userId) {
     fetch(`/api/messages/history/${userId}`)
         .then(response => response.json())
@@ -34,3 +37,39 @@ export const messageSent = function sendMessage(text, sender, receiver) {
             console.error('Error:', error);
         });
 }
+
+export const startConversation = async function initializeChatSession(user2) {
+    const user1 = await getUserFromToken();
+    const formData = new FormData();
+    formData.append('user1', new Blob([JSON.stringify(user1)], {type: "application/json"}));
+    formData.append('user2', new Blob([JSON.stringify(user2)], {type: "application/json"}));
+    console.log("USER1: ", user1);
+    console.log("USER2: ", user2);
+    try {
+        const response = await fetch("/api/chat-session/start", {
+            method: "POST",
+            body: formData
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error('Error during starting a conversation:', error);
+    }
+}
+
+export const getChatSessionById = async (chatSessionId) => {
+    try {
+        const response = await fetch(`/api/chat-session/${chatSessionId}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Failed to fetch chat session:', error);
+        return null; // Or handle the error as appropriate for your application
+    }
+};

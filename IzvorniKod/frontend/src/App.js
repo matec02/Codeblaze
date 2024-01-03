@@ -45,7 +45,7 @@ function App() {
                     }/>
 
 
-                <Route path="/chat-window" element={
+                <Route path="/chat-window/:chatSessionId" element={
                     <ProtectedRoutes>
                         <ChatWindow/>
                     </ProtectedRoutes>

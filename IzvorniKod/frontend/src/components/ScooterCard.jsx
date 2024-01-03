@@ -1,7 +1,9 @@
 import React, {useCallback, useState} from 'react';
 import './ScooterCard.css'
+import ProfileAvatar from '../assets/profile-avatar.png';
 import {useNavigate} from "react-router-dom";
 import {getNicknameFromToken} from "./RegisterScooterForm";
+import {startConversation} from "../utils/MessageUtils";
 
 
 function ScooterCard({ scooter }) {
@@ -14,8 +16,50 @@ function ScooterCard({ scooter }) {
     const [comments, setComments] = useState({
         comments: ''
     });
+    const [userProfile, setUserProfile] = useState(null);
+    const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
     const { scooterId, imagePath, model, maxSpeed, batteryCapacity } = scooter;
+
+    const handleViewProfile = async () => {
+        try {
+            const response = await fetch(`/api/users/${scooter.user.userId}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch user profile');
+            }
+            const profileData = await response.json();
+            setUserProfile(profileData);
+            setIsProfileModalOpen(true);
+        } catch (error) {
+            console.error('Error fetching profile:', error);
+        }
+    };
+
+    const ProfileModal = ({ isOpen, onClose, profile }) => {
+        if (!isOpen) return null;
+
+        const handleStartConversation = async () => {
+            const { chatSessionId } = await startConversation(profile);
+            if (chatSessionId) {
+                navigate(`/chat-window/${chatSessionId}`);
+            } else {
+                console.log("Unable to start conversation")
+            }
+        }
+
+        return (
+            <div className="modal-overlay" onClick={onClose}>
+                <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                    <h3>{profile.nickname}</h3>
+                    <h4>Name {profile.firstName}</h4>
+                    <h4>Lastname {profile.lastName}</h4>
+                    <h4>E-mail {profile.email}</h4>
+                    <button onClick={handleStartConversation}>Pošalji Poruku</button>
+                    <button className="modal-close-button" onClick={onClose}>Close</button>
+                </div>
+            </div>
+        );
+    };
 
     const openImageModal = useCallback((imageSrc) => {
         setCurrentImageSrc(imageSrc);
@@ -155,6 +199,7 @@ function ScooterCard({ scooter }) {
 
     return (
         <div className="scooter">
+            <img src={ProfileAvatar} alt={"PROFILE"} className="profile-avatar" onClick={handleViewProfile} style={{ cursor: 'pointer' }} />
             <img src={imagePath} alt={`${model} Scooter`} className="scooter-image" onClick={() => openImageModal(imagePath)}/>
             <h3 className="scooter-name">{model}</h3>
             <div className="scooter-details">
@@ -174,6 +219,11 @@ function ScooterCard({ scooter }) {
                 onClose={closeRequestModal}
                 imageSrc={currentImageSrc}
                 altText="Romobil"
+            />
+            <ProfileModal
+                isOpen={isProfileModalOpen}
+                onClose={() => setIsProfileModalOpen(false)}
+                profile={userProfile}
             />
         </div>
     );
