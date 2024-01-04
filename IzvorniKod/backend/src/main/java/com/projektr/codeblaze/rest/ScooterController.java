@@ -10,10 +10,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/scooters")
@@ -43,13 +45,17 @@ public class ScooterController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/get-all-scooters")
+    /*@GetMapping("/get-all-scooters")
     public ResponseEntity<List<Scooter>> getAllScooters() {
         List<Scooter> scooters = scooterService.getAllScooters();
         if (scooters.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(scooters);
+    }*/
+    @GetMapping("/get-all-scooters")
+    public List<Scooter> getAllScooters() {
+        return scooterService.getAvailableScooters(true);
     }
 
     @PostMapping(value = "/register", consumes = "multipart/form-data")
@@ -81,6 +87,24 @@ public class ScooterController {
     public ResponseEntity<Scooter> createScooter(@Valid @RequestBody Scooter scooter) {
         Scooter newScooter = scooterService.saveScooter(scooter);
         return new ResponseEntity<>(newScooter, HttpStatus.CREATED);
+    }
+    @PostMapping("/update-availability/{scooterId}")
+    public ResponseEntity<String> updateScooterAvailability(
+            @PathVariable Long scooterId,
+            @RequestBody Map<String, Boolean> availabilityMap
+    ) {
+        try {
+            Boolean availability = availabilityMap.get("availability");
+            scooterService.updateScooterAvailability(scooterId, availability);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body("\"Scooter availability updated successfully\"");
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body("Error updating scooter availability");
+        }
     }
 
 }

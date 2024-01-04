@@ -5,6 +5,7 @@ import {getNicknameFromToken} from "./RegisterScooterForm";
 
 
 function ScooterCard({ scooter }) {
+
     const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = useState('');
     const [isImageOpen, setIsImageOpen] = useState(false);
@@ -224,17 +225,24 @@ function ScooterCard({ scooter }) {
         const handleAdSubmit = async (event) => {
             event.preventDefault();
             try {
-                const response = await fetch('/api/listing-info', {
+                const response = await fetch(`/api/scooters/update-availability/${scooterId}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(listing),
+                    body: JSON.stringify({ availability: true }),
                 });
 
                 if (response.ok) {
-                    const result = await response.json();
-                    console.log('Listing saved:', result);
+                    const contentType = response.headers.get('content-type');
+                    if (contentType && contentType.includes('application/json')) {
+                        const result = await response.json();
+                        console.log('Listing saved:', result);
+                    } else {
+                        const result = await response.text();
+                        console.log('Non-JSON response:', result);
+                    }
+
                     onClose();
                 } else {
                     console.error('Error while saving:', response.statusText);

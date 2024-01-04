@@ -18,6 +18,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -79,6 +80,19 @@ public class ScooterService {
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
         logger.info("Successfully saved picture as {} at {}", newFilename, uploadPath);
         return newFilename;
+    }
+    public List<Scooter> getAvailableScooters(boolean availability) {
+        return scooterRepository.findByAvailability(availability);
+    }
+    public void updateScooterAvailability(Long scooterId, boolean availability) {
+        Optional<Scooter> optionalScooter = scooterRepository.findById(scooterId);
+        if (optionalScooter.isPresent()) {
+            Scooter scooter = optionalScooter.get();
+            scooter.setAvailability(availability);
+            scooterRepository.save(scooter);
+        } else {
+            throw new NoSuchElementException("Scooter not found with id: " + scooterId);
+        }
     }
 
     @Transactional
