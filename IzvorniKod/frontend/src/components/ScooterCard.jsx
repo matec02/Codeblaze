@@ -22,7 +22,8 @@ function ScooterCard({ scooter }) {
         currentAddress: '',
         returnAddress: '',
         pricePerKilometer: 0.0,
-        penaltyFee: 0.0
+        penaltyFee: 0.0,
+        returnByTime: ''
     });
 
     const { userId, scooterId, imagePath, model, maxSpeed, batteryCapacity } = scooter;
@@ -259,19 +260,32 @@ function ScooterCard({ scooter }) {
                     <form onSubmit={handleAdSubmit} className="ad-form">
                         <div className="form-group">
                             <label>Trenutna adresa</label>
-                            <input type="text" name="currentAddress" value={listing.currentAddress} onChange={handleAdChange} />
+                            <input type="text" name="currentAddress" value={listing.currentAddress}
+                                   onChange={handleAdChange}/>
                         </div>
                         <div className="form-group">
                             <label>Adresa povratka</label>
-                            <input type="text" name="returnAddress" value={listing.returnAddress} onChange={handleAdChange} />
+                            <input type="text" name="returnAddress" value={listing.returnAddress}
+                                   onChange={handleAdChange}/>
                         </div>
                         <div className="form-group">
                             <label>Cijena po kilometru</label>
-                            <input type="number" step="0.1" name="pricePerKilometer" value={listing.pricePerKilometer} onChange={handleAdChange} />
+                            <input type="number" step="0.1" name="pricePerKilometer" value={listing.pricePerKilometer}
+                                   onChange={handleAdChange}/>
                         </div>
                         <div className="form-group">
                             <label>Iznos kazne</label>
-                            <input type="number" step="0.1" name="penaltyFee" value={listing.penaltyFee} onChange={handleAdChange} />
+                            <input type="number" step="0.1" name="penaltyFee" value={listing.penaltyFee}
+                                   onChange={handleAdChange}/>
+                        </div>
+                        <div className="form-group">
+                            <label>Vrijeme povratka</label>
+                            <input
+                                type="datetime-local"
+                                name="returnByTime"
+                                value={listing.returnByTime}
+                                onChange={handleAdChange}
+                            />
                         </div>
                         <button type="submit">Oglasi</button>
                     </form>
@@ -280,7 +294,6 @@ function ScooterCard({ scooter }) {
             </div>
         );
     };
-
 
 
     return (
