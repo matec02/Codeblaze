@@ -4,6 +4,9 @@ import {jwtDecode} from 'jwt-decode'; // Make sure this import is correct, usual
 import './MyProfile.css';
 
 
+
+
+
 export const getNicknameFromToken = () => {
     const token = localStorage.getItem('authToken');
     if (!token) {
@@ -19,6 +22,9 @@ export const getNicknameFromToken = () => {
 };
 
 function EditProfile() {
+
+
+
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
     const [privacySettings, setPrivacySettings] = useState(null);
@@ -26,6 +32,7 @@ function EditProfile() {
 
     useEffect(() => {
         const fetchUserData = async () => {
+
             const nickname = getNicknameFromToken();
             if (nickname) {
                 try {
@@ -88,7 +95,6 @@ function EditProfile() {
 
 
 
-
     if (errorMessage) {
         return <div>Error: {errorMessage}</div>;
     }
@@ -96,6 +102,17 @@ function EditProfile() {
     if (!user || !privacySettings) {
         return <div>Loading user data...</div>;
     }
+
+    const doNotSave = () => {
+        navigate('/profile');
+    };
+
+    const save = () => {
+        //logika za spremanje novih podataka
+        navigate('/');
+    };
+
+
 
 
 
@@ -107,33 +124,56 @@ function EditProfile() {
                 <div className="infoSection">
                     <div className="infoRow">
                         <span className="infoLabel">Ime:</span>
+                        <input
+                            type="text"
+                        />
                         <span className="infoValue">{user.firstName}</span>
                     </div>
                     <div className="infoRow">
                         <span className="infoLabel">Prezime:</span>
+                        <input
+                            type="text"
+                        />
                         <span className="infoValue">{user.lastName}</span>
                     </div>
                     <div className="infoRow">
                         <span className="infoLabel">Nadimak:</span>
+                        <input
+                            type="text"
+                        />
                         <span className="infoValue">{user.nickname}</span>
                     </div>
                 </div>
-            </div>
 
-            <div className="container">
+
                 <div className="title">Kontakt podaci</div>
                 <div className="infoSection">
                     <div className="infoRow">
                         <span className="infoLabel">Email:</span>
+                        <input
+                            type="text"
+                        />
                         <span className="infoValue">{user.email}</span>
                     </div>
                     <div className="infoRow">
                         <span className="infoLabel">Broj mobitela:</span>
+                        <input
+                            type="text"
+                        />
                         <span className="infoValue">{user.phoneNumber}</span>
                     </div>
                 </div>
-            </div>
 
+
+                <div className="infoSection">
+                    <div className="buttonRow">
+                        <button onClick={save}>Spremi</button>
+                    </div>
+                    <div className="buttonRow">
+                        <button className="deleteButton" onClick={doNotSave} >Odustani</button>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
