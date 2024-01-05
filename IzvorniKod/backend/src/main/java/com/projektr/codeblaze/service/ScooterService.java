@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -56,6 +57,13 @@ public class ScooterService {
         return UserService.getUserById(userId)
                 .map(scooterRepository::findByUser)
                 .orElse(Collections.emptyList());
+    }
+
+    public Scooter updateImagePath(Long scooterId, String imagePath){
+        Scooter scooter = scooterRepository.findById(scooterId).
+                orElseThrow();
+        scooter.setImagePath(imagePath);
+        return scooterRepository.save(scooter);
     }
 
     public String saveFile(MultipartFile file, String tag, User user) throws IOException {

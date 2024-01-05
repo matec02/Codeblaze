@@ -1,8 +1,27 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import './ScooterCard.css'
-import {useNavigate} from "react-router-dom";
+import {Form, useNavigate} from "react-router-dom";
 import {getNicknameFromToken} from "./RegisterScooterForm";
 
+export const handleImagePathChange = async (scooterId, imagePath) => {
+    try {
+        const response = await fetch(`/api/scooters/${scooterId}/updateImagePath`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ "imagePath": imagePath })
+        });
+
+
+        if (!response.ok) {
+            throw new Error('Failed to update image path');
+        }
+
+    } catch (error) {
+        console.error('Error updating imagePath in updating status:', error);
+    }
+};
 
 function ScooterCard({ scooter }) {
     const navigate = useNavigate();
@@ -10,11 +29,10 @@ function ScooterCard({ scooter }) {
     const [isImageOpen, setIsImageOpen] = useState(false);
     const [currentImageSrc, setCurrentImageSrc] = useState('');
     const [isRequestOpen, setIsRequestOpen] = useState(false);
-    const [newImage, setNewImage] = useState('');
-    const [comments, setComments] = useState({
-        comments: ''
-    });
-
+    const [newImage, setNewImage] = useState(null);
+    const [comments, setComments] = useState('');
+    const [isVisible, setIsVisible] = useState(false);
+    const [pendingRequests, setPendingRequests] = useState([]);
     const { scooterId, imagePath, model, maxSpeed, batteryCapacity } = scooter;
 
     const openImageModal = useCallback((imageSrc) => {
@@ -26,14 +44,7 @@ function ScooterCard({ scooter }) {
         setIsImageOpen(false);
     }, []);
 
-    const openRequestModal = useCallback((imageSrc) => {
-        setCurrentImageSrc(imageSrc);
-        setIsRequestOpen(true);
-    }, []);
 
-    const closeRequestModal = useCallback(() => {
-        setIsRequestOpen(false);
-    }, []);
 
     const ImageModal = ({isOpen, onClose, imageSrc, altText }) => {
         if (!isOpen) return null;
@@ -51,16 +62,14 @@ function ScooterCard({ scooter }) {
         );
     };
 
-    const handleFileChange = (event, setFileState) => {
-        setFileState(event.target.files[0]);
+    const handleFileChange = (event) => {
+        if (event.target.files[0]) {
+            setNewImage(event.target.files[0]);
+            console.log("SLIKA KOJA JE STAVLJENA");
+            console.log(newImage);
+        }
     }
 
-    const handleChange = (event) => {
-        setComments({
-            ...comments,
-            [event.target.name]: event.target.value
-        });
-    };
 
 
     const handleSubmit = async (event) => {
@@ -84,10 +93,14 @@ function ScooterCard({ scooter }) {
                 return;
             }
             const user = await userResponse.json();
+            console.log("USER RESPONSE")
+            console.log(user)
 
             const formDataNewImage = new FormData();
             formDataNewImage.append('file', newImage);
             formDataNewImage.append('userkey', "fgJxNmfTGEu8wVx8yi21OVuUxeDefFXn");
+            console.log("formdatanewimage")
+            console.log(formDataNewImage);
 
             const imageResponse = await fetch('https://vgy.me/upload', {
                 method: 'POST',
@@ -96,24 +109,36 @@ function ScooterCard({ scooter }) {
 
             if (imageResponse.ok) {
                 const imageUploadData = await imageResponse.json();
-                const photoUrlCR = imageUploadData.image;
+                const photoUrlNewImage = imageUploadData.image;
+                const currentDateTime = new Date();
+                const offset = currentDateTime.getTimezoneOffset();
+                const dateTimeString = currentDateTime.toISOString();
 
-                const registrationFormData = new FormData();
-                registrationFormData.append("photoUrlNewImage", new Blob([JSON.stringify(photoUrlCR)], { type: "application/json" }));
-                registrationFormData.append('user', new Blob([JSON.stringify(user)], { type: "application/json" }));
+                const newImageFormData = new FormData();
+                newImageFormData.append('complaintTime',dateTimeString);
+                newImageFormData.append('photoUrlOldImage', new Blob([JSON.stringify(imagePath)], { type: "application/json" }));
+                newImageFormData.append('additionalComments', new Blob([JSON.stringify(comments)], { type: "application/json" }))
+                newImageFormData.append('photoUrlNewImage', new Blob([JSON.stringify(photoUrlNewImage)], { type: "application/json" }));
+                newImageFormData.append('user', new Blob([JSON.stringify(user)], { type: "application/json" }));
 
-                const registrationResponse = await fetch('/api/registration/complete', {
+                const newImageResponse = await fetch('/api/imageChangeRequest/send', {
                     method: 'POST',
-                    body: registrationFormData,
+                    body: newImageFormData,
                 });
 
-                if (registrationResponse.ok) {
-                    const result = await registrationResponse.json();
-                    localStorage.setItem('userStatus', 'registered');
-                    navigate('/login');
+                if (newImageResponse.ok) {
+                    const result = await newImageResponse.json();
+                    console.log(result)
+                    console.log("Poslan zahtjev za promjenu")
+                    setIsRequestOpen(false);
+                    setNewImage(null);
+                    setComments('');
+                    handleImagePathChange(scooterId, photoUrlNewImage)
+                    navigate('/home');
+                    window.location.reload()
                 } else {
-                    console.error("Registration API failed: " + registrationResponse.statusText);
-                    setErrorMessage('Registration failed.');
+                    console.error("Request failed: " + newImageResponse.statusText);
+                    setErrorMessage('Request failed.');
                 }
             } else {
                 console.error('Image upload failed: ' + imageResponse.statusText);
@@ -121,37 +146,36 @@ function ScooterCard({ scooter }) {
             }
         } catch (error) {
             console.error('An error occurred: ', error);
-            setErrorMessage('Registration failed.');
+            setErrorMessage('Request failed.');
         }
     };
 
 
 
-    const RequestChangeModal = ({isOpen, onClose, imageSrc, altText }) => {
-        if (!isOpen) return null;
-        return (
-            <div className="modal-overlay" onClick={onClose}>
+    const RequestChangeModal = ({isOpen, imageSrc, altText }) => {
+        return isOpen && (
+            <div className="modal-overlay" onClick={()=> setIsRequestOpen(false)}>
                 <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                    <form onSubmit={handleSubmit} className="register-form">
+                    <form onSubmit={handleSubmit}>
                         {/* File Upload Section */}
-                        <div className="section-container">
                             <div className="form-group">
                                 <label>Priložiti novu sliku</label>
-                                <input type="file" onChange={(e) => handleFileChange(e, setNewImage)} required/>
+                                <input type="file" onChange={(e) => setNewImage(e.target.files[0])} required/>
                             </div>
-                            <div className="form-group">
-                                <label> Dodatni komentari </label>
-                                <input type="text" value={comments.comments} onChange={handleChange}/>
-                            </div>
-                        </div>
+                            <label> Dodatni komentari
+                                <textarea name="comments" value={comments} onChange={(e) => setComments(e.target.value)}/>
+                            </label>
+                            <button type="submit">Pošalji zahtjev za zamjenom slike</button>
                     </form>
                     <div className="modal-close-btn-container">
-                        <button className="modal-close-button" onClick={onClose}>Close</button>
+                        <button className="modal-close-button" onClick={()=> setIsRequestOpen(false)}>Close</button>
                     </div>
                 </div>
             </div>
         );
     };
+
+
 
     return (
         <div className="scooter">
@@ -162,7 +186,26 @@ function ScooterCard({ scooter }) {
                 <p><strong>Kapacitet:</strong> {batteryCapacity} kWh</p>
             </div>
             <button className="scooter-button">Unajmi</button>
-            <button className="scooter-button" onClick={() => openRequestModal(imagePath)}>Prijavi</button>
+            <button className="scooter-button" onClick={() => setIsVisible(true)}>Prijavi</button>
+            <form onSubmit={handleSubmit}>
+                {/* File Upload Section */}
+                <div className="imageRequest" style={{ display: isVisible ? "block" : "none" }}>
+                    <h2>PRIJAVA LOŠE SLIKE</h2>
+                    <div className="form-group">
+                        <label>Priložiti novu sliku</label>
+                        <input type="file" onChange={(e) => setNewImage(e.target.files[0])} required/>
+                    </div>
+                    <div className="form-group">
+                        <label> Dodatni komentari
+                            <textarea name="comments" value={comments} onChange={(e) => setComments(e.target.value)}/>
+                        </label>
+                    </div>
+                    <button className="scooter-button" onClick={() => setIsVisible(false)}>Zatvori</button>
+                    <button type="submit">Pošalji zahtjev za zamjenom slike</button>
+                </div>
+            </form>
+
+
             <ImageModal
                 isOpen={isImageOpen}
                 onClose={closeImageModal}
@@ -171,7 +214,6 @@ function ScooterCard({ scooter }) {
             />
             <RequestChangeModal
                 isOpen={isRequestOpen}
-                onClose={closeRequestModal}
                 imageSrc={currentImageSrc}
                 altText="Romobil"
             />
