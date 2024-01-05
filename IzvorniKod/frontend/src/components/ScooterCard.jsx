@@ -36,7 +36,7 @@ function ScooterCard({ scooter }) {
         } else if (action === 'oglasi') {
             openAdModal();
         } else if (action == 'izbrisi') {
-            console.log("nema jos")
+            handleDeleteScooter();
         }
     };
 
@@ -209,7 +209,27 @@ function ScooterCard({ scooter }) {
             console.error('Error:', error);
         }
     };
+    const handleDeleteScooter = async () => {
+        try {
+            const response = await fetch(`/api/scooters/delete/${scooterId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
 
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status}`);
+            }
+
+            console.log('Scooter deleted successfully');
+            navigate('/some-path');
+
+        } catch (error) {
+            console.error('Error:', error);
+            setErrorMessage('Failed to delete scooter.');
+        }
+    };
 
     const buttons = [
         { text: 'Oglasi', onClick: (e) => handleButtonClick(e, 'oglasi') },

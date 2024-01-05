@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import ScooterCard from './ScooterCard';
+import ScooterCardHome from './ScooterCardHome';
 import RegisterScooterForm from './RegisterScooterForm';
 import './MyScooter.css';
 import {getNicknameFromToken} from "./RegisterScooterForm";
 
 function MyScooter() {
     const [scooters, setScooters] = useState([]);
-    const [activeTab, setActiveTab] = useState('viewScooters'); // 'viewScooters' or 'addScooter'
+    const [activeTab, setActiveTab] = useState('viewScooters'); // 'viewScooters' or 'addScooter' or 'viewListings'
     const [user, setUser] = useState('');
 
     useEffect(() => {
@@ -77,6 +78,10 @@ function MyScooter() {
                         className={activeTab === 'addScooter' ? 'active' : ''}>
                     Dodaj romobil
                 </button>
+                <button onClick={() => setActiveTab('viewListings')}
+                        className={activeTab === 'viewListings' ? 'active' : ''}>
+                    Moji oglasi
+                </button>
             </div>
 
             {activeTab === 'viewScooters' && (
@@ -89,6 +94,14 @@ function MyScooter() {
 
             {activeTab === 'addScooter' && (
                 <RegisterScooterForm addScooter={addScooter}/>
+            )}
+
+            {activeTab === 'viewListings' && (
+                <div className="listings-list">
+                    {scooters.map(scooter => (
+                        <ScooterCardHome key={scooter.id} scooter={scooter}/>
+                    ))}
+                </div>
             )}
         </div>
     );

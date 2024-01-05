@@ -36,6 +36,8 @@ function ScooterCard({ scooter }) {
             openRequestModal(imagePath);
         } else if (action === 'uredi') {
             openAdModal();
+        } else if (action === 'izbrisi') {
+            handleDeleteListing();
         }
         // ostale akcije koje još treba dodati
     };
@@ -242,6 +244,25 @@ function ScooterCard({ scooter }) {
                 </div>
             </div>
         );
+    };
+
+    const handleDeleteListing = async () => {
+        try {
+            const response = await fetch(`/api/scooters/delete-listing/${scooterId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.statusText}`);
+            }
+
+            console.log('Listing deleted successfully');
+        } catch (error) {
+            console.error('Error:', error);
+        }
     };
 
     const AdModal = ({ isOpen, onClose }) => {
