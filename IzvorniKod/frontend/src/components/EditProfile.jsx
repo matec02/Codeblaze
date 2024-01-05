@@ -85,12 +85,7 @@ function EditProfile() {
         fetchUserData();
     }, []);
 
-    const handlePrivacyChange = (field, value) => {
-        setPrivacySettings({
-            ...privacySettings,
-            [field]: value,
-        });
-    };
+
 
 
 
