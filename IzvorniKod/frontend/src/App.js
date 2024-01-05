@@ -22,6 +22,7 @@ import Unauthorized from "./components/Unauthorized";
 import ChatPanel from "./components/ChatPanel";
 import ChatWindow from "./components/ChatWindow";
 import ChatMessage from "./components/ChatMessage";
+import EditProfile from "./components/EditProfile";
 
 /* Import for ScooterCard test
 import ScooterCard from "./components/ScooterCard";*/
@@ -103,7 +104,9 @@ function App() {
                 {/* Test for just 1 ScooterCard - uncomment import and route to test
                 <Route path="/scooter" element={<ScooterCard/>}/>
                 */}
-
+                <Route path="/editprofile" element={
+                    <EditProfile/>
+                }/>
 
                 {/* TODO add all possible routes   */}
             </Routes>

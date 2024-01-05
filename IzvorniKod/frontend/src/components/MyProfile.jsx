@@ -129,6 +129,33 @@ function MyProfile() {
         return <div>Loading user data...</div>;
     }
 
+    const deleteProfile = async () => {
+        try {
+            // Replace with your API's endpoint and method to delete the user's profile
+            const response = await fetch(`/api/users/delete/${user.userId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (response.ok) {
+                // Deletion successful, navigate to a different page or handle as needed
+                navigate('/');
+            } else {
+                // Handle errors here
+                setErrorMessage('Failed to delete profile.');
+            }
+        } catch (error) {
+            console.error('Error deleting profile:', error);
+            setErrorMessage('An error occurred while deleting profile.');
+        }
+    };
+
+    const editProfileClick = () => {
+        navigate('/editprofile');
+    };
+
     return (
         <div>
             <div className="container">
@@ -265,6 +292,18 @@ function MyProfile() {
                     </div>
                 </div>
                 <button onClick={savePrivacySettings}>Save</button>
+            </div>
+
+            <div className="container">
+                <div className="title">Uređivanje profila</div>
+                <div className="infoSection">
+                    <div className="buttonRow">
+                        <button onClick={editProfileClick}>Uredi profil</button>
+                    </div>
+                    <div className="buttonRow">
+                        <button className="deleteButton" onClick={deleteProfile}>Obriši profil</button>
+                    </div>
+                </div>
             </div>
         </div>
     );
