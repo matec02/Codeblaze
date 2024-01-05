@@ -11,8 +11,8 @@ function ScooterCard({ scooter }) {
     const [isImageOpen, setIsImageOpen] = useState(false);
     const [currentImageSrc, setCurrentImageSrc] = useState('');
     const [isRequestOpen, setIsRequestOpen] = useState(false);
-    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
+    const [isAdvertised, setIsAdvertised] = useState(false);
     const [isCurrentUserOwner, setIsCurrentUserOwner] = useState(false);
     const [isAdModalOpen, setIsAdModalOpen] = useState(false);
     const [newImage, setNewImage] = useState('');
@@ -31,22 +31,14 @@ function ScooterCard({ scooter }) {
 
     const handleButtonClick = (event, action) => {
         event.stopPropagation();
-        if (action === 'uredi') {
-            openEditModal();
-        } else if (action === 'oglasi') {
+
+        if (action === 'prijavi') {
+            openRequestModal(imagePath);
+        } else if (action === 'uredi') {
             openAdModal();
-        } else if (action == 'izbrisi') {
-            console.log("nema jos")
         }
+        // ostale akcije koje još treba dodati
     };
-
-    const openEditModal = useCallback(() => {
-        setIsEditModalOpen(true);
-    }, []);
-
-    const closeEditModal = useCallback(() => {
-        setIsEditModalOpen(false);
-    }, []);
 
     const openImageModal = useCallback((imageSrc) => {
         setCurrentImageSrc(imageSrc);
@@ -189,33 +181,42 @@ function ScooterCard({ scooter }) {
         checkOwnership();
     }, [scooter.userId]);
 
-    const handleUpdateScooter = async (updatedScooter) => {
+    /*const fetchScooterAvailability = async () => {
         try {
-            const response = await fetch(`/api/scooters/edited-scooter/${scooterId}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(updatedScooter),
-            });
-
-            if (!response.ok) {
-                throw new Error(`Error: ${response.status}`);
+            const response = await fetch(`/api/scooters/update-availability/${scooterId}`);
+            if (response.ok) {
+                var data = await response.json();
+                console.log(data)
+                setIsAdvertised(data.availability);
+            } else {
+                console.error("Error fetching scooter availability");
             }
-
-            const result = await response.json();
-            console.log('Updated scooter:', result);
         } catch (error) {
             console.error('Error:', error);
         }
     };
 
+    useEffect(() => {
+        fetchScooterAvailability();
+    }, [scooter.scooterId]);*/
 
-    const buttons = [
-        { text: 'Oglasi', onClick: (e) => handleButtonClick(e, 'oglasi') },
-        { text: 'Uredi', onClick: (e) => handleButtonClick(e, 'uredi') },
-        { text: 'Izbrisi', onClick: (e) => handleButtonClick(e, 'izbrisi') }
-    ];
+
+    console.log("IsCUO: ", isCurrentUserOwner);
+    const determineButtons = () => {
+        if (isCurrentUserOwner) {
+            return [
+                { text: 'Uredi', onClick: (e) => handleButtonClick(e, 'uredi') },
+                { text: 'Izbriši', onClick: (e) => handleButtonClick(e, 'izbrisi') }
+            ];
+        } else {
+            return [
+                { text: 'Unajmi', onClick: (e) => handleButtonClick(e, 'unajmi') },
+                { text: 'Prijavi', onClick: (e) => handleButtonClick(e, 'prijavi') }
+            ];
+        }
+    };
+
+    const buttons = determineButtons();
 
     const RequestChangeModal = ({isOpen, onClose, imageSrc, altText }) => {
         if (!isOpen) return null;
@@ -250,32 +251,28 @@ function ScooterCard({ scooter }) {
 
         const handleAdSubmit = async (event) => {
             event.preventDefault();
-            const data = {
-                ...listing,
-                scooterData: scooter
-            };
             try {
-                const response = await fetch(`/api/scooters/update-availability/${scooterId}`, {
+                const response = await fetch(`/api/scooters/edit-listing/${scooterId}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(data),
+                    body: JSON.stringify(listing),
                 });
 
                 if (response.ok) {
                     const contentType = response.headers.get('content-type');
                     if (contentType && contentType.includes('application/json')) {
                         const result = await response.json();
-                        console.log('Listing saved:', result);
+                        console.log('Listing updated:', result);
                     } else {
                         const result = await response.text();
-                        console.log('Non-JSON response:', result);
+                        console.log('Error:', result);
                     }
 
                     onClose();
                 } else {
-                    console.error('Error while saving:', response.statusText);
+                    console.error('Error:', response.statusText);
                 }
             } catch (error) {
                 console.error('Error:', error);
@@ -316,7 +313,7 @@ function ScooterCard({ scooter }) {
                                 onChange={handleAdChange}
                             />
                         </div>
-                        <button type="submit">Oglasi</button>
+                        <button type="submit">Spremi</button>
                     </form>
                     <button className="modal-close-button" onClick={onClose}>Zatvori</button>
                 </div>
@@ -324,82 +321,10 @@ function ScooterCard({ scooter }) {
         );
     };
 
-    function EditScooterModal({ isOpen, onClose, scooter, onUpdate }) {
-        const [editedScooter, setEditedScooter] = useState(scooter);
-
-        useEffect(() => {
-            if (isOpen) {
-                setEditedScooter(scooter);
-            }
-        }, [isOpen, scooter]);
-
-        const handleChange = (event) => {
-            const { name, value } = event.target;
-            setEditedScooter(prevScooter => ({
-                ...prevScooter,
-                [name]: value
-            }));
-        };
-
-
-        const handleSubmit = async (event) => {
-            event.preventDefault();
-            await onUpdate(editedScooter);
-            onClose();
-        };
-
-        if (!isOpen) return null;
-
-        return (
-            <div className="modal-overlay" onClick={onClose}>
-                <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                    <form onSubmit={handleSubmit} className="ad-form">
-                        <div className="form-group">
-                            <label>Manufacturer</label>
-                            <input type="text" name="manufacturer" value={editedScooter.manufacturer}
-                                   onChange={handleChange}/>
-                        </div>
-                        <div className="form-group">
-                            <label>Model</label>
-                            <input type="text" name="model" value={editedScooter.model} onChange={handleChange}/>
-                        </div>
-                        <div className="form-group">
-                            <label>Battery Capacity</label>
-                            <input type="number" name="batteryCapacity" value={editedScooter.batteryCapacity}
-                                   onChange={handleChange}/>
-                        </div>
-                        <div className="form-group">
-                            <label>Max Speed</label>
-                            <input type="number" name="maxSpeed" value={editedScooter.maxSpeed} onChange={handleChange}/>
-                        </div>
-                        <div className="form-group">
-                            <label>Max Range</label>
-                            <input type="number" step="0.1" name="maxRange" value={editedScooter.maxRange}
-                                   onChange={handleChange}/>
-                        </div>
-                        <div className="form-group">
-                            <label>Year of Manufacture</label>
-                            <input type="number" name="yearOfManufacture" value={editedScooter.yearOfManufacture}
-                                   onChange={handleChange}/>
-                        </div>
-                        <div className="form-group">
-                            <label>Additional Information</label>
-                            <textarea name="additionalInformation" value={editedScooter.additionalInformation}
-                                      onChange={handleChange}/>
-                        </div>
-                        <button type="submit">Spremi</button>
-                    </form>
-                    <button className="modal-close-button" onClick={onClose}>Zatvori</button>
-                </div>
-            </div>
-        );
-    }
-
-
-    console.log("IsCUO: ", isCurrentUserOwner);
-    if (!isCurrentUserOwner) {
+    /*if (!isAdvertised) {
         return null;
-    }
+    }*/
+
     return (
         <div className={`scooter ${isExpanded ? 'expanded' : ''}`} onClick={handleCardClick}>
             {isExpanded && (
@@ -450,15 +375,15 @@ function ScooterCard({ scooter }) {
                 imageSrc={currentImageSrc}
                 altText="Romobil"
             />
+            <RequestChangeModal
+                isOpen={isRequestOpen}
+                onClose={closeRequestModal}
+                imageSrc={currentImageSrc}
+                altText="Romobil"
+            />
             <AdModal
                 isOpen={isAdModalOpen}
                 onClose={closeAdModal}
-            />
-            <EditScooterModal
-                isOpen={isEditModalOpen}
-                onClose={closeEditModal}
-                scooter={scooter}
-                onUpdate={handleUpdateScooter}
             />
 
         </div>

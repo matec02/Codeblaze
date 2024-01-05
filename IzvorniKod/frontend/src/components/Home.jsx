@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import ScooterCard from "./ScooterCard";
+import ScooterCardHome from "./ScooterCardHome";
 import './Home.css';
 
 function Home() {
@@ -40,7 +40,7 @@ function Home() {
     return (
         <div className="scooter-grid">
             {scooters.map((scooter, index) => (
-                <ScooterCard key={index} scooter={scooter}/>
+                <ScooterCardHome key={index} scooter={scooter}/>
             ))}
         </div>
     );
