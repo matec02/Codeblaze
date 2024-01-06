@@ -1,10 +1,14 @@
 package com.projektr.codeblaze.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.projektr.codeblaze.dao.ListingRepository;
+import com.projektr.codeblaze.dao.ScooterRepository;
+import com.projektr.codeblaze.domain.Listing;
 import com.projektr.codeblaze.domain.Scooter;
 import com.projektr.codeblaze.domain.User;
 import com.projektr.codeblaze.service.DocumentService;
 import com.projektr.codeblaze.service.ScooterService;
+import com.projektr.codeblaze.service.UserService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +18,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -22,10 +29,14 @@ import java.util.Map;
 public class ScooterController {
 
     private final ScooterService scooterService;
+    ScooterRepository scooterRepository;
+    ListingRepository listingRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(DocumentService.class);
     @Autowired
-    public ScooterController(ScooterService scooterService) {
+    public ScooterController(ScooterService scooterService, ScooterRepository scooterRepository, ListingRepository listingRepository) {
+        this.scooterRepository = scooterRepository;
+        this.listingRepository = listingRepository;
         this.scooterService = scooterService;
     }
 
@@ -53,10 +64,7 @@ public class ScooterController {
         }
         return ResponseEntity.ok(scooters);
     }*/
-    @GetMapping("/get-all-scooters")
-    public List<Scooter> getAllScooters() {
-        return scooterService.getAvailableScooters(true);
-    }
+
 
     @PostMapping(value = "/register", consumes = "multipart/form-data")
     public ResponseEntity<?> registerScooter(
@@ -91,20 +99,37 @@ public class ScooterController {
     @PostMapping("/update-availability/{scooterId}")
     public ResponseEntity<String> updateScooterAvailability(
             @PathVariable Long scooterId,
-            @RequestBody Map<String, Boolean> availabilityMap
+            @RequestBody Map<String, Object> data
     ) {
         try {
-            Boolean availability = availabilityMap.get("availability");
-            scooterService.updateScooterAvailability(scooterId, availability);
+
+            Scooter scooter = scooterRepository.findById(scooterId)
+                    .orElseThrow(() -> new IllegalArgumentException("Scooter not found with ID: " + scooterId));
+            if (!scooter.getAvailability()) {
+
+                scooterService.updateScooterAvailability(scooterId, true);
+            }
+            Listing newListing = new Listing();
+            String returnByTimeString = (String) data.get("returnByTime");
+            LocalDateTime returnByTime = LocalDateTime.parse(returnByTimeString);
+            newListing.setReturnByTime(returnByTime);
+            String currentAddress = (String) data.get("currentAddress");
+            newListing.setCurrentAddress(currentAddress);
+            String returnAddress = (String) data.get("currentAddress");
+            newListing.setReturnAddress(returnAddress);
+            newListing.setScooter(scooter);
+            newListing.setListingTime(LocalDateTime.now());
+            listingRepository.save(newListing);
             return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_JSON)
-                    .body("\"Scooter availability updated successfully\"");
+                    .body("\"Scooter availability updated and listing saved successfully\"");
 
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .body("Error updating scooter availability");
+                    .body("Error updating scooter availability and saving listing: " + e.getMessage());
         }
-    }
-
 }
+}
+
+

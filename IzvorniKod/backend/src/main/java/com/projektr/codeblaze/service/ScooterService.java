@@ -1,6 +1,8 @@
 package com.projektr.codeblaze.service;
 
+import com.projektr.codeblaze.dao.ListingRepository;
 import com.projektr.codeblaze.dao.ScooterRepository;
+import com.projektr.codeblaze.domain.Listing;
 import com.projektr.codeblaze.domain.Scooter;
 import com.projektr.codeblaze.domain.User;
 import jakarta.transaction.Transactional;
@@ -24,13 +26,17 @@ import java.util.Optional;
 @Service
 public class ScooterService {
     private final ScooterRepository scooterRepository;
+
+    private final ListingRepository listingRepository;
     private static final Logger logger = LoggerFactory.getLogger(DocumentService.class);
 
     private static String UPLOAD_FOLDER  = "./IzvorniKod/src/main/resources/static/images";
 
     @Autowired
-    public ScooterService(ScooterRepository scooterRepository){
+    public ScooterService(ScooterRepository scooterRepository, ListingRepository listingRepository){
+
         this.scooterRepository = scooterRepository;
+        this.listingRepository = listingRepository;
     }
 
     public List<Scooter> getAllScooters() {
@@ -81,8 +87,9 @@ public class ScooterService {
         logger.info("Successfully saved picture as {} at {}", newFilename, uploadPath);
         return newFilename;
     }
-    public List<Scooter> getAvailableScooters(boolean availability) {
-        return scooterRepository.findByAvailability(availability);
+    public List<Listing> getAvailableScooters(boolean availability) {
+
+        return listingRepository.findListingsByScooterAvailability();
     }
     public void updateScooterAvailability(Long scooterId, boolean availability) {
         Optional<Scooter> optionalScooter = scooterRepository.findById(scooterId);
@@ -104,5 +111,6 @@ public class ScooterService {
         scooter.setAvailability(false);
         return scooterRepository.save(scooter);
     }
+
 
 }
