@@ -98,10 +98,14 @@ function MyScooter() {
 
             {activeTab === 'viewListings' && (
                 <div className="listings-list">
-                    {scooters.map(scooter => (
-                        <ScooterCardHome key={scooter.id} scooter={scooter}/>
-                    ))}
+                    {scooters
+                        .filter(scooter => scooter.availability === true)
+                        .map(scooter => (
+                            <ScooterCardHome key={scooter.id} scooter={scooter}/>
+                        ))
+                    }
                 </div>
+
             )}
         </div>
     );
