@@ -264,14 +264,26 @@ function ScooterCard({ scooter }) {
     };
 
     const AdModal = ({ isOpen, onClose }) => {
+        const [localListing, setLocalListing] = useState({ ...listing });
+
+        useEffect(() => {
+            if (isOpen) {
+                setLocalListing({
+                    ...listing,
+                    returnByTime: new Date().toISOString().slice(0, 16) // Postavljanje minimalnog vremena povratka
+                });
+            }
+        }, [isOpen, listing]);
+
         const handleAdChange = (event) => {
-            setListing({ ...listing, [event.target.name]: event.target.value });
+            const { name, value } = event.target;
+            setLocalListing({ ...localListing, [name]: value });
         };
 
         const handleAdSubmit = async (event) => {
             event.preventDefault();
             const data = {
-                ...listing,
+                ...localListing,
                 scooterData: scooter
             };
             try {
@@ -309,22 +321,22 @@ function ScooterCard({ scooter }) {
                     <form onSubmit={handleAdSubmit} className="ad-form">
                         <div className="form-group">
                             <label>Trenutna adresa</label>
-                            <input type="text" name="currentAddress" value={listing.currentAddress}
+                            <input type="text" name="currentAddress" value={localListing.currentAddress}
                                    onChange={handleAdChange}/>
                         </div>
                         <div className="form-group">
                             <label>Adresa povratka</label>
-                            <input type="text" name="returnAddress" value={listing.returnAddress}
+                            <input type="text" name="returnAddress" value={localListing.returnAddress}
                                    onChange={handleAdChange}/>
                         </div>
                         <div className="form-group">
                             <label>Cijena po kilometru</label>
-                            <input type="number" step="0.1" name="pricePerKilometer" value={listing.pricePerKilometer}
+                            <input type="number" step="0.1" name="pricePerKilometer" value={localListing.pricePerKilometer}
                                    onChange={handleAdChange}/>
                         </div>
                         <div className="form-group">
                             <label>Iznos kazne</label>
-                            <input type="number" step="0.1" name="penaltyFee" value={listing.penaltyFee}
+                            <input type="number" step="0.1" name="penaltyFee" value={localListing.penaltyFee}
                                    onChange={handleAdChange}/>
                         </div>
                         <div className="form-group">
@@ -332,8 +344,9 @@ function ScooterCard({ scooter }) {
                             <input
                                 type="datetime-local"
                                 name="returnByTime"
-                                value={listing.returnByTime}
+                                value={localListing.returnByTime}
                                 onChange={handleAdChange}
+                                min={new Date().toISOString().slice(0, 16)}
                             />
                         </div>
                         <button type="submit">Oglasi</button>
