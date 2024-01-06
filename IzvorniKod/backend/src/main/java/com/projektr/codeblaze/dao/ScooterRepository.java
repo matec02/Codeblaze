@@ -12,8 +12,8 @@ import java.util.List;
 @Repository
 public interface ScooterRepository extends JpaRepository<Scooter, Long> {
     List<Scooter> findByUser(User user);
-    @Query("SELECT s FROM Scooter s WHERE s.availability = :availability")
-    List<Scooter> findByAvailability(@Param("availability") boolean availability);
+
+
 
     // Queries TODO
 }

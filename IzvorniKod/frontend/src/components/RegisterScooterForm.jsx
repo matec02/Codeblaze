@@ -107,7 +107,7 @@ function RegisterScooterForm() {
                     setShowNotification(true);
                     setTimeout(() => {
                         setShowNotification(false);
-                        navigate('/home'); // Navigate after the notification
+                        window.location.reload(); // Navigate after the notification
                     }, 3000);
                 } else {
                     setErrorMessage('Scooter registration failed.');

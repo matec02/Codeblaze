@@ -223,7 +223,7 @@ function ScooterCard({ scooter }) {
             }
 
             console.log('Scooter deleted successfully');
-            navigate('/some-path');
+            window.location.reload();
 
         } catch (error) {
             console.error('Error:', error);
@@ -309,6 +309,7 @@ function ScooterCard({ scooter }) {
                 } else {
                     console.error('Error while saving:', response.statusText);
                 }
+                navigate('/home');
             } catch (error) {
                 console.error('Error:', error);
             }

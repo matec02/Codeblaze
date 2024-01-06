@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom";
 import {getNicknameFromToken} from "./RegisterScooterForm";
 
 
-function ScooterCard({ scooter }) {
+function ScooterCard({ listing }) {
 
     const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = useState('');
@@ -19,14 +19,7 @@ function ScooterCard({ scooter }) {
     const [comments, setComments] = useState({
         comments: ''
     });
-    const [listing, setListing] = useState({
-        currentAddress: '',
-        returnAddress: '',
-        pricePerKilometer: 0.0,
-        penaltyFee: 0.0,
-        returnByTime: ''
-    });
-
+    const { scooter } = listing;
     const { userId, scooterId, imagePath, model, maxSpeed, batteryCapacity } = scooter;
 
     const handleButtonClick = (event, action) => {
@@ -248,7 +241,7 @@ function ScooterCard({ scooter }) {
 
     const handleDeleteListing = async () => {
         try {
-            const response = await fetch(`/api/scooters/delete-listing/${scooterId}`, {
+            const response = await fetch(`/api/scooters/delete-listing/${listing.listingId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -260,6 +253,7 @@ function ScooterCard({ scooter }) {
             }
 
             console.log('Listing deleted successfully');
+            window.location.reload();
         } catch (error) {
             console.error('Error:', error);
         }
@@ -284,7 +278,7 @@ function ScooterCard({ scooter }) {
         const handleAdSubmit = async (event) => {
             event.preventDefault();
             try {
-                const response = await fetch(`/api/scooters/edit-listing/${scooterId}`, {
+                const response = await fetch(`/api/scooters/edit-listing/${listing.listingId}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -377,6 +371,13 @@ function ScooterCard({ scooter }) {
                                 <h3>{model}</h3>
                                 <p><strong>Brzina:</strong> {maxSpeed} km/h</p>
                                 <p><strong>Kapacitet:</strong> {batteryCapacity} kWh</p>
+                                <p><strong>Trenutna sdresa:</strong> {listing.currentAddress} </p>
+                                <p><strong>Adresa povratka:</strong> {listing.returnAddress} </p>
+                                <p><strong>Cijena po kilometru:</strong> {listing.pricePerKilometer} €/km</p>
+                                <p><strong>Kazna:</strong> {listing.penaltyFee} €</p>
+                                <p><strong>Vratiti do:</strong> {listing.returnByTime} </p>
+
+
                             </div>
                         </div>
                         <button className="modal-close-button" onClick={() => setIsExpanded(false)}>Zatvori</button>

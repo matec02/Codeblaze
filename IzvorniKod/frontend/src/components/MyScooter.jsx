@@ -7,6 +7,7 @@ import {getNicknameFromToken} from "./RegisterScooterForm";
 
 function MyScooter() {
     const [scooters, setScooters] = useState([]);
+    const [listings, setListings] = useState([]);
     const [activeTab, setActiveTab] = useState('viewScooters'); // 'viewScooters' or 'addScooter' or 'viewListings'
     const [user, setUser] = useState('');
 
@@ -16,9 +17,13 @@ function MyScooter() {
 
     useEffect(() => {
         if (user && user.userId) {
-            handleViewScooters(user);
+            if (activeTab === 'viewScooters') {
+                handleViewScooters(user);
+            } else if (activeTab === 'viewListings') {
+                handleViewListings(user);
+            }
         }
-    }, [user]);
+    }, [user, activeTab]);
 
     const addScooter = (newScooter) => {
         setScooters([...scooters, newScooter]);
@@ -65,6 +70,23 @@ function MyScooter() {
             console.error("Failed to fetch scooters: ", error);
         }
     };
+    const handleViewListings = async () => {
+        try {
+            const response = await fetch(`/api/scooters/listing/${user.userId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status}`);
+            }
+            const data = await response.json();
+            setListings(data);
+        } catch (error) {
+            console.error("Failed to fetch listings: ", error);
+        }
+    };
 
     return (
         <div className="my-scooter-container">
@@ -97,15 +119,11 @@ function MyScooter() {
             )}
 
             {activeTab === 'viewListings' && (
-                <div className="listings-list">
-                    {scooters
-                        .filter(scooter => scooter.availability === true)
-                        .map(scooter => (
-                            <ScooterCardHome key={scooter.id} scooter={scooter}/>
-                        ))
-                    }
+                <div className="scooter-list">
+                    {listings.map(listing => (
+                        <ScooterCardHome key={listing.id} listing={listing}/>
+                    ))}
                 </div>
-
             )}
         </div>
     );

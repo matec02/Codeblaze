@@ -18,10 +18,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+
 
 @Service
 public class ScooterService {
@@ -34,7 +38,6 @@ public class ScooterService {
 
     @Autowired
     public ScooterService(ScooterRepository scooterRepository, ListingRepository listingRepository){
-
         this.scooterRepository = scooterRepository;
         this.listingRepository = listingRepository;
     }
@@ -111,6 +114,54 @@ public class ScooterService {
         scooter.setAvailability(false);
         return scooterRepository.save(scooter);
     }
+    /*@Transactional
+    public Scooter updateScooter(Long scooterId, Scooter updatedScooter) {
+        Optional<Scooter> scooterOptional = scooterRepository.findById(scooterId);
+
+        if (!scooterOptional.isPresent()) {
+            throw new RuntimeException("Scooter not found with id: " + scooterId);
+        }
+
+        Scooter existingScooter = scooterOptional.get();
+
+        existingScooter.setManufacturer(updatedScooter.getManufacturer());
+        existingScooter.setModel(updatedScooter.getModel());
+        existingScooter.setBatteryCapacity(updatedScooter.getBatteryCapacity());
+        existingScooter.setMaxSpeed(updatedScooter.getMaxSpeed());
+        existingScooter.setMaxRange(updatedScooter.getMaxRange());
+        existingScooter.setYearOfManufacture(updatedScooter.getYearOfManufacture());
+        existingScooter.setAdditionalInformation(updatedScooter.getAdditionalInformation());
+
+
+        return scooterRepository.save(existingScooter);
+    }
+    @Transactional
+    public Listing updateListing(Long listingId, Listing updatedListing) {
+        Optional<Listing> listingOptional = listingRepository.findById(listingId);
+
+        if (!listingOptional.isPresent()) {
+            throw new RuntimeException("Scooter not found with id: " + listingId);
+        }
+
+        Listing existingListing = listingOptional.get();
+
+        existingListing.setCurrentAddress(updatedListing.getCurrentAddress());
+        existingListing.setReturnAddress(updatedListing.getReturnAddress());
+        existingListing.setPricePerKilometer(updatedListing.getPricePerKilometer());
+        existingListing.setPenaltyFee(updatedListing.getPenaltyFee());
+        existingListing.setReturnByTime(updatedListing.getReturnByTime().toLocalDateTime());
+
+
+        return listingRepository.save(existingListing);
+    }*/
+    public void deleteListing(Long listingId) {
+        if (listingRepository.existsById(listingId)) {
+            listingRepository.deleteById(listingId);
+        } else {
+            throw new RuntimeException("Listing not found with ID: " + listingId);
+        }
+    }
+
 
 
 }

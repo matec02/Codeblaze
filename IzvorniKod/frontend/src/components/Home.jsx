@@ -36,7 +36,7 @@ function Home() {
     return (
         <div className="scooter-grid">
             {listings.map((listing, index) => (
-                <ScooterCardHome key={index} scooter={listing.scooter} />
+                <ScooterCardHome key={index} listing={listing} />
             ))}
         </div>
     );

@@ -115,7 +115,7 @@ public class ScooterController {
             newListing.setReturnByTime(returnByTime);
             String currentAddress = (String) data.get("currentAddress");
             newListing.setCurrentAddress(currentAddress);
-            String returnAddress = (String) data.get("currentAddress");
+            String returnAddress = (String) data.get("returnAddress");
             newListing.setReturnAddress(returnAddress);
             newListing.setScooter(scooter);
             newListing.setListingTime(LocalDateTime.now());
@@ -129,7 +129,17 @@ public class ScooterController {
                     .contentType(MediaType.APPLICATION_JSON)
                     .body("Error updating scooter availability and saving listing: " + e.getMessage());
         }
-}
+    }
+    @DeleteMapping("/delete/{scooterId}")
+    public ResponseEntity<String> deleteScooter(@PathVariable Long scooterId) {
+        try {
+            scooterService.deleteScooter(scooterId);
+            return ResponseEntity.ok("Scooter deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Scooter not found with ID: " + scooterId);
+        }
+    }
+
 }
 
 
