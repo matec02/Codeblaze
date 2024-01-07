@@ -14,6 +14,7 @@ import AdminHome from "./components/AdminHome";
 import AdminDashboard from "./components/AdminDashboard";
 import ImageChange from "./components/ImageChange";
 import MyProfile from "./components/MyProfile";
+import Transactions from "./components/Transactions";
 
 import AdminRoute from "./components/AdminRoute";
 import ProtectedRoutes from "./components/ProtectedRoutes"

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import TransactionCard from '.TransactionCard';
+//import TransactionCard from '.TransactionCard';
 import './Transactions.css';
 import {getNicknameFromToken} from "./RegisterScooterForm";
 
@@ -43,7 +43,7 @@ function Transactions() {
     const handleViewTransactions = async (event) => {
         try {
             //dohvacanje transakcija iznajmljivaca
-            const response = await fetch(`/api/transactions/${userId}`, {
+            const response = await fetch(`/api/transactions/${user.userId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
