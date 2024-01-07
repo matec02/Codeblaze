@@ -38,6 +38,10 @@ public class Transaction {
     private TransactionStatus transactionStatus;
 
     @ManyToOne
+    @JoinColumn(name = "ownerId", referencedColumnName = "userId", nullable = false)
+    private User ownerId;
+
+    @ManyToOne
     @JoinColumn(name = "listingId", referencedColumnName = "listingId", nullable = false)
     private Listing listing;
 }

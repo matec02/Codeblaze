@@ -77,6 +77,11 @@ function App() {
                         <RegisterScooterForm />
                     </ProtectedRoutes>
                 }/>
+                <Route path="/my-transactions" element={
+                    <ProtectedRoutes>
+                        <Transactions />
+                    </ProtectedRoutes>
+                }/>
                 <Route path="/profile" element={
                     <ProtectedRoutes>
                         <MyProfile/>

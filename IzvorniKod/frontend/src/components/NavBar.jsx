@@ -88,6 +88,7 @@ function NavBar() {
                     <li onClick={handleNavigation}>Početna</li>
                     <li onClick={() => navigate('/scooters')}>Tvoji Romobili</li>
                     <li onClick={() => navigate('/chat-panel')}>Poruke</li>
+                    <li onClick={() => navigate('/my-transactions')}>Transakcije</li>
                 </ul>
                 {localStorage.getItem('authToken') ? (
                     <div className="navbar-account">
