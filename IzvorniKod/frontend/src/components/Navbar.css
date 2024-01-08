@@ -73,7 +73,6 @@
     margin-right: 0;
 }
 .navbar-account {
-    display: flex; /* Omogućuje flexbox layout */
-    align-items: center; /* Centrira elemente unutar kontejnera po vertikali */
-    /* Dodajte dodatne stilove ako je potrebno */
+    display: flex;
+    align-items: center;
 }
