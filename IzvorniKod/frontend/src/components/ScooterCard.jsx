@@ -27,7 +27,7 @@ function ScooterCard({ scooter }) {
         returnByTime: ''
     });
 
-    const { userId, scooterId, imagePath, model, maxSpeed, batteryCapacity } = scooter;
+    const { userId, scooterId, imagePath, model, maxSpeed, batteryCapacity, yearOfManufacture, additionalInformation } = scooter;
 
     const handleButtonClick = (event, action) => {
         event.stopPropagation();
@@ -234,7 +234,7 @@ function ScooterCard({ scooter }) {
     const buttons = [
         { text: 'Oglasi', onClick: (e) => handleButtonClick(e, 'oglasi') },
         { text: 'Uredi', onClick: (e) => handleButtonClick(e, 'uredi') },
-        { text: 'Izbrisi', onClick: (e) => handleButtonClick(e, 'izbrisi') }
+        { text: 'Izbriši', onClick: (e) => handleButtonClick(e, 'izbrisi') }
     ];
 
     const RequestChangeModal = ({isOpen, onClose, imageSrc, altText }) => {
@@ -332,7 +332,8 @@ function ScooterCard({ scooter }) {
                         </div>
                         <div className="form-group">
                             <label>Cijena po kilometru</label>
-                            <input type="number" step="0.1" name="pricePerKilometer" value={localListing.pricePerKilometer}
+                            <input type="number" step="0.1" name="pricePerKilometer"
+                                   value={localListing.pricePerKilometer}
                                    onChange={handleAdChange}/>
                         </div>
                         <div className="form-group">
@@ -351,8 +352,8 @@ function ScooterCard({ scooter }) {
                             />
                         </div>
                         <button type="submit">Oglasi</button>
+                        <button className="modal-close-button" onClick={onClose}>Zatvori</button>
                     </form>
-                    <button className="modal-close-button" onClick={onClose}>Zatvori</button>
                 </div>
             </div>
         );
@@ -404,7 +405,8 @@ function ScooterCard({ scooter }) {
                         </div>
                         <div className="form-group">
                             <label>Max Speed</label>
-                            <input type="number" name="maxSpeed" value={editedScooter.maxSpeed} onChange={handleChange}/>
+                            <input type="number" name="maxSpeed" value={editedScooter.maxSpeed}
+                                   onChange={handleChange}/>
                         </div>
                         <div className="form-group">
                             <label>Max Range</label>
@@ -422,8 +424,8 @@ function ScooterCard({ scooter }) {
                                       onChange={handleChange}/>
                         </div>
                         <button type="submit">Spremi</button>
+                        <button className="modal-close-button" onClick={onClose}>Zatvori</button>
                     </form>
-                    <button className="modal-close-button" onClick={onClose}>Zatvori</button>
                 </div>
             </div>
         );
@@ -435,28 +437,29 @@ function ScooterCard({ scooter }) {
         return null;
     }
     return (
-        <div className={`scooter ${isExpanded ? 'expanded' : ''}`} onClick={handleCardClick}>
+        <div className={`scooter ${isExpanded ? 'expanded' : ''}`} onClick={isExpanded ? undefined : handleCardClick}>
             {isExpanded && (
-                <div className="modal-overlay" onClick={() => setIsExpanded(false)}>
-                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                        <img src={imagePath} alt={`${model} Scooter`} className="scooter-image"/>
-                        <div className="scooter-info">
-                            <ul className="scooter-buttons">
-                                {buttons.map((button, index) => (
-                                    <li key={index}>
-                                        <button className="scooter-button" onClick={button.onClick}>
-                                            {button.text}
-                                        </button>
-                                    </li>
-                                ))}
-                            </ul>
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <div className="expanded-content">
+                            <img src={imagePath} alt={`${model} Scooter`} className="scooter-image"/>
                             <div className="scooter-details">
                                 <h3>{model}</h3>
                                 <p><strong>Brzina:</strong> {maxSpeed} km/h</p>
                                 <p><strong>Kapacitet:</strong> {batteryCapacity} kWh</p>
+                                <p><strong>Godina Proizvodnje:</strong> {yearOfManufacture} </p>
+                                <p><strong>Dodatne informacije:</strong> {additionalInformation} </p>
+                                <p><strong>Doseg:</strong> {scooter.maxRange} </p>
+                            </div>
+                            <div className="scooter-buttons">
+                                {buttons.map((button, index) => (
+                                    <button key={index} className="scooter-button" onClick={button.onClick}>
+                                        {button.text}
+                                    </button>
+                                ))}
+                                <button className="scooter-button" onClick={() => setIsExpanded(false)}>Zatvori</button>
                             </div>
                         </div>
-                        <button className="modal-close-button" onClick={() => setIsExpanded(false)}>Zatvori</button>
                     </div>
                 </div>
             )}
@@ -464,6 +467,7 @@ function ScooterCard({ scooter }) {
                 <>
                     <img src={imagePath} alt={`${model} Scooter`} className="scooter-image"/>
                     <div className="scooter-details">
+                        <h3>{model}</h3>
                         <p><strong>Brzina:</strong> {maxSpeed} km/h</p>
                         <p><strong>Kapacitet:</strong> {batteryCapacity} kWh</p>
                     </div>
@@ -494,9 +498,9 @@ function ScooterCard({ scooter }) {
                 scooter={scooter}
                 onUpdate={handleUpdateScooter}
             />
-
         </div>
     );
+
 }
 
 export default ScooterCard;

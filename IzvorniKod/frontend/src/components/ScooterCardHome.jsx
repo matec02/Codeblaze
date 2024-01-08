@@ -2,7 +2,7 @@ import React, {useCallback, useState, useEffect} from 'react';
 import './ScooterCard.css'
 import {useNavigate} from "react-router-dom";
 import {getNicknameFromToken} from "./RegisterScooterForm";
-
+import { format } from 'date-fns';
 
 function ScooterCard({ listing }) {
 
@@ -356,31 +356,30 @@ function ScooterCard({ listing }) {
             {isExpanded && (
                 <div className="modal-overlay" onClick={() => setIsExpanded(false)}>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                        <img src={imagePath} alt={`${model} Scooter`} className="scooter-image"/>
-                        <div className="scooter-info">
-                            <ul className="scooter-buttons">
-                                {buttons.map((button, index) => (
-                                    <li key={index}>
-                                        <button className="scooter-button" onClick={button.onClick}>
-                                            {button.text}
-                                        </button>
-                                    </li>
-                                ))}
-                            </ul>
+                        <div className="expanded-content">
+                            <img src={imagePath} alt={`${model} Scooter`} className="scooter-image"/>
                             <div className="scooter-details">
                                 <h3>{model}</h3>
                                 <p><strong>Brzina:</strong> {maxSpeed} km/h</p>
                                 <p><strong>Kapacitet:</strong> {batteryCapacity} kWh</p>
+                                <p><strong>Godina Proizvodnje:</strong> {scooter.yearOfManufacture} </p>
+                                <p><strong>Dodatne informacije:</strong> {scooter.additionalInformation} </p>
+                                <p><strong>Doseg:</strong> {scooter.maxRange} </p>
                                 <p><strong>Trenutna sdresa:</strong> {listing.currentAddress} </p>
                                 <p><strong>Adresa povratka:</strong> {listing.returnAddress} </p>
                                 <p><strong>Cijena po kilometru:</strong> {listing.pricePerKilometer} €/km</p>
                                 <p><strong>Kazna:</strong> {listing.penaltyFee} €</p>
                                 <p><strong>Vratiti do:</strong> {listing.returnByTime} </p>
-
-
+                            </div>
+                            <div className="scooter-buttons">
+                                {buttons.map((button, index) => (
+                                    <button key={index} className="scooter-button" onClick={button.onClick}>
+                                        {button.text}
+                                    </button>
+                                ))}
+                                <button className="scooter-button" onClick={() => setIsExpanded(false)}>Zatvori</button>
                             </div>
                         </div>
-                        <button className="modal-close-button" onClick={() => setIsExpanded(false)}>Zatvori</button>
                     </div>
                 </div>
             )}
@@ -388,6 +387,7 @@ function ScooterCard({ listing }) {
                 <>
                     <img src={imagePath} alt={`${model} Scooter`} className="scooter-image"/>
                     <div className="scooter-details">
+                        <h3>{model}</h3>
                         <p><strong>Brzina:</strong> {maxSpeed} km/h</p>
                         <p><strong>Kapacitet:</strong> {batteryCapacity} kWh</p>
                     </div>
