@@ -3,6 +3,7 @@ package com.projektr.codeblaze.service;
 import com.projektr.codeblaze.dao.ChatSessionRepository;
 import com.projektr.codeblaze.domain.ChatSession;
 import com.projektr.codeblaze.domain.User;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +39,16 @@ public class ChatSessionService {
         chatSession.setUser2(user2);
         chatSession.setStartCommunicationTime(OffsetDateTime.now());
 
+        return chatSessionRepository.save(chatSession);
+    }
+
+    @Transactional
+    public void updateLastMessageTime(Long chatSessionId, LocalDateTime lastMessageTime) {
+        chatSessionRepository.updateLastMessageTime(chatSessionId, lastMessageTime);
+    }
+
+    @Transactional
+    public ChatSession update(ChatSession chatSession) {
         return chatSessionRepository.save(chatSession);
     }
 

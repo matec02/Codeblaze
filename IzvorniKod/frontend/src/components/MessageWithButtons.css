@@ -1,0 +1,29 @@
+.message-with-buttons {
+    margin-bottom: 10px;
+}
+
+.message-text {
+    background-color: #f1f1f1;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 5px; /* Add space between text and buttons */
+}
+
+.message-buttons {
+    display: flex;
+    justify-content: space-around;
+}
+
+.message-buttons button {
+    padding: 5px 10px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+}
+
+.message-buttons button:hover {
+    background-color: #45a049;
+}

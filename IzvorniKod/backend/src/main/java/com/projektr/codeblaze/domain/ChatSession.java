@@ -20,13 +20,7 @@ public class ChatSession {
     private OffsetDateTime startCommunicationTime;
 
     @Column(name = "lastMessageTime")
-    private LocalDateTime lastMessageTime;
-    public Timestamp getLastMessageTime() {
-        if (lastMessageTime != null) {
-            return Timestamp.valueOf(lastMessageTime);
-        }
-        return null;
-    }
+    private OffsetDateTime lastMessageTime;
 
     @ManyToOne
     @JoinColumn(name = "user1", referencedColumnName = "userId")

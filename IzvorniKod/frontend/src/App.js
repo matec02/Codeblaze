@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 
@@ -14,6 +14,7 @@ import AdminHome from "./components/AdminHome";
 import AdminDashboard from "./components/AdminDashboard";
 import ImageChange from "./components/ImageChange";
 import MyProfile from "./components/MyProfile";
+import UnreadMessagesContext from "./components/UnreadMessagesContext";
 
 import AdminRoute from "./components/AdminRoute";
 import ProtectedRoutes from "./components/ProtectedRoutes"
@@ -27,8 +28,11 @@ import ChatMessage from "./components/ChatMessage";
 import ScooterCard from "./components/ScooterCard";*/
 
 function App() {
+    const [unreadCount, setUnreadCount] = useState(0);
+
     return (
         <Router>
+            <UnreadMessagesContext.Provider value={{ unreadCount, setUnreadCount }}>
             <header>
                 <NavBar/>
             </header>
@@ -107,6 +111,7 @@ function App() {
 
                 {/* TODO add all possible routes   */}
             </Routes>
+            </UnreadMessagesContext.Provider>
         </Router>
     );
 }

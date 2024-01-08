@@ -91,6 +91,21 @@ export const getUserFromToken = async () => {
     }
 }
 
+export const getCodeblazeFromToken = async () => {
+    try {
+        const nickname = "Codeblaze";
+        const response = await fetch(`/api/users/by-nickname/${nickname}`);
+        if (!response.ok) {
+            throw new Error('User not found');
+        }
+        const user = await response.json();
+        return user;
+    } catch (error) {
+        console.error('Error fetching user via nickname: ', error);
+        return null;
+    }
+}
+
 export const isAdmin = () => {
     const token = localStorage.getItem('authToken');
     if (!token) {

@@ -3,7 +3,7 @@ import './ChatMessage.css';
 
 function ChatMessage({text, sender, isSeen}) {
     const renderSeenIndicator = () => {
-        if (sender === 'mine' && isSeen == "READ") {
+        if (sender === 'mine' && isSeen == true) {
             return <span className="seen-indicator">Seen</span>;
         }
         return null;

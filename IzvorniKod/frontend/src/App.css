@@ -221,3 +221,19 @@
     width: 100px;
     height: auto;
 }
+
+.unread-badge {
+    background-color: #FFD860;
+    color: black;
+    border-radius: 30%;
+    padding: 0.5em; /* Adjust padding as needed */
+    font-size: 0.75em;
+    /* Align the badge closer to the text */
+    position: relative;
+    top: -20px; /* Adjust as needed for vertical alignment */
+    right: -20px; /* Adjust as needed for horizontal alignment */
+    margin-left: -20px; /* Use negative margin to pull the badge closer */
+    display: inline-block; /* This makes it possible to use top/right properties */
+}
+
+

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -57,5 +58,12 @@ public class ChatSessionController {
         return chatSessionService.findById(chatSessionId)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/{chatSessionId}/update-last-message-time")
+    public ResponseEntity<?> updateLastMessageTime(@PathVariable Long chatSessionId,
+                                                   @RequestBody LocalDateTime lastMessageTime) {
+        chatSessionService.updateLastMessageTime(chatSessionId, lastMessageTime);
+        return ResponseEntity.ok().build();
     }
 }

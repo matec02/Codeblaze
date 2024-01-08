@@ -24,15 +24,6 @@ public class Message {
     @Column(name = "sentTime", nullable = false)
     private LocalDateTime sentTime;
 
-    // Getter method for the paymentTimestamp property
-    // If it's needed to get actual Timestamp, CHECK THIS!!!!
-    public Timestamp getMessageTimestamp() {
-        if (sentTime != null) {
-            return Timestamp.valueOf(sentTime);
-        }
-        return null; // Handle the case when paymentTime is null, if needed
-    }
-
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 50)
     private MessageStatus status;

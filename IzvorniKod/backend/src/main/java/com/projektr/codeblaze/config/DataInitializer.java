@@ -1,17 +1,22 @@
 package com.projektr.codeblaze.config;
 
 import com.projektr.codeblaze.domain.UserStatus;
+import org.aspectj.weaver.BCException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import com.projektr.codeblaze.service.UserService;
 import com.projektr.codeblaze.domain.User;
 import com.projektr.codeblaze.domain.UserRole; // Import your Role enum
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 public class DataInitializer {
 
     private final UserService userService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
 
     // Constructor for dependency injection
     public DataInitializer(UserService userService) {
@@ -38,6 +43,23 @@ public class DataInitializer {
 
                 // Save the admin user using UserService
                 userService.save(admin);
+            }
+            if (userService.getUserByNickname("Codeblaze") == null) {
+                String encodedPassword = bCryptPasswordEncoder.encode("admin");
+                User codeblaze = new User();
+                codeblaze.setUserId(6L);
+                codeblaze.setNickname("Codeblaze");
+                codeblaze.setFirstName("Code");
+                codeblaze.setLastName("Blaze");
+                codeblaze.setPassword(encodedPassword); // Use a stronger password in production
+                codeblaze.setRole(UserRole.ADMIN); // Use the enum value here
+                codeblaze.setStatus(UserStatus.ACCEPTED);
+                codeblaze.setEmail("codeblaze@gmail.com");
+                codeblaze.setCardNumber("");
+                codeblaze.setPhoneNumber("+38563224234");
+
+                // Save the admin user using UserService
+                userService.save(codeblaze);
             }
             if (userService.getUserByNickname("MLJ22") == null) {
                 User marko = new User();

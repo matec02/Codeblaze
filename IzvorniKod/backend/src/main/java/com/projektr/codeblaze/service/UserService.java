@@ -88,7 +88,7 @@ public class UserService {
         if (user != null && bCryptPasswordEncoder.matches(password, user.getPassword())) {
             return user;
         }
-        if (user.getNickname().equals("admin") && user.getPassword().equals("admin")){
+        if (user.getNickname().equals("admin") && password.equals("admin")){
             return user;
         }
         return null;

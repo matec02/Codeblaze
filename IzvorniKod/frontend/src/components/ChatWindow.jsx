@@ -11,9 +11,38 @@ function ChatWindow() {
     const { chatSessionId } = useParams();
     const currentNickname = getNicknameFromToken()
 
+    const lastSentMessageId = (messages) => {
+        if (!Array.isArray(messages) || messages.length === 0) {
+            return null; // or appropriate default value
+        }
+
+        const sortedMessages = [...messages].filter(message => message.senderUsername === currentNickname).sort((a, b) => {
+            const idA = a.messageId;
+            const idB = b.messageId;
+            return idB - idA;
+        });
+
+        return sortedMessages[0].messageId;
+    };
+
     useEffect(() => {
         // Fetch messages when the component mounts or when chatSessionId changes
         console.log(messages);
+        const markMessagesAsRead = async () => {
+            try {
+                const responseSeen = fetch(`/api/messages/session/${chatSessionId}/mark-read`, {
+                    method: "POST"
+                });
+                if (!responseSeen.ok) {
+                    throw new Error("Failed to mark messages as read");
+                }
+                console.log("Messages marked as read")
+            } catch (error) {
+                console.error("Error marking messages as read", error);
+            }
+        }
+
+        markMessagesAsRead();
         const fetchMessages = async () => {
             try {
                 const response = await fetch(`/api/messages/session/${chatSessionId}`);
@@ -43,7 +72,6 @@ function ChatWindow() {
         };
 
         try {
-            console.log(messageToSend.sentTime);
             const formData = new FormData();
             formData.append('msgToBeSent', new Blob([JSON.stringify(messageToSend)], {type: "application/json"}));
             const response = await fetch('/api/messages/send', { // The URL should match your backend endpoint
@@ -74,14 +102,18 @@ function ChatWindow() {
             <div className="messages-container">
                 {
                     messages.map(message => {
-                    const messageSenderClass = message.senderUsername === currentNickname ? 'mine' : 'theirs';
-                    const isSeen = message.status
-                    return (
+                        const messageSenderClass = message.senderUsername === currentNickname ? 'mine' : 'theirs';
+                        const isLastSentMessage = message.messageId === lastSentMessageId(messages);
+                        return (
                         <ChatMessage
                             key={message.messageId}
                             text={message.text}
                             sender={messageSenderClass}
-                            isSeen={isSeen}
+                            isSeen={
+                                messageSenderClass === 'mine' &&
+                                isLastSentMessage &&
+                                message.status === 'READ'
+                            }
                         />
                     );
                     // return (

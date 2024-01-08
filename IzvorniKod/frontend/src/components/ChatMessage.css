@@ -4,7 +4,6 @@
     border-radius: 10px;
     word-wrap: break-word; /* Prelamanje teksta ako je poruka predugačka */
     margin-bottom: 5px; /* Malo razmaka između poruka */
-    height: 20px;
 }
 
 .mine {

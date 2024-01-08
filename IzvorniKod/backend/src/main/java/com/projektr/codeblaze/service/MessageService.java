@@ -24,4 +24,8 @@ public class MessageService {
     public Message sendMessage(Message message) {
         return messageRepository.save(message);
     }
+
+    public int markMessagesAsRead(Long chatSessionId) {
+        return messageRepository.markMessagesAsRead(chatSessionId);
+    }
 }

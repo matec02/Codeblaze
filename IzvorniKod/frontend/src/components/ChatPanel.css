@@ -16,13 +16,16 @@
 }
 
 .chat-item {
-    background-color: #ffffff; /* Bijela pozadina za svaki chat */
-    padding: 10px 15px; /* Razmak unutar chata */
-    border-radius: 4px; /* Blago zaobljeni rubovi */
-    margin-bottom: 10px; /* Razmak između chata */
-    border: 1px solid #e0e0e0; /* Sivi okvir */
-    cursor: pointer; /* Promjena pokazivača na hover */
-    transition: background-color 0.3s; /* Tranzicija za efekt prilikom prelaska miša */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #ffffff;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    border: 1px solid #e0e0e0;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 .chat-item:hover {
@@ -39,14 +42,39 @@
 }
 
 .chat-item .last-message {
-    font-size: 0.9em; /* Manja veličina fonta za poruku */
-    color: #666; /* Tamno siva boja za poruku */
-    overflow: hidden; /* Sakriva prekoračeni sadržaj */
-    text-overflow: ellipsis; /* Dodaje tri točke na kraju ako je tekst predugačak */
-    white-space: nowrap; /* Sprječava prelamanje teksta u novi red */
+    font-size: 0.9em;
+    color: #666;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 90%; /* Allow the text to take the full width of the container */
 }
 
 /* Dodatno: stil za neaktivni tekst */
 .chat-item .inactive {
     color: #aaa; /* Svijetlo siva boja za neaktivan tekst */
+}
+
+.item-inside {
+    display: flex;
+    flex-direction: row;
+}
+
+.unread-count {
+    background-color: #FFD860; /* Vibrant red background color */
+    color: black; /* White text color */
+    border-radius: 12px; /* Rounded corners for circular shape */
+    padding: 2px 6px; /* Padding inside the badge */
+    font-size: 0.75em; /* Font size for the text inside the badge */
+    font-weight: bold; /* Bold font weight */
+    margin-left: auto; /* Pushes the badge to the right */
+    margin-right: 15px; /* Margin from the right edge */
+    margin-bottom: auto;
+    min-width: 20px; /* Minimum width to ensure circular shape for single digits */
+    text-align: center; /* Aligns text in the center of the badge */
+    height: 20px; /* Fixed height for the badge */
+    line-height: 20px; /* Centers text vertically within the badge */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); /* Optional: slight shadow for depth */
+    display: inline-block; /* Ensures that padding and other box model properties are respected */
+    vertical-align: middle; /* Aligns the badge vertically in the middle with respect to sibling elements */
 }

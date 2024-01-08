@@ -1,8 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import myAccount from '../assets/my-account.png';
 import logo from '../assets/CodeblazeLogo.png';
 import {getNicknameFromToken} from "./RegisterScooterForm";
+import {getUserIdFromToken} from "../utils/authService";
+import UnreadMessagesContext from "./UnreadMessagesContext";
 
 function NavBar() {
     const navigate = useNavigate();
@@ -10,10 +12,13 @@ function NavBar() {
     const [showDropdown, setShowDropdown] = useState(false);
     const [acceptedUsers, setAcceptedUsers] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
+    const { unreadCount, setUnreadCount } = useContext(UnreadMessagesContext);
+
 
     useEffect(() => {
         fetchUsers("/api/users/acceptedUsers", setAcceptedUsers);
         fetchUsers("/api/users/admins", setAdmins);
+        fetchChats();
     }, []);
 
     const dropdownRef = useRef(null);
@@ -36,7 +41,42 @@ function NavBar() {
 
     const handleLogout = () => {
         localStorage.removeItem('authToken');
+        setUnreadCount(0);
         navigate('/login');
+    };
+
+    const fetchChats = async () => {
+        try {
+            const userId = await getUserIdFromToken();
+            if (userId != null) {
+                const receiverNickname = await getNicknameFromToken();
+                const response = await fetch(`/api/chat-session/user/${userId}`);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+
+                const chatMessagesPromises = data.map(chat =>
+                    fetch(`/api/messages/session/${chat.chatSessionId}`)
+                        .then(response => response.json())
+                );
+
+                const chatMessages = await Promise.all(chatMessagesPromises);
+
+                let unreadMessagesCount = 0;
+                chatMessages.forEach(chatMessages => {
+                    chatMessages.forEach(message => {
+                        if (message.status === "UNREAD" && message.senderUsername !== receiverNickname) {
+                            unreadMessagesCount++;
+                        }
+                    });
+                });
+
+                setUnreadCount(unreadMessagesCount);
+            }
+        } catch (error) {
+            console.error('There has been a problem with your fetch operation:', error);
+        }
     };
 
     const fetchUsers = async (url, setState) => {
@@ -87,7 +127,9 @@ function NavBar() {
                 <ul className="navbar-links">
                     <li onClick={handleNavigation}>Početna</li>
                     <li onClick={() => navigate('/scooters')}>Tvoji Romobili</li>
-                    <li onClick={() => navigate('/chat-panel')}>Poruke</li>
+                    <li onClick={() => navigate('/chat-panel')}>
+                        Poruke {unreadCount > 0 && <span className="unread-badge">{unreadCount}</span>}
+                    </li>
                 </ul>
                 {localStorage.getItem('authToken') ? (
                     <div className="navbar-account">
