@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import ScooterCard from './ScooterCard';
 import ScooterCardHome from './ScooterCardHome';
+import ScooterCard from './ScooterCard';
 import RegisterScooterForm from './RegisterScooterForm';
 import './MyScooter.css';
 import {getNicknameFromToken} from "./RegisterScooterForm";
@@ -109,7 +109,7 @@ function MyScooter() {
             {activeTab === 'viewScooters' && (
                 <div className="scooter-list">
                     {scooters.map(scooter => (
-                        <ScooterCard key={scooter.id} scooter={scooter}/>
+                        <ScooterCardHome key={scooter.id} scooter={scooter}/>
                     ))}
                 </div>
             )}
@@ -121,7 +121,7 @@ function MyScooter() {
             {activeTab === 'viewListings' && (
                 <div className="scooter-list">
                     {listings.map(listing => (
-                        <ScooterCardHome key={listing.id} listing={listing}/>
+                        <ScooterCard key={listing.id} listing={listing}/>
                     ))}
                 </div>
             )}

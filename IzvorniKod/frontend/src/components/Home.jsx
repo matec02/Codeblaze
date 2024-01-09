@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import ScooterCardHome from "./ScooterCardHome";
+import ScooterCard from "./ScooterCard";
 import './Home.css';
 
 function Home() {
@@ -36,7 +36,7 @@ function Home() {
     return (
         <div className="scooter-grid">
             {listings.map((listing, index) => (
-                <ScooterCardHome key={index} listing={listing} />
+                <ScooterCard key={index} listing={listing} />
             ))}
         </div>
     );

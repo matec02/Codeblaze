@@ -119,6 +119,12 @@ public class ScooterController {
             newListing.setReturnAddress(returnAddress);
             newListing.setScooter(scooter);
             newListing.setListingTime(LocalDateTime.now());
+            String penaltyFee = (String) data.get("penaltyFee");
+            double penaltyFeeDouble = Double.parseDouble(penaltyFee);
+            newListing.setPenaltyFee(penaltyFeeDouble);
+            String pricePerKilometer = (String) data.get("pricePerKilometer");
+            double pricePerKilometerDouble = Double.parseDouble(pricePerKilometer);
+            newListing.setPricePerKilometer(pricePerKilometerDouble);
             listingRepository.save(newListing);
             return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_JSON)
