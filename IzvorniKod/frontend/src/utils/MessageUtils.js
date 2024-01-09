@@ -101,7 +101,7 @@ export const sendMessageWithAction = async (nickname, user2) => {
     const senderUser = await getUserFromToken();
     const chatSession = await startConversation(user2);
 
-    const messageText = "HEJ POZ"
+    const messageText = `Hej, ${senderNickname} želi iznajmiti tvoj romobil! Pristaješ li na najam?`;
 
     const messageToSend = {
         senderUsername: senderNickname,
