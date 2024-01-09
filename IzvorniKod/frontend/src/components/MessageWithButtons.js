@@ -1,15 +1,36 @@
 import React from 'react';
 import "./MessageWithButtons.css";
 
-function MessageWithButtons({ nickname, onPrihvati, onOdbij }) {
+function MessageWithButtons({ text, sender, isSeen }) {
+
+    const renderSeenIndicator = () => {
+        if (sender === 'mine' && isSeen == true) {
+            return <span className="seen-indicator">Seen</span>;
+        }
+        return null;
+    };
+
+    function handleOnAccpet() {
+        console.log("ACCEPTT");
+    }
+
+    function handleOnDecline() {
+        console.log("REJECT");
+    }
+
     return (
-        <div className="message-with-buttons">
-            <p className="message-text">
-                Hej, <strong>{nickname}</strong> je poslao/poslala zahtjev za najmom romobila.
-            </p>
-            <div className="message-buttons">
-                <button onClick={onAccept}>Prihvati</button>
-                <button onClick={onDecline}>Odbij</button>
+        <div className={`message ${sender}`}>
+            <div className="message-with-buttons">
+                <p className="message-text">
+                    {text}
+                </p>
+                { (sender === "theirs") &&
+                    <div className="message-buttons">
+                        <button onClick={handleOnAccpet}>Prihvati</button>
+                        <button onClick={handleOnDecline}>Odbij</button>
+                    </div>
+                }
+                {renderSeenIndicator()}
             </div>
         </div>
     );

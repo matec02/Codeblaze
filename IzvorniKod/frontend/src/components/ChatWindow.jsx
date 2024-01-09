@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import {getNicknameFromToken, getUserFromToken} from "../utils/authService";
 import ChatMessage from "./ChatMessage";
 import {getChatSessionById} from "../utils/MessageUtils";
+import MessageWithButtons from "./MessageWithButtons";
 
 function ChatWindow() {
     const [newMessage, setNewMessage] = useState('');
@@ -13,25 +14,27 @@ function ChatWindow() {
 
     const lastSentMessageId = (messages) => {
         if (!Array.isArray(messages) || messages.length === 0) {
-            return null; // or appropriate default value
+            return null;
         }
+        const sortedMessages = [...messages]
+            .filter(message => message.senderUsername === currentNickname)
+            .sort((a, b) => b.messageId - a.messageId);
 
-        const sortedMessages = [...messages].filter(message => message.senderUsername === currentNickname).sort((a, b) => {
-            const idA = a.messageId;
-            const idB = b.messageId;
-            return idB - idA;
-        });
+        if (sortedMessages.length === 0) {
+            return null;
+        }
 
         return sortedMessages[0].messageId;
     };
+    // console.log(lastSentMessageId);
 
     useEffect(() => {
-        // Fetch messages when the component mounts or when chatSessionId changes
         console.log(messages);
         const markMessagesAsRead = async () => {
             try {
                 const responseSeen = fetch(`/api/messages/session/${chatSessionId}/mark-read`, {
-                    method: "POST"
+                    method: "POST",
+                    body: currentNickname
                 });
                 if (!responseSeen.ok) {
                     throw new Error("Failed to mark messages as read");
@@ -63,11 +66,11 @@ function ChatWindow() {
         const senderUser = await getUserFromToken();
         const chatSession = await getChatSessionById(chatSessionId);
         const messageToSend = {
-            senderUsername: senderNickname, // This should be the current user's username
-            chatSession: chatSession,          // The chat session ID from the URL params
-            text: newMessage,                  // The message text from the state
-            sentTime: new Date().toISOString().split('.')[0], // The current timestamp
-            status: 'UNREAD',                    // default status
+            senderUsername: senderNickname,
+            chatSession: chatSession,
+            text: newMessage,
+            sentTime: new Date().toISOString().split('.')[0],
+            status: 'UNREAD',
             user: senderUser
         };
 
@@ -97,30 +100,44 @@ function ChatWindow() {
         }
     }
 
+    function printLOL() {
+        console.log("ACTION")
+    }
+
     return (
         <div className="chat-container">
             <div className="messages-container">
-                {
-                    messages.map(message => {
-                        const messageSenderClass = message.senderUsername === currentNickname ? 'mine' : 'theirs';
-                        const isLastSentMessage = message.messageId === lastSentMessageId(messages);
+                {messages.map(message => {
+                    const messageSenderClass = message.senderUsername === currentNickname ? 'mine' : 'theirs';
+                    const isLastSentMessage = message.messageId === lastSentMessageId(messages);
+
+                    if (message.messageType === "ACTION") {
                         return (
-                        <ChatMessage
-                            key={message.messageId}
-                            text={message.text}
-                            sender={messageSenderClass}
-                            isSeen={
-                                messageSenderClass === 'mine' &&
-                                isLastSentMessage &&
-                                message.status === 'READ'
-                            }
-                        />
-                    );
-                    // return (
-                    //     <div key={message.messageId} className={`message ${messageSenderClass}`}>
-                    //         {message.text}
-                    //     </div>
-                    // );
+                            <MessageWithButtons
+                                key={message.messageId}
+                                text={message.text}
+                                sender={messageSenderClass}
+                                isSeen={
+                                    messageSenderClass === 'mine' &&
+                                    isLastSentMessage &&
+                                    message.status === 'READ'
+                                }
+                            />
+                        );
+                    } else {
+                        return (
+                            <ChatMessage
+                                key={message.messageId}
+                                text={message.text}
+                                sender={messageSenderClass}
+                                isSeen={
+                                    messageSenderClass === 'mine' &&
+                                    isLastSentMessage &&
+                                    message.status === 'READ'
+                                }
+                            />
+                        );
+                    }
                 })}
             </div>
             <div className="send-message-container">
@@ -141,6 +158,7 @@ function ChatWindow() {
             </div>
         </div>
     );
+
 }
 
 export default ChatWindow;

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/messages")
@@ -72,9 +73,9 @@ public class MessageController {
 
     @PostMapping("/session/{chatSessionId}/mark-read")
     @Transactional
-    public ResponseEntity<?> markMessagesAsRead(@PathVariable Long chatSessionId) {
+    public ResponseEntity<?> markMessagesAsRead(@PathVariable Long chatSessionId, @RequestBody String nickname) {
         try {
-            int updatedCount = messageService.markMessagesAsRead(chatSessionId);
+            int updatedCount = messageService.markMessagesAsRead(chatSessionId, nickname);
             if (updatedCount > 0) {
                 logger.info("Marked {} messages as read for chat session {}", updatedCount, chatSessionId);
                 return ResponseEntity.ok().build();

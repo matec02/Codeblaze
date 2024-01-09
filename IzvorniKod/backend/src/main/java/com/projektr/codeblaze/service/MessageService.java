@@ -25,7 +25,7 @@ public class MessageService {
         return messageRepository.save(message);
     }
 
-    public int markMessagesAsRead(Long chatSessionId) {
-        return messageRepository.markMessagesAsRead(chatSessionId);
+    public int markMessagesAsRead(Long chatSessionId, String nickname) {
+        return messageRepository.markMessagesAsRead(chatSessionId, nickname);
     }
 }

@@ -30,7 +30,6 @@ public class DataInitializer {
             if (userService.getUserByNickname("admin") == null) {
                 // Create the admin user
                 User admin = new User();
-                admin.setUserId(1L);
                 admin.setNickname("admin");
                 admin.setFirstName("first");
                 admin.setLastName("admin");
@@ -47,7 +46,6 @@ public class DataInitializer {
             if (userService.getUserByNickname("Codeblaze") == null) {
                 String encodedPassword = bCryptPasswordEncoder.encode("admin");
                 User codeblaze = new User();
-                codeblaze.setUserId(6L);
                 codeblaze.setNickname("Codeblaze");
                 codeblaze.setFirstName("Code");
                 codeblaze.setLastName("Blaze");
@@ -63,7 +61,6 @@ public class DataInitializer {
             }
             if (userService.getUserByNickname("MLJ22") == null) {
                 User marko = new User();
-                marko.setUserId(2L);
                 marko.setNickname("MLJ22");
                 marko.setFirstName("Marko");
                 marko.setLastName("Ljubić");
@@ -78,7 +75,6 @@ public class DataInitializer {
             }
             if (userService.getUserByNickname("AA11") == null) {
                 User ana = new User();
-                ana.setUserId(3L);
                 ana.setNickname("AA11");
                 ana.setFirstName("Ana");
                 ana.setLastName("Anić");
@@ -93,7 +89,6 @@ public class DataInitializer {
             }
             if (userService.getUserByNickname("II31") == null) {
                 User ivo = new User();
-                ivo.setUserId(4L);
                 ivo.setNickname("II31");
                 ivo.setFirstName("Ivo");
                 ivo.setLastName("Ivić");
@@ -109,7 +104,6 @@ public class DataInitializer {
 
             if (userService.getUserByNickname("LL97") == null) {
                 User luka = new User();
-                luka.setUserId(5L);
                 luka.setNickname("LL97");
                 luka.setFirstName("Luka");
                 luka.setLastName("Lukić");

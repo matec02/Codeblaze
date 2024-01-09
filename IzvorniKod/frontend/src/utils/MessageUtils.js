@@ -1,4 +1,5 @@
-import {getCodeblazeFromToken, getNicknameFromToken, getUserFromToken, getUserIdFromToken} from "./authService";
+import {getCodeblazeUser, getNicknameFromToken, getUserFromToken, getUserIdFromToken} from "./authService";
+import React from "react";
 
 
 export const chatHistory = function fetchChatHistory(userId) {
@@ -46,12 +47,12 @@ export const getChatSessionById = async (chatSessionId) => {
         return await response.json();
     } catch (error) {
         console.error('Failed to fetch chat session:', error);
-        return null; // Or handle the error as appropriate for your application
+        return null;
     }
 };
 
 export const sendMessageFromCodeblaze = async (messageText, user2) => {
-    const user1 = await getCodeblazeFromToken();
+    const user1 = await getCodeblazeUser();
 
     const formData = new FormData();
     formData.append('user1', new Blob([JSON.stringify(user1)], { type: 'application/json' }));
@@ -70,18 +71,18 @@ export const sendMessageFromCodeblaze = async (messageText, user2) => {
 
 
     const messageToSend = {
-        senderUsername: "Codeblaze", // This should be the current user's username
-        chatSession: chatSession,          // The chat session ID from the URL params
-        text: messageText,                  // The message text from the state
-        sentTime: new Date().toISOString().split('.')[0], // The current timestamp
-        status: 'UNREAD',                    // default status
+        senderUsername: "Codeblaze",
+        chatSession: chatSession,
+        text: messageText,
+        sentTime: new Date().toISOString().split('.')[0],
+        status: 'UNREAD',
         user: user1
     };
 
     try {
         const formData = new FormData();
         formData.append('msgToBeSent', new Blob([JSON.stringify(messageToSend)], {type: "application/json"}));
-        const response = await fetch('/api/messages/send', { // The URL should match your backend endpoint
+        const response = await fetch('/api/messages/send', {
             method: 'POST',
             body: formData
         });
@@ -89,6 +90,41 @@ export const sendMessageFromCodeblaze = async (messageText, user2) => {
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
+    } catch (error) {
+        console.error('Error sending message:', error);
+    }
+};
+
+
+export const sendMessageWithAction = async (nickname, user2) => {
+    const senderNickname = await getNicknameFromToken();
+    const senderUser = await getUserFromToken();
+    const chatSession = await startConversation(user2);
+
+    const messageText = "HEJ POZ"
+
+    const messageToSend = {
+        senderUsername: senderNickname,
+        chatSession: chatSession,
+        text: messageText,
+        sentTime: new Date().toISOString().split('.')[0],
+        status: 'UNREAD',
+        messageType: 'ACTION',
+        user: senderUser
+    };
+
+    try {
+        const formData = new FormData();
+        formData.append('msgToBeSent', new Blob([JSON.stringify(messageToSend)], {type: "application/json"}));
+        const response = await fetch('/api/messages/send', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
     } catch (error) {
         console.error('Error sending message:', error);
     }

@@ -3,7 +3,8 @@ import './ScooterCard.css'
 import ProfileAvatar from '../assets/profile-avatar.png';
 import {useNavigate} from "react-router-dom";
 import {getNicknameFromToken} from "./RegisterScooterForm";
-import {startConversation} from "../utils/MessageUtils";
+import {sendMessageWithAction, startConversation} from "../utils/MessageUtils";
+import {getCodeblazeUser} from "../utils/authService";
 
 
 function ScooterCard({ scooter }) {
@@ -47,6 +48,11 @@ function ScooterCard({ scooter }) {
             }
         }
 
+        async function handleTestButton() {
+            const user2 = await getCodeblazeUser()
+            sendMessageWithAction("Codeblaze", user2);
+        }
+
         return (
             <div className="modal-overlay" onClick={onClose}>
                 <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -54,6 +60,7 @@ function ScooterCard({ scooter }) {
                     <h4>Name {profile.firstName}</h4>
                     <h4>Lastname {profile.lastName}</h4>
                     <h4>E-mail {profile.email}</h4>
+                    <button onClick={handleTestButton}>TEST BUTTON</button>
                     <button onClick={handleStartConversation}>Pošalji Poruku</button>
                     <button className="modal-close-button" onClick={onClose}>Close</button>
                 </div>

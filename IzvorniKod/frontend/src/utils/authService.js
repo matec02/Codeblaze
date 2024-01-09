@@ -91,7 +91,7 @@ export const getUserFromToken = async () => {
     }
 }
 
-export const getCodeblazeFromToken = async () => {
+export const getCodeblazeUser = async () => {
     try {
         const nickname = "Codeblaze";
         const response = await fetch(`/api/users/by-nickname/${nickname}`);

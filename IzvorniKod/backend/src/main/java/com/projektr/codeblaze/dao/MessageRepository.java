@@ -14,6 +14,6 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
     List<Message> findByChatSessionChatSessionIdOrderBySentTimeAsc(Long chatSessionId);
 
     @Modifying
-    @Query("UPDATE Message m SET m.status = 'READ' WHERE m.chatSession.chatSessionId = :chatSessionId AND m.status = 'UNREAD'")
-    int markMessagesAsRead(Long chatSessionId);
+    @Query("UPDATE Message m SET m.status = 'READ' WHERE m.chatSession.chatSessionId = :chatSessionId AND m.status = 'UNREAD' AND m.senderUsername != :nickname")
+    int markMessagesAsRead(Long chatSessionId, String nickname);
 }
