@@ -78,6 +78,27 @@ function ScooterCard({ listing }) {
     };
 
     const ProfileModal = ({ isOpen, onClose, profile }) => {
+        const [privacySettings, setPrivacySettings] = useState(null);
+
+        useEffect(() => {
+            const fetchPrivacySettings = async () => {
+                try {
+                    const response = await fetch(`/api/privacy-settings/${profile.userId}`);
+                    if (!response.ok) {
+                        throw new Error("Failed to fetch Privacy Settings");
+                    }
+                    const ps = await response.json();
+                    setPrivacySettings(ps);
+                } catch (error) {
+                    console.error(error.message);
+                }
+            };
+
+            if (isOpen) {
+                fetchPrivacySettings();
+            }
+        }, [isOpen, profile.userId]);
+
         if (!isOpen) return null;
 
         const handleStartConversation = async () => {
@@ -97,10 +118,14 @@ function ScooterCard({ listing }) {
         return (
             <div className="modal-overlay" onClick={onClose}>
                 <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+
                     <h3>{profile.nickname}</h3>
-                    <h4>Name {profile.firstName}</h4>
-                    <h4>Lastname {profile.lastName}</h4>
-                    <h4>E-mail {profile.email}</h4>
+
+                    {privacySettings?.firstNameVisible && <h4>Name {profile.firstName}</h4>}
+                    {privacySettings?.lastNameVisible && <h4>Lastname {profile.lastName}</h4>}
+                    {privacySettings?.emailVisible && <h4>E-mail {profile.email}</h4>}
+                    {privacySettings?.phoneNumberVisible && <h4>Phone Number: {profile.phoneNumber} </h4>}
+
                     <button onClick={handleTestButton}>TEST BUTTON</button>
                     <button onClick={handleStartConversation}>Pošalji Poruku</button>
                     <button className="modal-close-button" onClick={onClose}>Close</button>
@@ -396,12 +421,14 @@ function ScooterCard({ listing }) {
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                         <div className="expanded-content">
                             <img src={imagePath} alt={`${model} Scooter`} className="scooter-image"/>
+                            <img src={ProfileAvatar} alt={"PROFILE"} className="profile-avatar" onClick={(e) => handleViewProfile(e)}
+                                 style={{cursor: 'pointer'}}/>
                             <div className="scooter-details">
                                 <h3>{model}</h3>
                                 <p><strong>Brzina:</strong> {maxSpeed} km/h</p>
                                 <p><strong>Kapacitet:</strong> {batteryCapacity} kWh</p>
                                 <p><strong>Godina Proizvodnje:</strong> {scooter.yearOfManufacture} </p>
-                                <p><strong>Dodatne informacije:</strong> {scooter.additionalInformation} </p>
+                                <p><strong>Dodatne informacije:</strong> {scooter.additionalInformation || "-"}</p>
                                 <p><strong>Doseg:</strong> {scooter.maxRange} </p>
                                 <p><strong>Trenutna adresa:</strong> {listing.currentAddress} </p>
                                 <p><strong>Adresa povratka:</strong> {listing.returnAddress} </p>
