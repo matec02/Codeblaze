@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/scooters")
@@ -41,6 +42,14 @@ public class ScooterController {
         return scooterService.getScooterById(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+
+    @PutMapping("/{scooterId}/updateImagePath")
+    public ResponseEntity<?> updateImagePath(@PathVariable Long scooterId, @RequestBody Map<String, String> updates){
+        String newImagePath = updates.get("imagePath");
+        Scooter scooter = scooterService.updateImagePath(scooterId, newImagePath);
+        return ResponseEntity.ok(scooter);
     }
 
     @GetMapping("/get-all-scooters")

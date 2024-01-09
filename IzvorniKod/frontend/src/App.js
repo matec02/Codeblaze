@@ -96,7 +96,7 @@ function App() {
                         <AdminDashboard/>
                     </AdminRoute>
                 }/>
-                <Route path="/admin-dashboard/imageChange" element={
+                <Route path="/imageChangeRequests" element={
                     <AdminRoute>
                         <ImageChange/>
                     </AdminRoute>

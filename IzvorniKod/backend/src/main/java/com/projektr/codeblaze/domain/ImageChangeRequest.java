@@ -14,6 +14,9 @@ public class ImageChangeRequest {
     @Column(name = "imageId")
     private Long imageId;
 
+    @Column(name = "oldImageUrl", nullable = false, length = 500)
+    private String oldImageUrl;
+
     @Column(name = "newImageUrl", nullable = false, length = 500)
     private String newImageUrl;
 
@@ -33,7 +36,7 @@ public class ImageChangeRequest {
     @Column(name = "status", nullable = false, length = 50)
     private ImageChangeRequestStatus status;
 
-    @Column(name = "approvalTime", nullable = false)
+    @Column(name = "approvalTime")
     private LocalDateTime approvalTime;
     public Timestamp getApprovalTime() {
         if (approvalTime != null) {
@@ -50,7 +53,7 @@ public class ImageChangeRequest {
     private User user; //ID?
 
     @ManyToOne
-    @JoinColumn(name = "listingId", referencedColumnName = "listingId", nullable = false, unique = true)
+    @JoinColumn(name = "listingId", referencedColumnName = "listingId", unique = true)
     private Listing listing;
 
 }
