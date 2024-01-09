@@ -13,7 +13,7 @@ function Home() {
     const handleHome = async () => {
         setErrorMessage('');
         try {
-            const response = await fetch("/api/scooters/get-all-scooters", {
+            const response = await fetch("/api/scooters/get-available-scooters", {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

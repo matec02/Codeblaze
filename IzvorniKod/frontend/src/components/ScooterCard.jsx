@@ -6,6 +6,7 @@ import {getNicknameFromToken} from "./RegisterScooterForm";
 import { format } from 'date-fns';
 import {sendMessageWithAction, startConversation} from "../utils/MessageUtils";
 import {getCodeblazeUser} from "../utils/authService";
+import { FaFacebook, FaTwitter, FaLinkedin} from 'react-icons/fa';
 
 
 export const handleImagePathChange = async (scooterId, imagePath) => {
@@ -52,7 +53,7 @@ function ScooterCard({ listing }) {
         event.stopPropagation();
 
         if (action === 'prijavi') {
-            openRequestModal(imagePath);
+            setIsVisible(true);
         } else if (action === 'uredi') {
             openAdModal();
         } else if (action === 'izbrisi') {
@@ -61,7 +62,8 @@ function ScooterCard({ listing }) {
         // ostale akcije koje još treba dodati
     };
 
-    const handleViewProfile = async () => {
+    const handleViewProfile = async (event) => {
+        event.stopPropagation();
         try {
             const response = await fetch(`/api/users/${scooter.user.userId}`);
             if (!response.ok) {
@@ -107,23 +109,6 @@ function ScooterCard({ listing }) {
         );
     };
 
-    const openImageModal = useCallback((imageSrc) => {
-        setCurrentImageSrc(imageSrc);
-        setIsImageOpen(true);
-    }, []);
-
-    const closeImageModal = useCallback(() => {
-        setIsImageOpen(false);
-    }, []);
-
-    const openRequestModal = useCallback((imageSrc) => {
-        setCurrentImageSrc(imageSrc);
-        setIsRequestOpen(true);
-    }, []);
-
-    const closeRequestModal = useCallback(() => {
-        setIsRequestOpen(false);
-    }, []);
 
     const openAdModal = useCallback(() => {
         setIsAdModalOpen(true);
@@ -134,40 +119,14 @@ function ScooterCard({ listing }) {
     }, []);
 
 
-    const openRequestModal = useCallback((imageSrc) => {
-        setCurrentImageSrc(imageSrc);
-        setIsRequestOpen(true);
-    }, []);
-
-    const closeRequestModal = useCallback(() => {
-        setIsRequestOpen(false);
-    }, []);
-
     const handleCardClick = () => {
         setIsExpanded(true);
     };
 
-    const ImageModal = ({isOpen, onClose, imageSrc, altText }) => {
-        if (!isOpen) return null;
-        return (
-            <div className="modal-overlay" onClick={onClose}>
-                <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                    <div className="image-container">
-                        <img src={imageSrc} alt={altText} />
-                    </div>
-                    <div className="modal-close-btn-container">
-                        <button className="modal-close-button" onClick={onClose}>Close</button>
-                    </div>
-                </div>
-            </div>
-        );
-    };
 
     const handleFileChange = (event) => {
         if (event.target.files[0]) {
             setNewImage(event.target.files[0]);
-            console.log("SLIKA KOJA JE STAVLJENA");
-            console.log(newImage);
         }
     }
 
@@ -310,30 +269,6 @@ function ScooterCard({ listing }) {
 
     const buttons = determineButtons();
 
-    const RequestChangeModal = ({isOpen, imageSrc, altText }) => {
-        return isOpen && (
-            <div className="modal-overlay" onClick={()=> setIsRequestOpen(false)}>
-                <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                    <form onSubmit={handleSubmit}>
-                        {/* File Upload Section */}
-                        <div className="section-container">
-                            <div className="form-group">
-                                <label>Priložiti novu sliku</label>
-                                <input type="file" onChange={(e) => setNewImage(e.target.files[0])} required/>
-                            </div>
-                            <label> Dodatni komentari
-                                <textarea name="comments" value={comments} onChange={(e) => setComments(e.target.value)}/>
-                            </label>
-                            <button type="submit">Pošalji zahtjev za zamjenom slike</button>
-                    </form>
-                    <div className="modal-close-btn-container">
-                        <button className="modal-close-button" onClick={()=> setIsRequestOpen(false)}>Close</button>
-                    </div>
-                </div>
-            </div>
-        );
-    };
-
     const handleDeleteListing = async () => {
         try {
             const response = await fetch(`/api/scooters/delete-listing/${listing.listingId}`, {
@@ -354,8 +289,10 @@ function ScooterCard({ listing }) {
         }
     };
 
-    const AdModal = ({ isOpen, onClose }) => {
-        const [localListing, setLocalListing] = useState({ ...listing });
+    const AdModal = ({
+        isOpen, onClose
+    }) => {
+        const [localListing, setLocalListing] = useState({...listing});
 
         useEffect(() => {
             if (isOpen) {
@@ -367,8 +304,8 @@ function ScooterCard({ listing }) {
         }, [isOpen, listing]);
 
         const handleAdChange = (event) => {
-            const { name, value } = event.target;
-            setLocalListing({ ...localListing, [name]: value });
+            const {name, value} = event.target;
+            setLocalListing({...localListing, [name]: value});
         };
         const handleAdSubmit = async (event) => {
             event.preventDefault();
@@ -417,7 +354,8 @@ function ScooterCard({ listing }) {
                         </div>
                         <div className="form-group">
                             <label>Cijena po kilometru</label>
-                            <input type="number" step="0.1" name="pricePerKilometer" value={localListing.pricePerKilometer}
+                            <input type="number" step="0.1" name="pricePerKilometer"
+                                   value={localListing.pricePerKilometer}
                                    onChange={handleAdChange}/>
                         </div>
                         <div className="form-group">
@@ -435,41 +373,24 @@ function ScooterCard({ listing }) {
                             />
                         </div>
                         <button type="submit">Spremi</button>
+                        <button className="modal-close-button" onClick={onClose}>Zatvori</button>
                     </form>
-                    <button className="modal-close-button" onClick={onClose}>Zatvori</button>
                 </div>
             </div>
         );
     };
 
+
+    const shareUrl = "window.location.href";
+
+    const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`;
+    const twitterShareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}`;
+    const linkedInShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`;
+
     return (
         <div className={`scooter ${isExpanded ? 'expanded' : ''}`} onClick={handleCardClick}>
-            <img src={ProfileAvatar} alt={"PROFILE"} className="profile-avatar" onClick={handleViewProfile} style={{ cursor: 'pointer' }} />
-            <img src={imagePath} alt={`${model} Scooter`} className="scooter-image" onClick={() => openImageModal(imagePath)}/>
-            <h3 className="scooter-name">{model}</h3>
-            <div className="scooter-details">
-                <p><strong>Brzina:</strong> {maxSpeed} km/h</p>
-                <p><strong>Kapacitet:</strong> {batteryCapacity} kWh</p>
-            </div>
-            <button className="scooter-button">Unajmi</button>
-            <button className="scooter-button" onClick={() => openRequestModal(imagePath)}>Prijavi</button>
-            <form onSubmit={handleSubmit}>
-                {/* File Upload Section */}
-                <div className="imageRequest" style={{ display: isVisible ? "block" : "none" }}>
-                    <h2>PRIJAVA LOŠE SLIKE</h2>
-                    <div className="form-group">
-                        <label>Priložiti novu sliku</label>
-                        <input type="file" onChange={(e) => setNewImage(e.target.files[0])} required/>
-                    </div>
-                    <div className="form-group">
-                        <label> Dodatni komentari
-                            <textarea name="comments" value={comments} onChange={(e) => setComments(e.target.value)}/>
-                        </label>
-                    </div>
-                    <button className="scooter-button" onClick={() => setIsVisible(false)}>Zatvori</button>
-                    <button type="submit">Pošalji zahtjev za zamjenom slike</button>
-                </div>
-            </form>
+            <img src={ProfileAvatar} alt={"PROFILE"} className="profile-avatar" onClick={(e) => handleViewProfile(e)}
+                 style={{cursor: 'pointer'}}/>
             {isExpanded && (
                 <div className="modal-overlay" onClick={() => setIsExpanded(false)}>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -486,7 +407,18 @@ function ScooterCard({ listing }) {
                                 <p><strong>Adresa povratka:</strong> {listing.returnAddress} </p>
                                 <p><strong>Cijena po kilometru:</strong> {listing.pricePerKilometer} €/km</p>
                                 <p><strong>Kazna:</strong> {listing.penaltyFee} €</p>
-                                <p><strong>Vratiti do:</strong> {listing.returnByTime} </p>
+                                <p><strong>Vratiti
+                                    do:</strong> {format(new Date(listing.returnByTime), 'dd.MM.yyyy HH:mm')}</p>
+                            </div>
+                            <div className="social-share-buttons">
+                                <ul>
+                                    <li><a href={facebookShareUrl} target="_blank" rel="noopener noreferrer"><FaFacebook
+                                        size={32}/></a></li>
+                                    <li><a href={twitterShareUrl} target="_blank" rel="noopener noreferrer"><FaTwitter
+                                        size={32}/></a></li>
+                                    <li><a href={linkedInShareUrl} target="_blank" rel="noopener noreferrer"><FaLinkedin
+                                        size={32}/></a></li>
+                                </ul>
                             </div>
                             <div className="scooter-buttons">
                                 {buttons.map((button, index) => (
@@ -517,19 +449,28 @@ function ScooterCard({ listing }) {
                             </li>
                         ))}
                     </ul>
+
+                    <form onSubmit={handleSubmit} onClick={(e) => e.stopPropagation()}>
+                        {/* File Upload Section */}
+                        <div className="imageRequest" style={{display: isVisible ? "block" : "none"}}>
+                            <h2>PRIJAVA LOŠE SLIKE</h2>
+                            <div className="form-group">
+                                <label>Priložiti novu sliku</label>
+                                <input type="file" onChange={(e) => setNewImage(e.target.files[0])} required/>
+                            </div>
+                            <div className="form-group">
+                                <label> Dodatni komentari
+                                    <textarea name="comments" value={comments} onChange={(e) => setComments(e.target.value)}/>
+                                </label>
+                            </div>
+                            <button className="scooter-button" onClick={() => setIsVisible(false)}>Zatvori</button>
+                            <button type="submit" >Pošalji zahtjev za zamjenom slike</button>
+                        </div>
+                    </form>
+
                 </>
             )}
-            <ImageModal
-                isOpen={isImageOpen}
-                onClose={closeImageModal}
-                imageSrc={currentImageSrc}
-                altText="Romobil"
-            />
-            <RequestChangeModal
-                isOpen={isRequestOpen}
-                imageSrc={currentImageSrc}
-                altText="Romobil"
-            />
+
             <ProfileModal
                 isOpen={isProfileModalOpen}
                 onClose={() => setIsProfileModalOpen(false)}
@@ -542,6 +483,6 @@ function ScooterCard({ listing }) {
 
         </div>
     );
-}
+    }
 
-export default ScooterCard;
+    export default ScooterCard;

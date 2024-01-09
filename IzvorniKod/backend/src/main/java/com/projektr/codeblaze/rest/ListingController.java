@@ -21,7 +21,7 @@ public class ListingController {
     public ListingController(ScooterService scooterService) {
         this.scooterService = scooterService;
     }
-    @GetMapping("/get-all-scooters")
+    @GetMapping("/get-available-scooters")
     public List<Listing> getAllListings() {
 
         return scooterService.getAvailableScooters(true);

@@ -4,7 +4,7 @@ import myAccount from '../assets/my-account.png';
 import logo from '../assets/CodeblazeLogo.png';
 import './Navbar.css'
 import {getNicknameFromToken} from "./RegisterScooterForm";
-import { FaFacebook, FaInstagram, FaGoogle, FaTiktok } from 'react-icons/fa';
+import { FaFacebook, FaTwitter, FaLinkedin } from 'react-icons/fa';
 import {getUserIdFromToken} from "../utils/authService";
 import UnreadMessagesContext from "./UnreadMessagesContext";
 
@@ -35,209 +35,191 @@ function SocialMediaModal({ isOpen, onClose, platform, onSave }) {
             </div>
         </div>
     );
-function NavBar() {
-    const navigate = useNavigate();
-    const [admins, setAdmins] = useState([]);
-    const [showDropdown, setShowDropdown] = useState(false);
-    const [acceptedUsers, setAcceptedUsers] = useState([]);
-    const [errorMessage, setErrorMessage] = useState('');
-    const { unreadCount, setUnreadCount } = useContext(UnreadMessagesContext);
-    const [isSocialMediaModalOpen, setIsSocialMediaModalOpen] = useState(false);
-    const [currentPlatform, setCurrentPlatform] = useState('');
+}
+    function NavBar() {
+        const navigate = useNavigate();
+        const [admins, setAdmins] = useState([]);
+        const [showDropdown, setShowDropdown] = useState(false);
+        const [acceptedUsers, setAcceptedUsers] = useState([]);
+        const [errorMessage, setErrorMessage] = useState('');
+        const {unreadCount, setUnreadCount} = useContext(UnreadMessagesContext);
+        const [isSocialMediaModalOpen, setIsSocialMediaModalOpen] = useState(false);
+        const [currentPlatform, setCurrentPlatform] = useState('');
 
-    useEffect(() => {
-        fetchUsers("/api/users/acceptedUsers", setAcceptedUsers);
-        fetchUsers("/api/users/admins", setAdmins);
-        fetchChats();
-    }, []);
+        useEffect(() => {
+            fetchUsers("/api/users/acceptedUsers", setAcceptedUsers);
+            fetchUsers("/api/users/admins", setAdmins);
+            fetchChats();
+        }, []);
 
-    const dropdownRef = useRef(null);
+        const dropdownRef = useRef(null);
 
-    useEffect(() => {
-        const closeDropdown = (e) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-                setShowDropdown(false);
+        useEffect(() => {
+            const closeDropdown = (e) => {
+                if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+                    setShowDropdown(false);
+                }
+            };
+
+            document.addEventListener('mousedown', closeDropdown);
+
+            return () => document.removeEventListener('mousedown', closeDropdown);
+        }, []);
+
+        const toggleDropdown = () => {
+            setShowDropdown(!showDropdown);
+        };
+
+        const handleLogout = () => {
+            localStorage.removeItem('authToken');
+            setUnreadCount(0);
+            navigate('/login');
+        };
+
+        const fetchChats = async () => {
+            try {
+                const userId = await getUserIdFromToken();
+                if (userId != null) {
+                    const receiverNickname = await getNicknameFromToken();
+                    const response = await fetch(`/api/chat-session/user/${userId}`);
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    const data = await response.json();
+
+                    const chatMessagesPromises = data.map(chat =>
+                        fetch(`/api/messages/session/${chat.chatSessionId}`)
+                            .then(response => response.json())
+                    );
+
+                    const chatMessages = await Promise.all(chatMessagesPromises);
+
+                    let unreadMessagesCount = 0;
+                    chatMessages.forEach(chatMessages => {
+                        chatMessages.forEach(message => {
+                            if (message.status === "UNREAD" && message.senderUsername !== receiverNickname) {
+                                unreadMessagesCount++;
+                            }
+                        });
+                    });
+
+                    setUnreadCount(unreadMessagesCount);
+                }
+            } catch (error) {
+                console.error('There has been a problem with your fetch operation:', error);
             }
         };
 
-        document.addEventListener('mousedown', closeDropdown);
+        const fetchUsers = async (url, setState) => {
+            setErrorMessage(''); // Resetting the error message
 
-        return () => document.removeEventListener('mousedown', closeDropdown);
-    }, []);
-
-    const toggleDropdown = () => {
-        setShowDropdown(!showDropdown);
-    };
-
-    const handleLogout = () => {
-        localStorage.removeItem('authToken');
-        setUnreadCount(0);
-        navigate('/login');
-    };
-
-    const fetchChats = async () => {
-        try {
-            const userId = await getUserIdFromToken();
-            if (userId != null) {
-                const receiverNickname = await getNicknameFromToken();
-                const response = await fetch(`/api/chat-session/user/${userId}`);
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data = await response.json();
-
-                const chatMessagesPromises = data.map(chat =>
-                    fetch(`/api/messages/session/${chat.chatSessionId}`)
-                        .then(response => response.json())
-                );
-
-                const chatMessages = await Promise.all(chatMessagesPromises);
-
-                let unreadMessagesCount = 0;
-                chatMessages.forEach(chatMessages => {
-                    chatMessages.forEach(message => {
-                        if (message.status === "UNREAD" && message.senderUsername !== receiverNickname) {
-                            unreadMessagesCount++;
-                        }
-                    });
+            try {
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
                 });
 
-                setUnreadCount(unreadMessagesCount);
+                if (!response.ok) {
+                    throw new Error(`Error in AdminDashboard: ${response.status}`);
+                }
+
+
+                const data = await response.json();
+                console.log("DATA");
+                console.log(data);
+                setState(data); // Setting the state with the fetched data
+
+            } catch (error) {
+                console.error("Failed to fetch users: ", error);
+                setErrorMessage(error.message);
             }
-        } catch (error) {
-            console.error('There has been a problem with your fetch operation:', error);
-        }
-    };
+        };
 
-    const fetchUsers = async (url, setState) => {
-        setErrorMessage(''); // Resetting the error message
 
-        try {
-            const response = await fetch(url, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
+        const handleNavigation = () => {
+            let path = '/';
 
-            if (!response.ok) {
-                throw new Error(`Error in AdminDashboard: ${response.status}`);
+            const isAdmin = admins.some(admin => admin.nickname === getNicknameFromToken());
+
+            if (isAdmin) {
+                path = '/admin-home';
             }
+            navigate(path);
+        };
 
+        const shareUrl = "window.location.href";
 
-            const data = await response.json();
-            console.log("DATA");
-            console.log(data);
-            setState(data); // Setting the state with the fetched data
+        const openSocialMediaShare = (platform) => {
+            let url = '';
 
-        } catch (error) {
-            console.error("Failed to fetch users: ", error);
-            setErrorMessage(error.message);
-        }
-    };
-
-
-    const handleNavigation = () => {
-        let path = '/';
-
-        const isAdmin = admins.some(admin => admin.nickname === getNicknameFromToken());
-
-        if (isAdmin) {
-            path = '/admin-home';
-        }
-        navigate(path);
-    };
-
-    const openSocialMediaModal = (platform) => {
-        setCurrentPlatform(platform);
-        setIsSocialMediaModalOpen(true);
-    };
-
-    const closeSocialMediaModal = () => {
-        setIsSocialMediaModalOpen(false);
-    };
-
-    const handleSocialMediaSave = async (platform, username) => {
-        console.log(`Saving ${platform} username: ${username}`);
-        const nickname = getNicknameFromToken();
-
-        try {
-            const response = await fetch(`/api/${platform}/${nickname}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ platform, username }),
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+            switch (platform) {
+                case 'Facebook':
+                    url = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`;
+                    break;
+                case 'Twitter':
+                    url = `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}`;
+                    break;
+                case 'LinkedIn':
+                    url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`;
+                    break;
+                default:
+                    console.error('Unsupported platform:', platform);
             }
 
-            const result = await response.json();
-            console.log('Successfully saved:', result);
-        } catch (error) {
-            console.error('Error while saving social media details:', error);
-        }
-    };
+            if (url) window.open(url, '_blank');
+        };
 
 
-    return (
-        <header>
-            <nav className="navbar">
-                <div className="navbar-logo" onClick={() => navigate('/')}>
-                    <img src={logo} alt="Logo" />
-                </div>
-                <ul className="navbar-links">
-                    <li onClick={handleNavigation}>Početna</li>
-                    <li onClick={() => navigate('/scooters')}>Tvoji Romobili</li>
-                    <li onClick={() => navigate('/chat-panel')}>
-                        Poruke {unreadCount > 0 && <span className="unread-badge">{unreadCount}</span>}
-                    </li>
-                    <li onClick={() => navigate('/my-transactions')}>Transakcije</li>
-                </ul>
-                {localStorage.getItem('authToken') && (
-                    <div className="social-media-buttons">
-                        <FaFacebook onClick={() => openSocialMediaModal('Facebook')} />
-                        <FaInstagram onClick={() => openSocialMediaModal('Instagram')} />
-                        <FaGoogle onClick={() => openSocialMediaModal('Google')} />
-                        <FaTiktok onClick={() => openSocialMediaModal('TikTok')} />
+        return (
+            <header>
+                <nav className="navbar">
+                    <div className="navbar-logo" onClick={() => navigate('/')}>
+                        <img src={logo} alt="Logo"/>
                     </div>
-                )}
-                <SocialMediaModal
-                    isOpen={isSocialMediaModalOpen}
-                    onClose={closeSocialMediaModal}
-                    platform={currentPlatform}
-                    onSave={handleSocialMediaSave}
-                />
-                {localStorage.getItem('authToken') ? (
-                    <div className="navbar-account">
-                        <button onClick={toggleDropdown}>
-                            <img src={myAccount} alt="My Account" />
-                            <span>{getNicknameFromToken()}</span>
-                        </button>
-                        {showDropdown && (
-                            <div className="dropdown-menu" ref={dropdownRef}>
-                                <button onClick={() => navigate('/profile')}>My Account</button>
-                                <button onClick={handleLogout}>Logout</button>
+                    <ul className="navbar-links">
+                        <li onClick={handleNavigation}>Početna</li>
+                        <li onClick={() => navigate('/scooters')}>Tvoji Romobili</li>
+                        <li onClick={() => navigate('/chat-panel')}>
+                            Poruke {unreadCount > 0 && <span className="unread-badge">{unreadCount}</span>}
+                        </li>
+                        <li onClick={() => navigate('/my-transactions')}>Transakcije</li>
+                    </ul>
+                    {localStorage.getItem('authToken') && (
+                        <div className="social-media-buttons">
+                            <FaFacebook onClick={() => openSocialMediaShare('Facebook')}/>
+                            <FaTwitter onClick={() => openSocialMediaShare('Twitter')}/>
+                            <FaLinkedin onClick={() => openSocialMediaShare('LinkedIn')}/>
+                        </div>
+                    )}
+                    {localStorage.getItem('authToken') ? (
+                        <div className="navbar-account">
+                            <button onClick={toggleDropdown}>
+                                <img src={myAccount} alt="My Account"/>
+                                <span>{getNicknameFromToken()}</span>
+                            </button>
+                            {showDropdown && (
+                                <div className="dropdown-menu" ref={dropdownRef}>
+                                    <button onClick={() => navigate('/profile')}>My Account</button>
+                                    <button onClick={handleLogout}>Logout</button>
+                                </div>
+                            )}
+                        </div>
+                    ) : (
+                        <div>
+                            <div className="navbar-login" onClick={() => navigate('/login')}>
+                                Login
                             </div>
-                        )}
-                    </div>
-                ) : (
-                    <div>
-                        <div className="navbar-login" onClick={() => navigate('/login')}>
-                            Login
+                            <div className="navbar-login" onClick={() => navigate('/register')}>
+                                Register
+                            </div>
                         </div>
-                        <div className="navbar-login" onClick={() => navigate('/register')}>
-                            Register
-                        </div>
-                    </div>
-                )}
-            </nav>
-        </header>
-    );
+                    )}
+                </nav>
+            </header>
+        );
 
-}
-
+    }
 
 export default NavBar;
