@@ -22,7 +22,12 @@ function MessageWithButtons({ text, sender, isSeen }) {
         <div className={`message ${sender}`}>
             <div className="message-with-buttons">
                 <p className="message-text">
-                    {text}
+                    {text.split('\n').map((line, index) => (
+                        <span key={index}>
+                            {line}
+                            <br />
+                        </span>
+                    ))}
                 </p>
                 { (sender === "theirs") &&
                     <div className="message-buttons">
