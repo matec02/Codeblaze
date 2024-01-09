@@ -1,18 +1,26 @@
 package com.projektr.codeblaze.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.projektr.codeblaze.dao.ListingRepository;
+import com.projektr.codeblaze.dao.ScooterRepository;
+import com.projektr.codeblaze.domain.Listing;
 import com.projektr.codeblaze.domain.Scooter;
 import com.projektr.codeblaze.domain.User;
 import com.projektr.codeblaze.service.DocumentService;
 import com.projektr.codeblaze.service.ScooterService;
+import com.projektr.codeblaze.service.UserService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -21,10 +29,14 @@ import java.util.Map;
 public class ScooterController {
 
     private final ScooterService scooterService;
+    ScooterRepository scooterRepository;
+    ListingRepository listingRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(DocumentService.class);
     @Autowired
-    public ScooterController(ScooterService scooterService) {
+    public ScooterController(ScooterService scooterService, ScooterRepository scooterRepository, ListingRepository listingRepository) {
+        this.scooterRepository = scooterRepository;
+        this.listingRepository = listingRepository;
         this.scooterService = scooterService;
     }
 
@@ -43,7 +55,6 @@ public class ScooterController {
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-
 
     @PutMapping("/{scooterId}/updateImagePath")
     public ResponseEntity<?> updateImagePath(@PathVariable Long scooterId, @RequestBody Map<String, String> updates){
@@ -91,5 +102,56 @@ public class ScooterController {
         Scooter newScooter = scooterService.saveScooter(scooter);
         return new ResponseEntity<>(newScooter, HttpStatus.CREATED);
     }
+    @PostMapping("/update-availability/{scooterId}")
+    public ResponseEntity<String> updateScooterAvailability(
+            @PathVariable Long scooterId,
+            @RequestBody Map<String, Object> data
+    ) {
+        try {
+
+            Scooter scooter = scooterRepository.findById(scooterId)
+                    .orElseThrow(() -> new IllegalArgumentException("Scooter not found with ID: " + scooterId));
+            if (!scooter.getAvailability()) {
+
+                scooterService.updateScooterAvailability(scooterId, true);
+            }
+            Listing newListing = new Listing();
+            String returnByTimeString = (String) data.get("returnByTime");
+            LocalDateTime returnByTime = LocalDateTime.parse(returnByTimeString);
+            newListing.setReturnByTime(returnByTime);
+            String currentAddress = (String) data.get("currentAddress");
+            newListing.setCurrentAddress(currentAddress);
+            String returnAddress = (String) data.get("returnAddress");
+            newListing.setReturnAddress(returnAddress);
+            newListing.setScooter(scooter);
+            newListing.setListingTime(LocalDateTime.now());
+            String penaltyFee = (String) data.get("penaltyFee");
+            double penaltyFeeDouble = Double.parseDouble(penaltyFee);
+            newListing.setPenaltyFee(penaltyFeeDouble);
+            String pricePerKilometer = (String) data.get("pricePerKilometer");
+            double pricePerKilometerDouble = Double.parseDouble(pricePerKilometer);
+            newListing.setPricePerKilometer(pricePerKilometerDouble);
+            listingRepository.save(newListing);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body("\"Scooter availability updated and listing saved successfully\"");
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body("Error updating scooter availability and saving listing: " + e.getMessage());
+        }
+    }
+    @DeleteMapping("/delete/{scooterId}")
+    public ResponseEntity<String> deleteScooter(@PathVariable Long scooterId) {
+        try {
+            scooterService.deleteScooter(scooterId);
+            return ResponseEntity.ok("Scooter deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Scooter not found with ID: " + scooterId);
+        }
+    }
 
 }
+
+

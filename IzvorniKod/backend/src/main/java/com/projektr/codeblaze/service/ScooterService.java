@@ -1,6 +1,8 @@
 package com.projektr.codeblaze.service;
 
+import com.projektr.codeblaze.dao.ListingRepository;
 import com.projektr.codeblaze.dao.ScooterRepository;
+import com.projektr.codeblaze.domain.Listing;
 import com.projektr.codeblaze.domain.Scooter;
 import com.projektr.codeblaze.domain.User;
 import jakarta.transaction.Transactional;
@@ -17,20 +19,28 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
+
 
 @Service
 public class ScooterService {
     private final ScooterRepository scooterRepository;
+
+    private final ListingRepository listingRepository;
     private static final Logger logger = LoggerFactory.getLogger(DocumentService.class);
 
     private static String UPLOAD_FOLDER  = "./IzvorniKod/src/main/resources/static/images";
 
     @Autowired
-    public ScooterService(ScooterRepository scooterRepository){
+    public ScooterService(ScooterRepository scooterRepository, ListingRepository listingRepository){
         this.scooterRepository = scooterRepository;
+        this.listingRepository = listingRepository;
     }
 
     public List<Scooter> getAllScooters() {
@@ -88,6 +98,20 @@ public class ScooterService {
         logger.info("Successfully saved picture as {} at {}", newFilename, uploadPath);
         return newFilename;
     }
+    public List<Listing> getAvailableScooters(boolean availability) {
+
+        return listingRepository.findListingsByScooterAvailability();
+    }
+    public void updateScooterAvailability(Long scooterId, boolean availability) {
+        Optional<Scooter> optionalScooter = scooterRepository.findById(scooterId);
+        if (optionalScooter.isPresent()) {
+            Scooter scooter = optionalScooter.get();
+            scooter.setAvailability(availability);
+            scooterRepository.save(scooter);
+        } else {
+            throw new NoSuchElementException("Scooter not found with id: " + scooterId);
+        }
+    }
 
     @Transactional
     public Scooter registerScooterAndUploadPhoto(Scooter scooter, User user, String photoUrl) throws IOException {
@@ -98,5 +122,54 @@ public class ScooterService {
         scooter.setAvailability(false);
         return scooterRepository.save(scooter);
     }
+    /*@Transactional
+    public Scooter updateScooter(Long scooterId, Scooter updatedScooter) {
+        Optional<Scooter> scooterOptional = scooterRepository.findById(scooterId);
+
+        if (!scooterOptional.isPresent()) {
+            throw new RuntimeException("Scooter not found with id: " + scooterId);
+        }
+
+        Scooter existingScooter = scooterOptional.get();
+
+        existingScooter.setManufacturer(updatedScooter.getManufacturer());
+        existingScooter.setModel(updatedScooter.getModel());
+        existingScooter.setBatteryCapacity(updatedScooter.getBatteryCapacity());
+        existingScooter.setMaxSpeed(updatedScooter.getMaxSpeed());
+        existingScooter.setMaxRange(updatedScooter.getMaxRange());
+        existingScooter.setYearOfManufacture(updatedScooter.getYearOfManufacture());
+        existingScooter.setAdditionalInformation(updatedScooter.getAdditionalInformation());
+
+
+        return scooterRepository.save(existingScooter);
+    }
+    @Transactional
+    public Listing updateListing(Long listingId, Listing updatedListing) {
+        Optional<Listing> listingOptional = listingRepository.findById(listingId);
+
+        if (!listingOptional.isPresent()) {
+            throw new RuntimeException("Scooter not found with id: " + listingId);
+        }
+
+        Listing existingListing = listingOptional.get();
+
+        existingListing.setCurrentAddress(updatedListing.getCurrentAddress());
+        existingListing.setReturnAddress(updatedListing.getReturnAddress());
+        existingListing.setPricePerKilometer(updatedListing.getPricePerKilometer());
+        existingListing.setPenaltyFee(updatedListing.getPenaltyFee());
+        existingListing.setReturnByTime(updatedListing.getReturnByTime().toLocalDateTime());
+
+
+        return listingRepository.save(existingListing);
+    }*/
+    public void deleteListing(Long listingId) {
+        if (listingRepository.existsById(listingId)) {
+            listingRepository.deleteById(listingId);
+        } else {
+            throw new RuntimeException("Listing not found with ID: " + listingId);
+        }
+    }
+
+
 
 }

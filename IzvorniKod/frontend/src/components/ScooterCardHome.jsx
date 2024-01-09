@@ -1,111 +1,52 @@
 import React, {useCallback, useState, useEffect} from 'react';
 import './ScooterCard.css'
-import {Form, useNavigate} from "react-router-dom";
-import ProfileAvatar from '../assets/profile-avatar.png';
+import {useNavigate} from "react-router-dom";
 import {getNicknameFromToken} from "./RegisterScooterForm";
-import { format } from 'date-fns';
-import {sendMessageWithAction, startConversation} from "../utils/MessageUtils";
-import {getCodeblazeUser} from "../utils/authService";
 
 
-export const handleImagePathChange = async (scooterId, imagePath) => {
-    try {
-        const response = await fetch(`/api/scooters/${scooterId}/updateImagePath`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ "imagePath": imagePath })
-        });
+function ScooterCardHome({ scooter }) {
 
-
-        if (!response.ok) {
-            throw new Error('Failed to update image path');
-        }
-
-    } catch (error) {
-        console.error('Error updating imagePath in updating status:', error);
-    }
-};
-function ScooterCard({ listing }) {
     const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = useState('');
     const [isImageOpen, setIsImageOpen] = useState(false);
     const [currentImageSrc, setCurrentImageSrc] = useState('');
     const [isRequestOpen, setIsRequestOpen] = useState(false);
-    const [newImage, setNewImage] = useState(null);
-    const [comments, setComments] = useState('');
-    const [isVisible, setIsVisible] = useState(false);
-    const [pendingRequests, setPendingRequests] = useState([]);
-    const [userProfile, setUserProfile] = useState(null);
-    const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
-    const [isAdvertised, setIsAdvertised] = useState(false);
     const [isCurrentUserOwner, setIsCurrentUserOwner] = useState(false);
     const [isAdModalOpen, setIsAdModalOpen] = useState(false);
+    const [newImage, setNewImage] = useState('');
+    const [comments, setComments] = useState({
+        comments: ''
+    });
+    const [listing, setListing] = useState({
+        currentAddress: '',
+        returnAddress: '',
+        pricePerKilometer: 0.0,
+        penaltyFee: 0.0,
+        returnByTime: ''
+    });
 
-
-    const { scooter } = listing;
-    const { userId, scooterId, imagePath, model, maxSpeed, batteryCapacity } = scooter;
+    const { userId, scooterId, imagePath, model, maxSpeed, batteryCapacity, yearOfManufacture, additionalInformation } = scooter;
 
     const handleButtonClick = (event, action) => {
         event.stopPropagation();
-
-        if (action === 'prijavi') {
-            openRequestModal(imagePath);
-        } else if (action === 'uredi') {
+        if (action === 'uredi') {
+            openEditModal();
+        } else if (action === 'oglasi') {
             openAdModal();
-        } else if (action === 'izbrisi') {
-            handleDeleteListing();
-        }
-        // ostale akcije koje još treba dodati
-    };
-
-    const handleViewProfile = async () => {
-        try {
-            const response = await fetch(`/api/users/${scooter.user.userId}`);
-            if (!response.ok) {
-                throw new Error('Failed to fetch user profile');
-            }
-            const profileData = await response.json();
-            setUserProfile(profileData);
-            setIsProfileModalOpen(true);
-        } catch (error) {
-            console.error('Error fetching profile:', error);
+        } else if (action == 'izbrisi') {
+            handleDeleteScooter();
         }
     };
 
-    const ProfileModal = ({ isOpen, onClose, profile }) => {
-        if (!isOpen) return null;
+    const openEditModal = useCallback(() => {
+        setIsEditModalOpen(true);
+    }, []);
 
-        const handleStartConversation = async () => {
-            const { chatSessionId } = await startConversation(profile);
-            if (chatSessionId) {
-                navigate(`/chat-window/${chatSessionId}`);
-            } else {
-                console.log("Unable to start conversation")
-            }
-        }
-
-        async function handleTestButton() {
-            const user2 = await getCodeblazeUser()
-            sendMessageWithAction("Codeblaze", user2);
-        }
-
-        return (
-            <div className="modal-overlay" onClick={onClose}>
-                <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                    <h3>{profile.nickname}</h3>
-                    <h4>Name {profile.firstName}</h4>
-                    <h4>Lastname {profile.lastName}</h4>
-                    <h4>E-mail {profile.email}</h4>
-                    <button onClick={handleTestButton}>TEST BUTTON</button>
-                    <button onClick={handleStartConversation}>Pošalji Poruku</button>
-                    <button className="modal-close-button" onClick={onClose}>Close</button>
-                </div>
-            </div>
-        );
-    };
+    const closeEditModal = useCallback(() => {
+        setIsEditModalOpen(false);
+    }, []);
 
     const openImageModal = useCallback((imageSrc) => {
         setCurrentImageSrc(imageSrc);
@@ -114,15 +55,6 @@ function ScooterCard({ listing }) {
 
     const closeImageModal = useCallback(() => {
         setIsImageOpen(false);
-    }, []);
-
-    const openRequestModal = useCallback((imageSrc) => {
-        setCurrentImageSrc(imageSrc);
-        setIsRequestOpen(true);
-    }, []);
-
-    const closeRequestModal = useCallback(() => {
-        setIsRequestOpen(false);
     }, []);
 
     const openAdModal = useCallback(() => {
@@ -163,12 +95,8 @@ function ScooterCard({ listing }) {
         );
     };
 
-    const handleFileChange = (event) => {
-        if (event.target.files[0]) {
-            setNewImage(event.target.files[0]);
-            console.log("SLIKA KOJA JE STAVLJENA");
-            console.log(newImage);
-        }
+    const handleFileChange = (event, setFileState) => {
+        setFileState(event.target.files[0]);
     }
 
     const handleChange = (event) => {
@@ -212,36 +140,24 @@ function ScooterCard({ listing }) {
 
             if (imageResponse.ok) {
                 const imageUploadData = await imageResponse.json();
-                const photoUrlNewImage = imageUploadData.image;
-                const currentDateTime = new Date();
-                const offset = currentDateTime.getTimezoneOffset();
-                const dateTimeString = currentDateTime.toISOString();
+                const photoUrlCR = imageUploadData.image;
 
                 const newImageFormData = new FormData();
-                newImageFormData.append('complaintTime',dateTimeString);
-                newImageFormData.append('photoUrlOldImage', new Blob([JSON.stringify(imagePath)], { type: "application/json" }));
-                newImageFormData.append('additionalComments', new Blob([JSON.stringify(comments)], { type: "application/json" }))
-                newImageFormData.append('photoUrlNewImage', new Blob([JSON.stringify(photoUrlNewImage)], { type: "application/json" }));
+                newImageFormData.append("photoUrlNewImage", new Blob([JSON.stringify(photoUrlCR)], { type: "application/json" }));
                 newImageFormData.append('user', new Blob([JSON.stringify(user)], { type: "application/json" }));
 
-                const newImageResponse = await fetch('/api/imageChangeRequest/send', {
+                const registrationResponse = await fetch('/api/registration/complete', {
                     method: 'POST',
                     body: newImageFormData,
                 });
 
-                if (newImageResponse.ok) {
-                    const result = await newImageResponse.json();
-                    console.log(result)
-                    console.log("Poslan zahtjev za promjenu")
-                    setIsRequestOpen(false);
-                    setNewImage(null);
-                    setComments('');
-                    handleImagePathChange(scooterId, photoUrlNewImage)
-                    navigate('/home');
-                    window.location.reload()
+                if (registrationResponse.ok) {
+                    const result = await registrationResponse.json();
+                    localStorage.setItem('userStatus', 'registered');
+                    navigate('/login');
                 } else {
-                    console.error("Request failed: " + newImageResponse.statusText);
-                    setErrorMessage('Request failed.');
+                    console.error("Registration API failed: " + registrationResponse.statusText);
+                    setErrorMessage('Registration failed.');
                 }
             } else {
                 console.error('Image upload failed: ' + imageResponse.statusText);
@@ -249,7 +165,7 @@ function ScooterCard({ listing }) {
             }
         } catch (error) {
             console.error('An error occurred: ', error);
-            setErrorMessage('Request failed.');
+            setErrorMessage('Registration failed.');
         }
     };
     useEffect(() => {
@@ -273,85 +189,78 @@ function ScooterCard({ listing }) {
         checkOwnership();
     }, [scooter.userId]);
 
-    /*const fetchScooterAvailability = async () => {
+    const handleUpdateScooter = async (updatedScooter) => {
         try {
-            const response = await fetch(`/api/scooters/update-availability/${scooterId}`);
-            if (response.ok) {
-                var data = await response.json();
-                console.log(data)
-                setIsAdvertised(data.availability);
-            } else {
-                console.error("Error fetching scooter availability");
+            const response = await fetch(`/api/scooters/edited-scooter/${scooterId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedScooter),
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status}`);
             }
+
+            const result = await response.json();
+            console.log('Updated scooter:', result);
         } catch (error) {
             console.error('Error:', error);
         }
     };
+    const handleDeleteScooter = async () => {
+        try {
+            const response = await fetch(`/api/scooters/delete/${scooterId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
 
-    useEffect(() => {
-        fetchScooterAvailability();
-    }, [scooter.scooterId]);*/
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status}`);
+            }
 
+            console.log('Scooter deleted successfully');
+            window.location.reload();
 
-    console.log("IsCUO: ", isCurrentUserOwner);
-    const determineButtons = () => {
-        if (isCurrentUserOwner) {
-            return [
-                { text: 'Uredi', onClick: (e) => handleButtonClick(e, 'uredi') },
-                { text: 'Izbriši', onClick: (e) => handleButtonClick(e, 'izbrisi') }
-            ];
-        } else {
-            return [
-                { text: 'Unajmi', onClick: (e) => handleButtonClick(e, 'unajmi') },
-                { text: 'Prijavi', onClick: (e) => handleButtonClick(e, 'prijavi') }
-            ];
+        } catch (error) {
+            console.error('Error:', error);
+            setErrorMessage('Failed to delete scooter.');
         }
     };
 
-    const buttons = determineButtons();
+    const buttons = [
+        { text: 'Oglasi', onClick: (e) => handleButtonClick(e, 'oglasi') },
+        { text: 'Uredi', onClick: (e) => handleButtonClick(e, 'uredi') },
+        { text: 'Izbriši', onClick: (e) => handleButtonClick(e, 'izbrisi') }
+    ];
 
-    const RequestChangeModal = ({isOpen, imageSrc, altText }) => {
-        return isOpen && (
-            <div className="modal-overlay" onClick={()=> setIsRequestOpen(false)}>
+    const RequestChangeModal = ({isOpen, onClose, imageSrc, altText }) => {
+        if (!isOpen) return null;
+        return (
+            <div className="modal-overlay" onClick={onClose}>
                 <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit} className="register-form">
                         {/* File Upload Section */}
                         <div className="section-container">
                             <div className="form-group">
                                 <label>Priložiti novu sliku</label>
-                                <input type="file" onChange={(e) => setNewImage(e.target.files[0])} required/>
+                                <input type="file" onChange={(e) => handleFileChange(e, setNewImage)} required/>
                             </div>
-                            <label> Dodatni komentari
-                                <textarea name="comments" value={comments} onChange={(e) => setComments(e.target.value)}/>
-                            </label>
-                            <button type="submit">Pošalji zahtjev za zamjenom slike</button>
+                            <div className="form-group">
+                                <label> Dodatni komentari </label>
+                                <input type="text" value={comments.comments} onChange={handleChange}/>
+                            </div>
+                        </div>
                     </form>
                     <div className="modal-close-btn-container">
-                        <button className="modal-close-button" onClick={()=> setIsRequestOpen(false)}>Close</button>
+                        <button className="modal-close-button" onClick={onClose}>Close</button>
                     </div>
                 </div>
             </div>
         );
-    };
-
-    const handleDeleteListing = async () => {
-        try {
-            const response = await fetch(`/api/scooters/delete-listing/${listing.listingId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-
-            if (!response.ok) {
-                throw new Error(`Error: ${response.statusText}`);
-            }
-
-            console.log('Listing deleted successfully');
-            window.location.reload();
-        } catch (error) {
-            console.error('Error:', error);
-        }
     };
 
     const AdModal = ({ isOpen, onClose }) => {
@@ -370,31 +279,39 @@ function ScooterCard({ listing }) {
             const { name, value } = event.target;
             setLocalListing({ ...localListing, [name]: value });
         };
+
         const handleAdSubmit = async (event) => {
             event.preventDefault();
+            const data = {
+                ...localListing,
+                scooterData: scooter
+            };
+            console.log("LOCAL LISTING");
+            console.log(localListing);
             try {
-                const response = await fetch(`/api/scooters/edit-listing/${listing.listingId}`, {
+                const response = await fetch(`/api/scooters/update-availability/${scooterId}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(localListing),
+                    body: JSON.stringify(data),
                 });
 
                 if (response.ok) {
                     const contentType = response.headers.get('content-type');
                     if (contentType && contentType.includes('application/json')) {
                         const result = await response.json();
-                        console.log('Listing updated:', result);
+                        console.log('Listing saved:', result);
                     } else {
                         const result = await response.text();
-                        console.log('Error:', result);
+                        console.log('Non-JSON response:', result);
                     }
 
                     onClose();
                 } else {
-                    console.error('Error:', response.statusText);
+                    console.error('Error while saving:', response.statusText);
                 }
+                navigate('/home');
             } catch (error) {
                 console.error('Error:', error);
             }
@@ -417,7 +334,8 @@ function ScooterCard({ listing }) {
                         </div>
                         <div className="form-group">
                             <label>Cijena po kilometru</label>
-                            <input type="number" step="0.1" name="pricePerKilometer" value={localListing.pricePerKilometer}
+                            <input type="number" step="0.1" name="pricePerKilometer"
+                                   value={localListing.pricePerKilometer}
                                    onChange={handleAdChange}/>
                         </div>
                         <div className="form-group">
@@ -432,61 +350,108 @@ function ScooterCard({ listing }) {
                                 name="returnByTime"
                                 value={localListing.returnByTime}
                                 onChange={handleAdChange}
+                                min={new Date().toISOString().slice(0, 16)}
                             />
                         </div>
-                        <button type="submit">Spremi</button>
+                        <button type="submit">Oglasi</button>
+                        <button className="modal-close-button" onClick={onClose}>Zatvori</button>
                     </form>
-                    <button className="modal-close-button" onClick={onClose}>Zatvori</button>
                 </div>
             </div>
         );
     };
 
-    return (
-        <div className={`scooter ${isExpanded ? 'expanded' : ''}`} onClick={handleCardClick}>
-            <img src={ProfileAvatar} alt={"PROFILE"} className="profile-avatar" onClick={handleViewProfile} style={{ cursor: 'pointer' }} />
-            <img src={imagePath} alt={`${model} Scooter`} className="scooter-image" onClick={() => openImageModal(imagePath)}/>
-            <h3 className="scooter-name">{model}</h3>
-            <div className="scooter-details">
-                <p><strong>Brzina:</strong> {maxSpeed} km/h</p>
-                <p><strong>Kapacitet:</strong> {batteryCapacity} kWh</p>
-            </div>
-            <button className="scooter-button">Unajmi</button>
-            <button className="scooter-button" onClick={() => openRequestModal(imagePath)}>Prijavi</button>
-            <form onSubmit={handleSubmit}>
-                {/* File Upload Section */}
-                <div className="imageRequest" style={{ display: isVisible ? "block" : "none" }}>
-                    <h2>PRIJAVA LOŠE SLIKE</h2>
-                    <div className="form-group">
-                        <label>Priložiti novu sliku</label>
-                        <input type="file" onChange={(e) => setNewImage(e.target.files[0])} required/>
-                    </div>
-                    <div className="form-group">
-                        <label> Dodatni komentari
-                            <textarea name="comments" value={comments} onChange={(e) => setComments(e.target.value)}/>
-                        </label>
-                    </div>
-                    <button className="scooter-button" onClick={() => setIsVisible(false)}>Zatvori</button>
-                    <button type="submit">Pošalji zahtjev za zamjenom slike</button>
+    function EditScooterModal({ isOpen, onClose, scooter, onUpdate }) {
+        const [editedScooter, setEditedScooter] = useState(scooter);
+
+        useEffect(() => {
+            if (isOpen) {
+                setEditedScooter(scooter);
+            }
+        }, [isOpen, scooter]);
+
+        const handleChange = (event) => {
+            const { name, value } = event.target;
+            setEditedScooter(prevScooter => ({
+                ...prevScooter,
+                [name]: value
+            }));
+        };
+
+
+        const handleSubmit = async (event) => {
+            event.preventDefault();
+            await onUpdate(editedScooter);
+            onClose();
+        };
+
+        if (!isOpen) return null;
+
+        return (
+            <div className="modal-overlay" onClick={onClose}>
+                <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                    <form onSubmit={handleSubmit} className="ad-form">
+                        <div className="form-group">
+                            <label>Manufacturer</label>
+                            <input type="text" name="manufacturer" value={editedScooter.manufacturer}
+                                   onChange={handleChange}/>
+                        </div>
+                        <div className="form-group">
+                            <label>Model</label>
+                            <input type="text" name="model" value={editedScooter.model} onChange={handleChange}/>
+                        </div>
+                        <div className="form-group">
+                            <label>Battery Capacity</label>
+                            <input type="number" name="batteryCapacity" value={editedScooter.batteryCapacity}
+                                   onChange={handleChange}/>
+                        </div>
+                        <div className="form-group">
+                            <label>Max Speed</label>
+                            <input type="number" name="maxSpeed" value={editedScooter.maxSpeed}
+                                   onChange={handleChange}/>
+                        </div>
+                        <div className="form-group">
+                            <label>Max Range</label>
+                            <input type="number" step="0.1" name="maxRange" value={editedScooter.maxRange}
+                                   onChange={handleChange}/>
+                        </div>
+                        <div className="form-group">
+                            <label>Year of Manufacture</label>
+                            <input type="number" name="yearOfManufacture" value={editedScooter.yearOfManufacture}
+                                   onChange={handleChange}/>
+                        </div>
+                        <div className="form-group">
+                            <label>Additional Information</label>
+                            <textarea name="additionalInformation" value={editedScooter.additionalInformation}
+                                      onChange={handleChange}/>
+                        </div>
+                        <button type="submit">Spremi</button>
+                        <button className="modal-close-button" onClick={onClose}>Zatvori</button>
+                    </form>
                 </div>
-            </form>
+            </div>
+        );
+    }
+
+
+    console.log("IsCUO: ", isCurrentUserOwner);
+    if (!isCurrentUserOwner) {
+        return null;
+    }
+    return (
+        <div className={`scooter ${isExpanded ? 'expanded' : ''}`} onClick={isExpanded ? undefined : handleCardClick}>
             {isExpanded && (
-                <div className="modal-overlay" onClick={() => setIsExpanded(false)}>
-                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                <div className="modal-overlay">
+                    <div className="modal-content">
                         <div className="expanded-content">
                             <img src={imagePath} alt={`${model} Scooter`} className="scooter-image"/>
                             <div className="scooter-details">
                                 <h3>{model}</h3>
                                 <p><strong>Brzina:</strong> {maxSpeed} km/h</p>
                                 <p><strong>Kapacitet:</strong> {batteryCapacity} kWh</p>
-                                <p><strong>Godina Proizvodnje:</strong> {scooter.yearOfManufacture} </p>
-                                <p><strong>Dodatne informacije:</strong> {scooter.additionalInformation} </p>
+                                <p><strong>Godina Proizvodnje:</strong> {yearOfManufacture} </p>
+                                <p><strong>Dodatne informacije:</strong> {additionalInformation} </p>
                                 <p><strong>Doseg:</strong> {scooter.maxRange} </p>
-                                <p><strong>Trenutna adresa:</strong> {listing.currentAddress} </p>
-                                <p><strong>Adresa povratka:</strong> {listing.returnAddress} </p>
-                                <p><strong>Cijena po kilometru:</strong> {listing.pricePerKilometer} €/km</p>
-                                <p><strong>Kazna:</strong> {listing.penaltyFee} €</p>
-                                <p><strong>Vratiti do:</strong> {listing.returnByTime} </p>
                             </div>
                             <div className="scooter-buttons">
                                 {buttons.map((button, index) => (
@@ -525,23 +490,19 @@ function ScooterCard({ listing }) {
                 imageSrc={currentImageSrc}
                 altText="Romobil"
             />
-            <RequestChangeModal
-                isOpen={isRequestOpen}
-                imageSrc={currentImageSrc}
-                altText="Romobil"
-            />
-            <ProfileModal
-                isOpen={isProfileModalOpen}
-                onClose={() => setIsProfileModalOpen(false)}
-                profile={userProfile}
-            />
             <AdModal
                 isOpen={isAdModalOpen}
                 onClose={closeAdModal}
             />
-
+            <EditScooterModal
+                isOpen={isEditModalOpen}
+                onClose={closeEditModal}
+                scooter={scooter}
+                onUpdate={handleUpdateScooter}
+            />
         </div>
     );
+
 }
 
-export default ScooterCard;
+export default ScooterCardHome;

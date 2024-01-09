@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './App.css';
 import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 
@@ -14,6 +14,7 @@ import AdminHome from "./components/AdminHome";
 import AdminDashboard from "./components/AdminDashboard";
 import ImageChange from "./components/ImageChange";
 import MyProfile from "./components/MyProfile";
+import Transactions from "./components/Transactions";
 import UnreadMessagesContext from "./components/UnreadMessagesContext";
 
 import AdminRoute from "./components/AdminRoute";
@@ -24,8 +25,8 @@ import ChatPanel from "./components/ChatPanel";
 import ChatWindow from "./components/ChatWindow";
 import ChatMessage from "./components/ChatMessage";
 
-/* Import for ScooterCard test
-import ScooterCard from "./components/ScooterCard";*/
+/* Import for ScooterCardHome test
+import ScooterCardHome from "./components/ScooterCardHome";*/
 
 function App() {
     const [unreadCount, setUnreadCount] = useState(0);
@@ -81,6 +82,11 @@ function App() {
                         <RegisterScooterForm />
                     </ProtectedRoutes>
                 }/>
+                <Route path="/my-transactions" element={
+                    <ProtectedRoutes>
+                        <Transactions />
+                    </ProtectedRoutes>
+                }/>
                 <Route path="/profile" element={
                     <ProtectedRoutes>
                         <MyProfile/>
@@ -104,8 +110,8 @@ function App() {
                 <Route path="/unauthorized" element={
                     <Unauthorized/>
                 }/>
-                {/* Test for just 1 ScooterCard - uncomment import and route to test
-                <Route path="/scooter" element={<ScooterCard/>}/>
+                {/* Test for just 1 ScooterCardHome - uncomment import and route to test
+                <Route path="/scooter" element={<ScooterCardHome/>}/>
                 */}
 
 
