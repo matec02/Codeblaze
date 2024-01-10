@@ -1,0 +1,1 @@
+#TODO za sve ostale slično!!
