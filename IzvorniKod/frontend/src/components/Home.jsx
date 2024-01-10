@@ -1,19 +1,33 @@
 import React, {useState, useEffect} from 'react';
 import ScooterCard from "./ScooterCard";
 import './Home.css';
+import {getNicknameFromToken} from "./RegisterScooterForm";
+
 
 function Home() {
-    const [listings, setListings] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
+    const [user, setUser] = useState('') //client
+    const [availableListings, setAvailableListings] = useState([]);
+    const [rentedListings, setRentedListings] = useState([]);
+
 
     useEffect(() => {
-        handleHome();
+        handleAvailableListings();
     }, []);
 
-    const handleHome = async () => {
+    useEffect(() => {
+        handleRentedListings();
+    }, []);
+
+    useEffect(() => {
+        handleUser();
+    }, []);
+
+
+    const handleAvailableListings = async () => {
         setErrorMessage('');
         try {
-            const response = await fetch("/api/scooters/get-available-scooters", {
+            const response = await fetch("/api/scooters/get-listings/AVAILABLE", {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -25,7 +39,7 @@ function Home() {
             }
 
             const data = await response.json();
-            setListings(data);
+            setAvailableListings(data);
 
         } catch (error) {
             console.error("Failed to fetch scooters: ", error);
@@ -33,11 +47,74 @@ function Home() {
         }
     };
 
+    const handleRentedListings = async () => {
+        setErrorMessage('');
+        try {
+            const response = await fetch("/api/scooters/get-listings/RENTED", {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status}`);
+            }
+
+            const data = await response.json();
+            setRentedListings(data);
+
+        } catch (error) {
+            console.error("Failed to fetch scooters: ", error);
+            setErrorMessage(error.message);
+        }
+    };
+
+    const handleUser = async () => {
+        try {
+            const response = await fetch(`/api/users/by-nickname/${getNicknameFromToken()}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status}`);
+            }
+
+            const data = await response.json();
+            setUser(data);
+
+        } catch (error) {
+            console.error("Failed to get users: ", error);
+        }
+    };
+
     return (
-        <div className="scooter-grid">
-            {listings.map((listing, index) => (
-                <ScooterCard key={index} listing={listing} />
-            ))}
+        <div>
+            {(rentedListings.length > 0) && (
+                <div className="in-use">
+                    <h2>Trenutno koristite:</h2>
+                    <div className="scooter-grid">
+                        {rentedListings
+                            .filter(listing => (listing.user.userId === user.userId))
+                            .map((listing, index) => (
+                            <ScooterCard key={index} listing={listing} />
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            {(availableListings.length > 0) && (
+                <div className="available">
+                    <h2>Dostupni oglasi:</h2>
+                    <div className="scooter-grid">
+                        {availableListings.map((listing, index) => (
+                            <ScooterCard key={index} listing={listing} />
+                        ))}
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

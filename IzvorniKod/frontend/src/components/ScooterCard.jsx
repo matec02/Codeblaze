@@ -38,16 +38,41 @@ function ScooterCard({ listing }) {
     const [comments, setComments] = useState('');
     const [isVisible, setIsVisible] = useState(false);
     const [pendingRequests, setPendingRequests] = useState([]);
-    const [userProfile, setUserProfile] = useState(null);
+    const [userProfile, setUserProfile] = useState('');
     const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
     const [isAdvertised, setIsAdvertised] = useState(false);
+    const [curUser, setCurUser] = useState('');
     const [isCurrentUserOwner, setIsCurrentUserOwner] = useState(false);
     const [isAdModalOpen, setIsAdModalOpen] = useState(false);
 
 
-    const { scooter } = listing;
+    const { scooter, clientId, status, listingId} = listing;
     const { userId, scooterId, imagePath, model, maxSpeed, batteryCapacity } = scooter;
+
+    useEffect(() => {
+        handleUser();
+    }, []);
+
+    const handleUser = async () => {
+        try {
+            const response = await fetch(`/api/users/by-nickname/${getNicknameFromToken()}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status}`);
+            }
+
+            const data = await response.json();
+            setCurUser(data);
+
+        } catch (error) {
+            console.error("Failed to get users: ", error);
+        }
+    };
 
     const handleButtonClick = (event, action) => {
         event.stopPropagation();
@@ -58,8 +83,11 @@ function ScooterCard({ listing }) {
             openAdModal();
         } else if (action === 'izbrisi') {
             handleDeleteListing();
+        } else if (action === 'unajmi') {
+            handleRequest();
+        } else if (action === 'vrati') {
+            handleReturn();
         }
-        // ostale akcije koje još treba dodati
     };
 
     const handleViewProfile = async (event) => {
@@ -76,6 +104,11 @@ function ScooterCard({ listing }) {
             console.error('Error fetching profile:', error);
         }
     };
+
+    async function handleTestButton() {
+        const user2 = await getCodeblazeUser()
+        sendMessageWithAction("Codeblaze", user2);
+    }
 
     const ProfileModal = ({ isOpen, onClose, profile }) => {
         const [privacySettings, setPrivacySettings] = useState(null);
@@ -110,11 +143,6 @@ function ScooterCard({ listing }) {
             }
         }
 
-        async function handleTestButton() {
-            const user2 = await getCodeblazeUser()
-            sendMessageWithAction("Codeblaze", user2);
-        }
-
         return (
             <div className="modal-overlay" onClick={onClose}>
                 <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -133,7 +161,6 @@ function ScooterCard({ listing }) {
             </div>
         );
     };
-
 
     const openAdModal = useCallback(() => {
         setIsAdModalOpen(true);
@@ -161,7 +188,6 @@ function ScooterCard({ listing }) {
             [event.target.name]: event.target.value
         });
     };
-
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -258,28 +284,33 @@ function ScooterCard({ listing }) {
     }, [scooter.userId]);
 
     /*const fetchScooterAvailability = async () => {
-        try {
-            const response = await fetch(`/api/scooters/update-availability/${scooterId}`);
-            if (response.ok) {
-                var data = await response.json();
-                console.log(data)
-                setIsAdvertised(data.availability);
-            } else {
-                console.error("Error fetching scooter availability");
-            }
-        } catch (error) {
-            console.error('Error:', error);
+    try {
+        const response = await fetch(`/api/scooters/update-availability/${scooterId}`);
+        if (response.ok) {
+            var data = await response.json();
+            console.log(data)
+            setIsAdvertised(data.availability);
+        } else {
+            console.error("Error fetching scooter availability");
         }
-    };
+    } catch (error) {
+        console.error('Error:', error);
+    }
+};
 
-    useEffect(() => {
-        fetchScooterAvailability();
-    }, [scooter.scooterId]);*/
-
+useEffect(() => {
+    fetchScooterAvailability();
+}, [scooter.scooterId]);*/
 
     console.log("IsCUO: ", isCurrentUserOwner);
     const determineButtons = () => {
-        if (isCurrentUserOwner) {
+        if (curUser.userId === clientId && status === "RENTED") {
+            return [
+                { text: 'Vrati', onClick: (e) => handleButtonClick(e, 'vrati') },
+                { text: 'Prijavi', onClick: (e) => handleButtonClick(e, 'prijavi') }
+            ];
+        }
+        else if (isCurrentUserOwner) {
             return [
                 { text: 'Uredi', onClick: (e) => handleButtonClick(e, 'uredi') },
                 { text: 'Izbriši', onClick: (e) => handleButtonClick(e, 'izbrisi') }
@@ -293,6 +324,55 @@ function ScooterCard({ listing }) {
     };
 
     const buttons = determineButtons();
+
+    const handleRequest = async () => {
+        try {
+            const data = {status:"REQUESTED"}
+
+            const response = await fetch(`/api/scooters/update-listing-status/${listingId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to update listing status');
+            }
+
+            const chatSessionId = await sendMessageWithAction(scooter.user, curUser);
+            //navigate(`/chat-window/${chatSessionId}`);
+            navigate(`/chat-panel`);
+
+
+        } catch (error) {
+            console.error('Error updating listing status:', error);
+        }
+    };
+
+    const handleReturn = async () => {
+        try {
+            const data = {status:"RETURNED"}
+
+            const response = await fetch(`/api/scooters/update-listing-status/${listingId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+            navigate('/home');
+
+
+            if (!response.ok) {
+                throw new Error('Failed to update listing status');
+            }
+
+        } catch (error) {
+            console.error('Error returning scooter:', error);
+        }
+    };
 
     const handleDeleteListing = async () => {
         try {
@@ -315,8 +395,8 @@ function ScooterCard({ listing }) {
     };
 
     const AdModal = ({
-        isOpen, onClose
-    }) => {
+                         isOpen, onClose
+                     }) => {
         const [localListing, setLocalListing] = useState({...listing});
 
         useEffect(() => {
@@ -510,6 +590,6 @@ function ScooterCard({ listing }) {
 
         </div>
     );
-    }
+}
 
-    export default ScooterCard;
+export default ScooterCard;

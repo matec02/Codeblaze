@@ -120,7 +120,9 @@ function MyScooter() {
 
             {activeTab === 'viewListings' && (
                 <div className="scooter-list">
-                    {listings.map(listing => (
+                    {listings
+                        .filter(listing => listing.status === "AVAILABLE")
+                        .map(listing => (
                         <ScooterCard key={listing.id} listing={listing}/>
                     ))}
                 </div>

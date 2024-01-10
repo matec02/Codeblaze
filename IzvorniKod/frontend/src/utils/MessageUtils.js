@@ -96,12 +96,12 @@ export const sendMessageFromCodeblaze = async (messageText, user2) => {
 };
 
 
-export const sendMessageWithAction = async (nickname, user2) => {
+export const sendMessageWithAction = async (owner) => {
     const senderNickname = await getNicknameFromToken();
     const senderUser = await getUserFromToken();
-    const chatSession = await startConversation(user2);
+    const chatSession = await startConversation(owner);
 
-    const messageText = `Hej ${nickname},\n ${senderNickname} želi iznajmiti tvoj romobil! Pristaješ li na najam?`;
+    const messageText = `Hej ${owner.nickname},\n ${senderNickname} želi iznajmiti tvoj romobil! Pristaješ li na najam?`;
 
     const messageToSend = {
         senderUsername: senderNickname,
@@ -124,6 +124,8 @@ export const sendMessageWithAction = async (nickname, user2) => {
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
+
+        //return chatSession.chatSessionId;
 
     } catch (error) {
         console.error('Error sending message:', error);
