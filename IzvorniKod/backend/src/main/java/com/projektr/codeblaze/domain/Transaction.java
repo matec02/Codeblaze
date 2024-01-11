@@ -35,13 +35,22 @@ public class Transaction {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "transactionStatus", nullable = false, length = 50)
-    private TransactionStatus transactionStatus;
+    private TransactionStatus transactionStatus = TransactionStatus.UNSEEN;
 
     @ManyToOne
     @JoinColumn(name = "ownerId", referencedColumnName = "userId", nullable = false)
-    private User ownerId;
+    private User owner;
 
+    @ManyToOne
+    @JoinColumn(name = "clientId", referencedColumnName = "userId", nullable = false)
+    private User client;
+
+    /*
     @ManyToOne
     @JoinColumn(name = "listingId", referencedColumnName = "listingId", nullable = false)
     private Listing listing;
+    */
+
+    //obrisan invoice
+    //kaze u zadatku transakcija se automatski obavi i spremi - ne placas direktno ti pa ni nema biranja nacina placanja
 }

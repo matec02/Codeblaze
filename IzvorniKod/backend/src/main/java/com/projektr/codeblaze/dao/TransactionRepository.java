@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
 
-    public List<Transaction>  findAllByOwnerId(User userId);
+    public List<Transaction>  findAllByOwner(User user);
 }

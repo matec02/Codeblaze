@@ -3,12 +3,47 @@ import React, {useEffect, useState} from 'react';
 import './Transactions.css';
 import {getNicknameFromToken} from "./RegisterScooterForm";
 
+export const startTransaction = async (owner, client, listingPricePerKm, returnByTime, penaltyFee) => {
+
+    const kilometersTraveled = (Math.random() * 100).toFixed(2);
+    const paymentTime = new Date().toISOString().split('.')[0];
+    const returnTimeDate = new Date(returnByTime);
+    var totalPrice = listingPricePerKm*kilometersTraveled;
+
+    if (returnTimeDate > returnByTime) {
+        totalPrice = totalPrice + penaltyFee;
+    }
+
+    const transactionToSend = {
+        kilometersTraveled: parseFloat(kilometersTraveled),
+        totalPrice: totalPrice,
+        paymentTime: paymentTime,
+        owner: owner,
+        client: client
+    };
+
+    try {
+        const formData = new FormData();
+        formData.append('transaction', new Blob([JSON.stringify(transactionToSend)], {type: "application/json"}));
+        const response = await fetch('/api/transactions/send', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+    } catch (error) {
+        console.error('Error sending transaction:', error);
+    }
+};
+
 function Transactions() {
 
     const [transactions, setTransactions] = useState([]);
     const [user, setUSer] = useState('');
 
-    //kod renderanja prvo nadi usera
     useEffect(() => {
         handleUser();
     }, []);

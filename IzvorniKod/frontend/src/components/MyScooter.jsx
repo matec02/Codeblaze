@@ -71,7 +71,7 @@ function MyScooter() {
     };
     const handleViewListings = async () => {
         try {
-            const response = await fetch(`/api/scooters/listing/${user.userId}`, {
+            const response = await fetch(`/api/listing/get-listings/AVAILABLE`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -120,7 +120,7 @@ function MyScooter() {
             {activeTab === 'viewListings' && (
                 <div className="scooter-list">
                     {listings
-                        .filter(listing => listing.status === "AVAILABLE")
+                        .filter(listing => (listing.scooter.user.userId == user.userId))
                         .map(listing => (
                         <ScooterCard key={listing.id} listing={listing}/>
                     ))}

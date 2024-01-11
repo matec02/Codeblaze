@@ -7,6 +7,7 @@ import {format} from 'date-fns';
 import {sendMessageWithAction, startConversation} from "../utils/MessageUtils";
 import {getCodeblazeUser} from "../utils/authService";
 import {FaFacebook, FaTwitter, FaLinkedin} from 'react-icons/fa';
+import {startTransaction} from "./Transactions";
 
 export const ProfileModal = ({isOpen, onClose, profile}) => {
     const [privacySettings, setPrivacySettings] = useState(null);
@@ -274,7 +275,7 @@ function ScooterCard({listing}) {
     }, [scooter.userId]);
 
     const determineButtons = () => {
-        if (user.userId && curUser.userId === user.userId && status === "RENTED") {
+        if (user && user.userId && curUser.userId && curUser.userId === user.userId && status === "RENTED") {
             return [
                 {text: 'Vrati', onClick: (e) => handleButtonClick(e, 'vrati')},
                 {text: 'Prijavi', onClick: (e) => handleButtonClick(e, 'prijavi')}
@@ -332,8 +333,16 @@ function ScooterCard({listing}) {
                 },
                 body: JSON.stringify(data)
             });
-            navigate('/home');
 
+            const listingPricePerKm = listing.pricePerKilometer;
+            const owner = scooter.user;
+            const client = listing.user;
+            const returnByTime = listing.returnByTime;
+            const penaltyFee = listing.penaltyFee;
+
+            await startTransaction(owner, client, listingPricePerKm, returnByTime, penaltyFee);
+
+            navigate('/my-transactions');
 
             if (!response.ok) {
                 throw new Error('Failed to update listing status');
