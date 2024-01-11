@@ -1,6 +1,7 @@
 package com.projektr.codeblaze.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.projektr.codeblaze.domain.Document;
 import com.projektr.codeblaze.domain.User;
 import com.projektr.codeblaze.domain.UserRole;
 import com.projektr.codeblaze.service.UserService;
@@ -53,7 +54,10 @@ public class UserController {
             if (existingUser != null) {
                 existingUser.setFirstName(updatedUser.getFirstName());
                 existingUser.setLastName(updatedUser.getLastName());
-                // Update other fields accordingly
+                existingUser.setNickname(updatedUser.getNickname());
+                existingUser.setEmail(updatedUser.getEmail());
+                existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
+
 
                 userService.save(existingUser);
                 return ResponseEntity.ok("Profile updated successfully");

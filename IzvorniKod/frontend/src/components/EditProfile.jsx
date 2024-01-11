@@ -23,6 +23,39 @@ export const getNicknameFromToken = () => {
 
 function EditProfile() {
 
+    const [firstNameInput, setFirstNameInput] = useState('');
+    const [lastNameInput, setLastNameInput] = useState('');
+    const [nicknameInput, setNicknameInput] = useState('');
+    const [emailInput, setEmailInput] = useState('');
+    const [phoneNumberInput, setPhoneNumberInput] = useState('');
+
+
+    const handleFirstNameChange = (e) => {
+        setFirstNameInput(e.target.value);
+    };
+
+    const handleLastNameChange = (e) => {
+        setLastNameInput(e.target.value);
+    };
+
+    const handleNicknameChange = (e) => {
+        setNicknameInput(e.target.value);
+    }; //ne koristi se jer ne mjenjamo nickname
+
+    const handleEmailChange = (e) => {
+        setEmailInput(e.target.value);
+    };
+
+    const handlePhoneNumberChange = (e) => {
+        const newPhoneNumber = e.target.value;
+
+        const isNumeric = /^\d+$/;
+
+        if (isNumeric.test(newPhoneNumber)) {
+            // If the new phone number contains only digits, update the state
+            setPhoneNumberInput(newPhoneNumber);
+        }
+    };
 
 
     const navigate = useNavigate();
@@ -64,6 +97,7 @@ function EditProfile() {
 
         const fetchPrivacySettings = async (userId) => {
             try {
+
                 //console.log("USER ID: ", userId);
                 const response = await fetch(`/api/privacy-settings/${userId}`, {
                     method: 'GET',
@@ -108,6 +142,7 @@ function EditProfile() {
     };
 
     const save = async () => {
+
         try {
             const response = await fetch('/api/users/update-profile', {
                 method: 'PUT',
@@ -117,9 +152,11 @@ function EditProfile() {
                 },
                 body: JSON.stringify({
                     userId: user.userId, // Make sure to include the user's ID for identification
-                    firstName: "Jakov"/* Updated first name from the input field */,
-                    lastName: "Jakovic"/* Updated last name from the input field */,
-                    // Add other fields to update
+                    firstName: firstNameInput.trim() !== '' ? firstNameInput : user.firstName/* Updated first name from the input field */,
+                    lastName: lastNameInput.trim() !== '' ? lastNameInput : user.lastName/* Updated last name from the input field */,
+                    nickname: nicknameInput.trim() !== '' ? nicknameInput : user.nickname,
+                    email: emailInput.trim() !== '' ? emailInput : user.email,
+                    phoneNumber: phoneNumberInput.trim() !== '' ? phoneNumberInput : user.phoneNumber,
                 }),
             });
 
@@ -159,6 +196,8 @@ function EditProfile() {
                         <span className="infoLabel">Ime:</span>
                         <input
                             type="text"
+                            value={firstNameInput} // Bind input value to state
+                            onChange={handleFirstNameChange} // Handle input change
                         />
                         <span className="infoValue">{user.firstName}</span>
                     </div>
@@ -166,16 +205,20 @@ function EditProfile() {
                         <span className="infoLabel">Prezime:</span>
                         <input
                             type="text"
+                            value={lastNameInput}
+                            onChange={handleLastNameChange}
                         />
                         <span className="infoValue">{user.lastName}</span>
                     </div>
-                    <div className="infoRow">
+                    {/*<div className="infoRow">
                         <span className="infoLabel">Nadimak:</span>
                         <input
                             type="text"
+                            value={nicknameInput} // Bind input value to state
+                            onChange={handleNicknameChange} // Handle input change
                         />
                         <span className="infoValue">{user.nickname}</span>
-                    </div>
+                    </div>*/}
                 </div>
 
 
@@ -185,6 +228,8 @@ function EditProfile() {
                         <span className="infoLabel">Email:</span>
                         <input
                             type="text"
+                            value={emailInput} // Bind input value to state
+                            onChange={handleEmailChange} // Handle input change
                         />
                         <span className="infoValue">{user.email}</span>
                     </div>
@@ -192,6 +237,8 @@ function EditProfile() {
                         <span className="infoLabel">Broj mobitela:</span>
                         <input
                             type="text"
+                            value={phoneNumberInput} // Bind input value to state
+                            onChange={handlePhoneNumberChange} // Handle input change
                         />
                         <span className="infoValue">{user.phoneNumber}</span>
                     </div>
