@@ -1,4 +1,5 @@
 .message {
+    min-width: 20px;
     max-width: 50%; /* Maksimalna širina pojedinačne poruke */
     padding: 10px;
     border-radius: 10px;
