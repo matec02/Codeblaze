@@ -93,13 +93,11 @@ function Home() {
 
     return (
         <div>
-            {(rentedListings.length > 0) && (
+            {(rentedListings.filter(listing => (listing.user.userId === user.userId)).length > 0) && (
                 <div className="in-use">
                     <h2>Trenutno koristite:</h2>
                     <div className="scooter-grid">
-                        {rentedListings
-                            .filter(listing => (listing.user.userId === user.userId))
-                            .map((listing, index) => (
+                        {rentedListings.map((listing, index) => (
                             <ScooterCard key={index} listing={listing} />
                         ))}
                     </div>

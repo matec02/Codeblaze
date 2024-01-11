@@ -32,7 +32,7 @@ function MessageWithButtons({ senderUsername, listingId, text, sender, isSeen })
 
     const handleOnDecline = async () => {
         try {
-            const data = [{status:"ACTIVE"}]
+            const data = [{status:"AVAILABLE"}]
 
             const response = await fetch(`/update-listing-status/${listingId}`, {
                 method: 'PUT',
