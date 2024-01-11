@@ -127,8 +127,6 @@ function SocialMediaModal({ isOpen, onClose, platform, onSave }) {
 
 
                 const data = await response.json();
-                console.log("DATA");
-                console.log(data);
                 setState(data); // Setting the state with the fetched data
 
             } catch (error) {

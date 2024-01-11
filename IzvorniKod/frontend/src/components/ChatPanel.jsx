@@ -34,14 +34,9 @@ function  ChatPanel() {
 
                     setUnreadCount(totalUnreadMessages);
 
-                    // chatMessagesArray.sort((a, b) => new Date(b.lastMessageTime) - new Date(a.lastMessageTime));
-                    console.log("CD: ", chatsData);
-                    console.log("CM ARR: ", chatMessagesArray);
                     chatsData = chatsData.map((chat, index) => {
                         const chatMessages = chatMessagesArray[index];
                         let lastMessage = chatMessages.sort((a, b) => new Date(b.sentTime) - new Date(a.sentTime));
-                        // console.log("Last Message: ", lastMessage)
-                        // console.log("Chat: ", chat);
                         lastMessage = lastMessage[0];
                         const unreadMessagesCount = chatMessages.reduce((count, message) => {
                             return count + (message.status === "UNREAD" && message.senderUsername !== receiverNickname ? 1 : 0);

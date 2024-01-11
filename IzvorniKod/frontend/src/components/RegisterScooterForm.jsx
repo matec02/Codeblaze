@@ -49,7 +49,6 @@ function RegisterScooterForm() {
 
         // Retrieve nickname from token
         const nickname = getNicknameFromToken();
-        console.log(nickname);
         if (!nickname) {
             setErrorMessage('User not authenticated.');
             return;
@@ -59,7 +58,6 @@ function RegisterScooterForm() {
             // First, make a GET request to fetch the user by nickname
             const userResponse = await fetch(`/api/users/by-nickname/${nickname}`);
             if (!userResponse.ok) {
-                console.log(userResponse);
                 setErrorMessage('User not found.');
                 console.error('User not found:', userResponse.statusText);
                 return;
@@ -81,7 +79,6 @@ function RegisterScooterForm() {
                 }
 
                 const imageUploadResult = await imageUploadResponse.json();
-                console.log(imageUploadResult)
                 const photoUrl = imageUploadResult.image;
 
                 const formData = new FormData();
@@ -96,7 +93,6 @@ function RegisterScooterForm() {
 
                 if (response.ok) {
                     const result = await response.json();
-                    console.log("Scooter Registered: ", result);
                     const handleScootersAndUpgradeRole = async () => {
                         const result = await checkScootersAndUpgrade(user.userId);
                         if (result.success) {
@@ -107,7 +103,7 @@ function RegisterScooterForm() {
                     setShowNotification(true);
                     setTimeout(() => {
                         setShowNotification(false);
-                        navigate('/home'); // Navigate after the notification
+                        navigate('/scooters'); // Navigate after the notification
                     }, 1500);
                 } else {
                     setErrorMessage('Scooter registration failed.');

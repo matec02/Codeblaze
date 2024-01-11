@@ -67,7 +67,6 @@ function LoginForm() {
                 }
                 else {
                     localStorage.setItem('authToken', data.authToken);
-                    console.log("DODAN TOKEN")
                     const decodedToken = jwtDecode(data.authToken);
                     // Determine the navigation path based on whether the user is an admin
                     const isAdmin = admins.includes(decodedToken.nickname);

@@ -39,5 +39,8 @@ public class Message {
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false, length = 50)
     private MessageType messageType = MessageType.REGULAR;
+
+    @Column(name = "listingId")
+    private Long listingId = null;
 }
 

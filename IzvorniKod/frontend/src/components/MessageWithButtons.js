@@ -1,7 +1,7 @@
 import React from 'react';
 import "./MessageWithButtons.css";
 
-function MessageWithButtons({text, sender, isSeen}) {
+function MessageWithButtons({ senderUsername, listingId, text, sender, isSeen }) {
 
     const renderSeenIndicator = () => {
         if (sender === 'mine' && isSeen == true) {
@@ -10,13 +10,46 @@ function MessageWithButtons({text, sender, isSeen}) {
         return null;
     };
 
-    function handleOnAccpet() {
-        console.log("ACCEPT");
-    }
+    const handleOnAccept = async () => {
+        try {
+            const formData = new FormData();
+            formData.append('status', new Blob([JSON.stringify("RENTED")], { type: "application/json" }));
+            formData.append('clientUsername', new Blob([JSON.stringify(senderUsername)], { type: "application/json" }));
 
-    function handleOnDecline() {
-        console.log("REJECT");
-    }
+            const response = await fetch(`/api/listing/update-listing/${listingId}`, {
+                method: 'PUT',
+                body: formData,
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to update listing');
+            }
+
+        } catch (error) {
+            console.error('Error updating listing:', error);
+        }
+    };
+
+    const handleOnDecline = async () => {
+        try {
+            const data = [{status:"ACTIVE"}]
+
+            const response = await fetch(`/update-listing-status/${listingId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to update listing status');
+            }
+        } catch (error) {
+            console.error('Error updating listing status:', error);
+        }
+    };
+
 
     return (
         <div className={`message ${sender}`}>
@@ -25,13 +58,13 @@ function MessageWithButtons({text, sender, isSeen}) {
                     {text.split('\n').map((line, index) => (
                         <span key={index}>
                             {line}
-                            <br/>
+                            <br />
                         </span>
                     ))}
                 </p>
-                {(sender === "theirs") &&
+                { (sender === "theirs") &&
                     <div className="message-buttons">
-                        <button onClick={handleOnAccpet}>Prihvati</button>
+                        <button onClick={handleOnAccept}>Prihvati</button>
                         <button onClick={handleOnDecline}>Odbij</button>
                     </div>
                 }

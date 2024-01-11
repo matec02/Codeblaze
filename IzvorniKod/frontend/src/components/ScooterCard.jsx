@@ -188,7 +188,6 @@ function ScooterCard({listing}) {
         setErrorMessage('');
 
         const nickname = getNicknameFromToken();
-        console.log(nickname);
         if (!nickname) {
             setErrorMessage('User not authenticated.');
             return;
@@ -236,7 +235,6 @@ function ScooterCard({listing}) {
                 if (newImageResponse.ok) {
                     const result = await newImageResponse.json();
                     console.log(result)
-                    console.log("Poslan zahtjev za promjenu")
                     setIsRequestOpen(false);
                     setNewImage(null);
                     setComments('');
@@ -264,8 +262,6 @@ function ScooterCard({listing}) {
                 if (response.ok) {
                     var fetchedUserId = await response.json();
                     fetchedUserId = fetchedUserId.userId;
-                    console.log("Fetched User ID: ", fetchedUserId);
-                    console.log("OBJEKTNI User ID: ", scooter.user.userId)
                     console.log(scooter.userId == fetchedUserId);
                     setIsCurrentUserOwner(scooter.user.userId == fetchedUserId);
                 }
@@ -277,26 +273,6 @@ function ScooterCard({listing}) {
         checkOwnership();
     }, [scooter.userId]);
 
-    /*const fetchScooterAvailability = async () => {
-    try {
-        const response = await fetch(`/api/scooters/update-availability/${scooterId}`);
-        if (response.ok) {
-            var data = await response.json();
-            console.log(data)
-            setIsAdvertised(data.availability);
-        } else {
-            console.error("Error fetching scooter availability");
-        }
-    } catch (error) {
-        console.error('Error:', error);
-    }
-};
-
-useEffect(() => {
-    fetchScooterAvailability();
-}, [scooter.scooterId]);*/
-
-    console.log("IsCUO: ", isCurrentUserOwner);
     const determineButtons = () => {
         if (curUser.userId === clientId && status === "RENTED") {
             return [
@@ -319,10 +295,11 @@ useEffect(() => {
     const buttons = determineButtons();
 
     const handleRequest = async () => {
+        console.log(listingId);
         try {
             const data = {status: "REQUESTED"}
 
-            const response = await fetch(`/api/scooters/update-listing-status/${listingId}`, {
+            const response = await fetch(`/api/listing/update-listing-status/${listingId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -334,7 +311,7 @@ useEffect(() => {
                 throw new Error('Failed to update listing status');
             }
 
-            const chatSessionId = await sendMessageWithAction(scooter.user, curUser);
+            const chatSessionId = await sendMessageWithAction(scooter.user, listingId);
             //navigate(`/chat-window/${chatSessionId}`);
             navigate(`/chat-panel`);
 
@@ -348,7 +325,7 @@ useEffect(() => {
         try {
             const data = {status: "RETURNED"}
 
-            const response = await fetch(`/api/scooters/update-listing-status/${listingId}`, {
+            const response = await fetch(`/api/listing/update-listing-status/${listingId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -369,7 +346,7 @@ useEffect(() => {
 
     const handleDeleteListing = async () => {
         try {
-            const response = await fetch(`/api/scooters/delete-listing/${listing.listingId}`, {
+            const response = await fetch(`/api/listing/delete-listing/${listing.listingId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -408,7 +385,7 @@ useEffect(() => {
         const handleAdSubmit = async (event) => {
             event.preventDefault();
             try {
-                const response = await fetch(`/api/scooters/edit-listing/${listing.listingId}`, {
+                const response = await fetch(`/api/listing/edit-listing/${listing.listingId}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

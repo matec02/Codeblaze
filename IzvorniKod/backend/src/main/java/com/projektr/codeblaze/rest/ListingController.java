@@ -1,10 +1,15 @@
 package com.projektr.codeblaze.rest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.projektr.codeblaze.domain.Listing;
 import com.projektr.codeblaze.domain.Scooter;
 import com.projektr.codeblaze.domain.User;
 import com.projektr.codeblaze.domain.ListingStatus;
+import com.projektr.codeblaze.service.DocumentService;
 import com.projektr.codeblaze.service.ScooterService;
+import com.projektr.codeblaze.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,19 +20,19 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/scooters")
+@RequestMapping("/api/listing")
 public class ListingController {
     private final ScooterService scooterService;
+    private final UserService userService;
+
+    private static final Logger logger = LoggerFactory.getLogger(DocumentService.class);
 
     @Autowired
-    public ListingController(ScooterService scooterService) {
+    public ListingController(ScooterService scooterService, UserService userService) {
         this.scooterService = scooterService;
+        this.userService = userService;
     }
-    @GetMapping("/get-available-scooters")
-    public List<Listing> getAllListings() {
 
-        return scooterService.getAvailableScooters(true);
-    }
 
     @GetMapping("get-listings/{listingStatus}")
     public ResponseEntity<List<Listing>> getListingsByStatus(@PathVariable String listingStatus) {
@@ -63,4 +68,28 @@ public class ListingController {
         Listing listing = scooterService.updateListingStatus(listingId, newStatus);
         return ResponseEntity.ok(listing);
     }
+
+    @PutMapping("/update-listing/{listingId}")
+    public ResponseEntity<?> updateListing(@PathVariable Long listingId,
+                                           @RequestPart("status") String statusJson,
+                                           @RequestPart("clientUsername") String clientUsernameJson) {
+        logger.info("Request to update listing received. Listing ID: {}", listingId);
+
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            String status = objectMapper.readValue(statusJson, String.class);
+            String clientUsername = objectMapper.readValue(clientUsernameJson, String.class);
+
+            Listing listing = scooterService.updateListing(listingId, clientUsername, status);
+            if (listing != null) {
+                return ResponseEntity.ok(listing);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Listing not found for ID: " + listingId);
+            }
+        } catch (Exception e) {
+            logger.error("An error occurred during scooter registration", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred during scooter registration.");
+        }
+    }
+
 }

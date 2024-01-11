@@ -45,7 +45,6 @@ function ChatWindow() {
 
         return sortedMessages[0].messageId;
     };
-    // console.log(lastSentMessageId);
 
     useEffect(() => {
         const fetchMessages = async () => {
@@ -157,11 +156,15 @@ function ChatWindow() {
                 {messages.map(message => {
                     const messageSenderClass = message.senderUsername === currentNickname ? 'mine' : 'theirs';
                     const isLastSentMessage = message.messageId === lastSentMessageId(messages);
+                    //console.log(message.listingId) tu je undefined
+                    //console.log(message.text) ovaj je dobar
 
                     if (message.messageType === "ACTION") {
                         return (
                             <MessageWithButtons
                                 key={message.messageId}
+                                senderUsername={message.senderUsername}
+                                listingId={message.listingId}
                                 text={message.text}
                                 sender={messageSenderClass}
                                 isSeen={
