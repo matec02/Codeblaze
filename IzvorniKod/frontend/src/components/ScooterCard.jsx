@@ -97,7 +97,7 @@ function ScooterCard({listing}) {
     const [isAdModalOpen, setIsAdModalOpen] = useState(false);
 
 
-    const {scooter, clientId, status, listingId} = listing;
+    const {scooter, user, status, listingId} = listing;
     const {userId, scooterId, imagePath, model, maxSpeed, batteryCapacity} = scooter;
 
     useEffect(() => {
@@ -274,7 +274,7 @@ function ScooterCard({listing}) {
     }, [scooter.userId]);
 
     const determineButtons = () => {
-        if (curUser.userId === clientId && status === "RENTED") {
+        if (user.userId && curUser.userId === user.userId && status === "RENTED") {
             return [
                 {text: 'Vrati', onClick: (e) => handleButtonClick(e, 'vrati')},
                 {text: 'Prijavi', onClick: (e) => handleButtonClick(e, 'prijavi')}
