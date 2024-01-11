@@ -1,7 +1,7 @@
 import React from 'react';
 import "./MessageWithButtons.css";
 
-function MessageWithButtons({ text, sender, isSeen }) {
+function MessageWithButtons({text, sender, isSeen}) {
 
     const renderSeenIndicator = () => {
         if (sender === 'mine' && isSeen == true) {
@@ -11,7 +11,7 @@ function MessageWithButtons({ text, sender, isSeen }) {
     };
 
     function handleOnAccpet() {
-        console.log("ACCEPTT");
+        console.log("ACCEPT");
     }
 
     function handleOnDecline() {
@@ -25,11 +25,11 @@ function MessageWithButtons({ text, sender, isSeen }) {
                     {text.split('\n').map((line, index) => (
                         <span key={index}>
                             {line}
-                            <br />
+                            <br/>
                         </span>
                     ))}
                 </p>
-                { (sender === "theirs") &&
+                {(sender === "theirs") &&
                     <div className="message-buttons">
                         <button onClick={handleOnAccpet}>Prihvati</button>
                         <button onClick={handleOnDecline}>Odbij</button>

@@ -44,10 +44,6 @@
     border-top: 1px solid #ccc;
 }
 
-.mine {
-    background-color: #FFD860;
-    align-self: flex-end; /* Poravnavanje na desnu stranu za poruke ulogiranog korisnika */
-}
 
 .theirs {
     background-color: #e1e1e1;
@@ -129,7 +125,6 @@
 
 /* ... other styles ... */
 
-.mine,
 .theirs {
     max-width: 80%; /* Limit the width of message bubbles */
     margin-bottom: 10px; /* Space between messages */
@@ -141,8 +136,17 @@
 
 .mine {
     background-color: #FFD860;
-    align-self: flex-end; /* Right-align for sender's messages */
+    align-self: flex-end; /* Poravnavanje na desnu stranu za poruke ulogiranog korisnika */
+    max-width: 80%; /* Ograničavanje širine poruka */
+    margin-bottom: 10px; /* Razmak između poruka */
+    padding: 10px; /* Unutarnji razmak */
+    border-radius: 16px; /* Zaobljeni rubovi */
+    color: black; /* Boja teksta */
+    word-wrap: break-word; /* Omogućava prelamanje dugih riječi */
+    position: relative; /* Pozicioniranje za "Seen" indikator */
+    padding-bottom: 20px; /* Dodatni prostor na dnu za "Seen" indikator */
 }
+
 
 .theirs {
     background-color: #e1e1e1;
@@ -207,4 +211,16 @@
 
 .send-message-button:hover {
     background-color: #e6c855; /* Slightly darker on hover */
+}
+
+.other-user-header {
+    background-color: #000000; /* Svijetla pozadinska boja */
+    padding: 10px; /* Unutarnji razmak */
+    text-align: center; /* Centriranje teksta */
+    border-bottom: 1px solid #ccc; /* Donja granica za odvajanje od ostatka poruka */
+    font-size: 1.2em; /* Veća veličina fonta */
+    color: #FFD860; /* Boja teksta */
+    font-weight: bold; /* Podebljanje teksta */
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }

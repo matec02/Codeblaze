@@ -1,16 +1,35 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import "./ChatWindow.css";
-import { useParams } from "react-router-dom";
+import {useParams} from "react-router-dom";
 import {getNicknameFromToken, getUserFromToken} from "../utils/authService";
 import ChatMessage from "./ChatMessage";
 import {getChatSessionById} from "../utils/MessageUtils";
 import MessageWithButtons from "./MessageWithButtons";
+import {ProfileModal} from "./ScooterCard";
 
 function ChatWindow() {
     const [newMessage, setNewMessage] = useState('');
     const [messages, setMessages] = useState([]); // State to store messages from the server
-    const { chatSessionId } = useParams();
+    const {chatSessionId} = useParams();
     const currentNickname = getNicknameFromToken()
+    const [otherUser, setOtherUser] = useState(null);
+    const [userProfile, setUserProfile] = useState('');
+    const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+
+    const handleViewProfile = async (event) => {
+        event.stopPropagation();
+        try {
+            const response = await fetch(`/api/users/by-nickname/${otherUser}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch user profile');
+            }
+            const profileData = await response.json();
+            setUserProfile(profileData);
+            setIsProfileModalOpen(true);
+        } catch (error) {
+            console.error('Error fetching profile:', error);
+        }
+    };
 
     const lastSentMessageId = (messages) => {
         if (!Array.isArray(messages) || messages.length === 0) {
@@ -29,36 +48,57 @@ function ChatWindow() {
     // console.log(lastSentMessageId);
 
     useEffect(() => {
-        console.log(messages);
+        const fetchMessages = async () => {
+            try {
+                const response = await fetch(`/api/messages/session/${chatSessionId}`);
+                if (!response.ok) throw new Error('Failed to fetch messages');
+                const data = await response.json();
+                setMessages(data); // Spremanje poruka u state
+            } catch (error) {
+                console.error(error.message);
+            }
+        };
+
+        const fetchChatSession = async () => {
+            try {
+                const response = await fetch(`/api/chat-session/${chatSessionId}`);
+                if (!response.ok) throw new Error('Failed to fetch chat session');
+                const chatSessionData = await response.json();
+
+                const currentNickname = getNicknameFromToken();
+                console.log(currentNickname);
+                // Pretpostavljamo da chatSessionData sadrži objekte user1 i user2 s nadimcima
+                const otherUserNickname = chatSessionData.user1.nickname === currentNickname
+                    ? chatSessionData.user2.nickname
+                    : chatSessionData.user1.nickname;
+                console.log(otherUserNickname);
+
+                setOtherUser(otherUserNickname);
+            } catch (error) {
+                console.error('Error fetching chat session:', error);
+            }
+        };
+
         const markMessagesAsRead = async () => {
             try {
-                const responseSeen = fetch(`/api/messages/session/${chatSessionId}/mark-read`, {
+                const responseSeen = await fetch(`/api/messages/session/${chatSessionId}/mark-read`, {
                     method: "POST",
                     body: currentNickname
                 });
                 if (!responseSeen.ok) {
                     throw new Error("Failed to mark messages as read");
                 }
-                console.log("Messages marked as read")
+                console.log("Messages marked as read");
             } catch (error) {
                 console.error("Error marking messages as read", error);
-            }
-        }
-
-        markMessagesAsRead();
-        const fetchMessages = async () => {
-            try {
-                const response = await fetch(`/api/messages/session/${chatSessionId}`);
-                if (!response.ok) throw new Error('Failed to fetch messages');
-                const data = await response.json();
-                setMessages(data); // Store the messages in state
-            } catch (error) {
-                console.error(error.message);
             }
         };
 
         fetchMessages();
+        fetchChatSession();
+        markMessagesAsRead();
     }, [chatSessionId]);
+
 
     const sendMessage = async () => {
         if (!newMessage.trim()) return;
@@ -94,6 +134,7 @@ function ChatWindow() {
             console.error('Error sending message:', error);
         }
     };
+
     function handleKeyDown(e) {
         if (e.key === 'Enter') {
             sendMessage();
@@ -106,6 +147,12 @@ function ChatWindow() {
 
     return (
         <div className="chat-container">
+            {otherUser && (
+                <div className="other-user-header">
+                    <div onClick={(e) => handleViewProfile(e)}
+                         style={{cursor: 'pointer'}}>{otherUser}</div>
+                </div>
+            )}
             <div className="messages-container">
                 {messages.map(message => {
                     const messageSenderClass = message.senderUsername === currentNickname ? 'mine' : 'theirs';
@@ -156,7 +203,13 @@ function ChatWindow() {
                     Pošalji
                 </button>
             </div>
+            <ProfileModal
+                isOpen={isProfileModalOpen}
+                onClose={() => setIsProfileModalOpen(false)}
+                profile={userProfile}
+            />
         </div>
+
     );
 
 }

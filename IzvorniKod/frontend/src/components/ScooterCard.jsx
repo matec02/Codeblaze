@@ -3,12 +3,61 @@ import './ScooterCard.css'
 import {Form, useNavigate} from "react-router-dom";
 import ProfileAvatar from '../assets/profile-avatar.png';
 import {getNicknameFromToken} from "./RegisterScooterForm";
-import { format } from 'date-fns';
+import {format} from 'date-fns';
 import {sendMessageWithAction, startConversation} from "../utils/MessageUtils";
 import {getCodeblazeUser} from "../utils/authService";
-import { FaFacebook, FaTwitter, FaLinkedin} from 'react-icons/fa';
+import {FaFacebook, FaTwitter, FaLinkedin} from 'react-icons/fa';
 
+export const ProfileModal = ({isOpen, onClose, profile}) => {
+    const [privacySettings, setPrivacySettings] = useState(null);
+    const navigate = useNavigate();
 
+    useEffect(() => {
+        const fetchPrivacySettings = async () => {
+            try {
+                const response = await fetch(`/api/privacy-settings/${profile.userId}`);
+                if (!response.ok) {
+                    throw new Error("Failed to fetch Privacy Settings");
+                }
+                const ps = await response.json();
+                setPrivacySettings(ps);
+            } catch (error) {
+                console.error(error.message);
+            }
+        };
+
+        if (isOpen) {
+            fetchPrivacySettings();
+        }
+    }, [isOpen, profile.userId]);
+
+    if (!isOpen) return null;
+
+    const handleStartConversation = async () => {
+        const {chatSessionId} = await startConversation(profile);
+        if (chatSessionId) {
+            navigate(`/chat-window/${chatSessionId}`);
+        } else {
+            console.log("Unable to start conversation")
+        }
+    }
+
+    return (
+        <div className="modal-overlay" onClick={onClose}>
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+
+                <h3>{profile.nickname}</h3>
+
+                {privacySettings?.firstNameVisible && <h4>Name {profile.firstName}</h4>}
+                {privacySettings?.lastNameVisible && <h4>Lastname {profile.lastName}</h4>}
+                {privacySettings?.emailVisible && <h4>E-mail {profile.email}</h4>}
+                {privacySettings?.phoneNumberVisible && <h4>Phone Number: {profile.phoneNumber} </h4>}
+                <button onClick={handleStartConversation}>Pošalji Poruku</button>
+                <button className="modal-close-button" onClick={onClose}>Close</button>
+            </div>
+        </div>
+    );
+};
 export const handleImagePathChange = async (scooterId, imagePath) => {
     try {
         const response = await fetch(`/api/scooters/${scooterId}/updateImagePath`, {
@@ -16,7 +65,7 @@ export const handleImagePathChange = async (scooterId, imagePath) => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ "imagePath": imagePath })
+            body: JSON.stringify({"imagePath": imagePath})
         });
 
 
@@ -28,7 +77,8 @@ export const handleImagePathChange = async (scooterId, imagePath) => {
         console.error('Error updating imagePath in updating status:', error);
     }
 };
-function ScooterCard({ listing }) {
+
+function ScooterCard({listing}) {
     const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = useState('');
     const [isImageOpen, setIsImageOpen] = useState(false);
@@ -47,8 +97,8 @@ function ScooterCard({ listing }) {
     const [isAdModalOpen, setIsAdModalOpen] = useState(false);
 
 
-    const { scooter, clientId, status, listingId} = listing;
-    const { userId, scooterId, imagePath, model, maxSpeed, batteryCapacity } = scooter;
+    const {scooter, clientId, status, listingId} = listing;
+    const {userId, scooterId, imagePath, model, maxSpeed, batteryCapacity} = scooter;
 
     useEffect(() => {
         handleUser();
@@ -105,62 +155,6 @@ function ScooterCard({ listing }) {
         }
     };
 
-    async function handleTestButton() {
-        const user2 = await getCodeblazeUser()
-        sendMessageWithAction("Codeblaze", user2);
-    }
-
-    const ProfileModal = ({ isOpen, onClose, profile }) => {
-        const [privacySettings, setPrivacySettings] = useState(null);
-
-        useEffect(() => {
-            const fetchPrivacySettings = async () => {
-                try {
-                    const response = await fetch(`/api/privacy-settings/${profile.userId}`);
-                    if (!response.ok) {
-                        throw new Error("Failed to fetch Privacy Settings");
-                    }
-                    const ps = await response.json();
-                    setPrivacySettings(ps);
-                } catch (error) {
-                    console.error(error.message);
-                }
-            };
-
-            if (isOpen) {
-                fetchPrivacySettings();
-            }
-        }, [isOpen, profile.userId]);
-
-        if (!isOpen) return null;
-
-        const handleStartConversation = async () => {
-            const { chatSessionId } = await startConversation(profile);
-            if (chatSessionId) {
-                navigate(`/chat-window/${chatSessionId}`);
-            } else {
-                console.log("Unable to start conversation")
-            }
-        }
-
-        return (
-            <div className="modal-overlay" onClick={onClose}>
-                <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-
-                    <h3>{profile.nickname}</h3>
-
-                    {privacySettings?.firstNameVisible && <h4>Name {profile.firstName}</h4>}
-                    {privacySettings?.lastNameVisible && <h4>Lastname {profile.lastName}</h4>}
-                    {privacySettings?.emailVisible && <h4>E-mail {profile.email}</h4>}
-                    {privacySettings?.phoneNumberVisible && <h4>Phone Number: {profile.phoneNumber} </h4>}
-
-                    <button onClick={handleTestButton}>TEST BUTTON</button>
-                    <button onClick={handleStartConversation}>Pošalji Poruku</button>
-                    <button className="modal-close-button" onClick={onClose}>Close</button>
-                </div>
-            </div>
-        );
-    };
 
     const openAdModal = useCallback(() => {
         setIsAdModalOpen(true);
@@ -228,11 +222,11 @@ function ScooterCard({ listing }) {
                 const dateTimeString = currentDateTime.toISOString();
 
                 const newImageFormData = new FormData();
-                newImageFormData.append('complaintTime',dateTimeString);
-                newImageFormData.append('photoUrlOldImage', new Blob([JSON.stringify(imagePath)], { type: "application/json" }));
-                newImageFormData.append('additionalComments', new Blob([JSON.stringify(comments)], { type: "application/json" }))
-                newImageFormData.append('photoUrlNewImage', new Blob([JSON.stringify(photoUrlNewImage)], { type: "application/json" }));
-                newImageFormData.append('user', new Blob([JSON.stringify(user)], { type: "application/json" }));
+                newImageFormData.append('complaintTime', dateTimeString);
+                newImageFormData.append('photoUrlOldImage', new Blob([JSON.stringify(imagePath)], {type: "application/json"}));
+                newImageFormData.append('additionalComments', new Blob([JSON.stringify(comments)], {type: "application/json"}))
+                newImageFormData.append('photoUrlNewImage', new Blob([JSON.stringify(photoUrlNewImage)], {type: "application/json"}));
+                newImageFormData.append('user', new Blob([JSON.stringify(user)], {type: "application/json"}));
 
                 const newImageResponse = await fetch('/api/imageChangeRequest/send', {
                     method: 'POST',
@@ -306,19 +300,18 @@ useEffect(() => {
     const determineButtons = () => {
         if (curUser.userId === clientId && status === "RENTED") {
             return [
-                { text: 'Vrati', onClick: (e) => handleButtonClick(e, 'vrati') },
-                { text: 'Prijavi', onClick: (e) => handleButtonClick(e, 'prijavi') }
+                {text: 'Vrati', onClick: (e) => handleButtonClick(e, 'vrati')},
+                {text: 'Prijavi', onClick: (e) => handleButtonClick(e, 'prijavi')}
             ];
-        }
-        else if (isCurrentUserOwner) {
+        } else if (isCurrentUserOwner) {
             return [
-                { text: 'Uredi', onClick: (e) => handleButtonClick(e, 'uredi') },
-                { text: 'Izbriši', onClick: (e) => handleButtonClick(e, 'izbrisi') }
+                {text: 'Uredi', onClick: (e) => handleButtonClick(e, 'uredi')},
+                {text: 'Izbriši', onClick: (e) => handleButtonClick(e, 'izbrisi')}
             ];
         } else {
             return [
-                { text: 'Unajmi', onClick: (e) => handleButtonClick(e, 'unajmi') },
-                { text: 'Prijavi', onClick: (e) => handleButtonClick(e, 'prijavi') }
+                {text: 'Unajmi', onClick: (e) => handleButtonClick(e, 'unajmi')},
+                {text: 'Prijavi', onClick: (e) => handleButtonClick(e, 'prijavi')}
             ];
         }
     };
@@ -327,7 +320,7 @@ useEffect(() => {
 
     const handleRequest = async () => {
         try {
-            const data = {status:"REQUESTED"}
+            const data = {status: "REQUESTED"}
 
             const response = await fetch(`/api/scooters/update-listing-status/${listingId}`, {
                 method: 'PUT',
@@ -353,7 +346,7 @@ useEffect(() => {
 
     const handleReturn = async () => {
         try {
-            const data = {status:"RETURNED"}
+            const data = {status: "RETURNED"}
 
             const response = await fetch(`/api/scooters/update-listing-status/${listingId}`, {
                 method: 'PUT',
@@ -501,7 +494,8 @@ useEffect(() => {
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                         <div className="expanded-content">
                             <img src={imagePath} alt={`${model} Scooter`} className="scooter-image"/>
-                            <img src={ProfileAvatar} alt={"PROFILE"} className="profile-avatar" onClick={(e) => handleViewProfile(e)}
+                            <img src={ProfileAvatar} alt={"PROFILE"} className="profile-avatar"
+                                 onClick={(e) => handleViewProfile(e)}
                                  style={{cursor: 'pointer'}}/>
                             <div className="scooter-details">
                                 <h3>{model}</h3>
@@ -567,11 +561,12 @@ useEffect(() => {
                             </div>
                             <div className="form-group">
                                 <label> Dodatni komentari
-                                    <textarea name="comments" value={comments} onChange={(e) => setComments(e.target.value)}/>
+                                    <textarea name="comments" value={comments}
+                                              onChange={(e) => setComments(e.target.value)}/>
                                 </label>
                             </div>
                             <button className="scooter-button" onClick={() => setIsVisible(false)}>Zatvori</button>
-                            <button type="submit" >Pošalji zahtjev za zamjenom slike</button>
+                            <button type="submit">Pošalji zahtjev za zamjenom slike</button>
                         </div>
                     </form>
 
