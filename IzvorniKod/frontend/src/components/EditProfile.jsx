@@ -174,17 +174,6 @@ function EditProfile() {
     };
 
 
-    // Karlin kod koji ne funkcionira
-    /*
-    const save = () => {
-        //logika za spremanje novih podataka
-
-        navigate('/');
-    };*/
-
-
-
-
 
 
     return (
