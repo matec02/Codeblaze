@@ -111,7 +111,6 @@ function ImageChange(){
             formDataAdminDecision.append('reason', new Blob([JSON.stringify(reason)], { type: "application/json" }));
             formDataAdminDecision.append('newStatus', new Blob([JSON.stringify(requestStatus)], { type: "application/json" }));
             formDataAdminDecision.append('requestId', new Blob([JSON.stringify(requestId)], { type: "application/json" }));
-            console.log(requestId);
 
             const response = await fetch (`api/imageChangeRequest/adminDecision`, {
                 method: 'PUT',

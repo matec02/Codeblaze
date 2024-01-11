@@ -58,7 +58,6 @@ function RegisterForm() {
                 body: formDataCR,
             });
 
-            console.log("OKEJ");
             if (responseCR.ok) {
                 const imageUploadCR = await responseCR.json();
 

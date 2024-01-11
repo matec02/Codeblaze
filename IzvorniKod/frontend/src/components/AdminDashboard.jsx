@@ -53,8 +53,6 @@ function AdminDashboard() {
             }
 
             const data = await response.json();
-            console.log("dokumenti");
-            console.log(data);
             setDocuments(data);
 
         } catch (error) {

@@ -112,7 +112,6 @@ export const isAdmin = () => {
         return false;
     }
     let currentRole = getRoleFromToken();
-    console.log("Current Role: ", currentRole);
     if (currentRole === "ADMIN") {
         return true;
     }

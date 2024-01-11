@@ -12,14 +12,13 @@ function MessageWithButtons({ senderUsername, listingId, text, sender, isSeen })
 
     const handleOnAccept = async () => {
         try {
-            const data = [{status:"RENTED", clientUsername:senderUsername}]
+            const formData = new FormData();
+            formData.append('status', new Blob([JSON.stringify("RENTED")], { type: "application/json" }));
+            formData.append('clientUsername', new Blob([JSON.stringify(senderUsername)], { type: "application/json" }));
 
-            const response = await fetch(`/api/scooters/update-listing/${listingId}`, {
+            const response = await fetch(`/api/listing/update-listing/${listingId}`, {
                 method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data)
+                body: formData,
             });
 
             if (!response.ok) {

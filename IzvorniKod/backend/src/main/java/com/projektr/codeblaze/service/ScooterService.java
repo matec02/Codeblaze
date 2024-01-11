@@ -33,6 +33,7 @@ public class ScooterService {
     private final UserRepository userRepository;
 
     private final ListingRepository listingRepository;
+
     private static final Logger logger = LoggerFactory.getLogger(DocumentService.class);
 
     private static String UPLOAD_FOLDER  = "./IzvorniKod/src/main/resources/static/images";
@@ -178,6 +179,7 @@ public class ScooterService {
     }
 
     public Listing updateListing(Long listingId, String clientUsername, String status) {
+        logger.error("LISTING ID", listingId);
         Listing listing = listingRepository.findById(listingId).orElseThrow(NoSuchElementException::new);
         User user = userRepository.findByNickname(clientUsername);
 

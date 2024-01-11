@@ -112,7 +112,6 @@ function ScooterCardHome({ scooter }) {
         setErrorMessage('');
 
         const nickname = getNicknameFromToken();
-        console.log(nickname);
         if (!nickname) {
             setErrorMessage('User not authenticated.');
             return;
@@ -176,8 +175,6 @@ function ScooterCardHome({ scooter }) {
                 if (response.ok) {
                     var fetchedUserId = await response.json();
                     fetchedUserId = fetchedUserId.userId;
-                    console.log("Fetched User ID: ", fetchedUserId);
-                    console.log("OBJEKTNI User ID: ", scooter.user.userId)
                     console.log(scooter.userId == fetchedUserId);
                     setIsCurrentUserOwner(scooter.user.userId == fetchedUserId);
                 }
@@ -286,8 +283,6 @@ function ScooterCardHome({ scooter }) {
                 ...localListing,
                 scooterData: scooter
             };
-            console.log("LOCAL LISTING");
-            console.log(localListing);
             try {
                 const response = await fetch(`/api/scooters/update-availability/${scooterId}`, {
                     method: 'POST',
@@ -434,7 +429,6 @@ function ScooterCardHome({ scooter }) {
     }
 
 
-    console.log("IsCUO: ", isCurrentUserOwner);
     if (!isCurrentUserOwner) {
         return null;
     }

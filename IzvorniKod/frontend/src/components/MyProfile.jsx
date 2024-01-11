@@ -38,8 +38,6 @@ function MyProfile() {
 
                     if (response.ok) {
                         const userData = await response.json();
-                        //console.log("OVO JE NAS USER");
-                        //console.log(userData);
                         setUser(userData);
 
                         fetchPrivacySettings(userData.userId);
@@ -57,7 +55,6 @@ function MyProfile() {
 
         const fetchPrivacySettings = async (userId) => {
             try {
-                //console.log("USER ID: ", userId);
                 const response = await fetch(`/api/privacy-settings/${userId}`, {
                     method: 'GET',
                     headers: {
@@ -67,8 +64,6 @@ function MyProfile() {
 
                 if (response.ok) {
                     const settings = await response.json();
-                    //console.log("privacy settings pri kliku na account: ");
-                    //console.log(settings);
                     setPrivacySettings(settings);
                 } else {
                     setErrorMessage('Unable to fetch privacy settings.');
@@ -106,13 +101,10 @@ function MyProfile() {
             });
 
             if (response.ok) {
-                //console.log("ono sta se treba pospremit");
-                //console.log(privacySettings);
                 navigate("/")
 
                 //     TODO POPUP ili ALERT changes have been saved
             } else {
-                // Handle errors here
                 setErrorMessage('Failed to save privacy settings.');
             }
         } catch (error) {

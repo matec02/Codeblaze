@@ -20,8 +20,6 @@ export const startConversation = async function initializeChatSession(user2) {
     const formData = new FormData();
     formData.append('user1', new Blob([JSON.stringify(user1)], {type: "application/json"}));
     formData.append('user2', new Blob([JSON.stringify(user2)], {type: "application/json"}));
-    console.log("USER1: ", user1);
-    console.log("USER2: ", user2);
     try {
         const response = await fetch("/api/chat-session/start", {
             method: "POST",

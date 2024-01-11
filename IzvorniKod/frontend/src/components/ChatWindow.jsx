@@ -26,7 +26,6 @@ function ChatWindow() {
 
         return sortedMessages[0].messageId;
     };
-    // console.log(lastSentMessageId);
 
     useEffect(() => {
         console.log(messages);

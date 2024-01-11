@@ -27,7 +27,7 @@ function Home() {
     const handleAvailableListings = async () => {
         setErrorMessage('');
         try {
-            const response = await fetch("/api/scooters/get-listings/AVAILABLE", {
+            const response = await fetch("/api/listing/get-listings/AVAILABLE", {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ function Home() {
     const handleRentedListings = async () => {
         setErrorMessage('');
         try {
-            const response = await fetch("/api/scooters/get-listings/RENTED", {
+            const response = await fetch("/api/listing/get-listings/RENTED", {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -62,6 +62,7 @@ function Home() {
             }
 
             const data = await response.json();
+
             setRentedListings(data);
 
         } catch (error) {
