@@ -326,6 +326,7 @@ useEffect(() => {
     const buttons = determineButtons();
 
     const handleRequest = async () => {
+        console.log(listingId);
         try {
             const data = {status:"REQUESTED"}
 
@@ -341,7 +342,7 @@ useEffect(() => {
                 throw new Error('Failed to update listing status');
             }
 
-            const chatSessionId = await sendMessageWithAction(scooter.user, curUser);
+            const chatSessionId = await sendMessageWithAction(scooter.user, listingId);
             //navigate(`/chat-window/${chatSessionId}`);
             navigate(`/chat-panel`);
 

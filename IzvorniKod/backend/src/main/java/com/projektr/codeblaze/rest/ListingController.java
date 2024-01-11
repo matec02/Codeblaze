@@ -1,10 +1,10 @@
 package com.projektr.codeblaze.rest;
 
 import com.projektr.codeblaze.domain.Listing;
-import com.projektr.codeblaze.domain.Scooter;
 import com.projektr.codeblaze.domain.User;
 import com.projektr.codeblaze.domain.ListingStatus;
 import com.projektr.codeblaze.service.ScooterService;
+import com.projektr.codeblaze.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +18,12 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/scooters")
 public class ListingController {
     private final ScooterService scooterService;
+    private final UserService userService;
 
     @Autowired
-    public ListingController(ScooterService scooterService) {
+    public ListingController(ScooterService scooterService, UserService userService) {
         this.scooterService = scooterService;
+        this.userService = userService;
     }
     @GetMapping("/get-available-scooters")
     public List<Listing> getAllListings() {
@@ -63,4 +65,15 @@ public class ListingController {
         Listing listing = scooterService.updateListingStatus(listingId, newStatus);
         return ResponseEntity.ok(listing);
     }
+
+    @PutMapping("/update-listing/{listingId}")
+    public ResponseEntity<Listing> updateListing(@PathVariable Long listingId, Map<String, String> body) {
+
+        String clientUsername = body.get("clientUsername");
+        String status = body.get("status");
+
+        Listing listing = scooterService.updateListing(listingId, clientUsername, status);
+        return  ResponseEntity.ok(listing);
+    }
+
 }

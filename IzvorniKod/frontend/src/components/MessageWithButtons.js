@@ -1,7 +1,7 @@
 import React from 'react';
 import "./MessageWithButtons.css";
 
-function MessageWithButtons({ text, sender, isSeen }) {
+function MessageWithButtons({ senderUsername, listingId, text, sender, isSeen }) {
 
     const renderSeenIndicator = () => {
         if (sender === 'mine' && isSeen == true) {
@@ -10,13 +10,47 @@ function MessageWithButtons({ text, sender, isSeen }) {
         return null;
     };
 
-    function handleOnAccpet() {
-        console.log("ACCEPTT");
-    }
+    const handleOnAccept = async () => {
+        try {
+            const data = [{status:"RENTED", clientUsername:senderUsername}]
 
-    function handleOnDecline() {
-        console.log("REJECT");
-    }
+            const response = await fetch(`/api/scooters/update-listing/${listingId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to update listing');
+            }
+
+        } catch (error) {
+            console.error('Error updating listing:', error);
+        }
+    };
+
+    const handleOnDecline = async () => {
+        try {
+            const data = [{status:"ACTIVE"}]
+
+            const response = await fetch(`/update-listing-status/${listingId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to update listing status');
+            }
+
+        } catch (error) {
+            console.error('Error updating listing status:', error);
+        }
+    };
 
     return (
         <div className={`message ${sender}`}>
@@ -31,7 +65,7 @@ function MessageWithButtons({ text, sender, isSeen }) {
                 </p>
                 { (sender === "theirs") &&
                     <div className="message-buttons">
-                        <button onClick={handleOnAccpet}>Prihvati</button>
+                        <button onClick={handleOnAccept}>Prihvati</button>
                         <button onClick={handleOnDecline}>Odbij</button>
                     </div>
                 }

@@ -2,6 +2,7 @@ package com.projektr.codeblaze.service;
 
 import com.projektr.codeblaze.dao.ListingRepository;
 import com.projektr.codeblaze.dao.ScooterRepository;
+import com.projektr.codeblaze.dao.UserRepository;
 import com.projektr.codeblaze.domain.Listing;
 import com.projektr.codeblaze.domain.ListingStatus;
 import com.projektr.codeblaze.domain.Scooter;
@@ -10,7 +11,6 @@ import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,9 +20,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -33,14 +30,17 @@ import java.util.Optional;
 public class ScooterService {
     private final ScooterRepository scooterRepository;
 
+    private final UserRepository userRepository;
+
     private final ListingRepository listingRepository;
     private static final Logger logger = LoggerFactory.getLogger(DocumentService.class);
 
     private static String UPLOAD_FOLDER  = "./IzvorniKod/src/main/resources/static/images";
 
     @Autowired
-    public ScooterService(ScooterRepository scooterRepository, ListingRepository listingRepository){
+    public ScooterService(ScooterRepository scooterRepository, UserRepository userRepository, ListingRepository listingRepository){
         this.scooterRepository = scooterRepository;
+        this.userRepository = userRepository;
         this.listingRepository = listingRepository;
     }
 
@@ -177,4 +177,13 @@ public class ScooterService {
         return listingRepository.save(listing);
     }
 
+    public Listing updateListing(Long listingId, String clientUsername, String status) {
+        Listing listing = listingRepository.findById(listingId).orElseThrow(NoSuchElementException::new);
+        User user = userRepository.findByNickname(clientUsername);
+
+        listing.setUser(user);
+        listing.setStatus(ListingStatus.valueOf(status));
+
+        return  listingRepository.save(listing);
+    }
 }
