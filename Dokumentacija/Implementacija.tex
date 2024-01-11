@@ -39,10 +39,15 @@
 		
 		\section{Dijagram razmještaja}
 			
-			\textbf{\textit{dio 2. revizije}}
-			
-			 \textit{Potrebno je umetnuti \textbf{specifikacijski} dijagram razmještaja i opisati ga. Moguće je umjesto specifikacijskog dijagrama razmještaja umetnuti dijagram razmještaja instanci, pod uvjetom da taj dijagram bolje opisuje neki važniji dio sustava.}
-			
+			Dijagram rasporeda ilustrira kako su fizički i softverski resursi distribuirani unutar operativnog okvira sustava. Na serveru se smještaju dva ključna servisa: servis za web i servis za upravljanje bazom podataka. Kroz web preglednike, korisnici stječu pristup funkcionalnostima web aplikacije. Ovaj sustav funkcioniše po modelu klijent-server arhitekture gdje je komunikacijski protokol između korisničkih uređaja i servera omogućen putem HTTP veze.
+
+		\begin{figure} [H]
+			\includegraphics[width=1\linewidth]{slike/dijagramRazmjestanja.png}
+	        \centering
+	        \caption{Prikaz dijagrama razmještanja}
+	        \label{fig:Prikaz dijagrama razmještanja}
+        \end{figure}
+
 			\eject 
 		
 		\section{Upute za puštanje u pogon}
