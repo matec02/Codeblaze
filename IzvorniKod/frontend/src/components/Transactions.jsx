@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-//import TransactionCard from '.TransactionCard';
+import TransactionCard from './TransactionCard';
 import './Transactions.css';
 import {getNicknameFromToken} from "./RegisterScooterForm";
 
@@ -41,8 +41,11 @@ export const startTransaction = async (owner, client, listingPricePerKm, returnB
 
 function Transactions() {
 
-    const [transactions, setTransactions] = useState([]);
     const [user, setUSer] = useState('');
+    const [ownerTransactions, setOwnerTransaction] = useState([]);
+    const [clientTransactions, setClientTransaction] = useState([]);
+    const [activeTab, setActiveTab] = useState('ownerTransactions');
+
 
     useEffect(() => {
         handleUser();
@@ -50,9 +53,13 @@ function Transactions() {
 
     useEffect(() => {
         if (user && user.userId) {
-            handleViewTransactions(user);
+            if (activeTab === 'ownerTransactions') {
+                handleViewOwnerTransactions()
+            } else if (activeTab === 'clientTransactions') {
+                handleViewClientTransactions(user);
+            }
         }
-    }, [user]);
+    }, [user, activeTab]);
 
     const handleUser = async (event) => {
         try {
@@ -75,10 +82,10 @@ function Transactions() {
         }
     };
 
-    const handleViewTransactions = async (event) => {
+    const handleViewOwnerTransactions = async (event) => {
         try {
             //dohvacanje transakcija iznajmljivaca
-            const response = await fetch(`/api/transactions/${user.userId}`, {
+            const response = await fetch(`/api/transactions/owner/${user.userId}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -87,7 +94,7 @@ function Transactions() {
 
             if (response.ok) {
                 const transactions = await response.json();
-                setTransactions(transactions);
+                setOwnerTransaction(transactions);
             }
             else {
                 throw new Error(`Error: ${response.status}`);
@@ -97,21 +104,64 @@ function Transactions() {
         }
     };
 
-    const orderedTransactions = transactions.sort((a, b) => {
-       const statusOrder = {UNSEEN: 1, SEEN: 2};
+    const handleViewClientTransactions = async (event) => {
+        try {
+            //dohvacanje transakcija klijenta
+            const response = await fetch(`/api/transactions/client/${user.userId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (response.ok) {
+                const transactions = await response.json();
+                setClientTransaction(transactions);
+            }
+            else {
+                throw new Error(`Error: ${response.status}`);
+            }
+        } catch (error) {
+            console.error('Failed to fetch transactions:', error);
+        }
+    };
+
+    const orderedOwnerTransactions = ownerTransactions.sort((a, b) => {
+       const statusOrder = {SEEN: 2, UNSEEN: 1};
        return statusOrder[a.status] - statusOrder[b.status];
     });
 
     return (
         <div className="my-transactions">
             <h2>Moje transakcije</h2>
-            <div className="transactions-tabs">
-                {orderedTransactions.map(item => (
-                    <div key={item.id} className={item.status}>
-                        {item.content}
-                    </div>
-                ))}
+            <div className="transaction-buttons">
+                <button onClick={() => setActiveTab('ownerTransactions')}
+                        className={activeTab === "ownerTransactions" ? 'active' : ''}>
+                    Zaprimljene transakcije
+                </button>
+                <button onClick={() => setActiveTab('clientTransactions')}
+                        className={activeTab === "clientTransactions" ? 'active' : ''}>
+                    Naplaćene transakcije
+                </button>
             </div>
+
+            {activeTab === 'ownerTransactions' && (
+                <div className="transactions-tabs">
+                    {orderedOwnerTransactions.map(transaction => (
+                        <div className={transaction.status}>
+                            <TransactionCard key={transaction.transactionId} transaction={transaction}/>
+                        </div>
+                    ))}
+                </div>
+            )}
+
+            {activeTab === 'clientTransactions' && (
+                <div className="transactions-tabs">
+                    {clientTransactions.map(transaction => (
+                        <TransactionCard key={transaction.transactionId} transaction={transaction}/>
+                    ))}
+                </div>
+            )}
         </div>
     );
 }

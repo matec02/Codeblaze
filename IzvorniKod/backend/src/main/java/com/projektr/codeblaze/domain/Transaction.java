@@ -35,7 +35,7 @@ public class Transaction {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "transactionStatus", nullable = false, length = 50)
-    private TransactionStatus transactionStatus = TransactionStatus.UNSEEN;
+    private TransactionStatus status = TransactionStatus.UNSEEN;
 
     @ManyToOne
     @JoinColumn(name = "ownerId", referencedColumnName = "userId", nullable = false)

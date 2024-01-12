@@ -32,9 +32,20 @@ public class TransactionController {
         this.transactionService = transactionService;
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<List<Transaction>> getTransactionsByUserId(@PathVariable User userId) {
-        List<Transaction> transactions = (List<Transaction>) transactionRepo.findAllByOwner(userId);
+    @GetMapping("owner/{userId}")
+    public ResponseEntity<List<Transaction>> getTransactionsByOwnerUserId(@PathVariable Long userId) {
+        List<Transaction> transactions = (List<Transaction>) transactionRepo.findAllByOwnerUserId(userId);
+
+        if (transactions != null) {
+            return ResponseEntity.ok(transactions);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("client/{userId}")
+    public ResponseEntity<List<Transaction>> getTransactionsByClientUserId(@PathVariable Long userId) {
+        List<Transaction> transactions = (List<Transaction>) transactionRepo.findAllByClientUserId(userId);
 
         if (transactions != null) {
             return ResponseEntity.ok(transactions);
