@@ -437,13 +437,17 @@ function ScooterCard({listing}) {
 
         const handleAdChange = (event) => {
             const {name, value} = event.target;
-            setLocalListing({...localListing, [name]: value});
+            const dateTime = new Date(localListing.returnByTime);
+            const formattedDateTime = dateTime.toISOString().split('.')[0];
+            setLocalListing({...localListing,
+                listingTime: formattedDateTime,
+                [name]: value});
         };
         const handleAdSubmit = async (event) => {
             event.preventDefault();
             try {
                 const response = await fetch(`/api/listing/edit-listing/${listing.listingId}`, {
-                    method: 'POST',
+                    method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
                     },
@@ -457,8 +461,8 @@ function ScooterCard({listing}) {
                     } else {
                         const result = await response.text();
                     }
-
                     onClose();
+                    window.location.reload()
                 } else {
                     console.error('Error:', response.statusText);
                 }
