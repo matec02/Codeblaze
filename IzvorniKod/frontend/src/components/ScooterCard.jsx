@@ -546,18 +546,23 @@ function ScooterCard({listing}) {
                                 <p><strong>Cijena po kilometru:</strong> {listing.pricePerKilometer} €/km</p>
                                 <p><strong>Kazna:</strong> {listing.penaltyFee} €</p>
                                 <p><strong>Vratiti
-                                    do:</strong> {format(new Date(listing.returnByTime), 'dd.MM.yyyy HH:mm')}</p>
+                                    do:</strong> {format(new Date(listing.returnByTime), 'HH:mm dd.MM.yyyy')}</p>
                             </div>
-                            <div className="social-share-buttons">
-                                <ul>
-                                    <li><a href={facebookShareUrl} target="_blank" rel="noopener noreferrer"><FaFacebook
-                                        size={32}/></a></li>
-                                    <li><a href={twitterShareUrl} target="_blank" rel="noopener noreferrer"><FaTwitter
-                                        size={32}/></a></li>
-                                    <li><a href={linkedInShareUrl} target="_blank" rel="noopener noreferrer"><FaLinkedin
-                                        size={32}/></a></li>
-                                </ul>
-                            </div>
+                            {isCurrentUserOwner && (
+                                <div className="social-share-buttons">
+                                    <ul>
+                                        <li><a href={facebookShareUrl} target="_blank"
+                                               rel="noopener noreferrer"><FaFacebook
+                                            size={32}/></a></li>
+                                        <li><a href={twitterShareUrl} target="_blank"
+                                               rel="noopener noreferrer"><FaTwitter
+                                            size={32}/></a></li>
+                                        <li><a href={linkedInShareUrl} target="_blank"
+                                               rel="noopener noreferrer"><FaLinkedin
+                                            size={32}/></a></li>
+                                    </ul>
+                                </div>
+                            )}
                             <div className="scooter-buttons">
                                 {buttons.map((button, index) => (
                                     <button key={index} className="scooter-button" onClick={button.onClick}>
@@ -572,7 +577,7 @@ function ScooterCard({listing}) {
             )}
             {!isExpanded && (
                 <>
-                    <img src={imagePath} alt={`${model} Scooter`} className="scooter-image"/>
+                <img src={imagePath} alt={`${model} Scooter`} className="scooter-image"/>
                     <div className="scooter-details">
                         <h3>{model}</h3>
                         <p><strong>Brzina:</strong> {maxSpeed} km/h</p>
