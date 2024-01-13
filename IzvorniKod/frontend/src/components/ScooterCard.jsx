@@ -546,7 +546,8 @@ function ScooterCard({listing}) {
                                 <p><strong>Cijena po kilometru:</strong> {listing.pricePerKilometer} €/km</p>
                                 <p><strong>Kazna:</strong> {listing.penaltyFee} €</p>
                                 <p><strong>Vratiti
-                                    do:</strong> {format(new Date(listing.returnByTime), 'HH:mm dd.MM.yyyy')}</p>
+                                    do:</strong> {format(new Date(listing.returnByTime),
+                                    'HH:mm dd.MM.yyyy')}</p>
                             </div>
                             {isCurrentUserOwner && (
                                 <div className="social-share-buttons">
