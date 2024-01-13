@@ -9,6 +9,7 @@ import com.projektr.codeblaze.domain.User;
 import com.projektr.codeblaze.service.DocumentService;
 import com.projektr.codeblaze.service.ScooterService;
 import com.projektr.codeblaze.service.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -142,6 +143,35 @@ public class ScooterController {
                     .body("Error updating scooter availability and saving listing: " + e.getMessage());
         }
     }
+    @PutMapping("/edited-scooter/{scooterId}")
+    public ResponseEntity<Scooter> updateScooter(@PathVariable Long scooterId, @RequestBody Scooter scooter) {
+        try {
+            Scooter existingScooter = scooterRepository.findById(scooterId)
+                    .orElseThrow(() -> new EntityNotFoundException("Scooter not found with id: " + scooterId));
+            
+            if (scooter.getManufacturer() != null) {
+                existingScooter.setManufacturer(scooter.getManufacturer());
+            }
+            if (scooter.getModel() != null) {
+                existingScooter.setModel(scooter.getModel());
+            }
+            existingScooter.setBatteryCapacity(scooter.getBatteryCapacity());
+            existingScooter.setMaxSpeed(scooter.getMaxSpeed());
+            existingScooter.setMaxRange(scooter.getMaxRange());
+            existingScooter.setYearOfManufacture(scooter.getYearOfManufacture());
+
+            if (scooter.getAdditionalInformation() != null) {
+                existingScooter.setAdditionalInformation(scooter.getAdditionalInformation());
+            }
+
+            scooterService.saveScooter(existingScooter);
+            
+            return ResponseEntity.ok(scooter);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
     @DeleteMapping("/delete/{scooterId}")
     public ResponseEntity<String> deleteScooter(@PathVariable Long scooterId) {
         try {
