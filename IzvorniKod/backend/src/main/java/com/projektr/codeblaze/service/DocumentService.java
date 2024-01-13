@@ -33,6 +33,12 @@ public class DocumentService {
         return documentRepository.findAll();
     }
 
+    public Document findById(Long userId) {return documentRepository.findById(userId).orElse(null);}
+
+    public void deleteDocuments(Long id) {
+        documentRepository.deleteById(id);
+    }
+
     public Document saveDocumentPaths(Document document) {
         return documentRepository.save(document);
     }

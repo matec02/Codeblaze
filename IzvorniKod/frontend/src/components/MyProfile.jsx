@@ -132,7 +132,7 @@ function MyProfile() {
             });
 
             if (response.ok) {
-                // Deletion successful, navigate to a different page or handle as needed
+                localStorage.removeItem('authToken');
                 navigate('/');
             } else {
                 // Handle errors here

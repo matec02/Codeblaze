@@ -1,25 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
-import {jwtDecode} from 'jwt-decode'; // Make sure this import is correct, usually it's import jwtDecode from 'jwt-decode';
+import {jwtDecode} from 'jwt-decode';
 import './MyProfile.css';
-
-
-
-
-
-export const getNicknameFromToken = () => {
-    const token = localStorage.getItem('authToken');
-    if (!token) {
-        return null;
-    }
-    try {
-        const decodedToken = jwtDecode(token);
-        return decodedToken.nickname; // Make sure the token structure has 'nickname'
-    } catch (error) {
-        console.error('Error decoding token:', error);
-        return null;
-    }
-};
+import {getNicknameFromToken} from "../utils/authService";
 
 function EditProfile() {
 
@@ -37,10 +20,6 @@ function EditProfile() {
     const handleLastNameChange = (e) => {
         setLastNameInput(e.target.value);
     };
-
-    const handleNicknameChange = (e) => {
-        setNicknameInput(e.target.value);
-    }; //ne koristi se jer ne mjenjamo nickname
 
     const handleEmailChange = (e) => {
         setEmailInput(e.target.value);
@@ -78,8 +57,6 @@ function EditProfile() {
 
                     if (response.ok) {
                         const userData = await response.json();
-                        //console.log("OVO JE NAS USER");
-                        //console.log(userData);
                         setUser(userData);
 
                         fetchPrivacySettings(userData.userId);

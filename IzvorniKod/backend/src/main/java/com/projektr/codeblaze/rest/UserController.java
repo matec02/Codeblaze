@@ -1,10 +1,9 @@
 package com.projektr.codeblaze.rest;
 
-import com.projektr.codeblaze.domain.Document;
-import com.projektr.codeblaze.domain.ChatSession;
+import com.projektr.codeblaze.domain.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.projektr.codeblaze.domain.User;
-import com.projektr.codeblaze.domain.UserRole;
+import com.projektr.codeblaze.service.DocumentService;
+import com.projektr.codeblaze.service.PrivacySettingsService;
 import com.projektr.codeblaze.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,19 +20,33 @@ public class UserController {
 
     private final UserService userService;
 
+    private final DocumentService documentService;
+
+    private final PrivacySettingsService privacySettingsService;
+
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, DocumentService documentService,
+                          PrivacySettingsService privacySettingsService) {
+        this.documentService = documentService;
         this.userService = userService;
+        this.privacySettingsService = privacySettingsService;
     }
 
     @DeleteMapping("/delete/{userId}")
     public ResponseEntity<?> deleteUser(@PathVariable Long userId) {
         try {
             User user = userService.findById(userId);
-
+            Document document = documentService.findById(userId);
+            if (document != null) {
+                documentService.deleteDocuments(userId);
+            }
+            PrivacySettings privacySettings = privacySettingsService.getPrivacySettings(userId);
+            if (privacySettings != null) {
+                privacySettingsService.deletePrivacySettings(userId);
+            }
             if (user != null) {
                 userService.delete(user.getUserId());
                 return ResponseEntity.ok("User deleted successfully");

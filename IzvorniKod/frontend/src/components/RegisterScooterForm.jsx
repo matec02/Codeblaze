@@ -23,12 +23,12 @@ function RegisterScooterForm() {
     const [scooter, setScooter] = useState({
         manufacturer: '',
         model: '',
-        batteryCapacity: '',
-        maxSpeed: '',
+        batteryCapacity: null,
+        maxSpeed: null,
         imagePath: '',
-        maxRange: '',
-        yearOfManufacture: '',
-        additionalInformation: ''
+        maxRange: null,
+        yearOfManufacture: null,
+        additionalInformation: null
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
 

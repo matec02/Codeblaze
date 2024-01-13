@@ -28,6 +28,10 @@ public class PrivacySettingsService {
         return privacySettingsRepository.findByUserSocialMediaId(userId).orElse(null);
     }
 
+    public void deletePrivacySettings(Long id) {
+        privacySettingsRepository.deleteById(id);
+    }
+
     public PrivacySettings initializePrivacySettings(PrivacySettings privacySettings) {
         return privacySettingsRepository.save(privacySettings);
     }
