@@ -53,7 +53,7 @@ public class ImageChangeRequest {
     private User user; //ID?
 
     @ManyToOne
-    @JoinColumn(name = "listingId", referencedColumnName = "listingId", unique = true)
+    @JoinColumn(name = "listingId", referencedColumnName = "listingId")
     private Listing listing;
 
 }

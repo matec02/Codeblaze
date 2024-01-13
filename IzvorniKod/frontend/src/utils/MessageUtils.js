@@ -6,7 +6,7 @@ export const chatHistory = function fetchChatHistory(userId) {
     fetch(`/api/messages/history/${userId}`)
         .then(response => response.json())
         .then(messages => {
-            console.log('Chat history:', messages);
+            // console.log('Chat history:', messages);
             // Update your state or context with these messages to display in the UI
         })
         .catch((error) => {
@@ -94,11 +94,61 @@ export const sendMessageFromCodeblaze = async (messageText, user2) => {
 };
 
 
+export const sendMessageFromCodeblazeWithAction = async (owner, listing, comments) => {
+    const user1 = await getCodeblazeUser();
+
+    const formData = new FormData();
+    formData.append('user1', new Blob([JSON.stringify(user1)], { type: 'application/json' }));
+    formData.append('user2', new Blob([JSON.stringify(listing.scooter.user)], { type: 'application/json' }));
+
+    const response = await fetch('/api/chat-session/start', {
+        method: 'POST',
+        body: formData,
+    });
+
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const chatSession = await response.json();
+
+    let messageText = `Slika vašega romobila ${listing.scooter.model} je zamjenjena. 
+                    Klijent koji je zamjenio sliku je ${getNicknameFromToken()}.`
+    messageText += ` Njegov razlog za zamjenu je ${comments}.`;
+
+    const messageToSend = {
+        senderUsername: "Codeblaze",
+        chatSession: chatSession,
+        text: messageText,
+        sentTime: new Date().toISOString().split('.')[0],
+        status: 'UNREAD',
+        messageType: 'REQUEST',
+        user: user1,
+        listingId: listing.listingId
+    };
+
+    try {
+        const formData = new FormData();
+        formData.append('msgToBeSent', new Blob([JSON.stringify(messageToSend)], {type: "application/json"}));
+        const response = await fetch('/api/messages/send', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+    } catch (error) {
+        console.error('Error sending message:', error);
+    }
+};
+
 export const sendMessageWithAction = async (owner, listingId) => {
     const senderNickname = await getNicknameFromToken();
     const senderUser = await getUserFromToken();
     const chatSession = await startConversation(owner);
-    console.log("sendMWA" + listingId); //dobar
+    //console.log("sendMWA" + listingId); //dobar
 
     const messageText = `Hej ${owner.nickname},\n ${senderNickname} želi iznajmiti tvoj romobil! Pristaješ li na najam?`;
 

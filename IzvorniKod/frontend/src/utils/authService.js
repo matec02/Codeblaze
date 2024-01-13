@@ -3,7 +3,7 @@ import { jwtDecode } from 'jwt-decode';
 export const isUserAuthenticated = () => {
     const token = localStorage.getItem('authToken');
     if (!token) {
-        console.log("Token is invalid");
+        //console.log("Token is invalid");
         return false;
     }
 

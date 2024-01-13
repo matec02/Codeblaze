@@ -6,6 +6,7 @@ import ChatMessage from "./ChatMessage";
 import {getChatSessionById} from "../utils/MessageUtils";
 import MessageWithButtons from "./MessageWithButtons";
 import {ProfileModal} from "./ScooterCard";
+import MessageRequestWithButton from "./MessageRequestWithButton";
 
 function ChatWindow() {
     const [newMessage, setNewMessage] = useState('');
@@ -65,12 +66,10 @@ function ChatWindow() {
                 const chatSessionData = await response.json();
 
                 const currentNickname = getNicknameFromToken();
-                console.log(currentNickname);
                 // Pretpostavljamo da chatSessionData sadrži objekte user1 i user2 s nadimcima
                 const otherUserNickname = chatSessionData.user1.nickname === currentNickname
                     ? chatSessionData.user2.nickname
                     : chatSessionData.user1.nickname;
-                console.log(otherUserNickname);
 
                 setOtherUser(otherUserNickname);
             } catch (error) {
@@ -87,7 +86,6 @@ function ChatWindow() {
                 if (!responseSeen.ok) {
                     throw new Error("Failed to mark messages as read");
                 }
-                console.log("Messages marked as read");
             } catch (error) {
                 console.error("Error marking messages as read", error);
             }
@@ -140,10 +138,6 @@ function ChatWindow() {
         }
     }
 
-    function printLOL() {
-        console.log("ACTION")
-    }
-
     return (
         <div className="chat-container">
             {otherUser && (
@@ -174,6 +168,19 @@ function ChatWindow() {
                                 }
                             />
                         );
+                    } else if (message.messageType === "REQUEST"){
+                        return (
+                        <MessageRequestWithButton
+                            key={message.messageId}
+                            text={message.text}
+                            sender={messageSenderClass}
+                            isSeen={
+                                messageSenderClass === 'mine' &&
+                                isLastSentMessage &&
+                                message.status === 'READ'
+                            }
+                        />
+                );
                     } else {
                         return (
                             <ChatMessage

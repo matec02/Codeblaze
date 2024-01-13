@@ -5,9 +5,9 @@ import ProfileAvatar from '../assets/profile-avatar.png';
 import {getNicknameFromToken} from "./RegisterScooterForm";
 import {format} from 'date-fns';
 import {sendMessageWithAction, startConversation} from "../utils/MessageUtils";
-import {getCodeblazeUser} from "../utils/authService";
 import {FaFacebook, FaTwitter, FaLinkedin} from 'react-icons/fa';
 import {startTransaction} from "./Transactions";
+import {sendMessageFromCodeblazeWithAction} from "../utils/MessageUtils";
 
 export const ProfileModal = ({isOpen, onClose, profile}) => {
     const [privacySettings, setPrivacySettings] = useState(null);
@@ -39,7 +39,6 @@ export const ProfileModal = ({isOpen, onClose, profile}) => {
         if (chatSessionId) {
             navigate(`/chat-window/${chatSessionId}`);
         } else {
-            console.log("Unable to start conversation")
         }
     }
 
@@ -82,20 +81,18 @@ export const handleImagePathChange = async (scooterId, imagePath) => {
 function ScooterCard({listing}) {
     const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = useState('');
-    const [isImageOpen, setIsImageOpen] = useState(false);
-    const [currentImageSrc, setCurrentImageSrc] = useState('');
-    const [isRequestOpen, setIsRequestOpen] = useState(false);
     const [newImage, setNewImage] = useState(null);
     const [comments, setComments] = useState('');
     const [isVisible, setIsVisible] = useState(false);
-    const [pendingRequests, setPendingRequests] = useState([]);
     const [userProfile, setUserProfile] = useState('');
     const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
-    const [isAdvertised, setIsAdvertised] = useState(false);
     const [curUser, setCurUser] = useState('');
     const [isCurrentUserOwner, setIsCurrentUserOwner] = useState(false);
     const [isAdModalOpen, setIsAdModalOpen] = useState(false);
+    const [allRequests, setAllRequests] = useState([]);
+    const [showNotification, setShowNotification] = useState(false);
+    const [isButtonForBadChangeHidden, setIsButtonForBadChangeHidden] = useState(false);
 
 
     const {scooter, user, status, listingId} = listing;
@@ -103,7 +100,20 @@ function ScooterCard({listing}) {
 
     useEffect(() => {
         handleUser();
+        handleAllRequests();
     }, []);
+
+    useEffect(() => {
+        if (showNotification) {
+            // Set a timer to hide the notification
+            const timer = setTimeout(() => {
+                setShowNotification(false);
+            }, 3000); // Change 5000 to however many milliseconds you want the notification to show
+
+            // Clear the timer if the component unmounts
+            return () => clearTimeout(timer);
+        }
+    }, [showNotification]);
 
     const handleUser = async () => {
         try {
@@ -125,6 +135,26 @@ function ScooterCard({listing}) {
         }
     };
 
+    const handleAllRequests = async () => {
+        try {
+            const response = await fetch(`/api/imageChangeRequest/getAll`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status}`);
+            }
+
+            const data = await response.json();
+            setAllRequests(data);
+
+        } catch (error) {
+            console.error("Failed to get users: ", error);
+        }
+    };
+
     const handleButtonClick = (event, action) => {
         event.stopPropagation();
 
@@ -138,6 +168,8 @@ function ScooterCard({listing}) {
             handleRequest();
         } else if (action === 'vrati') {
             handleReturn();
+        } else if (action === 'losaZamjena') {
+            handleRequestStatusChange(listing);
         }
     };
 
@@ -171,18 +203,6 @@ function ScooterCard({listing}) {
     };
 
 
-    const handleFileChange = (event) => {
-        if (event.target.files[0]) {
-            setNewImage(event.target.files[0]);
-        }
-    }
-
-    const handleChange = (event) => {
-        setComments({
-            ...comments,
-            [event.target.name]: event.target.value
-        });
-    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -198,7 +218,7 @@ function ScooterCard({listing}) {
             // First, make a GET request to fetch the user by nickname
             const userResponse = await fetch(`/api/users/by-nickname/${nickname}`);
             if (!userResponse.ok) {
-                console.log(userResponse);
+
                 setErrorMessage('User not found.');
                 console.error('User not found:', userResponse.statusText);
                 return;
@@ -218,10 +238,10 @@ function ScooterCard({listing}) {
                 const imageUploadData = await imageResponse.json();
                 const photoUrlNewImage = imageUploadData.image;
                 const currentDateTime = new Date();
-                const offset = currentDateTime.getTimezoneOffset();
                 const dateTimeString = currentDateTime.toISOString();
 
                 const newImageFormData = new FormData();
+                newImageFormData.append('listingId', new Blob([JSON.stringify(listing.listingId)], {type: "application/json"}));
                 newImageFormData.append('complaintTime', dateTimeString);
                 newImageFormData.append('photoUrlOldImage', new Blob([JSON.stringify(imagePath)], {type: "application/json"}));
                 newImageFormData.append('additionalComments', new Blob([JSON.stringify(comments)], {type: "application/json"}))
@@ -235,9 +255,8 @@ function ScooterCard({listing}) {
 
                 if (newImageResponse.ok) {
                     const result = await newImageResponse.json();
-                    console.log(result)
-                    setIsRequestOpen(false);
                     setNewImage(null);
+                    await sendMessageFromCodeblazeWithAction(listing.scooter.user, listing, comments);
                     setComments('');
                     handleImagePathChange(scooterId, photoUrlNewImage)
                     navigate('/home');
@@ -263,7 +282,6 @@ function ScooterCard({listing}) {
                 if (response.ok) {
                     var fetchedUserId = await response.json();
                     fetchedUserId = fetchedUserId.userId;
-                    console.log(scooter.userId == fetchedUserId);
                     setIsCurrentUserOwner(scooter.user.userId == fetchedUserId);
                 }
             } catch (error) {
@@ -278,17 +296,25 @@ function ScooterCard({listing}) {
         if (user && user.userId && curUser.userId && curUser.userId === user.userId && status === "RENTED") {
             return [
                 {text: 'Vrati', onClick: (e) => handleButtonClick(e, 'vrati')},
-                {text: 'Prijavi', onClick: (e) => handleButtonClick(e, 'prijavi')}
+                {text: 'Zamjeni sliku', onClick: (e) => handleButtonClick(e, 'prijavi')}
             ];
         } else if (isCurrentUserOwner) {
-            return [
-                {text: 'Uredi', onClick: (e) => handleButtonClick(e, 'uredi')},
-                {text: 'Izbriši', onClick: (e) => handleButtonClick(e, 'izbrisi')}
+            let isListingRequestedForImageChange = allRequests.some(request =>
+                request.listing.listingId === listing.listingId && request.status === "REQUESTED");
+            const actions = [
+                { text: 'Uredi', onClick: (e) => handleButtonClick(e, 'uredi') },
+                { text: 'Izbriši', onClick: (e) => handleButtonClick(e, 'izbrisi') },
             ];
+
+            if (isListingRequestedForImageChange) {
+                actions.push({ text: 'Prijava loše zamjene slike', onClick: (e) => handleButtonClick(e, 'losaZamjena') });
+            }
+
+            return actions;
         } else {
             return [
                 {text: 'Unajmi', onClick: (e) => handleButtonClick(e, 'unajmi')},
-                {text: 'Prijavi', onClick: (e) => handleButtonClick(e, 'prijavi')}
+                {text: 'Zamjeni sliku', onClick: (e) => handleButtonClick(e, 'prijavi')}
             ];
         }
     };
@@ -296,7 +322,6 @@ function ScooterCard({listing}) {
     const buttons = determineButtons();
 
     const handleRequest = async () => {
-        console.log(listingId);
         try {
             const data = {status: "REQUESTED"}
 
@@ -315,6 +340,8 @@ function ScooterCard({listing}) {
             const chatSessionId = await sendMessageWithAction(scooter.user, listingId);
             //navigate(`/chat-window/${chatSessionId}`);
             navigate(`/chat-panel`);
+
+
 
 
         } catch (error) {
@@ -353,6 +380,29 @@ function ScooterCard({listing}) {
         }
     };
 
+    const handleRequestStatusChange = async (listing) => {
+        try {
+            let matchingRequest = allRequests.find(request => request.listing.listingId === listing.listingId
+                && request.status == 'REQUESTED');
+            const response = await fetch (`/api/imageChangeRequest/update-status/${matchingRequest.imageId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ status: 'PENDING' })
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to change status of request')
+            }
+            setShowNotification(true);
+            setIsButtonForBadChangeHidden(true)
+        } catch (error) {
+            console.error("Failed Api for image change status: ", error)
+        }
+
+    };
+
     const handleDeleteListing = async () => {
         try {
             const response = await fetch(`/api/listing/delete-listing/${listing.listingId}`, {
@@ -365,8 +415,6 @@ function ScooterCard({listing}) {
             if (!response.ok) {
                 throw new Error(`Error: ${response.statusText}`);
             }
-
-            console.log('Listing deleted successfully');
             window.location.reload();
         } catch (error) {
             console.error('Error:', error);
@@ -406,10 +454,8 @@ function ScooterCard({listing}) {
                     const contentType = response.headers.get('content-type');
                     if (contentType && contentType.includes('application/json')) {
                         const result = await response.json();
-                        console.log('Listing updated:', result);
                     } else {
                         const result = await response.text();
-                        console.log('Error:', result);
                     }
 
                     onClose();
@@ -429,23 +475,27 @@ function ScooterCard({listing}) {
                         <div className="form-group">
                             <label>Trenutna adresa</label>
                             <input type="text" name="currentAddress" value={localListing.currentAddress}
-                                   onChange={handleAdChange}/>
+                                   onChange={handleAdChange}
+                                   placeholder="Upišite trenutnu adresu romobila" required />
                         </div>
                         <div className="form-group">
                             <label>Adresa povratka</label>
                             <input type="text" name="returnAddress" value={localListing.returnAddress}
-                                   onChange={handleAdChange}/>
+                                   placeholder="Upišite adresu povratka romobila"
+                                   onChange={handleAdChange} required />
                         </div>
                         <div className="form-group">
                             <label>Cijena po kilometru</label>
                             <input type="number" step="0.1" name="pricePerKilometer"
+                                   placeholder="Upišite cijenu po kilometru vožnje"
                                    value={localListing.pricePerKilometer}
-                                   onChange={handleAdChange}/>
+                                   onChange={handleAdChange} required/>
                         </div>
                         <div className="form-group">
                             <label>Iznos kazne</label>
                             <input type="number" step="0.1" name="penaltyFee" value={localListing.penaltyFee}
-                                   onChange={handleAdChange}/>
+                                   placeholder="Upišite iznos kazne za prekoračenje vremena vraćanja"
+                                   onChange={handleAdChange}required/>
                         </div>
                         <div className="form-group">
                             <label>Vrijeme povratka</label>
@@ -454,6 +504,7 @@ function ScooterCard({listing}) {
                                 name="returnByTime"
                                 value={localListing.returnByTime}
                                 onChange={handleAdChange}
+                                required
                             />
                         </div>
                         <button type="submit">Spremi</button>
@@ -530,13 +581,22 @@ function ScooterCard({listing}) {
                     <ul className="scooter-buttons">
                         {buttons.map((button, index) => (
                             <li key={index}>
-                                <button className="scooter-button" onClick={button.onClick}>
+                                <button
+                                    className="scooter-button"
+                                    onClick={button.onClick}
+                                    style={button.text === "Prijava loše zamjene slike"
+                                        ? { display: isButtonForBadChangeHidden ? "none" : "block" } : {}}
+                                >
                                     {button.text}
                                 </button>
                             </li>
                         ))}
                     </ul>
-
+                    {showNotification && (
+                        <div className="notification-bubble">
+                            Your request for bad image change is sent!
+                        </div>
+                    )}
                     <form onSubmit={handleSubmit} onClick={(e) => e.stopPropagation()}>
                         {/* File Upload Section */}
                         <div className="imageRequest" style={{display: isVisible ? "block" : "none"}}>
@@ -547,12 +607,22 @@ function ScooterCard({listing}) {
                             </div>
                             <div className="form-group">
                                 <label> Dodatni komentari
-                                    <textarea name="comments" value={comments}
-                                              onChange={(e) => setComments(e.target.value)}/>
+                                    <textarea
+                                        name="comments"
+                                        value={comments}
+                                        onChange={(e) => setComments(e.target.value)}
+                                        style={{ width: '85%',
+                                            height: '80px',
+                                            resize: 'none'
+                                        }}
+                                        placeholder="Upišite razlog za zamjenu slike"
+                                    />
                                 </label>
                             </div>
-                            <button className="scooter-button" onClick={() => setIsVisible(false)}>Zatvori</button>
-                            <button type="submit">Pošalji zahtjev za zamjenom slike</button>
+                            <div>
+                                <button className="scooter-button" onClick={() => setIsVisible(false)}>Zatvori</button>
+                            </div>
+                            <button type="submit">Potvrdi zamjenu</button>
                         </div>
                     </form>
 

@@ -1,32 +1,32 @@
 package com.projektr.codeblaze.service;
 
 import com.projektr.codeblaze.dao.ImageChangeRequestRepository;
-import com.projektr.codeblaze.dao.UserRepository;
-import com.projektr.codeblaze.domain.ImageChangeRequestStatus;
-import com.projektr.codeblaze.domain.User;
-import com.projektr.codeblaze.domain.ImageChangeRequest;
-import com.projektr.codeblaze.domain.UserStatus;
+import com.projektr.codeblaze.dao.ListingRepository;
+import com.projektr.codeblaze.domain.*;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class ImageChangeRequestService {
     private static final Logger logger = LoggerFactory.getLogger(ImageChangeRequestService.class);
 
+
     @Autowired
-    public ImageChangeRequestService(ImageChangeRequestRepository imageChangeRequestRepository) {
+    public ImageChangeRequestService(ImageChangeRequestRepository imageChangeRequestRepository,
+                                     ListingRepository listingRepository) {
         this.imageChangeRequestRepository = imageChangeRequestRepository;
+        this.listingRepository = listingRepository;
     }
     private final ImageChangeRequestRepository imageChangeRequestRepository;
+
+    private final ListingRepository listingRepository;
 
     public ImageChangeRequest findById(Long requestId) {
         return imageChangeRequestRepository.findById(requestId).orElse(null);
@@ -41,7 +41,8 @@ public class ImageChangeRequestService {
 
     public List<ImageChangeRequest> getAllImageChangeRequests() { return imageChangeRequestRepository.findAll();}
     @Transactional
-    public ImageChangeRequest requestSubmit(User user, LocalDateTime complaintTime, String newImageUrl, String oldImageUrl, String comments){
+    public ImageChangeRequest requestSubmit(User user, LocalDateTime complaintTime, String newImageUrl,
+                                            String oldImageUrl, String comments, String listingId){
         ImageChangeRequest imageChangeRequest = new ImageChangeRequest();
 
         imageChangeRequest.setNewImageUrl(newImageUrl);
@@ -49,10 +50,19 @@ public class ImageChangeRequestService {
         imageChangeRequest.setAdditionalComments(comments);
         imageChangeRequest.setUser(user);
         imageChangeRequest.setComplaintTime(complaintTime);
-        imageChangeRequest.setStatus(ImageChangeRequestStatus.PENDING);
+        imageChangeRequest.setStatus(ImageChangeRequestStatus.REQUESTED);
+        Listing listing = listingRepository.findById(Long.valueOf(listingId)).orElseThrow();
+        imageChangeRequest.setListing(listing);
         logger.info("All good with new image request");
 
         return save(imageChangeRequest);
+    }
+
+    public ImageChangeRequest updateRequestStatus(Long requestId, String newStatus) {
+        ImageChangeRequest imageChangeRequest = imageChangeRequestRepository.findById(requestId)
+                .orElseThrow();
+        imageChangeRequest.setStatus(ImageChangeRequestStatus.valueOf(newStatus));
+        return imageChangeRequestRepository.save(imageChangeRequest);
     }
 
     public ImageChangeRequest updateOnAdminDecision(Long requestId, String newStatus, String reason, LocalDateTime decisionTime) {

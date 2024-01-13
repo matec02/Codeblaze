@@ -22,8 +22,8 @@ function ScooterCardHome({ scooter }) {
     const [listing, setListing] = useState({
         currentAddress: '',
         returnAddress: '',
-        pricePerKilometer: 0.0,
-        penaltyFee: 0.0,
+        pricePerKilometer: '',
+        penaltyFee: '',
         returnByTime: ''
     });
 
@@ -121,7 +121,6 @@ function ScooterCardHome({ scooter }) {
             // First, make a GET request to fetch the user by nickname
             const userResponse = await fetch(`/api/users/by-nickname/${nickname}`);
             if (!userResponse.ok) {
-                console.log(userResponse);
                 setErrorMessage('User not found.');
                 console.error('User not found:', userResponse.statusText);
                 return;
@@ -175,7 +174,6 @@ function ScooterCardHome({ scooter }) {
                 if (response.ok) {
                     var fetchedUserId = await response.json();
                     fetchedUserId = fetchedUserId.userId;
-                    console.log(scooter.userId == fetchedUserId);
                     setIsCurrentUserOwner(scooter.user.userId == fetchedUserId);
                 }
             } catch (error) {
@@ -201,7 +199,6 @@ function ScooterCardHome({ scooter }) {
             }
 
             const result = await response.json();
-            console.log('Updated scooter:', result);
         } catch (error) {
             console.error('Error:', error);
         }
@@ -219,7 +216,6 @@ function ScooterCardHome({ scooter }) {
                 throw new Error(`Error: ${response.status}`);
             }
 
-            console.log('Scooter deleted successfully');
             window.location.reload();
 
         } catch (error) {
@@ -234,31 +230,6 @@ function ScooterCardHome({ scooter }) {
         { text: 'Izbriši', onClick: (e) => handleButtonClick(e, 'izbrisi') }
     ];
 
-    const RequestChangeModal = ({isOpen, onClose, imageSrc, altText }) => {
-        if (!isOpen) return null;
-        return (
-            <div className="modal-overlay" onClick={onClose}>
-                <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                    <form onSubmit={handleSubmit} className="register-form">
-                        {/* File Upload Section */}
-                        <div className="section-container">
-                            <div className="form-group">
-                                <label>Priložiti novu sliku</label>
-                                <input type="file" onChange={(e) => handleFileChange(e, setNewImage)} required/>
-                            </div>
-                            <div className="form-group">
-                                <label> Dodatni komentari </label>
-                                <input type="text" value={comments.comments} onChange={handleChange}/>
-                            </div>
-                        </div>
-                    </form>
-                    <div className="modal-close-btn-container">
-                        <button className="modal-close-button" onClick={onClose}>Close</button>
-                    </div>
-                </div>
-            </div>
-        );
-    };
 
     const AdModal = ({ isOpen, onClose }) => {
         const [localListing, setLocalListing] = useState({ ...listing });
@@ -296,10 +267,9 @@ function ScooterCardHome({ scooter }) {
                     const contentType = response.headers.get('content-type');
                     if (contentType && contentType.includes('application/json')) {
                         const result = await response.json();
-                        console.log('Listing saved:', result);
                     } else {
                         const result = await response.text();
-                        console.log('Non-JSON response:', result);
+                        console.error('Non-JSON response:', result);
                     }
 
                     onClose();
@@ -319,24 +289,33 @@ function ScooterCardHome({ scooter }) {
                     <form onSubmit={handleAdSubmit} className="ad-form">
                         <div className="form-group">
                             <label>Trenutna adresa</label>
-                            <input type="text" name="currentAddress" value={localListing.currentAddress}
-                                   onChange={handleAdChange}/>
+                            <input type="text" className="listing-form" name="currentAddress"
+                                   value={localListing.currentAddress}
+                                   onChange={handleAdChange}
+                                   placeholder="Upišite trenutnu adresu romobila" required/>
                         </div>
                         <div className="form-group">
                             <label>Adresa povratka</label>
-                            <input type="text" name="returnAddress" value={localListing.returnAddress}
-                                   onChange={handleAdChange}/>
+                            <input type="text" className="listing-form" name="returnAddress"
+                                   placeholder="Upišite adresu povratka romobila"
+                                   value={localListing.returnAddress}
+                                   onChange={handleAdChange} required/>
                         </div>
                         <div className="form-group">
                             <label>Cijena po kilometru</label>
                             <input type="number" step="0.1" name="pricePerKilometer"
                                    value={localListing.pricePerKilometer}
-                                   onChange={handleAdChange}/>
+                                   className="listing-form"
+                                   placeholder="Upišite cijenu po kilometru vožnje"
+                                   onChange={handleAdChange} min="0.1" required/>
                         </div>
                         <div className="form-group">
                             <label>Iznos kazne</label>
-                            <input type="number" step="0.1" name="penaltyFee" value={localListing.penaltyFee}
-                                   onChange={handleAdChange}/>
+                            <input type="number" step="0.1" name="penaltyFee"
+                                   value={localListing.penaltyFee}
+                                   placeholder="Upišite iznos kazne za prekoračenje vremena vraćanja"
+                                   className="listing-form" min="0"
+                                   onChange={handleAdChange} required/>
                         </div>
                         <div className="form-group">
                             <label>Vrijeme povratka</label>
@@ -345,7 +324,9 @@ function ScooterCardHome({ scooter }) {
                                 name="returnByTime"
                                 value={localListing.returnByTime}
                                 onChange={handleAdChange}
+                                className="listing-form"
                                 min={new Date().toISOString().slice(0, 16)}
+                                required
                             />
                         </div>
                         <button type="submit">Oglasi</button>
@@ -387,38 +368,48 @@ function ScooterCardHome({ scooter }) {
                 <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                     <form onSubmit={handleSubmit} className="ad-form">
                         <div className="form-group">
-                            <label>Manufacturer</label>
+                            <label>Proizvođač</label>
                             <input type="text" name="manufacturer" value={editedScooter.manufacturer}
-                                   onChange={handleChange}/>
+                                   onChange={handleChange} placeholder="Upišite ime proizvođača romobila"
+                            required/>
                         </div>
                         <div className="form-group">
                             <label>Model</label>
-                            <input type="text" name="model" value={editedScooter.model} onChange={handleChange}/>
+                            <input type="text" name="model" value={editedScooter.model}
+                                   onChange={handleChange}
+                                   placeholder="Upišite model romobila"
+                                   required/>
                         </div>
                         <div className="form-group">
-                            <label>Battery Capacity</label>
+                            <label>Kapacitet baterije</label>
                             <input type="number" name="batteryCapacity" value={editedScooter.batteryCapacity}
-                                   onChange={handleChange}/>
+                                   onChange={handleChange} placeholder="Upišite maksimalnu brzinu romobila u km/h"/>
                         </div>
                         <div className="form-group">
-                            <label>Max Speed</label>
+                            <label>Maksimalna brzina</label>
                             <input type="number" name="maxSpeed" value={editedScooter.maxSpeed}
-                                   onChange={handleChange}/>
+                                   onChange={handleChange} placeholder="Upišite maksimalnu brzinu romobila u km/h"/>
                         </div>
                         <div className="form-group">
-                            <label>Max Range</label>
+                            <label>Maksimalni domet</label>
                             <input type="number" step="0.1" name="maxRange" value={editedScooter.maxRange}
-                                   onChange={handleChange}/>
+                                   onChange={handleChange} placeholder="Upišite maksimalni domet romobila"/>
                         </div>
                         <div className="form-group">
-                            <label>Year of Manufacture</label>
+                            <label>Godina proizvodnje</label>
                             <input type="number" name="yearOfManufacture" value={editedScooter.yearOfManufacture}
-                                   onChange={handleChange}/>
+                                   min="2000"
+                                   max={new Date().getFullYear()}
+                                   onChange={handleChange} placeholder="Upišite godinu proizvodnje romobila"/>
                         </div>
                         <div className="form-group">
-                            <label>Additional Information</label>
+                            <label>Dodatne informacije</label>
                             <textarea name="additionalInformation" value={editedScooter.additionalInformation}
-                                      onChange={handleChange}/>
+                                      onChange={handleChange} placeholder="Upišite dodatne informacije o romobilu"
+                                      style={{ width: '100%',
+                                          height: '60px',
+                                          resize: 'none'
+                                      }}/>
                         </div>
                         <button type="submit">Spremi</button>
                         <button className="modal-close-button" onClick={onClose}>Zatvori</button>

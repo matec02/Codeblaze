@@ -16,18 +16,18 @@ export const checkScootersAndUpgrade = async (ownerId) => {
         const scooters = await response.json();
 
         if (scooters.length === 1) {
-            console.log("Exactly one scooter found for the owner.");
+            //console.log("Exactly one scooter found for the owner.");
             const newToken = await upgradeUserRole(ownerId);
             if (newToken) {
                 localStorage.setItem('authToken', newToken);
-                console.log('User role upgraded and token refreshed');
+                //console.log('User role upgraded and token refreshed');
                 return { success: true, message: 'User role upgraded and token refreshed' };
             } else {
                 console.error('Failed to upgrade user role or refresh token');
                 return { success: false, message: 'Failed to upgrade user role or refresh token' };
             }
         } else {
-            console.log("Owner does not have exactly one scooter.");
+            //console.log("Owner does not have exactly one scooter.");
             return { success: false, message: 'Owner does not have exactly one scooter' };
         }
     } catch (error) {

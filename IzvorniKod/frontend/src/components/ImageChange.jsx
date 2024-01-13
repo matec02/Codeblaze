@@ -2,6 +2,7 @@ import React, {useCallback, useEffect, useState} from "react";
 import ImageNotFound from "../assets/ImageNotFound.png";
 import {Link} from "react-router-dom";
 import {handleImagePathChange} from "./ScooterCard";
+import {sendMessageFromCodeblaze} from "../utils/MessageUtils";
 
 export const fetchRequests = async (url, setState) => {
     try {
@@ -101,7 +102,7 @@ function ImageChange(){
     };
 
 
-    const handleAdminDecision = async (requestId, reason, requestStatus, oldImageUrl) => {
+    const handleAdminDecision = async (requestId, reason, requestStatus, oldImageUrl, scooterId) => {
         try {
             const formDataAdminDecision = new FormData();
             const currentDateTime = new Date();
@@ -122,8 +123,7 @@ function ImageChange(){
             }
 
             if (requestStatus==='REJECTED') {
-                //TODO kad se dobije listingId preko njega dobavati scooterId i staviti umjesto 1
-                await handleImagePathChange(1, oldImageUrl);
+                await handleImagePathChange(scooterId, oldImageUrl);
                 await fetchRequests("api/imageChangeRequest/rejectedRequests", setRejectedRequests);
                 await fetchRequests("api/imageChangeRequest/pendingRequests", setPendingRequests);
             } else if (requestStatus==='APPROVED') {
@@ -138,15 +138,39 @@ function ImageChange(){
 
 
 
-    const handleRequestAction = (requestId, requestStatus, oldImageUrl) => {
-        console.log("Opening Reason Modal");
+    const handleRequestAction = (request, requestStatus) => {
         setIsReasonModalOpen(true);
-        setCurrentRequest({ requestId, requestStatus, oldImageUrl });  // Save the request details
+        setCurrentRequest({request, requestStatus});  // Save the request details
     };
 
     const handleReasonSubmit = (reason) => {
         if (currentRequest) { // Make sure currentRequest isn't null
-            handleAdminDecision(currentRequest.requestId, reason, currentRequest.requestStatus, currentRequest.oldImageUrl);
+            let messageTextToOwner;
+            let messageTextToClient;
+            if (currentRequest.requestStatus==='APPROVED'){
+                messageTextToOwner = "Vaša primjedba za lošu zamjenu slike za romobil "
+                    + currentRequest.request.listing.scooter.model
+                    + " je ODBIJENA jer ga originalna slika ne predstavlja dovoljno vjerodostojno."
+                messageTextToClient = "Vaš zahtjev za zamjenom slike za romobil "
+                    + currentRequest.request.listing.scooter.model
+                    + " je PRIHVAĆEN."
+
+            } else {
+                messageTextToOwner = "Vaša primjedba za lošu zamjenu slike za romobil "
+                    + currentRequest.request.listing.scooter.model
+                    + " je PRIHVAĆENA jer ga je originalna slika dovoljno vjerodostojno predstavljala."
+                messageTextToClient = "Vaš zahtjev za zamjenom slike za romobil "
+                    + currentRequest.request.listing.scooter.model
+                    + " je ODBIJEN."
+            }
+            if (reason){
+                messageTextToOwner += " Razlog administratora za odluku: " + reason;
+                messageTextToClient += " Razlog administratora za odluku: " + reason;
+            }
+            sendMessageFromCodeblaze(messageTextToOwner, currentRequest.request.listing.scooter.user)
+            sendMessageFromCodeblaze(messageTextToClient, currentRequest.request.user)
+            handleAdminDecision(currentRequest.request.imageId, reason, currentRequest.requestStatus,
+                currentRequest.request.oldImageUrl, currentRequest.request.listing.scooter.scooterId);
             setIsReasonModalOpen(false); // Close the modal after submission
         } else {
             // Handle the error or unexpected case where currentRequest isn't set
@@ -161,12 +185,14 @@ function ImageChange(){
                     <table>
                         <thead>
                         <tr>
-                            <th>Listing ID</th>
+
                             <th>Complaint Time</th>
                             {(category === "Prihvaćeni zahtjevi za zamjenu slike") && <th>Approval Time</th>}
                             {(category === "Odbijeni zahtjevi za zamjenu slike") && <th>Rejection Time</th>}
                             <th>Old photo</th>
                             <th>New photo</th>
+                            <th>Scooter Model</th>
+                            <th>Owner Nickname</th>
                             <th>Requester Nickname</th>
                             <th>Additional Comments</th>
                             {(renderActions && category === "Zahtjevi za zamjenu slike na čekanju") && <th>Actions</th>}
@@ -195,7 +221,7 @@ function ImageChange(){
                             }
                             return (
                                 <tr key={request.imageId}>
-                                    <td>{request.listingId}</td>
+
                                     <td>{complaintTimeString}</td>
                                     {(category === "Prihvaćeni zahtjevi za zamjenu slike") && <td>{decisionTimeString}</td>}
                                     {(category === "Odbijeni zahtjevi za zamjenu slike") && <td>{decisionTimeString}</td>}
@@ -205,6 +231,8 @@ function ImageChange(){
                                     <td className="user-table-action-buttons">
                                         <button className="user-table-button" onClick={() => openModal(request.newImageUrl || ImageNotFound)}>Show New Image</button>
                                     </td>
+                                    <td>{request.listing.scooter.model}</td>
+                                    <td>{request.listing.scooter.user.nickname}</td>
                                     <td>{request.user.nickname}</td>
                                     <td>{request.additionalComments}</td>
                                     {(renderActions && category === "Zahtjevi za zamjenu slike na čekanju") &&
@@ -227,8 +255,8 @@ function ImageChange(){
 
     const renderPendingRequests = (request) => (
         <>
-            <button className="approve" onClick={() => handleRequestAction(request.imageId, 'APPROVED', request.oldImageUrl)}>Prihvati</button>
-            <button className="reject" onClick={() => handleRequestAction(request.imageId, 'REJECTED', request.oldImageUrl)}>Odbij</button>
+            <button className="approve" onClick={() => handleRequestAction(request, 'APPROVED')}>Prihvati</button>
+            <button className="reject" onClick={() => handleRequestAction(request, 'REJECTED')}>Odbij</button>
         </>
     );
 

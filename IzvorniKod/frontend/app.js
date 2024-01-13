@@ -22,7 +22,7 @@ app.use(
 app.use(express.static(path.join(__dirname, 'build')))
 
 app.listen(PORT, HOST, () => {
-    console.log(`Starting Proxy at ${HOST}:${PORT}`);
+    //console.log(`Starting Proxy at ${HOST}:${PORT}`);
 });
 
 app.get("*", async (req, res) => {

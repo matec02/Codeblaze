@@ -5,6 +5,7 @@ import lombok.Getter;
 @Getter
 public enum MessageType {
     REGULAR("REGULAR", "Regular Message"),
+    REQUEST("REQUEST", "Request Message"),
     ACTION("ACTION", "Action Message");
 
     private final String code;

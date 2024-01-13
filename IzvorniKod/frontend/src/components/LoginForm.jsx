@@ -9,6 +9,7 @@ function LoginForm() {
     const [errorMessage, setErrorMessage] = useState('');
     const [admins, setAdmins] = useState([]);
     const navigate = useNavigate();  // Hook to get history object
+    const [isInvalidCredentials, setIsInvalidCredentials] = useState(false);
 
     useEffect(() => {
         handleAdmins();
@@ -78,6 +79,7 @@ function LoginForm() {
                 setErrorMessage(data.message || 'Login failed. Please try again.');
             }
         } catch (error) {
+            setIsInvalidCredentials(true);
             console.error('Login error:', error);
             setErrorMessage('Login failed. Please try again.');
         }
@@ -98,6 +100,7 @@ function LoginForm() {
                         name="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        placeholder="Upišite e-mail adresu"
                         required
                     />
                 </div>
@@ -109,11 +112,15 @@ function LoginForm() {
                         name="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Upišite lozinku"
                         required
                     />
                 </div>
                 <button type="submit" className="login-form-button">Prijava</button>
             </form>
+            <div className="invalid-credentials" style={{display: isInvalidCredentials ? "block" : "none"}}>
+                E-mail ili lozinka su pogrešni. Pokušajte ponovno.
+            </div>
             <p className="register-link">
                 Nemate račun? <span onClick={() => navigate('/register')}>Registrirajte se.</span>
             </p>

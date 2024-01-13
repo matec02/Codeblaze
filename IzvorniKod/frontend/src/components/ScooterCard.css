@@ -22,6 +22,10 @@
     margin-bottom: 8px;
 }
 
+.ad-form {
+    width: 45%; /* or any specific width like 300px */
+}
+
 .scooter-details {
     margin: 4px 0;
     line-height: 1.4;

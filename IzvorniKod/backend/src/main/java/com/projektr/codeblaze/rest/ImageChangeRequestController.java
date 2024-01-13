@@ -1,23 +1,20 @@
 package com.projektr.codeblaze.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.projektr.codeblaze.domain.ImageChangeRequest;
-import com.projektr.codeblaze.domain.Scooter;
 import com.projektr.codeblaze.domain.User;
 import com.projektr.codeblaze.service.DocumentService;
 import com.projektr.codeblaze.service.ImageChangeRequestService;
-import com.projektr.codeblaze.service.RegistrationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -37,11 +34,12 @@ public class ImageChangeRequestController {
             @RequestPart("additionalComments") String commentsJson,
             @RequestPart("photoUrlNewImage") String newPhotoUrlJson,
             @RequestPart("photoUrlOldImage") String oldPhotoUrlJson,
-            @RequestPart("user") String userJson) {
+            @RequestPart("user") String userJson,
+            @RequestPart("listingId") String listingIdJson){
 
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-
+            objectMapper.registerModule(new JavaTimeModule());
             User user = objectMapper.readValue(userJson, User.class);
             String cleanIsoDate = complaintTimeJson.replace("'", ""); // Remove single quotes
             OffsetDateTime odt = OffsetDateTime.parse(cleanIsoDate);
@@ -50,9 +48,10 @@ public class ImageChangeRequestController {
             String comments = objectMapper.readValue(commentsJson, String.class);
             String newPhotoUrl = objectMapper.readValue(newPhotoUrlJson, String.class);
             String oldPhotoUrl = objectMapper.readValue(oldPhotoUrlJson, String.class);
+            String listingId = objectMapper.readValue(listingIdJson, String.class);
 
             ImageChangeRequest imageChangeRequest = imageChangeRequestService.requestSubmit(user, ldt,
-                    newPhotoUrl, oldPhotoUrl, comments);
+                    newPhotoUrl, oldPhotoUrl, comments, listingId);
 
             if (imageChangeRequest != null) {
                 return ResponseEntity.ok(imageChangeRequest);
@@ -127,5 +126,22 @@ public class ImageChangeRequestController {
             logger.error("An error occurred during admin decision", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred during admin decision");
         }
+    }
+
+    @PutMapping(value = "update-status/{requestId}")
+    public ResponseEntity<?> updateRequestStatus(@PathVariable Long requestId,
+                                                 @RequestBody Map<String, String> body){
+        String newStatus = body.get("status");
+        ImageChangeRequest imageChangeRequest = imageChangeRequestService.updateRequestStatus(requestId, newStatus);
+        return ResponseEntity.ok(imageChangeRequest);
+    }
+
+    @GetMapping(value = "getAll")
+    public ResponseEntity<?> getAllRequests(){
+        List<ImageChangeRequest> imageChangeRequests = imageChangeRequestService.findAll();
+        if (imageChangeRequests.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(imageChangeRequests);
     }
 }
