@@ -103,12 +103,18 @@
     flex-direction: column;
     align-items: center;
 }
+.scooter.expanded .expanded-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 
 .scooter.expanded .scooter-image {
     max-width: 100%;
     max-height: 50vh;
     object-fit: contain;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .scooter.expanded .profile-avatar {
@@ -121,6 +127,7 @@
 .scooter.expanded .scooter-details {
     text-align: center;
     margin-top: 10px;
+    width: 100%; /* Osigurava da se detalji prikazuju u cijeloj širini */
 }
 
 .scooter.expanded .social-share-buttons ul {
