@@ -201,7 +201,11 @@ function ScooterCard({listing}) {
     const handleCardClick = () => {
         setIsExpanded(true);
     };
-
+    function toLocalDateTime(date) {
+        const offset = date.getTimezoneOffset();
+        const localTime = new Date(date.getTime() - offset * 60000);
+        return localTime.toISOString().slice(0, 16);
+    }
 
 
     const handleSubmit = async (event) => {
@@ -430,10 +434,10 @@ function ScooterCard({listing}) {
             if (isOpen) {
                 setLocalListing({
                     ...listing,
-                    returnByTime: new Date().toISOString().slice(0, 16) // Postavljanje minimalnog vremena povratka
+                    returnByTime: toLocalDateTime(new Date())
                 });
             }
-        }, [isOpen, listing]);
+        }, [isOpen]);
 
         const handleAdChange = (event) => {
             const {name, value} = event.target;
@@ -495,7 +499,8 @@ function ScooterCard({listing}) {
                             <label>Iznos kazne</label>
                             <input type="number" step="0.1" name="penaltyFee" value={localListing.penaltyFee}
                                    placeholder="Upišite iznos kazne za prekoračenje vremena vraćanja"
-                                   onChange={handleAdChange}required/>
+                                   onChange={handleAdChange}
+                                   required/>
                         </div>
                         <div className="form-group">
                             <label>Vrijeme povratka</label>
@@ -504,6 +509,8 @@ function ScooterCard({listing}) {
                                 name="returnByTime"
                                 value={localListing.returnByTime}
                                 onChange={handleAdChange}
+                                className="listing-form"
+                                min={localListing.returnByTime}
                                 required
                             />
                         </div>

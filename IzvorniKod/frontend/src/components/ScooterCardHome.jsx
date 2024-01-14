@@ -58,6 +58,10 @@ function ScooterCardHome({ scooter }) {
     }, []);
 
     const openAdModal = useCallback(() => {
+        setListing(prevListing => ({
+            ...prevListing,
+            returnByTime: toLocalDateTime(new Date())
+        }));
         setIsAdModalOpen(true);
     }, []);
 
@@ -79,6 +83,16 @@ function ScooterCardHome({ scooter }) {
         setIsExpanded(true);
     };
 
+    function toLocalDateTime(date) {
+        const offset = date.getTimezoneOffset();
+        console.log(offset)
+        const localTime = new Date(date.getTime() - offset * 60000);
+        console.log(localTime.toISOString().slice(0, 16))
+        console.log("err:", new Date().toISOString())
+        return localTime.toISOString().slice(0, 16);
+    }
+    console.log("Proba:",toLocalDateTime(new Date()))
+
     const ImageModal = ({isOpen, onClose, imageSrc, altText }) => {
         if (!isOpen) return null;
         return (
@@ -94,6 +108,7 @@ function ScooterCardHome({ scooter }) {
             </div>
         );
     };
+
 
     const handleFileChange = (event, setFileState) => {
         setFileState(event.target.files[0]);
@@ -238,10 +253,10 @@ function ScooterCardHome({ scooter }) {
             if (isOpen) {
                 setLocalListing({
                     ...listing,
-                    returnByTime: new Date().toISOString().slice(0, 16) // Postavljanje minimalnog vremena povratka
+                    returnByTime: toLocalDateTime(new Date())
                 });
             }
-        }, [isOpen, listing]);
+        }, [isOpen]);
 
         const handleAdChange = (event) => {
             const { name, value } = event.target;
@@ -325,7 +340,7 @@ function ScooterCardHome({ scooter }) {
                                 value={localListing.returnByTime}
                                 onChange={handleAdChange}
                                 className="listing-form"
-                                min={new Date().toISOString().slice(0, 16)}
+                                min={localListing.returnByTime}
                                 required
                             />
                         </div>
