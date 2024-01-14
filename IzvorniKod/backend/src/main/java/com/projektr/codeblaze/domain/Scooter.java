@@ -20,19 +20,19 @@ public class Scooter {
     private String model;
 
     @Column(name = "batteryCapacity")
-    private int batteryCapacity;
+    private Integer batteryCapacity;
 
     @Column(name = "maxSpeed")
-    private int maxSpeed;
+    private Integer maxSpeed;
 
     @Column(name= "imagePath", length = 500)
     private String imagePath;
 
     @Column(name = "maxRange")
-    private double maxRange;
+    private Double maxRange;
 
     @Column(name = "yearOfManufacture")
-    private int yearOfManufacture;
+    private Integer yearOfManufacture;
 
     @Column(name = "additionalInformation")
     private String additionalInformation;

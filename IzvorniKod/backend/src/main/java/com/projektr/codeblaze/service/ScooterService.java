@@ -114,7 +114,20 @@ public class ScooterService {
             throw new NoSuchElementException("Scooter not found with id: " + scooterId);
         }
     }
-
+    @Transactional
+    public Listing updateListingInfo(Long listingId, Listing updatedListing) {
+        Optional<Listing> listingOptional = listingRepository.findById(listingId);
+        if (!listingOptional.isPresent()) {
+            throw new RuntimeException("Scooter not found with id: " + listingId);
+        }
+        Listing existingListing = listingOptional.get();
+        existingListing.setCurrentAddress(updatedListing.getCurrentAddress());
+        existingListing.setReturnAddress(updatedListing.getReturnAddress());
+        existingListing.setPricePerKilometer(updatedListing.getPricePerKilometer());
+        existingListing.setPenaltyFee(updatedListing.getPenaltyFee());
+        existingListing.setReturnByTime(updatedListing.getReturnByTime().toLocalDateTime());
+        return listingRepository.save(existingListing);
+    }
     @Transactional
     public Scooter registerScooterAndUploadPhoto(Scooter scooter, User user, String photoUrl) throws IOException {
 //        String photoPath = saveFile(scooterPhoto, "SP", user);
@@ -123,55 +136,13 @@ public class ScooterService {
         scooter.setImagePath(photoUrl);
         scooter.setAvailability(false);
         return scooterRepository.save(scooter);
-    }
-    /*@Transactional
-    public Scooter updateScooter(Long scooterId, Scooter updatedScooter) {
-        Optional<Scooter> scooterOptional = scooterRepository.findById(scooterId);
-
-        if (!scooterOptional.isPresent()) {
-            throw new RuntimeException("Scooter not found with id: " + scooterId);
-        }
-
-        Scooter existingScooter = scooterOptional.get();
-
-        existingScooter.setManufacturer(updatedScooter.getManufacturer());
-        existingScooter.setModel(updatedScooter.getModel());
-        existingScooter.setBatteryCapacity(updatedScooter.getBatteryCapacity());
-        existingScooter.setMaxSpeed(updatedScooter.getMaxSpeed());
-        existingScooter.setMaxRange(updatedScooter.getMaxRange());
-        existingScooter.setYearOfManufacture(updatedScooter.getYearOfManufacture());
-        existingScooter.setAdditionalInformation(updatedScooter.getAdditionalInformation());
-
-
-        return scooterRepository.save(existingScooter);
-    }
-    @Transactional
-    public Listing updateListing(Long listingId, Listing updatedListing) {
-        Optional<Listing> listingOptional = listingRepository.findById(listingId);
-
-        if (!listingOptional.isPresent()) {
-            throw new RuntimeException("Scooter not found with id: " + listingId);
-        }
-
-        Listing existingListing = listingOptional.get();
-
-        existingListing.setCurrentAddress(updatedListing.getCurrentAddress());
-        existingListing.setReturnAddress(updatedListing.getReturnAddress());
-        existingListing.setPricePerKilometer(updatedListing.getPricePerKilometer());
-        existingListing.setPenaltyFee(updatedListing.getPenaltyFee());
-        existingListing.setReturnByTime(updatedListing.getReturnByTime().toLocalDateTime());
-
-
-        return listingRepository.save(existingListing);
-    }*/
-    public void deleteListing(Long listingId) {
+    }public void deleteListing(Long listingId) {
         if (listingRepository.existsById(listingId)) {
             listingRepository.deleteById(listingId);
         } else {
             throw new RuntimeException("Listing not found with ID: " + listingId);
         }
     }
-
     public Listing updateListingStatus(Long listingId, String newStatus) {
         Listing listing = listingRepository.findById(listingId).orElseThrow(NoSuchElementException::new);
         listing.setStatus(ListingStatus.valueOf(newStatus));

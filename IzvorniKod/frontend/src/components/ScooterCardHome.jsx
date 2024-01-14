@@ -202,7 +202,7 @@ function ScooterCardHome({ scooter }) {
     const handleUpdateScooter = async (updatedScooter) => {
         try {
             const response = await fetch(`/api/scooters/edited-scooter/${scooterId}`, {
-                method: 'POST',
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -212,7 +212,7 @@ function ScooterCardHome({ scooter }) {
             if (!response.ok) {
                 throw new Error(`Error: ${response.status}`);
             }
-
+            window.location.reload();
             const result = await response.json();
         } catch (error) {
             console.error('Error:', error);

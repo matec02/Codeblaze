@@ -22,12 +22,6 @@ public class ImageChangeRequest {
 
     @Column(name = "complaintTime", nullable = false)
     private LocalDateTime complaintTime;
-    public Timestamp getComplaintTime() {
-        if (complaintTime != null) {
-            return Timestamp.valueOf(complaintTime);
-        }
-        return null; // Handle the case when paymentTime is null, if needed
-    }
 
     @Column(name = "additionalComments")
     private String additionalComments;
@@ -38,12 +32,6 @@ public class ImageChangeRequest {
 
     @Column(name = "approvalTime")
     private LocalDateTime approvalTime;
-    public Timestamp getApprovalTime() {
-        if (approvalTime != null) {
-            return Timestamp.valueOf(approvalTime);
-        }
-        return null; // Handle the case when paymentTime is null, if needed
-    }
 
     @Column(name = "rejectionReason")
     private String rejectionReason;

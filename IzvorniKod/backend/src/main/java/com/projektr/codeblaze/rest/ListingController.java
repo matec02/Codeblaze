@@ -1,6 +1,7 @@
 package com.projektr.codeblaze.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.projektr.codeblaze.dao.ListingRepository;
 import com.projektr.codeblaze.domain.Listing;
 import com.projektr.codeblaze.domain.Scooter;
 import com.projektr.codeblaze.domain.User;
@@ -25,12 +26,15 @@ public class ListingController {
     private final ScooterService scooterService;
     private final UserService userService;
 
+    private final ListingRepository listingRepository;
+
     private static final Logger logger = LoggerFactory.getLogger(DocumentService.class);
 
     @Autowired
-    public ListingController(ScooterService scooterService, UserService userService) {
+    public ListingController(ScooterService scooterService, UserService userService, ListingRepository listingRepository) {
         this.scooterService = scooterService;
         this.userService = userService;
+        this.listingRepository = listingRepository;
     }
 
 
@@ -60,6 +64,16 @@ public class ListingController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(listings);
     }
+    @PutMapping("/edit-listing/{listingId}")
+    public ResponseEntity<Listing> updateListingInfo(@PathVariable Long listingId, @RequestBody Listing listing) {
+        try {
+            Listing updatedListing = scooterService.updateListingInfo(listingId, listing);
+            return ResponseEntity.ok(updatedListing);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
 
     @PutMapping("/update-listing-status/{listingId}")
     public ResponseEntity<Listing> updateListingStatus(@PathVariable Long listingId, @RequestBody Map<String, String> body) {
