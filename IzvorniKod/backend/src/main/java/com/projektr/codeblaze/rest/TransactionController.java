@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/transactions")
@@ -52,6 +53,13 @@ public class TransactionController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PutMapping("update-transaction-status/{transactionId}")
+    public ResponseEntity<Transaction> updateTransactionStatus(@PathVariable Long transactionId, @RequestBody Map<String, String> body) {
+        String newStatus = body.get("status");
+        Transaction transaction = transactionService.updateTransactionStatus(transactionId, newStatus);
+        return ResponseEntity.ok(transaction);
     }
 
     @PostMapping(value = "/send", consumes = "multipart/form-data")

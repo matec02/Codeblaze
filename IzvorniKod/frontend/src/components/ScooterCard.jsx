@@ -8,6 +8,7 @@ import {sendMessageWithAction, startConversation} from "../utils/MessageUtils";
 import {FaFacebook, FaTwitter, FaLinkedin} from 'react-icons/fa';
 import {startTransaction} from "./Transactions";
 import {sendMessageFromCodeblazeWithAction} from "../utils/MessageUtils";
+import { useLocation } from "react-router-dom";
 
 export const ProfileModal = ({isOpen, onClose, profile}) => {
     const [privacySettings, setPrivacySettings] = useState(null);
@@ -93,6 +94,9 @@ function ScooterCard({listing}) {
     const [allRequests, setAllRequests] = useState([]);
     const [showNotification, setShowNotification] = useState(false);
     const [isButtonForBadChangeHidden, setIsButtonForBadChangeHidden] = useState(false);
+
+    const location = useLocation();
+    const currentPath = location.pathname;
 
 
     const {scooter, user, status, listingId} = listing;
@@ -297,7 +301,9 @@ function ScooterCard({listing}) {
     }, [scooter.userId]);
 
     const determineButtons = () => {
-        if (user && user.userId && curUser.userId && curUser.userId === user.userId && status === "RENTED") {
+        if (currentPath === "/my-transactions") {
+            return [];
+        } else if (user && user.userId && curUser.userId && curUser.userId === user.userId && status === "RENTED") {
             return [
                 {text: 'Vrati', onClick: (e) => handleButtonClick(e, 'vrati')},
                 {text: 'Zamjeni sliku', onClick: (e) => handleButtonClick(e, 'prijavi')}
@@ -344,9 +350,6 @@ function ScooterCard({listing}) {
             const chatSessionId = await sendMessageWithAction(scooter.user, listingId);
             //navigate(`/chat-window/${chatSessionId}`);
             navigate(`/chat-panel`);
-
-
-
 
         } catch (error) {
             console.error('Error updating listing status:', error);

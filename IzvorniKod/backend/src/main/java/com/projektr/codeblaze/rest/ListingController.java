@@ -78,7 +78,6 @@ public class ListingController {
     @PutMapping("/update-listing-status/{listingId}")
     public ResponseEntity<Listing> updateListingStatus(@PathVariable Long listingId, @RequestBody Map<String, String> body) {
         String newStatus = body.get("status");
-        String newClientId = body.get("clientId");
         Listing listing = scooterService.updateListingStatus(listingId, newStatus);
         return ResponseEntity.ok(listing);
     }

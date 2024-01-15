@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import TransactionCard from './TransactionCard';
 import './Transactions.css';
 import {getNicknameFromToken} from "./RegisterScooterForm";
+import ScooterCard from "./ScooterCard";
 
 export const startTransaction = async (owner, client, listingPricePerKm, returnByTime, penaltyFee) => {
 
@@ -45,7 +46,7 @@ function Transactions() {
     const [ownerTransactions, setOwnerTransaction] = useState([]);
     const [clientTransactions, setClientTransaction] = useState([]);
     const [activeTab, setActiveTab] = useState('ownerTransactions');
-
+    const [listings, setListings] = useState([]);
 
     useEffect(() => {
         handleUser();
@@ -53,10 +54,11 @@ function Transactions() {
 
     useEffect(() => {
         if (user && user.userId) {
+            handleViewListings();
             if (activeTab === 'ownerTransactions') {
-                handleViewOwnerTransactions()
+                handleViewOwnerTransactions();
             } else if (activeTab === 'clientTransactions') {
-                handleViewClientTransactions(user);
+                handleViewClientTransactions();
             }
         }
     }, [user, activeTab]);
@@ -82,6 +84,27 @@ function Transactions() {
         }
     };
 
+    const handleViewListings = async (event) => {
+        try {
+            const response = await fetch(`/api/listing/get-listings/RENTED`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (response.ok) {
+                const listings = await response.json();
+                setListings(listings);
+            }
+            else {
+                throw new Error(`Error: ${response.status}`);
+            }
+        } catch (error) {
+            console.error('Failed to fetch transactions:', error);
+        }
+    };
+
     const handleViewOwnerTransactions = async (event) => {
         try {
             //dohvacanje transakcija iznajmljivaca
@@ -94,7 +117,20 @@ function Transactions() {
 
             if (response.ok) {
                 const transactions = await response.json();
-                setOwnerTransaction(transactions);
+
+                // Sort transactions based on status, with 'UNSEEN' first
+                const sortedTransactions = transactions.sort((a, b) => {
+                    if (a.status === 'UNSEEN' && b.status !== 'UNSEEN') {
+                        return -1; // 'UNSEEN' comes first
+                    } else if (a.status !== 'UNSEEN' && b.status === 'UNSEEN') {
+                        return 1; // 'UNSEEN' comes second
+                    } else {
+                        // If both have the same status or neither is 'UNSEEN', maintain their current order
+                        return 0;
+                    }
+                });
+
+                setOwnerTransaction(sortedTransactions);
             }
             else {
                 throw new Error(`Error: ${response.status}`);
@@ -126,14 +162,21 @@ function Transactions() {
         }
     };
 
-    const orderedOwnerTransactions = ownerTransactions.sort((a, b) => {
-       const statusOrder = {SEEN: 2, UNSEEN: 1};
-       return statusOrder[a.status] - statusOrder[b.status];
-    });
 
     return (
         <div className="my-transactions">
             <h2>Moje transakcije</h2>
+            {listings.filter(listing => (listing.scooter.user.userId === user.userId)).length > 0 && (
+                <div className="rented-scooters">
+                    <h3>Romobili na iznajmljivanju:</h3>
+                    <div className="rented-scooters-tabs">
+                        {listings.map((listing, index) => (
+                            <ScooterCard key={index} listing={listing} />
+                        ))}
+                    </div>
+                </div>
+            )}
+
             <div className="transaction-buttons">
                 <button onClick={() => setActiveTab('ownerTransactions')}
                         className={activeTab === "ownerTransactions" ? 'active' : ''}>
@@ -147,10 +190,8 @@ function Transactions() {
 
             {activeTab === 'ownerTransactions' && (
                 <div className="transactions-tabs">
-                    {orderedOwnerTransactions.map(transaction => (
-                        <div className={transaction.status}>
-                            <TransactionCard key={transaction.transactionId} transaction={transaction}/>
-                        </div>
+                    {ownerTransactions.map(transaction => (
+                            <TransactionCard key={transaction.transactionId} transaction={transaction} type={transaction.status}/>
                     ))}
                 </div>
             )}
@@ -158,7 +199,7 @@ function Transactions() {
             {activeTab === 'clientTransactions' && (
                 <div className="transactions-tabs">
                     {clientTransactions.map(transaction => (
-                        <TransactionCard key={transaction.transactionId} transaction={transaction}/>
+                            <TransactionCard key={transaction.transactionId} transaction={transaction} type="SEEN"/>
                     ))}
                 </div>
             )}
