@@ -102,9 +102,6 @@ public class UserController {
     public ResponseEntity<List<User>> getAllPendingUsers() {
         List<User> allUsers = userService.findAll();
         List<User> pendingUsers = userService.getAllPendingUsers(allUsers);
-        if (pendingUsers.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(pendingUsers);
     }
 
@@ -112,9 +109,6 @@ public class UserController {
     public ResponseEntity<List<User>> getAllAcceptedUsers() {
         List<User> allUsers = userService.findAll();
         List<User> acceptedUsers = userService.getAllAcceptedUsers(allUsers);
-        if (acceptedUsers.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(acceptedUsers);
     }
 
@@ -122,9 +116,6 @@ public class UserController {
     public ResponseEntity<List<User>> getAllAdmins() {
         List<User> allUsers = userService.findAll();
         List<User> admins = userService.getAllAdmins(allUsers);
-        if (admins.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(admins);
     }
 
@@ -132,9 +123,6 @@ public class UserController {
     public ResponseEntity<List<User>> getAllBlockedUsers() {
         List<User> allUsers = userService.findAll();
         List<User> blockedUsers = userService.getAllBlockedUsers(allUsers);
-        if (blockedUsers.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(blockedUsers);
     }
 
@@ -142,9 +130,6 @@ public class UserController {
     public ResponseEntity<List<User>> getAllRejectedUsers() {
         List<User> allUsers = userService.findAll();
         List<User> rejectedUsers = userService.getAllRejectedUsers(allUsers);
-        if (rejectedUsers.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(rejectedUsers);
     }
 
@@ -214,12 +199,7 @@ public class UserController {
     @PutMapping("/upgrade-role/{userId}")
     public ResponseEntity<UserRole> upgradeUserRole(@PathVariable Long userId) {
         UserRole updatedRole = userService.upgradeUserRole(userId);
-
-        if (updatedRole != null) {
-            return ResponseEntity.ok(updatedRole);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(updatedRole);
     }
 
 

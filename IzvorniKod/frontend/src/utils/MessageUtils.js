@@ -1,13 +1,10 @@
 import {getCodeblazeUser, getNicknameFromToken, getUserFromToken, getUserIdFromToken} from "./authService";
 import React from "react";
 
-
 export const chatHistory = function fetchChatHistory(userId) {
     fetch(`/api/messages/history/${userId}`)
         .then(response => response.json())
         .then(messages => {
-            // console.log('Chat history:', messages);
-            // Update your state or context with these messages to display in the UI
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -94,6 +91,113 @@ export const sendMessageFromCodeblaze = async (messageText, user2) => {
 };
 
 
+export const sendMessageWithAction = async (owner, listingId, manufacturer, model, yearOfManufacture) => {
+    const senderNickname = await getNicknameFromToken();
+    const senderUser = await getUserFromToken();
+    const chatSession = await startConversation(owner);
+    console.log("sendMWA" + listingId);
+
+    const messageText = `Hej ${owner.nickname},\n ${senderNickname} želi iznajmiti tvoj ${manufacturer} ${model} proizveden ${yearOfManufacture}! Pristaješ li na najam?`;
+
+    const messageToSend = {
+        senderUsername: senderNickname,
+        chatSession: chatSession,
+        text: messageText,
+        sentTime: new Date().toISOString().split('.')[0],
+        status: 'UNREAD',
+        messageType: 'ACTION',
+        user: senderUser,
+        listingId: listingId
+    };
+
+    try {
+        const formData = new FormData();
+        formData.append('msgToBeSent', new Blob([JSON.stringify(messageToSend)], {type: "application/json"}));
+        const response = await fetch('/api/messages/send', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+    } catch (error) {
+        console.error('Error sending message:', error);
+    }
+};
+
+export const sendMessageResponse = async (text, chatSessionId) => {
+    const senderUser = await getUserFromToken();
+    const chatSession = await getChatSessionById(chatSessionId);
+    const messageToSend = {
+        senderUsername: senderUser.nickname,
+        chatSession: chatSession,
+        text: text,
+        sentTime: new Date().toISOString().split('.')[0],
+        status: 'UNREAD',
+        user: senderUser
+    };
+
+    try {
+        const formData = new FormData();
+        formData.append('msgToBeSent', new Blob([JSON.stringify(messageToSend)], {type: "application/json"}));
+        const response = await fetch('/api/messages/send', { // The URL should match your backend endpoint
+            method: 'POST',
+            body: formData
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+    } catch (error) {
+        console.error('Error sending message:', error);
+    }
+};
+
+export const fetchListingById = async (listingId) => {
+    try {
+        const response = await fetch(`/api/listing/get-listing-by-id/${listingId}`);
+
+        if (!response.ok) {
+            // Handle the error. The server response was not OK.
+            console.error('Failed to fetch listing with ID:', listingId);
+            return null;
+        }
+
+        return await response.json();
+    } catch (error) {
+        // Handle the network error
+        console.error('Network error when fetching listing:', error);
+        return null;
+    }
+};
+
+export const getChatSessionBetweenUsers = async (user1Id, user2Id) => {
+    try {
+        const response = await fetch(`/api/chat-session/${user1Id}/${user2Id}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch chat session');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching chat session:', error);
+        return null; // or handle the error as needed
+    }
+};
+
+export const handleEndOfTransactionMessage = async (user1Id, user2Id, transactionId) => {
+    const chatSession = await getChatSessionBetweenUsers(user1Id, user2Id);
+    if (chatSession) {
+        const reviewPageUrl = `/leave-review/${transactionId}`; // Replace with your actual domain and route
+        const messageWithLink = `Vožnja je gotova i Vaš romobil je vraćen! Hvala na izboru mog romobila.\nMolimo Vas da ostavite <a href="${reviewPageUrl}" target="_blank">osvrt</a> na mene kao klijenta.`;
+        await sendMessageResponse(messageWithLink, chatSession.chatSessionId);
+    } else {
+        console.log("ERROR, can not return scooter.");
+    }
+};
+
+
 export const sendMessageFromCodeblazeWithAction = async (owner, listing, comments) => {
     const user1 = await getCodeblazeUser();
 
@@ -125,42 +229,6 @@ export const sendMessageFromCodeblazeWithAction = async (owner, listing, comment
         messageType: 'REQUEST',
         user: user1,
         listingId: listing.listingId
-    };
-
-    try {
-        const formData = new FormData();
-        formData.append('msgToBeSent', new Blob([JSON.stringify(messageToSend)], {type: "application/json"}));
-        const response = await fetch('/api/messages/send', {
-            method: 'POST',
-            body: formData
-        });
-
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-
-    } catch (error) {
-        console.error('Error sending message:', error);
-    }
-};
-
-export const sendMessageWithAction = async (owner, listingId) => {
-    const senderNickname = await getNicknameFromToken();
-    const senderUser = await getUserFromToken();
-    const chatSession = await startConversation(owner);
-    //console.log("sendMWA" + listingId); //dobar
-
-    const messageText = `Hej ${owner.nickname},\n ${senderNickname} želi iznajmiti tvoj romobil! Pristaješ li na najam?`;
-
-    const messageToSend = {
-        senderUsername: senderNickname,
-        chatSession: chatSession,
-        text: messageText,
-        sentTime: new Date().toISOString().split('.')[0],
-        status: 'UNREAD',
-        messageType: 'ACTION',
-        user: senderUser,
-        listingId: listingId
     };
 
     try {

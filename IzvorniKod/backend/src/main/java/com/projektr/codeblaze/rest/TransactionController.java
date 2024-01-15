@@ -82,4 +82,10 @@ public class TransactionController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @GetMapping("/get-by-id/{transactionId}")
+    public ResponseEntity<Transaction> getTransactionById(@PathVariable Long transactionId) {
+        return transactionService.getTransactionById(transactionId);
+    }
+
 }

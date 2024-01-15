@@ -157,6 +157,8 @@ function ChatWindow() {
                         return (
                             <MessageWithButtons
                                 key={message.messageId}
+                                messageId={message.messageId}
+                                chatSessionId={chatSessionId}
                                 senderUsername={message.senderUsername}
                                 listingId={message.listingId}
                                 text={message.text}

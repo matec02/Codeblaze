@@ -6,6 +6,7 @@ import com.projektr.codeblaze.domain.Listing;
 import com.projektr.codeblaze.domain.Scooter;
 import com.projektr.codeblaze.domain.User;
 import com.projektr.codeblaze.domain.ListingStatus;
+import com.projektr.codeblaze.service.ListingService;
 import com.projektr.codeblaze.service.DocumentService;
 import com.projektr.codeblaze.service.ScooterService;
 import com.projektr.codeblaze.service.UserService;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -25,16 +27,15 @@ import java.util.stream.Collectors;
 public class ListingController {
     private final ScooterService scooterService;
     private final UserService userService;
-
-    private final ListingRepository listingRepository;
+    private final ListingService listingService;
 
     private static final Logger logger = LoggerFactory.getLogger(DocumentService.class);
 
     @Autowired
-    public ListingController(ScooterService scooterService, UserService userService, ListingRepository listingRepository) {
+    public ListingController(ScooterService scooterService, UserService userService, ListingService listingService) {
         this.scooterService = scooterService;
         this.userService = userService;
-        this.listingRepository = listingRepository;
+        this.listingService = listingService;
     }
 
 
@@ -44,6 +45,15 @@ public class ListingController {
                 .filter(listing -> listing.getStatus() == ListingStatus.valueOf(listingStatus))
                 .collect(Collectors.toList());
         return ResponseEntity.ok(listings);
+    }
+
+    @GetMapping("get-listing-by-id/{listingId}")
+    public ResponseEntity<Optional<Listing>> getListingsById(@PathVariable Long listingId) {
+        Optional<Listing> listing = listingService.getListingById(listingId);
+        if (listing == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(listing);
     }
 
     @DeleteMapping("/delete-listing/{listingId}")
@@ -78,6 +88,7 @@ public class ListingController {
     @PutMapping("/update-listing-status/{listingId}")
     public ResponseEntity<Listing> updateListingStatus(@PathVariable Long listingId, @RequestBody Map<String, String> body) {
         String newStatus = body.get("status");
+        String newClientId = body.get("clientId");
         Listing listing = scooterService.updateListingStatus(listingId, newStatus);
         return ResponseEntity.ok(listing);
     }

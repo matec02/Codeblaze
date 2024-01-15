@@ -9,9 +9,23 @@ function ChatMessage({text, sender, isSeen}) {
         return null;
     };
 
+    const containsLink = (text) => {
+        const linkRegex = /<a\s+(?:[^>]*?\s+)?href=(["'])(.*?)\1/i;
+        return linkRegex.test(text);
+    };
+
     return (
         <div className={`message ${sender}`}>
-            {text}
+            {text.split('\n').map((line, index) => (
+                <span key={index}>
+                    {containsLink(line) ? (
+                        <div dangerouslySetInnerHTML={{ __html: line }} />
+                    ) : (
+                        <span>{line}</span>
+                    )}
+                    <br />
+                </span>
+            ))}
             {renderSeenIndicator()}
         </div>
     );

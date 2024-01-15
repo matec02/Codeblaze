@@ -56,4 +56,8 @@ public class ChatSessionService {
         return chatSessionRepository.findById(chatSessionId);
     }
 
+    public Optional<ChatSession> findChatSessionBetweenUsers(Long user1Id, Long user2Id) {
+        return chatSessionRepository.findExistingChatSession(user1Id, user2Id);
+    }
+
 }

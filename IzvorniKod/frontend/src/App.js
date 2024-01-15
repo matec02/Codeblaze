@@ -16,6 +16,7 @@ import ImageChange from "./components/ImageChange";
 import MyProfile from "./components/MyProfile";
 import Transactions from "./components/Transactions";
 import UnreadMessagesContext from "./components/UnreadMessagesContext";
+import ReviewForm from "./components/ReviewForm";
 
 import AdminRoute from "./components/AdminRoute";
 import ProtectedRoutes from "./components/ProtectedRoutes"
@@ -25,6 +26,9 @@ import ChatPanel from "./components/ChatPanel";
 import ChatWindow from "./components/ChatWindow";
 import ChatMessage from "./components/ChatMessage";
 import EditProfile from "./components/EditProfile";
+import ReviewCard from "./components/ReviewCard";
+import ProhibitedReview from "./components/ProhibitedReview";
+import ProtectReview from "./components/ProtectReview";
 
 /* Import for ScooterCardHome test
 import ScooterCardHome from "./components/ScooterCardHome";*/
@@ -57,6 +61,19 @@ function App() {
                     </ProtectedRoutes>
                 }/>
 
+                <Route path="/reviews/user/:userId" element={
+                    <ProtectedRoutes>
+                        <ReviewCard/>
+                    </ProtectedRoutes>
+                }/>
+
+                <Route path="/leave-review/:transactionId" element={
+                    <ProtectReview>
+                        <ProtectedRoutes>
+                            <ReviewForm/>
+                        </ProtectedRoutes>
+                    </ProtectReview>
+                }/>
 
                 <Route path="/chat-message" element={
                     <ProtectedRoutes>
@@ -70,9 +87,11 @@ function App() {
                 <Route path="/profile-blocked" element={
                         <ProfileBlocked />
                 }/>
+                <Route path="/not-allowed-review" element={
+                    <ProhibitedReview />
+                }/>
                 <Route path="/scooters" element={
                     <ProtectedRoutes>
-                        {/*pending se moze login, ali ne moze dodati scooter*/}
                         <ProtectedRouteScooter>
                             <MyScooter />
                         </ProtectedRouteScooter>
@@ -111,14 +130,11 @@ function App() {
                 <Route path="/unauthorized" element={
                     <Unauthorized/>
                 }/>
-                {/* Test for just 1 ScooterCardHome - uncomment import and route to test
-                <Route path="/scooter" element={<ScooterCardHome/>}/>
-                */}
+
                 <Route path="/editprofile" element={
                     <EditProfile/>
                 }/>
 
-                {/* TODO add all possible routes   */}
             </Routes>
             </UnreadMessagesContext.Provider>
         </Router>

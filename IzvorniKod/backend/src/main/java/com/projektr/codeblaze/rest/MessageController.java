@@ -78,13 +78,30 @@ public class MessageController {
             int updatedCount = messageService.markMessagesAsRead(chatSessionId, nickname);
             if (updatedCount > 0) {
                 logger.info("Marked {} messages as read for chat session {}", updatedCount, chatSessionId);
-                return ResponseEntity.ok().build();
             } else {
                 logger.info("No messages to mark as read for chat session {}", chatSessionId);
+            }
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            logger.error("Error marking messages as read for chat session {}", chatSessionId, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @DeleteMapping("/delete-message/{messageId}")
+    @Transactional
+    public ResponseEntity<?> deleteMessage(@PathVariable Long messageId) {
+        try {
+            boolean deleted = messageService.delete(messageId);
+            if (deleted) {
+                logger.info("Deleted message with ID {}", messageId);
+                return ResponseEntity.ok().build();
+            } else {
+                logger.info("No message found with ID {}", messageId);
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
-            logger.error("Error marking messages as read for chat session {}", chatSessionId, e);
+            logger.error("Error while deleting message", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

@@ -28,4 +28,12 @@ public class MessageService {
     public int markMessagesAsRead(Long chatSessionId, String nickname) {
         return messageRepository.markMessagesAsRead(chatSessionId, nickname);
     }
+
+    public boolean delete(Long messageId) {
+        boolean exists = messageRepository.existsById(messageId);
+        if (exists) {
+            messageRepository.deleteById(messageId);
+        }
+        return exists;
+    }
 }

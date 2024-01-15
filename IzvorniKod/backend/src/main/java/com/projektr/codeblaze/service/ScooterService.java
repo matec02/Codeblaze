@@ -152,9 +152,10 @@ public class ScooterService {
     public Listing updateListing(Long listingId, String clientUsername, String status) {
         logger.error("LISTING ID", listingId);
         Listing listing = listingRepository.findById(listingId).orElseThrow(NoSuchElementException::new);
-        User user = userRepository.findByNickname(clientUsername);
-
-        listing.setUser(user);
+        if (clientUsername != null) {
+            User user = userRepository.findByNickname(clientUsername);
+            listing.setUser(user);
+        }
         listing.setStatus(ListingStatus.valueOf(status));
 
         return  listingRepository.save(listing);

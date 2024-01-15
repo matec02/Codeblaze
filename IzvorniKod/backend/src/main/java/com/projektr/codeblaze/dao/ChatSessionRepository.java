@@ -20,4 +20,5 @@ public interface ChatSessionRepository extends JpaRepository<ChatSession, Long> 
     @Modifying
     @Query("update ChatSession cs SET cs.lastMessageTime = :lastMessageTime WHERE cs.chatSessionId = :chatSessionId")
     void updateLastMessageTime(Long chatSessionId, LocalDateTime lastMessageTime);
+
 }

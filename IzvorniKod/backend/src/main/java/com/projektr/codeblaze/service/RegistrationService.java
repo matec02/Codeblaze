@@ -13,7 +13,7 @@ import java.io.IOException;
 
 @Service
 public class RegistrationService {
-    private static final Logger logger = LoggerFactory.getLogger(DocumentService.class);
+    private static final Logger logger = LoggerFactory.getLogger(RegistrationService.class);
 
     @Autowired
     private UserService userService;

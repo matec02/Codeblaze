@@ -85,13 +85,9 @@ function ScooterCardHome({ scooter }) {
 
     function toLocalDateTime(date) {
         const offset = date.getTimezoneOffset();
-        console.log(offset)
         const localTime = new Date(date.getTime() - offset * 60000);
-        console.log(localTime.toISOString().slice(0, 16))
-        console.log("err:", new Date().toISOString())
         return localTime.toISOString().slice(0, 16);
     }
-    console.log("Proba:",toLocalDateTime(new Date()))
 
     const ImageModal = ({isOpen, onClose, imageSrc, altText }) => {
         if (!isOpen) return null;

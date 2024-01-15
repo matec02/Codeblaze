@@ -4,19 +4,24 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.projektr.codeblaze.domain.ChatSession;
 import com.projektr.codeblaze.domain.User;
 import com.projektr.codeblaze.service.ChatSessionService;
+import com.projektr.codeblaze.service.DocumentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/chat-session")
 public class ChatSessionController {
     private final ChatSessionService chatSessionService;
+    private static final Logger logger = LoggerFactory.getLogger(ChatSessionController.class);
+
 
     @Autowired
     public ChatSessionController(ChatSessionService chatSessionService) {
@@ -26,11 +31,8 @@ public class ChatSessionController {
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<ChatSession>> getChatSessionsForUser(@PathVariable Long userId) {
         List<ChatSession> sessions = chatSessionService.getChatSessionsForUser(userId);
-        if (sessions.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.ok(sessions);
-        }
+        return ResponseEntity.ok(sessions);
+
     }
 
     @PostMapping(value = "/start", consumes = "multipart/form-data")
@@ -66,4 +68,20 @@ public class ChatSessionController {
         chatSessionService.updateLastMessageTime(chatSessionId, lastMessageTime);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/{user1Id}/{user2Id}")
+    public ResponseEntity<ChatSession> getChatSessionBetweenUsers(@PathVariable Long user1Id, @PathVariable Long user2Id) {
+        logger.info("Entering getChatSessionBetweenUsers with user1Id: {} and user2Id: {}", user1Id, user2Id);
+
+        Optional<ChatSession> chatSessionOptional = chatSessionService.findChatSessionBetweenUsers(user1Id, user2Id);
+
+        if (chatSessionOptional.isPresent()) {
+            logger.info("Chat session found for user1Id: {} and user2Id: {}", user1Id, user2Id);
+            return ResponseEntity.ok(chatSessionOptional.get());
+        } else {
+            logger.warn("No chat session found for user1Id: {} and user2Id: {}", user1Id, user2Id);
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }

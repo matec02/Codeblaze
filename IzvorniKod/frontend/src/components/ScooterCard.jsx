@@ -4,7 +4,7 @@ import {Form, useNavigate} from "react-router-dom";
 import ProfileAvatar from '../assets/profile-avatar.png';
 import {getNicknameFromToken} from "./RegisterScooterForm";
 import {format} from 'date-fns';
-import {sendMessageWithAction, startConversation} from "../utils/MessageUtils";
+import {handleEndOfTransactionMessage, sendMessageResponse, sendMessageWithAction, startConversation} from "../utils/MessageUtils";
 import {FaFacebook, FaTwitter, FaLinkedin} from 'react-icons/fa';
 import {startTransaction} from "./Transactions";
 import {sendMessageFromCodeblazeWithAction} from "../utils/MessageUtils";
@@ -12,9 +12,20 @@ import { useLocation } from "react-router-dom";
 
 export const ProfileModal = ({isOpen, onClose, profile}) => {
     const [privacySettings, setPrivacySettings] = useState(null);
+    const [averageRating, setAverageRating] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
+        if (profile.userId) {
+            fetch(`/api/reviews/average-rating/${profile.userId}`)
+                .then(response => response.json())
+                .then(data => {
+                    setAverageRating(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching average rating:', error);
+                });
+        }
         const fetchPrivacySettings = async () => {
             try {
                 const response = await fetch(`/api/privacy-settings/${profile.userId}`);
@@ -35,26 +46,44 @@ export const ProfileModal = ({isOpen, onClose, profile}) => {
 
     if (!isOpen) return null;
 
+    const formatRating = (rating) => {
+        const numRating = typeof rating === 'number' ? rating : parseFloat(rating);
+        return !isNaN(numRating) ? numRating.toFixed(2) : "-";
+    };
+
+
     const handleStartConversation = async () => {
         const {chatSessionId} = await startConversation(profile);
         if (chatSessionId) {
             navigate(`/chat-window/${chatSessionId}`);
         } else {
+            console.log("Error while starting conversation");
         }
+    }
+
+    const handleOnRating = async() => {
+        navigate(`/reviews/user/${profile.userId}`);
     }
 
     return (
         <div className="modal-overlay" onClick={onClose}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
 
-                <h3>{profile.nickname}</h3>
+                <h3>
+                    {profile.nickname}
+                    <span className="average-rating">
+        {averageRating !== null ? ` ( ${formatRating(averageRating)} )` : ''}
+    </span>
+                </h3>
+
 
                 {privacySettings?.firstNameVisible && <h4>Name {profile.firstName}</h4>}
                 {privacySettings?.lastNameVisible && <h4>Lastname {profile.lastName}</h4>}
                 {privacySettings?.emailVisible && <h4>E-mail {profile.email}</h4>}
                 {privacySettings?.phoneNumberVisible && <h4>Phone Number: {profile.phoneNumber} </h4>}
                 <button onClick={handleStartConversation}>Pošalji Poruku</button>
-                <button className="modal-close-button" onClick={onClose}>Close</button>
+                <button onClick={handleOnRating}>Recenzije</button>
+                <button className="modal-close-button" onClick={onClose}>Zatvori</button>
             </div>
         </div>
     );
@@ -347,7 +376,7 @@ function ScooterCard({listing}) {
                 throw new Error('Failed to update listing status');
             }
 
-            const chatSessionId = await sendMessageWithAction(scooter.user, listingId);
+            const chatSessionId = await sendMessageWithAction(scooter.user, listingId, scooter.manufacturer, scooter.model, scooter.yearOfManufacture);
             //navigate(`/chat-window/${chatSessionId}`);
             navigate(`/chat-panel`);
 
@@ -374,9 +403,12 @@ function ScooterCard({listing}) {
             const returnByTime = listing.returnByTime;
             const penaltyFee = listing.penaltyFee;
 
-            await startTransaction(owner, client, listingPricePerKm, returnByTime, penaltyFee);
+            const transactionId = await startTransaction(owner, client, listingPricePerKm, returnByTime, penaltyFee);
+
+            await handleEndOfTransactionMessage(owner.userId, client.userId, transactionId);
 
             navigate('/my-transactions');
+
 
             if (!response.ok) {
                 throw new Error('Failed to update listing status');

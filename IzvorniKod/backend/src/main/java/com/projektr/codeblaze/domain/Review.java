@@ -7,6 +7,7 @@ import lombok.Data;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Data
 @Entity
@@ -14,33 +15,27 @@ import java.time.LocalDateTime;
 public class Review {
 
     @Id
-    private Long transactionReviewId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long reviewId;
 
     @OneToOne
-    @MapsId
-    @JoinColumn(name = "transactionReviewId")
+    @JoinColumn(name = "transactionId", nullable = false)
     private Transaction transaction;
 
     @Column(name = "stars")
     @Min(1)
     @Max(5)
-    private int stars; //limit them 1 to 5
+    private int stars;
 
     @Column(name = "comment")
     private String comment;
 
     @Column(name = "reviewTime")
-    private LocalDateTime reviewTime;
-    public Timestamp getReviewTime() {
-        if (reviewTime != null) {
-            return Timestamp.valueOf(reviewTime);
-        }
-        return null; // Handle the case when paymentTime is null, if needed
-    }
+    private OffsetDateTime reviewTime;
 
     @ManyToOne
     @JoinColumn(name = "reviewerUsername", referencedColumnName = "nickname", nullable = false)
-    private User reviewerUsername; //provjeriti
+    private User reviewerUsername;
 
     @ManyToOne
     @JoinColumn(name = "renterUsername", referencedColumnName = "nickname", nullable = false)

@@ -34,9 +34,11 @@ export const startTransaction = async (owner, client, listingPricePerKm, returnB
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-
+        const savedTransaction = await response.json();
+        return savedTransaction.transactionId;
     } catch (error) {
         console.error('Error sending transaction:', error);
+        return null;
     }
 };
 

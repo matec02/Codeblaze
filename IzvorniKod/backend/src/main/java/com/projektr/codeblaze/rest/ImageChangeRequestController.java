@@ -68,9 +68,6 @@ public class ImageChangeRequestController {
     public ResponseEntity<List<ImageChangeRequest>> getAllRejectedRequests() {
         List<ImageChangeRequest> allRequests = imageChangeRequestService.findAll();
         List<ImageChangeRequest> rejectedRequests = imageChangeRequestService.getAllRejectedRequests(allRequests);
-        if (rejectedRequests.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(rejectedRequests);
     }
 
@@ -78,9 +75,6 @@ public class ImageChangeRequestController {
     public ResponseEntity<List<ImageChangeRequest>> getAllApprovedRequests() {
         List<ImageChangeRequest> allRequests = imageChangeRequestService.findAll();
         List<ImageChangeRequest> approvedRequests = imageChangeRequestService.getAllApprovedRequests(allRequests);
-        if (approvedRequests.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(approvedRequests);
     }
 
@@ -88,9 +82,6 @@ public class ImageChangeRequestController {
     public ResponseEntity<List<ImageChangeRequest>> getAllPendingRequests() {
         List<ImageChangeRequest> allRequests = imageChangeRequestService.findAll();
         List<ImageChangeRequest> pendingRequests = imageChangeRequestService.getAllPendingRequests(allRequests);
-        if (pendingRequests.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(pendingRequests);
     }
 
@@ -139,9 +130,6 @@ public class ImageChangeRequestController {
     @GetMapping(value = "getAll")
     public ResponseEntity<?> getAllRequests(){
         List<ImageChangeRequest> imageChangeRequests = imageChangeRequestService.findAll();
-        if (imageChangeRequests.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(imageChangeRequests);
     }
 }

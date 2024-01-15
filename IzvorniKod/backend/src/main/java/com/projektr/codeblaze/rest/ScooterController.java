@@ -44,9 +44,6 @@ public class ScooterController {
     @GetMapping("owner/{ownerId}")
     public ResponseEntity<List<Scooter>> getScootersByOwnerId(@PathVariable Long ownerId) {
         List<Scooter> scooters = scooterService.getScootersByUserId(ownerId);
-        if (scooters.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(scooters);
     }
 
@@ -67,9 +64,6 @@ public class ScooterController {
     @GetMapping("/get-all-scooters")
     public ResponseEntity<List<Scooter>> getAllScooters() {
         List<Scooter> scooters = scooterService.getAllScooters();
-        if (scooters.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(scooters);
     }
 
