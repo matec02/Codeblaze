@@ -780,21 +780,32 @@ Treći isječak dijagrama razreda sadrži klasu Transaction s vlastitim enumom T
 
 \section{Dijagram stanja}
 
+Dijagram stanja prikazuju objekte, njihova stanja i događaje kojima objekti prelaze iz jednog stanja u drugo. Slika prikazuje dijagram stanja za prijavljenog korisnika. Korisniku se inicijalno prikazuje početna stranica s trenutno objavljenim oglasima, ali ima i opciju pregleda svojih romobila, poruka i transakcija klikom na određenu opciju u navigacijskoj traci. Korisnik klikom na oglas na početnoj stranici može pregledati detalje o njemu i unajmiti ga. Ako korisnik već unajmljuje neki romobil, onda mu se ti romobili prikazuju s opcijom za vraćanje romobila. Na stranici za prikaz korisnikovih romobila postoje opcije za registraciju novih romobila, njihovo oglašavanje i pregled oglasa koje je korisnik već objavio. Klikom na ikonu korisničkog profila na navigacijskoj traci korisnik dobiva opciju pregleda, uređivanja i brisanja vlastitog profila.
 
-\textbf{\textit{dio 2. revizije}}\\
+\begin{figure} [H]
 
-\textit{Potrebno je priložiti dijagram stanja i opisati ga. Dovoljan je jedan dijagram stanja koji prikazuje \textbf{značajan dio funkcionalnosti} sustava. Na primjer, stanja korisničkog sučelja i tijek korištenja neke ključne funkcionalnosti jesu značajan dio sustava, a registracija i prijava nisu. }
-
+	\includegraphics[width=1\linewidth]{slike/StateDiagram.png}
+	\centering
+	\caption{Dijagram stanja - klijent}
+	\label{fig:Dijagram stanja - klijent}
+\end{figure}
 
 \eject
 
 \section{Dijagram aktivnosti}
 
-\textbf{\textit{dio 2. revizije}}\\
+Dijagramom aktivnosti prikazan je tijek prijave registriranog korisnika u sustav i njegova objava novog oglasa. Pravilnom prijavom u sustav korisnik dobiva mogućnost pregleda svojih registriranih romobila. Ako korisnik nema registriranih romobila, mora ih prvo registrirati popunjavanjem forme za registraciju. Nakon unosa podataka o romobilu podatci se spremaju u bazu podataka. Da bi objavio oglas korisnik prvo mora unijeti podatke o oglasu i oni se spremaju u bazu podataka. Uspješnim oglašavanjem korisnika se preusmjerava na početnu stranicu.
 
-\textit{Potrebno je priložiti dijagram aktivnosti s pripadajućim opisom. Dijagram aktivnosti treba prikazivati značajan dio sustava.}
+\begin{figure} [H]
+
+	\includegraphics[width=1\linewidth]{slike/ActivityDiagram.png}
+	\centering
+	\caption{Dijagram aktivnosti - oglašavanje romobila}
+	\label{fig:Dijagram aktivnosti - oglašavanje romobila}
+\end{figure}
 
 \eject
+
 \section{Dijagram komponenti}
 
 \textbf{\textit{dio 2. revizije}}\\
