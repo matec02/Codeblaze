@@ -105,7 +105,7 @@ function LoginForm() {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="password">Password:</label>
+                    <label htmlFor="password">Lozinka:</label>
                     <input
                         type="password"
                         id="password"

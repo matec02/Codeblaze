@@ -49,7 +49,7 @@ function SocialMediaModal({ isOpen, onClose, platform, onSave }) {
 
         useEffect(() => {
             getUserFromToken().then(user => {
-                console.log(user.role);
+
                 setUserRole(user.role);  // Update state here
             }).catch(error => {
                 console.error("Error fetching user:", error);
@@ -206,18 +206,18 @@ function SocialMediaModal({ isOpen, onClose, platform, onSave }) {
                             </button>
                             {showDropdown && (
                                 <div className="dropdown-menu" ref={dropdownRef}>
-                                    <button onClick={() => navigate('/profile')}>My Account</button>
-                                    <button onClick={handleLogout}>Logout</button>
+                                    <button onClick={() => navigate('/profile')}>Moj profil</button>
+                                    <button onClick={handleLogout}>Odjava</button>
                                 </div>
                             )}
                         </div>
                     ) : (
                         <div>
                             <div className="navbar-login" onClick={() => navigate('/login')}>
-                                Login
+                                Prijava
                             </div>
                             <div className="navbar-login" onClick={() => navigate('/register')}>
-                                Register
+                                Registracija
                             </div>
                         </div>
                     )}

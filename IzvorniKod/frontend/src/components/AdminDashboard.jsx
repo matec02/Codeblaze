@@ -180,7 +180,7 @@ function AdminDashboard() {
                             <th>Status</th>
                             <th>Slika potvrde o nekažnjavanju</th>
                             <th>Slika osobne iskaznice</th>
-                            {renderActions && <th>Actions</th>}
+                            {renderActions && <th>Radnje</th>}
                         </tr>
                         </thead>
                         <tbody>
@@ -237,24 +237,24 @@ function AdminDashboard() {
             if (pendingUsers.length > 0 && pendingRequests.length > 0) {
                 return (
                     <p>
-                        You have <span className="highlighted-text">{pendingUsers.length} users on wait</span> and
-                        <span className="highlighted-text"> {pendingRequests.length} image change requests on wait</span>.
+                        Imate <span className="highlighted-text">{pendingUsers.length} korisnika na čekanju</span> i
+                        <span className="highlighted-text"> {pendingRequests.length} zahtjeva za promjenu slike na čekanju</span>.
                     </p>
                 );
             } else if (pendingUsers.length > 0) {
                 return (
                     <p>
-                        You have <span className="highlighted-text">{pendingUsers.length} users on wait</span>.
+                        Imate <span className="highlighted-text">{pendingUsers.length} korisnika na čekanju</span>.
                     </p>
                 );
             } else if (pendingRequests.length > 0) {
                 return (
                     <p>
-                        You have <span className="highlighted-text">{pendingRequests.length} image change requests on wait</span>.
+                        Imate <span className="highlighted-text">{pendingRequests.length} zahtjeva za promjenu slike na čekanju</span>.
                     </p>
                 );
             } else {
-                return <p>There are no pending tasks.</p>;
+                return <p>Nemate zadatke na čekanju</p>;
             }
         };
 
@@ -267,14 +267,14 @@ function AdminDashboard() {
                     <div className="action-buttons">
                     {(pendingUsers.length > 0) &&
                         (<button className="taskButton" onClick={onClose}>
-                            Take me to users on wait
+                            Korisnici na čekanju
                         </button>)}
                     {(pendingRequests.length > 0) &&
                         (<button className="taskButton" onClick={() => navigate('/imageChangeRequests')}>
-                            Take me to image change requests
+                            Zahtjevi za zamjenu slika
                         </button>)}
                     </div>
-                    <button className="reject" onClick={onClose}>Close</button>
+                    <button className="reject" onClick={onClose}>Zatvori</button>
                 </div>
             </div>
         );
@@ -304,7 +304,7 @@ function AdminDashboard() {
             <>
                 {(user.nickname !== currentUserNickname && user.nickname !== "admin") ? (
                     <button className="block" onClick={() => handleRoleChange(user.userId, 'USER')}>
-                        Remove Admin
+                        Ukloni administratora
                     </button>
                 ):(<span>No possible actions</span>)
                 }

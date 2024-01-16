@@ -194,12 +194,12 @@ function RegisterScooterForm() {
                               }}
                     />
                 </label>
-                <button type="submit" disabled={isSubmitting}>Register Scooter</button>
+                <button type="submit" disabled={isSubmitting}>Registriraj romobil</button>
 
                 {errorMessage && <div className="form-group error-message">{errorMessage}</div>}
                 {showNotification && (
                     <div className="notification-bubble">
-                        Your scooter has been successfully registered!
+                        Vaš romobil je uspješno registriran!
                     </div>
                 )}
             </form>

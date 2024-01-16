@@ -186,18 +186,18 @@ function ImageChange(){
                         <thead>
                         <tr>
 
-                            <th>Complaint Time</th>
-                            {(category === "Prihvaćeni zahtjevi za zamjenu slike") && <th>Approval Time</th>}
-                            {(category === "Odbijeni zahtjevi za zamjenu slike") && <th>Rejection Time</th>}
-                            <th>Old photo</th>
-                            <th>New photo</th>
-                            <th>Scooter Model</th>
-                            <th>Owner Nickname</th>
-                            <th>Requester Nickname</th>
-                            <th>Additional Comments</th>
+                            <th>Vrijeme zahtjeva</th>
+                            {(category === "Prihvaćeni zahtjevi za zamjenu slike") && <th>Vrijeme odobrenja</th>}
+                            {(category === "Odbijeni zahtjevi za zamjenu slike") && <th>Vrijeme odbijanja</th>}
+                            <th>Stara slika</th>
+                            <th>Nova slika</th>
+                            <th>Model romobila</th>
+                            <th>Korisničko ime vlasnika</th>
+                            <th>Korisničko ime podnositelja</th>
+                            <th>Dodatni komentari</th>
                             {(renderActions && category === "Zahtjevi za zamjenu slike na čekanju") && <th>Actions</th>}
                             {(category === "Prihvaćeni zahtjevi za zamjenu slike" || category === "Odbijeni zahtjevi za zamjenu slike")
-                                && <th>Decision Comment</th>}
+                                && <th>Komentar administratora</th>}
                         </tr>
                         </thead>
                         <tbody>
@@ -226,10 +226,10 @@ function ImageChange(){
                                     {(category === "Prihvaćeni zahtjevi za zamjenu slike") && <td>{decisionTimeString}</td>}
                                     {(category === "Odbijeni zahtjevi za zamjenu slike") && <td>{decisionTimeString}</td>}
                                     <td className="user-table-action-buttons">
-                                        <button className="user-table-button" onClick={() => openModal(request.oldImageUrl || ImageNotFound)}>Show Old Image</button>
+                                        <button className="user-table-button" onClick={() => openModal(request.oldImageUrl || ImageNotFound)}>Prikaži staru sliku</button>
                                     </td>
                                     <td className="user-table-action-buttons">
-                                        <button className="user-table-button" onClick={() => openModal(request.newImageUrl || ImageNotFound)}>Show New Image</button>
+                                        <button className="user-table-button" onClick={() => openModal(request.newImageUrl || ImageNotFound)}>Prikaži novu sliku</button>
                                     </td>
                                     <td>{request.listing.scooter.model}</td>
                                     <td>{request.listing.scooter.user.nickname}</td>
