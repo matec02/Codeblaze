@@ -1,0 +1,136 @@
+.register-form-container {
+    width: 100%;
+    margin: 40px auto; /* Center the form vertically and horizontally */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-title {
+    color: #000; /* Black text for the title */
+    margin-bottom: 20px;
+}
+
+.register-form {
+    width: 100%; /* Ensure form elements take up full width of the container */
+}
+
+.section-container {
+    background-color: #FFD860; /* Yellow background for each section */
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 360px; /* Maximum width of the container */
+    margin: 20px auto; /* Space between sections and centering */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.section-title {
+    color: #000; /* Black text for section titles */
+    margin-bottom: 10px;
+    font-size: 1.25em; /* Larger font size */
+    font-weight: bold; /* Bold font weight */
+}
+
+.form-group {
+    width: 100%; /* Full width to align label and input */
+    margin-bottom: 20px; /* Space between form groups */
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px; /* Space between label and input */
+    color: #000; /* Black label text */
+}
+
+.form-group input {
+    width: calc(100% - 20px); /* Adjust the width to fit within the padding of the container */
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #eee; /* Slightly darker background for inputs */
+    color: #000; /* Black text for input */
+    display: block; /* Allows the use of margin auto for horizontal centering */
+}
+
+.register-form-button {
+    width: 40%; /* Match the width of the textboxes */
+    max-width: 240px;
+    padding: 10px;
+    margin: 20px auto; /* Centers the button and adds space above */
+    display: block; /* Allows the use of margin auto for horizontal centering */
+    background-color: #000; /* Black background for the button */
+    color: #FFD860; /* Yellow text for the button */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.register-form-button:hover {
+    opacity: 0.9; /* Slight opacity change on hover */
+}
+
+.error-message {
+    color: red; /* Color for error messages */
+    text-align: center;
+    margin-top: 20px;
+}
+
+.phone-input-container .PhoneInput {
+    display: flex;
+    align-items: center;
+}
+
+.phone-input-container .PhoneInputCountrySelect {
+    width: 50px; /* Adjust the width as needed */
+}
+
+.phone-input-container .PhoneInputCountrySelectArrow {
+    /* Adjust the size or remove if not needed */
+}
+
+.phone-input-container .PhoneInputCountryIcon {
+    width: 24px; /* Adjust the width as needed */
+    height: auto;
+    background-size: contain;
+}
+
+.phone-input-container .PhoneInputCountryIconImg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.phone-input-container .PhoneInputInput {
+    width: calc(100% - 60px); /* Adjust width according to the size of the flag icon */
+}
+
+
+.input-group {
+    position: relative;
+    align-items: center;
+    display: flex;
+}
+
+.input-group input {
+    width: 100%;
+    padding-right: 2.5em; /* make room for the icon */
+}
+
+.toggle-password-button {
+    position: absolute;
+    right: 10px;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: #6c757d;
+}
+
+

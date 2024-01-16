@@ -1,0 +1,27 @@
+.scooter-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 250px); /* 4 columns*/
+    grid-gap: 50px;
+    justify-content: center;
+    padding: 16px;
+    margin: auto; /*Center the grid horizontally */
+    max-width: 1200px; /* Maximum width of the grid*/
+}
+
+@media (max-width: 1200px) {
+    .scooter-grid {
+        grid-template-columns: repeat(3, 250px); /* 3 columns on medium screens */
+    }
+}
+
+@media (max-width: 900px) {
+    .scooter-grid {
+        grid-template-columns: repeat(2, 250px); /* 2 columns on small screens */
+    }
+}
+
+@media (max-width: 600px) {
+    .scooter-grid {
+        grid-template-columns: repeat(1, 250px); /* 1 column on very small screens */
+    }
+}
