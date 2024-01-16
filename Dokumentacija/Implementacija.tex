@@ -1,31 +1,118 @@
+
 \chapter{Implementacija i korisničko sučelje}
-		
+
+		\usepackage{hyperref}
 		
 		\section{Korištene tehnologije i alati}
-		
-			\textbf{\textit{dio 2. revizije}}
+
+        \textit{ Timsku komunikaciju smo uspješno ostvarili kroz aplikaciju \href{https://discord.com/}{Discord}, pružajući jednostavnu i iznimno organiziranu interakciju putem "channel" i "thread" opcija. Za izradu UML dijagrama smo koristili alat \href{https://astah.net/products/astah-uml/}{Astah UML}, dok smo za upravljanje izvornim kodom primijenili \href{https://github.com/}{GitHub}.}
+
+        \textit{Kao razvojno okruženje odabrali smo \href{https://www.jetbrains.com/idea/}{IntelliJ IDEA}, integrirano razvojno okruženje (IDE) tvrtke JetBrains. Ovo okruženje pruža napredne mogućnosti kao što su dovršavanje koda analizom konteksta, navigacija koda s mogućnošću izravnog skakanja na klasu ili deklaraciju u kodu, refaktoriranje koda, rješavanje pogrešaka te ugrađene naredbe za Git, uz mnogobrojna proširenja za različite programske jezike i alate.}
+
+        \textit{Na strani klijentske aplikacije (frontend), koristili smo \href{https://reactjs.org/}{React.js}, popularnu \href{https://www.javascript.com/}{JavaScript} biblioteku za izradu korisničkih sučelja u web aplikacijama. Virtualna DOM tehnologija ovog okvira doprinosi efikasnijem ažuriranju sučelja, unaprjeđujući performanse i korisničko iskustvo.}
+
+        \textit{Za poslužiteljsku stranu aplikacije (backend) odabrali smo \href{https://spring.io/}{Spring Framework}, sveobuhvatan okvir za \href{https://www.java.com/en/}{Java} programski jezik. Poznat po konceptima inverzije kontrole i ubrizgavanja ovisnosti, Spring olakšava razvoj aplikacija pružajući modularnost, testabilnost te olakšava održavanje koda. Za upravljanje bazama podataka koristili smo \href{https://www.postgresql.org/}{PostgreSQL}, moćan objektno-relacijski sustav otvorenog koda. Njegova pouzdanost, skalabilnost i podrška za kompleksne upite čine ga optimalnim izborom za naše potrebe}.
 			
-			 \textit{Detaljno navesti sve tehnologije i alate koji su primijenjeni pri izradi dokumentacije i aplikacije. Ukratko ih opisati, te navesti njihovo značenje i mjesto primjene. Za svaki navedeni alat i tehnologiju je potrebno \textbf{navesti internet poveznicu} gdje se mogu preuzeti ili više saznati o njima}.
-			
-			
-			\eject 
+			\eject
 		
 	
 		\section{Ispitivanje programskog rješenja}
 			
-			\textbf{\textit{dio 2. revizije}}\\
-			
-			 \textit{U ovom poglavlju je potrebno opisati provedbu ispitivanja implementiranih funkcionalnosti na razini komponenti i na razini cijelog sustava s prikazom odabranih ispitnih slučajeva. Studenti trebaju ispitati temeljnu funkcionalnost i rubne uvjete.}
-	
+
 			
 			\subsection{Ispitivanje komponenti}
-			\textit{Potrebno je provesti ispitivanje jedinica (engl. unit testing) nad razredima koji implementiraju temeljne funkcionalnosti. Razraditi \textbf{minimalno 6 ispitnih slučajeva} u kojima će se ispitati redovni slučajevi, rubni uvjeti te izazivanje pogreške (engl. exception throwing). Poželjno je stvoriti i ispitni slučaj koji koristi funkcionalnosti koje nisu implementirane. Potrebno je priložiti izvorni kôd svih ispitnih slučajeva te prikaz rezultata izvođenja ispita u razvojnom okruženju (prolaz/pad ispita). }
-			
-			
-			
+
+			 \textit{Provedbu ispitivanja implementiranih funkcionalnosti proveli smo na razini komponenti kroz detaljne unit testove. Fokusirali smo se na provjeru ispravnosti pomoćnih funkcija koje su ključne u različitim dijelovima koda. Ukupno smo izvršili sedam testova, a u nastavku donosimo sažete opise svakog testa zajedno s pripadajućim kodovima. Svaki opis testa popraćen je slikom koja jasno prikazuje rezultate izvođenja. Ovaj pristup omogućio nam je temeljitu analizu osnovne funkcionalnosti i identifikaciju rubnih uvjeta, pridonoseći sigurnosti i stabilnosti cijelog sustava. Nastojali smo osigurati sveobuhvatan pregled implementiranih funkcionalnosti kroz precizno definirane ispitne slučajeve.}
+
+
+            \subsection{Ispitni slučaj 1.: Test provjere svojstva dokumenta}
+
+                        \textbf{Ulaz:}
+
+                        \textit{1. Stvaranje primjerka korisnika (User) i postavljanje njegovih svojstava (ID i nadimak)}
+                        \textit{2. Stvaranje primjerka dokumenta (Document) i postavljanje njegovih svojstava (ID korisnika, korisnik, status dokumenta).}
+
+                        \textbf{Očekivani rezultati:}
+                        \textit{1. Očekujemo da će dokument imati ispravno postavljene vrijednosti svojstava, u skladu s postavljenim ulaznim podacima.}
+
+                        \textbf{Rezultat:}
+                        \textit{1. Izvršavanje ovog dijela testa provjerava ispravnost postavljanja svojstava dokumenta i uspoređuje ih s očekivanim rezultatima.}
+
+            \subsection{Ispitni slučaj 2.: Test provjere funkcionalnosti ImageChangeRequestStatus}
+
+                                    \textbf{Ulaz:}
+                                    \textit{1. Nema posebnog ulaza jer testira vrijednosti unutar samog enuma}
+
+                                    \textbf{Očekivani rezultati:}
+                                    \textit{1. Očekujemo da će vrijednosti enuma biti ispravno postavljene.}
+                                    \textit{2. Očekujemo da će konverzija enuma u String biti ispravna.}
+
+                                    \textbf{Rezultat:}
+                                    \textit{1. Izvršavanje testa provjerava da li su vrijednosti enuma ImageChangeRequestStatus ispravno postavljene}
+                                    ~textit{2. Izvršavanje testa provjerava da li je konverzija enuma ImageChangeRequestStatus u String ispravna}
+
+			\subsection{Ispitni slučaj 3.: Provjera Vraćanja Vremena u Razredu Listing}
+
+                                                \textbf{Ulaz:}
+                                                \textit{1. Stvaranje instance razreda Listing}
+                                                \textit{2. Postavljanje vremena povratka (returnByTime) na trenutno vrijeme}
+
+                                                \textbf{Očekivani rezultati:}
+                                                \textit{1. Očekujemo da će vrijeme povratka biti jednako trenutnom vremenu u obliku Timestamp objekta}
+                                                \textit{2. Očekujemo da će vrijednost vremena povratka biti null, budući da nije postavljena}
+
+
+                                                \textbf{Rezultat:}
+                                                \textit{1. Izvršavanje testa provjerava postavljanje i dohvaćanje vremena povratka, uspoređujući ga s očekivanim rezultatom}
+
+                                                \textit{2. Izvršavanje testa provjerava da li je vrijednost vremena povratka null, što ukazuje na ispravno ponašanje u slučaju ne postavljanja vremena povratka}
+
+			\subsection{Ispitni slučaj 4.: Test provjere svojstava skutera}
+
+                                                            \textbf{Ulaz:}
+                                                            \textit{1. Stvaranje primjerka korisnika (User) i postavljanje njegovih svojstava (ID i nadimak)}
+
+                                                            \textit{2. Stvaranje primjerka skutera (Scooter) i postavljanje njegovih svojstava (ID, proizvođač, model, kapacitet baterije, maksimalna brzina, putanja do slike, maksimalni doseg, godina proizvodnje, dodatne informacije, korisnik, dostupnost)}
+
+                                                            \textbf{Očekivani rezultati:}
+                                                            \textit{1. Očekujemo da će svojstva skutera biti ispravno postavljena prema unesenim vrijednostima.}
+
+                                                            \textbf{Rezultat:}
+                                                            \textit{1. Izvršavanje testa provjerava ispravnost postavljanja svojstava skutera i uspoređuje ih s očekivanim rezultatima.}
+
+			\subsection{Ispitni slučaj 5.: Test provjere vremena plaćanja u razredu transakcije}
+
+                                                                        \textbf{Ulaz:}
+                                                                        \textit{1. Stvaranje instance razreda Transaction}
+                                                                        \textit{2. Postavljanje vremena plaćanja (paymentTime) na trenutno vrijeme}
+
+                                                                        \textbf{Očekivani rezultati:}
+                                                                        \textit{1. Očekujemo da će vrijeme plaćanja biti jednako trenutnom vremenu u obliku Timestamp objekta}
+                                                                        \textit{2. Očekujemo da će vrijednost vremena plaćanja biti null, budući da nije postavljena}
+
+
+                                                                        \textbf{Rezultat:}
+                                                                        \textit{1. Izvršavanje testa provjerava postavljanje i dohvaćanje vremena plaćanja, uspoređujući ga s očekivanim rezultatom}
+                                                                        \textit{2. Izvršavanje testa provjerava da li je vrijednost vremena plaćanja null, što ukazuje na ispravno ponašanje u slučaju ne postavljanja vremena plaćanja.}
+
+
+
+
+            \subsection{Ispitni slučaj 6.: Test provjere svojstva korisnika}
+
+                                                                                    \textbf{Ulaz:}
+                                                                                    \textit{1. Stvaranje primjerka korisnika (User) i postavljanje njegovih svojstava (ID, nadimak, ime, prezime, broj kartice, e-mail, broj telefona, lozinka, uloga, status)}
+
+                                                                                    \textbf{Očekivani rezultati:}
+                                                                                    \textit{1. Očekujemo da će svojstva korisnika biti ispravno postavljena prema unesenim vrijednostima}
+
+                                                                                    \textbf{Rezultat:}
+                                                                                    \textit{1. Izvršavanje testa provjerava ispravnost postavljanja svojstava korisnika i uspoređuje ih s očekivanim rezultatima}
+
+
+
 			\subsection{Ispitivanje sustava}
-			
-			 \textit{Potrebno je provesti i opisati ispitivanje sustava koristeći radni okvir Selenium\footnote{\url{https://www.seleniumhq.org/}}. Razraditi \textbf{minimalno 4 ispitna slučaja} u kojima će se ispitati redovni slučajevi, rubni uvjeti te poziv funkcionalnosti koja nije implementirana/izaziva pogrešku kako bi se vidjelo na koji način sustav reagira kada nešto nije u potpunosti ostvareno. Ispitni slučaj se treba sastojati od ulaza (npr. korisničko ime i lozinka), očekivanog izlaza ili rezultata, koraka ispitivanja i dobivenog izlaza ili rezultata.\\ }
+						 \textit{Potrebno je provesti i opisati ispitivanje sustava koristeći radni okvir Selenium\footnote{\url{https://www.seleniumhq.org/}}. Razraditi \textbf{minimalno 4 ispitna slučaja} u kojima će se ispitati redovni slučajevi, rubni uvjeti te poziv funkcionalnosti koja nije implementirana/izaziva pogrešku kako bi se vidjelo na koji način sustav reagira kada nešto nije u potpunosti ostvareno. Ispitni slučaj se treba sastojati od ulaza (npr. korisničko ime i lozinka), očekivanog izlaza ili rezultata, koraka ispitivanja i dobivenog izlaza ili rezultata.\\ }
 			 
 			 \textit{Izradu ispitnih slučajeva pomoću radnog okvira Selenium moguće je provesti pomoću jednog od sljedeća dva alata:}
 			 \begin{itemize}
