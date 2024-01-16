@@ -16,14 +16,11 @@ public class DocumentTest {
         user.setUserId(1L);
         user.setNickname("testUser");
 
-        // Create a sample document
-
         Document document = new Document();
         document.setUserId(1L);
         document.setUser(user);
         document.setStatus(DocumentStatus.PENDING);
 
-        // Validate document properties
         assertEquals(1L, document.getUserId());
         assertEquals(user, document.getUser());
         assertEquals(DocumentStatus.PENDING, document.getStatus());

@@ -16,7 +16,6 @@ class TransactionTest {
         Transaction transaction = new Transaction();
         LocalDateTime time = LocalDateTime.now();
         transaction.setPaymentTime(time);
-
         Assertions.assertEquals(Timestamp.valueOf(time), transaction.getPaymentTimestamp());
     }
 
@@ -25,6 +24,6 @@ class TransactionTest {
         Transaction transaction = new Transaction();
         Assertions.assertNull(transaction.getPaymentTimestamp());
 
-}
+    }
 
 }

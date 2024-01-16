@@ -11,13 +11,10 @@ public class ScooterTest {
 
     @Test
     void testScooterProperties() {
-        // Create a sample user
 
         User user = new User();
         user.setUserId(1L);
         user.setNickname("testUser");
-
-        // Create a sample scooter
 
         Scooter scooter = new Scooter();
         scooter.setScooterId(1L);
@@ -32,7 +29,6 @@ public class ScooterTest {
         scooter.setUser(user);
         scooter.setAvailability(true);
 
-        // Validate scooter properties
         assertEquals(1L, scooter.getScooterId());
         assertEquals("ScooterCo", scooter.getManufacturer());
         assertEquals("FastScoot", scooter.getModel());

@@ -13,7 +13,6 @@ public class UserTest {
 
     @Test
     void testUserProperties() {
-        // Create a sample user
 
         User user = new User();
         user.setUserId(1L);
@@ -27,7 +26,6 @@ public class UserTest {
         user.setRole(UserRole.USER);
         user.setStatus(UserStatus.ACCEPTED);
 
-        // Validate user properties
         assertEquals(1L, user.getUserId());
         assertEquals("testUser", user.getNickname());
         assertEquals("John", user.getFirstName());
