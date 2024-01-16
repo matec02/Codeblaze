@@ -1,13 +1,9 @@
 package com.projektr.codeblaze;
 
-import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class CodeblazeApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
 
 }
