@@ -127,16 +127,74 @@
             \includegraphics[width=1\linewidth]{slike/UserTest.png}
 
 
+            \subsection{Ispitni slučaj 7.: Test provjere funkcionalnosti prijave korisnika}
+
+                                                                                                \textbf{Ulaz:}
+                                                                                                \textit{1. Koristi se Mock objekt UserRepository}
+                                                                                                \textit{2. Koristi se UserService objekt, gdje je userService injektiran u UserService pomoću @InjectMocks}
+                                                                                                \textit{3. Postavlja se Mock korisnik (mockUser) s podacima za prijavu}
+
+
+                                                                                                \textbf{Očekivani rezultati:}
+                                                                                                \textit{1. Očekuje se da će korisničko ime i lozinka odgovarati podacima Mock korisnika}
+                                                                                                \textit{2. Očekuje se da će userService uspješno vratiti Mock korisnika}
+
+
+                                                                                                \textbf{Rezultat:}
+                                                                                                \textit{1. Izvršava se prijava korisnika pomoću userService.login("test@example.com", "password")}
+                                                                                                \textit{2. Provjerava se je li rezultat jednak Mock korisniku (mockUser)}
+
+                        \includegraphics[width=1\linewidth]{slike/LoginTest.png}
+
+
 
 			\subsection{Ispitivanje sustava}
-						 \textit{Potrebno je provesti i opisati ispitivanje sustava koristeći radni okvir Selenium\footnote{\url{https://www.seleniumhq.org/}}. Razraditi \textbf{minimalno 4 ispitna slučaja} u kojima će se ispitati redovni slučajevi, rubni uvjeti te poziv funkcionalnosti koja nije implementirana/izaziva pogrešku kako bi se vidjelo na koji način sustav reagira kada nešto nije u potpunosti ostvareno. Ispitni slučaj se treba sastojati od ulaza (npr. korisničko ime i lozinka), očekivanog izlaza ili rezultata, koraka ispitivanja i dobivenog izlaza ili rezultata.\\ }
-			 
-			 \textit{Izradu ispitnih slučajeva pomoću radnog okvira Selenium moguće je provesti pomoću jednog od sljedeća dva alata:}
-			 \begin{itemize}
-			 	\item \textit{dodatak za preglednik \textbf{Selenium IDE} - snimanje korisnikovih akcija radi automatskog ponavljanja ispita	}
-			 	\item \textit{\textbf{Selenium WebDriver} - podrška za pisanje ispita u jezicima Java, C\#, PHP koristeći posebno programsko sučelje.}
-			 \end{itemize}
-		 	\textit{Detalji o korištenju alata Selenium bit će prikazani na posebnom predavanju tijekom semestra.}
+
+
+
+			\subsection{Ispitni slučaj 1: provjera ispravnosti registracije}
+
+                                                            \textbf{Cilj:}
+                                                            \textit{Automatsko testiranje procesa registracije novog korisnika koji ne unese broj mobitela na web stranici pomoću Selenium WebDriver s Chrome preglednikom.}
+
+                                                            \textbf{Koraci testiranja:}
+                                                            \textit{1. Navigacija na stranicu za registraciju}
+                                                            \textit{2. Ispunjavanje svih polja registracijskog obrazca osim polja za broj mobitela}
+                                                            \textit{3. Potvrda Registracije}
+                                                            \textit{4. Provjera je li se korisnik registrirao}
+
+
+                                                            \textbf{Očekivani rezultati:}
+                                                            \textit{1. Korisnik se nije uspio registrirati}
+                                                            \textit{2. Ispisana odgovarajuća poruka}
+
+
+                        \includegraphics[width=1\linewidth]{slike/RegisterSelenium.png}
+                        \includegraphics[width=1\linewidth]{slike/RegisterSeleniumOutput.png}
+
+
+            \subsection{Ispitni slučaj 2: provjera ispravnosti prijave}
+
+                        \textit{Ovaj Selenium test simulira korisničku prijavu na web stranici, unoseći korisničko ime i lozinku te provjerava očekivani rezultat, tj. naslov stranice nakon prijave.}
+
+                                                                        \textbf{Cilj:}
+                                                                        \textit{Automatsko testiranje procesa prijavljivanja na web stranicu pomoću Selenium WebDriver s Chrome preglednikom.}
+
+                                                                        \textbf{Koraci testiranja:}
+                                                                        \textit{1. Navigacija na stranicu za prijavu}
+                                                                        \textit{2. Unos podataka za prijavu}
+                                                                        \textit{3. Provjera stranice nakon prijave}
+
+
+                                                                        \textbf{Očekivani rezultati:}
+                                                                        \textit{1. Poruka "Assertion successful: 'Codeblaze' is in the title." ispisuje se kao potvrda uspješne prijave.}
+
+                                    \includegraphics[width=1\linewidth]{slike/LoginSelenium.png}
+                                    \includegraphics[width=1\linewidth]{slike/LoginSeleniumOutput.png}
+
+
+
+
 			
 			\eject 
 		
