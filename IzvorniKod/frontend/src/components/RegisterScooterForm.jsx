@@ -151,6 +151,7 @@ function RegisterScooterForm() {
                            value={scooter.batteryCapacity}
                            onChange={handleChange}
                            placeholder="Upišite kapacitet baterije romobila u kWh"
+                           required min="0"
                     />
                 </label>
                 <label>
@@ -158,6 +159,7 @@ function RegisterScooterForm() {
                     <input type="number" name="maxSpeed"
                            value={scooter.maxSpeed} onChange={handleChange}
                            placeholder="Upišite maksimalnu brzinu romobila u km/h"
+                           required min="0"
                     />
                 </label>
                 <div className="form-group">
@@ -169,6 +171,7 @@ function RegisterScooterForm() {
                     <input type="number" step="0.1" name="maxRange"
                            value={scooter.maxRange} onChange={handleChange}
                            placeholder="Upišite maksimalni domet romobila"
+                           min="0"
                     />
                 </label>
                 <label>

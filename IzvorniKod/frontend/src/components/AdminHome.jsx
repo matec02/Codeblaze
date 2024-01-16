@@ -8,7 +8,7 @@ function AdminHome() {
             <h2>Odaberi opciju za administratora</h2>
             <div className="adminOptions">
                 <button onClick={() => navigate("/")} className="backToHome">
-                    POVRATAK NA POČETNU STRANICU
+                    PRIKAZ OGLAŠANIH ROMOBILA
                 </button>
                 <button onClick={() => navigate('/admin-dashboard')} className="adminDashboard">
                     PANEL ZA ADMINA

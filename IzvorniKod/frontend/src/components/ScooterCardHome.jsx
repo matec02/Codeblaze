@@ -10,7 +10,7 @@ function ScooterCardHome({ scooter }) {
     const [errorMessage, setErrorMessage] = useState('');
     const [isImageOpen, setIsImageOpen] = useState(false);
     const [currentImageSrc, setCurrentImageSrc] = useState('');
-    const [isRequestOpen, setIsRequestOpen] = useState(false);
+    const [NotificationScooterDelete, setNotificationScooterDelete] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
     const [isCurrentUserOwner, setIsCurrentUserOwner] = useState(false);
@@ -27,7 +27,8 @@ function ScooterCardHome({ scooter }) {
         returnByTime: ''
     });
 
-    const { userId, scooterId, imagePath, model, maxSpeed, batteryCapacity, yearOfManufacture, additionalInformation } = scooter;
+    const { userId, scooterId, imagePath, model, maxSpeed,
+        batteryCapacity, yearOfManufacture, additionalInformation, deleted } = scooter;
 
     const handleButtonClick = (event, action) => {
         event.stopPropagation();
@@ -70,15 +71,6 @@ function ScooterCardHome({ scooter }) {
     }, []);
 
 
-    const openRequestModal = useCallback((imageSrc) => {
-        setCurrentImageSrc(imageSrc);
-        setIsRequestOpen(true);
-    }, []);
-
-    const closeRequestModal = useCallback(() => {
-        setIsRequestOpen(false);
-    }, []);
-
     const handleCardClick = () => {
         setIsExpanded(true);
     };
@@ -105,78 +97,6 @@ function ScooterCardHome({ scooter }) {
         );
     };
 
-
-    const handleFileChange = (event, setFileState) => {
-        setFileState(event.target.files[0]);
-    }
-
-    const handleChange = (event) => {
-        setComments({
-            ...comments,
-            [event.target.name]: event.target.value
-        });
-    };
-
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        setErrorMessage('');
-
-        const nickname = getNicknameFromToken();
-        if (!nickname) {
-            setErrorMessage('User not authenticated.');
-            return;
-        }
-
-        try {
-            // First, make a GET request to fetch the user by nickname
-            const userResponse = await fetch(`/api/users/by-nickname/${nickname}`);
-            if (!userResponse.ok) {
-                setErrorMessage('User not found.');
-                console.error('User not found:', userResponse.statusText);
-                return;
-            }
-            const user = await userResponse.json();
-
-            const formDataNewImage = new FormData();
-            formDataNewImage.append('file', newImage);
-            formDataNewImage.append('userkey', "fgJxNmfTGEu8wVx8yi21OVuUxeDefFXn");
-
-            const imageResponse = await fetch('https://vgy.me/upload', {
-                method: 'POST',
-                body: formDataNewImage,
-            });
-
-            if (imageResponse.ok) {
-                const imageUploadData = await imageResponse.json();
-                const photoUrlCR = imageUploadData.image;
-
-                const newImageFormData = new FormData();
-                newImageFormData.append("photoUrlNewImage", new Blob([JSON.stringify(photoUrlCR)], { type: "application/json" }));
-                newImageFormData.append('user', new Blob([JSON.stringify(user)], { type: "application/json" }));
-
-                const registrationResponse = await fetch('/api/registration/complete', {
-                    method: 'POST',
-                    body: newImageFormData,
-                });
-
-                if (registrationResponse.ok) {
-                    const result = await registrationResponse.json();
-                    localStorage.setItem('userStatus', 'registered');
-                    navigate('/login');
-                } else {
-                    console.error("Registration API failed: " + registrationResponse.statusText);
-                    setErrorMessage('Registration failed.');
-                }
-            } else {
-                console.error('Image upload failed: ' + imageResponse.statusText);
-                setErrorMessage('Image upload failed.');
-            }
-        } catch (error) {
-            console.error('An error occurred: ', error);
-            setErrorMessage('Registration failed.');
-        }
-    };
     useEffect(() => {
         const checkOwnership = async () => {
             const nickname = getNicknameFromToken();
@@ -194,6 +114,18 @@ function ScooterCardHome({ scooter }) {
 
         checkOwnership();
     }, [scooter.userId]);
+
+    useEffect(() => {
+        if (NotificationScooterDelete) {
+            // Set a timer to hide the notification
+            const timer = setTimeout(() => {
+                setNotificationScooterDelete(false);
+            }, 4500); // Change 5000 to however many milliseconds you want the notification to show
+
+            // Clear the timer if the component unmounts
+            return () => clearTimeout(timer);
+        }
+    }, [NotificationScooterDelete]);
 
     const handleUpdateScooter = async (updatedScooter) => {
         try {
@@ -216,12 +148,18 @@ function ScooterCardHome({ scooter }) {
     };
     const handleDeleteScooter = async () => {
         try {
-            const response = await fetch(`/api/scooters/delete/${scooterId}`, {
-                method: 'DELETE',
+            const response = await fetch(`/api/scooters/${scooterId}/updateIsDeleted`, {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                }
+                },
+                body: JSON.stringify({ isDeleted: true })
             });
+
+            if (response.status === 409) {
+                setNotificationScooterDelete(true);
+                return;
+            }
 
             if (!response.ok) {
                 throw new Error(`Error: ${response.status}`);
@@ -394,17 +332,22 @@ function ScooterCardHome({ scooter }) {
                         <div className="form-group">
                             <label>Kapacitet baterije</label>
                             <input type="number" name="batteryCapacity" value={editedScooter.batteryCapacity}
+                                   min="0" required
                                    onChange={handleChange} placeholder="Upišite maksimalnu brzinu romobila u km/h"/>
                         </div>
                         <div className="form-group">
                             <label>Maksimalna brzina</label>
                             <input type="number" name="maxSpeed" value={editedScooter.maxSpeed}
-                                   onChange={handleChange} placeholder="Upišite maksimalnu brzinu romobila u km/h"/>
+                                   onChange={handleChange} placeholder="Upišite maksimalnu brzinu romobila u km/h"
+                            required min="0"
+                            />
                         </div>
                         <div className="form-group">
                             <label>Maksimalni domet</label>
                             <input type="number" step="0.1" name="maxRange" value={editedScooter.maxRange}
-                                   onChange={handleChange} placeholder="Upišite maksimalni domet romobila"/>
+                                   onChange={handleChange} placeholder="Upišite maksimalni domet romobila"
+                                    min="0"
+                            />
                         </div>
                         <div className="form-group">
                             <label>Godina proizvodnje</label>
@@ -461,9 +404,11 @@ function ScooterCardHome({ scooter }) {
                     </div>
                 </div>
             )}
-            {!isExpanded && (
+            {!isExpanded && !deleted &&(
                 <>
-                    <img src={imagePath} alt={`${model} Scooter`} className="scooter-image"/>
+                    <div className="image-container">
+                        <img src={imagePath} alt={`${model} Scooter`} className="scooter-image"/>
+                    </div>
                     <div className="scooter-details">
                         <h3>{model}</h3>
                         <p><strong>Brzina:</strong> {maxSpeed} km/h</p>
@@ -479,6 +424,11 @@ function ScooterCardHome({ scooter }) {
                         ))}
                     </ul>
                 </>
+            )}
+            {NotificationScooterDelete && (
+                <div className="notification-bubble" id="red-notification">
+                    Ne možete izbrisati romobil koji je trenutno u najmu!
+                </div>
             )}
             <ImageModal
                 isOpen={isImageOpen}

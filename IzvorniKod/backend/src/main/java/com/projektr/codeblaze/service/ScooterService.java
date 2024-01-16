@@ -135,13 +135,8 @@ public class ScooterService {
         scooter.setUser(user);
         scooter.setImagePath(photoUrl);
         scooter.setAvailability(false);
+        scooter.setDeleted(false);
         return scooterRepository.save(scooter);
-    }public void deleteListing(Long listingId) {
-        if (listingRepository.existsById(listingId)) {
-            listingRepository.deleteById(listingId);
-        } else {
-            throw new RuntimeException("Listing not found with ID: " + listingId);
-        }
     }
     public Listing updateListingStatus(Long listingId, String newStatus) {
         Listing listing = listingRepository.findById(listingId).orElseThrow(NoSuchElementException::new);
@@ -159,5 +154,27 @@ public class ScooterService {
         listing.setStatus(ListingStatus.valueOf(status));
 
         return  listingRepository.save(listing);
+    }
+
+    public Scooter updateIsDeleted(Long scooterId, Boolean isDeleted) {
+        Scooter scooter = getScooterById(scooterId).orElseThrow();
+        List<Listing> listings = listingRepository.findByScooterScooterId(scooterId);
+
+        boolean anyListingRented = listings.stream()
+                .anyMatch(listing -> listing.getStatus() == ListingStatus.RENTED);
+
+        if (anyListingRented) {
+            return null;
+        }
+
+        listings.forEach(listing -> {
+            if (listing.getStatus() == ListingStatus.AVAILABLE) {
+                listing.setStatus(ListingStatus.REQUESTED);
+                listingRepository.save(listing);
+            }
+        });
+
+        scooter.setDeleted(isDeleted);
+        return scooterRepository.save(scooter);
     }
 }

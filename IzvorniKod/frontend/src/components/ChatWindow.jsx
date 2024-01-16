@@ -174,6 +174,7 @@ function ChatWindow() {
                         return (
                         <MessageRequestWithButton
                             key={message.messageId}
+                            listingId={message.listingId}
                             text={message.text}
                             sender={messageSenderClass}
                             isSeen={

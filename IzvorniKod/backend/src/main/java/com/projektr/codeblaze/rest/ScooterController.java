@@ -61,6 +61,16 @@ public class ScooterController {
         return ResponseEntity.ok(scooter);
     }
 
+    @PutMapping("/{scooterId}/updateIsDeleted")
+    public ResponseEntity<?> updateIsDeleted(@PathVariable Long scooterId, @RequestBody Map<String, Boolean> updates){
+        Boolean isDeleted = updates.get("isDeleted");
+        Scooter scooter = scooterService.updateIsDeleted(scooterId, isDeleted);
+        if (scooter == null){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Scooter is currently rented and cannot be deleted.");
+        }
+        return ResponseEntity.ok(scooter);
+    }
+
     @GetMapping("/get-all-scooters")
     public ResponseEntity<List<Scooter>> getAllScooters() {
         List<Scooter> scooters = scooterService.getAllScooters();
@@ -166,15 +176,6 @@ public class ScooterController {
         }
     }
 
-    @DeleteMapping("/delete/{scooterId}")
-    public ResponseEntity<String> deleteScooter(@PathVariable Long scooterId) {
-        try {
-            scooterService.deleteScooter(scooterId);
-            return ResponseEntity.ok("Scooter deleted successfully");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Scooter not found with ID: " + scooterId);
-        }
-    }
 
 }
 

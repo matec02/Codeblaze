@@ -1,22 +1,22 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './TransactionCard.css';
+import {format} from "date-fns";
 
 function TransactionCard({transaction, type}) {
-    const formattedPaymentTime = transaction.paymentTime instanceof Date
-            ? transaction.paymentTime.toLocaleString()
-            : transaction.paymentTime;
-    const date = formattedPaymentTime.split('T')[0];
-    const day = date.split("-")[2];
-    const month = date.split("-")[1];
-    const year = date.split("-")[0];
-
     const [isExpanded, setExpanded] = useState(false);
     const [localType, setLocalType] = useState(type);
 
     const handleCardClick = () => {
+        console.log(typeof transaction.paymentTime)
         setExpanded(true);
         setLocalType("SEEN");
     };
+
+    function addOneHourToDate(dateString) {
+        let date = new Date(dateString)
+        date.setHours(date.getHours() + 1);
+        return date;
+    }
 
     const handleZatvoriClick = async (e) => {
         e.stopPropagation();
@@ -51,9 +51,14 @@ function TransactionCard({transaction, type}) {
             <p className="box-title">Broj transakcije: {transaction.transactionId}</p>
             <div className="transaction-details">
                 <p><strong>Vlasnik romobila:</strong> {transaction.owner.nickname} </p>
+                <p><strong>Romobil:</strong> {transaction.listing.scooter.manufacturer
+                    + " " + transaction.listing.scooter.model}</p>
                 <p><strong>Klijent:</strong> {transaction.client.nickname} </p>
+                <p><strong>Prijeđeni kilometri:</strong> {transaction.kilometersTraveled.toFixed(2) + " km"}  </p>
+                <p><strong>Cijena po kilometru:</strong> {transaction.listing.pricePerKilometer + " €/km"}  </p>
                 <p><strong>Iznos:</strong> {parseFloat(transaction.totalPrice).toFixed(2)}€</p>
-                <p><strong>Datum plaćanja:</strong> {day}. {month}. {year}. </p>
+                <p><strong>Datum i vrijeme plaćanja:<br/></strong> {format(addOneHourToDate(transaction.paymentTime),
+                    'dd.MM.yyyy., HH:mm')}</p>
                 {isExpanded && (
                     <button onClick={handleZatvoriClick}>Zatvori</button>
                 )}

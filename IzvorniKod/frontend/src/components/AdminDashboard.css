@@ -62,7 +62,7 @@ h3 {
     background-color: #555; /* Slightly lighter background than h1 */
     color: #fff; /* Maintains white text for consistency */
     padding: 10px; /* Less padding than h1 to denote less importance */
-    margin-top: 30px; /* Adds separation from the content above */
+    margin-top: 15px; /* Adds separation from the content above */
     text-align: center; /* Aligns text to the left */
     border-bottom: 2px solid #777; /* Adds a subtle border */
 }

@@ -14,4 +14,7 @@ public interface ListingRepository extends JpaRepository<Listing, Long> {
     @Query("SELECT l FROM Listing l WHERE l.scooter.availability = true")
     List<Listing> findListingsByScooterAvailability();
     // Queries! TODO
+
+    List<Listing> findByScooterScooterId(Long scooterId);
+
 }

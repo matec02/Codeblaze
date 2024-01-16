@@ -121,7 +121,8 @@ function ScooterCard({listing}) {
     const [isCurrentUserOwner, setIsCurrentUserOwner] = useState(false);
     const [isAdModalOpen, setIsAdModalOpen] = useState(false);
     const [allRequests, setAllRequests] = useState([]);
-    const [showNotification, setShowNotification] = useState(false);
+    const [NotificationImageChange, setNotificationImageChange] = useState(false);
+    const [NotificationLogin, setNotificationLogin] = useState(false);
     const [isButtonForBadChangeHidden, setIsButtonForBadChangeHidden] = useState(false);
 
     const location = useLocation();
@@ -137,16 +138,16 @@ function ScooterCard({listing}) {
     }, []);
 
     useEffect(() => {
-        if (showNotification) {
+        if (NotificationImageChange) {
             // Set a timer to hide the notification
             const timer = setTimeout(() => {
-                setShowNotification(false);
+                setNotificationImageChange(false);
             }, 3000); // Change 5000 to however many milliseconds you want the notification to show
 
             // Clear the timer if the component unmounts
             return () => clearTimeout(timer);
         }
-    }, [showNotification]);
+    }, [NotificationImageChange]);
 
     const handleUser = async () => {
         try {
@@ -330,33 +331,54 @@ function ScooterCard({listing}) {
     }, [scooter.userId]);
 
     const determineButtons = () => {
-        if (currentPath === "/my-transactions") {
-            return [];
-        } else if (user && user.userId && curUser.userId && curUser.userId === user.userId && status === "RENTED") {
+        if (user && user.userId && curUser.userId && curUser.userId === user.userId && status === "RENTED") {
             return [
                 {text: 'Vrati', onClick: (e) => handleButtonClick(e, 'vrati')},
                 {text: 'Zamjeni sliku', onClick: (e) => handleButtonClick(e, 'prijavi')}
             ];
         } else if (isCurrentUserOwner) {
+            let actions = []; // Initialize actions here to make it available in the entire block
             let isListingRequestedForImageChange = allRequests.some(request =>
                 request.listing.listingId === listing.listingId && request.status === "REQUESTED");
-            const actions = [
-                { text: 'Uredi', onClick: (e) => handleButtonClick(e, 'uredi') },
-                { text: 'Izbriši', onClick: (e) => handleButtonClick(e, 'izbrisi') },
-            ];
+
+            if (currentPath !== "/my-transactions") {
+                actions = [
+                    {text: 'Uredi', onClick: (e) => handleButtonClick(e, 'uredi')},
+                    {text: 'Izbriši', onClick: (e) => handleButtonClick(e, 'izbrisi')},
+                ];
+            }
 
             if (isListingRequestedForImageChange) {
-                actions.push({ text: 'Prijava loše zamjene slike', onClick: (e) => handleButtonClick(e, 'losaZamjena') });
+                actions.push({
+                    text: 'Prijava loše zamjene slike',
+                    onClick: (e) => handleButtonClick(e, 'losaZamjena')
+                });
             }
 
             return actions;
         } else {
-            return [
-                {text: 'Unajmi', onClick: (e) => handleButtonClick(e, 'unajmi')},
-                {text: 'Zamjeni sliku', onClick: (e) => handleButtonClick(e, 'prijavi')}
-            ];
+            let tokenExists = localStorage.getItem("authToken");
+            if (tokenExists) {
+                return [
+                    {text: 'Unajmi', onClick: (e) => handleButtonClick(e, 'unajmi')},
+                    {text: 'Zamjeni sliku', onClick: (e) => handleButtonClick(e, 'prijavi')}
+                ];
+            } else {
+                const handleLoginClick = (e) => {
+                    e.stopPropagation();  // Stop the event from bubbling up
+                    setNotificationLogin(true);
+                    setTimeout(() => {
+                        navigate("/login");
+                    }, 2000);
+                };
+                return [
+                    { text: 'Unajmi', onClick: (e) => handleLoginClick(e)},
+                    { text: 'Zamjeni sliku', onClick: (e) => handleLoginClick(e) }
+                ];
+            }
         }
     };
+
 
     const buttons = determineButtons();
 
@@ -403,7 +425,8 @@ function ScooterCard({listing}) {
             const returnByTime = listing.returnByTime;
             const penaltyFee = listing.penaltyFee;
 
-            const transactionId = await startTransaction(owner, client, listingPricePerKm, returnByTime, penaltyFee);
+            const transactionId = await startTransaction(owner, client, listingPricePerKm,
+                returnByTime, penaltyFee, listing.listingId);
 
             await handleEndOfTransactionMessage(owner.userId, client.userId, transactionId);
 
@@ -434,7 +457,7 @@ function ScooterCard({listing}) {
             if (!response.ok) {
                 throw new Error('Failed to change status of request')
             }
-            setShowNotification(true);
+            setNotificationImageChange(true);
             setIsButtonForBadChangeHidden(true)
         } catch (error) {
             console.error("Failed Api for image change status: ", error)
@@ -444,11 +467,14 @@ function ScooterCard({listing}) {
 
     const handleDeleteListing = async () => {
         try {
-            const response = await fetch(`/api/listing/delete-listing/${listing.listingId}`, {
-                method: 'DELETE',
+            const data = {status: "REQUESTED"}
+
+            const response = await fetch(`/api/listing/update-listing-status/${listingId}`, {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                body: JSON.stringify(data)
             });
 
             if (!response.ok) {
@@ -570,23 +596,43 @@ function ScooterCard({listing}) {
 
     return (
         <div className={`scooter ${isExpanded ? 'expanded' : ''}`} onClick={handleCardClick}>
-            <img src={ProfileAvatar} alt={"PROFILE"} className="profile-avatar" onClick={(e) => handleViewProfile(e)}
-                 style={{cursor: 'pointer'}}/>
+            <div className="image-container">
+                <img src={ProfileAvatar} alt={"PROFILE"} className="profile-avatar"
+                     onClick={(e) => handleViewProfile(e)}
+                     style={{cursor: 'pointer'}}/>
+                    <span className="tooltip-text" id="profile-avatar-hover">Pogledaj profil iznajmljivača
+                    </span>
+            </div>
+            <div className="renter-nickname" style={{ cursor: 'pointer', marginBottom: '8px' }}
+                 onClick={(e) => handleViewProfile(e)}>
+                {scooter.user.nickname}
+            </div>
             {isExpanded && (
                 <div className="modal-overlay" onClick={() => setIsExpanded(false)}>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                         <div className="expanded-content">
-                            <img src={imagePath} alt={`${model} Scooter`} className="scooter-image"/>
-                            <img src={ProfileAvatar} alt={"PROFILE"} className="profile-avatar"
-                                 onClick={(e) => handleViewProfile(e)}
-                                 style={{cursor: 'pointer'}}/>
+
+                                <img src={imagePath} alt={`${model} Scooter`} className="scooter-image"
+                                     style={{paddingBottom: '5%'}}/>
+
+
+                            <div className="image-container">
+                                <img src={ProfileAvatar} alt={"PROFILE"} className="profile-avatar"
+                                     onClick={(e) => handleViewProfile(e)}
+                                     style={{cursor: 'pointer'}}/>
+                                <span className="tooltip-text" id="profile-avatar-hover">Pogledaj profil iznajmljivača
+                    </span>
+                            </div>
+                            <div className="renter-nickname" onClick={(e) => handleViewProfile(e)}>
+                                {scooter.user.nickname}
+                            </div>
                             <div className="scooter-details">
                                 <h3>{model}</h3>
                                 <p><strong>Brzina:</strong> {maxSpeed} km/h</p>
                                 <p><strong>Kapacitet:</strong> {batteryCapacity} kWh</p>
-                                <p><strong>Godina Proizvodnje:</strong> {scooter.yearOfManufacture} </p>
-                                <p><strong>Dodatne informacije:</strong> {scooter.additionalInformation || "-"}</p>
-                                <p><strong>Doseg:</strong> {scooter.maxRange} </p>
+                                <p><strong>Godina Proizvodnje:</strong> {scooter.yearOfManufacture || "Trenutačno nepoznato"} </p>
+                                <p><strong>Dodatne informacije:</strong> {scooter.additionalInformation || "Trenutačno nepoznato"}</p>
+                                <p><strong>Doseg:</strong> {(scooter.maxRange + " km") || "Trenutačno nepoznato"} </p>
                                 <p><strong>Trenutna adresa:</strong> {listing.currentAddress} </p>
                                 <p><strong>Adresa povratka:</strong> {listing.returnAddress} </p>
                                 <p><strong>Cijena po kilometru:</strong> {listing.pricePerKilometer} €/km</p>
@@ -611,11 +657,11 @@ function ScooterCard({listing}) {
                                 </div>
                             )}
                             <div className="scooter-buttons">
-                                {buttons.map((button, index) => (
+                                {buttons && (buttons.map((button, index) => (
                                     <button key={index} className="scooter-button" onClick={button.onClick}>
                                         {button.text}
                                     </button>
-                                ))}
+                                )))}
                                 <button className="scooter-button" onClick={() => setIsExpanded(false)}>Zatvori</button>
                             </div>
                         </div>
@@ -624,7 +670,11 @@ function ScooterCard({listing}) {
             )}
             {!isExpanded && (
                 <>
-                <img src={imagePath} alt={`${model} Scooter`} className="scooter-image"/>
+                    <div className="image-container">
+                        <img src={imagePath} alt={`${model} Scooter`} className="scooter-image"
+                             style={{paddingBottom: '5%'}}/>
+                        <span className="tooltip-text">Klikni za detalje i<br/> uvjete najma</span>
+                    </div>
                     <div className="scooter-details">
                         <h3>{model}</h3>
                         <p><strong>Brzina:</strong> {maxSpeed} km/h</p>
@@ -644,9 +694,14 @@ function ScooterCard({listing}) {
                             </li>
                         ))}
                     </ul>
-                    {showNotification && (
+                    {NotificationImageChange && (
                         <div className="notification-bubble">
-                            Your request for bad image change is sent!
+                            Vaša primjedba za lošu zamjenu slike je poslana. <br/> Pričekajte odluku administratora!
+                        </div>
+                    )}
+                    {NotificationLogin && (
+                        <div className="notification-bubble" id="red-notification">
+                            Prije unajmljivanja romobila se morate prijaviti ili registrirati!
                         </div>
                     )}
                     <form onSubmit={handleSubmit} onClick={(e) => e.stopPropagation()}>
@@ -672,9 +727,10 @@ function ScooterCard({listing}) {
                                 </label>
                             </div>
                             <div>
-                                <button className="scooter-button" onClick={() => setIsVisible(false)}>Zatvori</button>
+                                <button className="scooter-button" onClick={() => setIsVisible(false)}
+                                        style={{marginTop: '0px'}}>Zatvori</button>
                             </div>
-                            <button type="submit">Potvrdi zamjenu</button>
+                            <button type="submit" style={{marginBottom: '15px', marginTop: '10px'}}>Potvrdi zamjenu</button>
                         </div>
                     </form>
 

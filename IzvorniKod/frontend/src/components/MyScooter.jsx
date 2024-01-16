@@ -3,13 +3,23 @@ import ScooterCardHome from './ScooterCardHome';
 import ScooterCard from './ScooterCard';
 import RegisterScooterForm from './RegisterScooterForm';
 import './MyScooter.css';
+import MyScooter1 from '../assets/myScooter1.jpg';
+import MyScooter2 from '../assets/myScooter2.jpg';
+import MyScooter3 from '../assets/myScooter3.jpg';
 import {getNicknameFromToken} from "./RegisterScooterForm";
+import Listing1 from "../assets/exampleListing1.png";
+import WelcomePage from "./WelcomePage";
+
 
 function MyScooter() {
     const [scooters, setScooters] = useState([]);
     const [listings, setListings] = useState([]);
     const [activeTab, setActiveTab] = useState('viewScooters'); // 'viewScooters' or 'addScooter' or 'viewListings'
     const [user, setUser] = useState('');
+    const textBeforeBreakScooter = "Trenutačno nemate registriranih romobila"
+    const textAfterBreakScooter = "Odaberite opciju dodavanja romobila i započnite iznajmljivati!"
+    const textBeforeBreakListing = "Trenutačno nemate postavljenih oglasa"
+    const textAfterBreakListing = "Stavite i Vi svoj oglas te započnite zarađivati!"
 
     useEffect(() => {
         handleUser();
@@ -89,7 +99,7 @@ function MyScooter() {
 
     return (
         <div className="my-scooter-container">
-            <h2>Moji romobili</h2>
+            <h3>Moji romobili</h3>
             <div className="tabs">
                 <button onClick={() => setActiveTab('viewScooters')}
                         className={activeTab === 'viewScooters' ? 'active' : ''}>
@@ -106,25 +116,48 @@ function MyScooter() {
             </div>
 
             {activeTab === 'viewScooters' && (
-                <div className="scooter-list">
-                    {scooters.map(scooter => (
-                        <ScooterCardHome key={scooter.id} scooter={scooter}/>
-                    ))}
-                </div>
+                <>
+                    <div className="scooter-list">
+                        {scooters.filter(scooter => !scooter.deleted).map(scooter => (
+                            <ScooterCardHome key={scooter.id} scooter={scooter} />
+                        ))}
+                    </div>
+                    {scooters.filter(scooter => !scooter.deleted).length === 0 && (
+                        <WelcomePage
+                            photo1={MyScooter1}
+                            photo2={MyScooter2}
+                            photo3={MyScooter3}
+                            textBeforeBreak={textBeforeBreakScooter}
+                            textAfterBreak={textAfterBreakScooter}
+                        />
+                    )}
+                </>
             )}
+
 
             {activeTab === 'addScooter' && (
                 <RegisterScooterForm addScooter={addScooter}/>
             )}
 
             {activeTab === 'viewListings' && (
-                <div className="scooter-list">
-                    {listings
-                        .filter(listing => (listing.scooter.user.userId == user.userId))
-                        .map(listing => (
-                        <ScooterCard key={listing.id} listing={listing}/>
-                    ))}
-                </div>
+                listings.filter(listing => listing.scooter.user.userId === user.userId).length > 0 ? (
+                    <div className="scooter-list">
+                        {listings.filter(listing => listing.scooter.user.userId === user.userId)
+                            .map(listing => (
+                                <ScooterCard key={listing.id} listing={listing} />
+                            ))
+                        }
+                    </div>
+                ) : (
+                    <div className="welcome-page">
+                        <div className="welcome-container">
+                            <h5>{textBeforeBreakListing}<br/>{textAfterBreakListing}</h5>
+                        </div>
+                        <div className="welcomeImageContainer">
+                            <img src={Listing1} alt="Scooter Adventure" />
+                        </div>
+                    </div>
+                )
             )}
         </div>
     );

@@ -4,6 +4,7 @@ public enum UserStatus {
     PENDING("PENDING", "Pending"),
     REJECTED("REJECTED", "Rejected"),
     ACCEPTED("ACCEPTED", "Accepted"),
+    DELETED("DELETED", "Deleted"),
     BLOCKED("BLOCKED", "Blocked");
 
     private final String code;

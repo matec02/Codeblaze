@@ -148,20 +148,20 @@ function ImageChange(){
             let messageTextToOwner;
             let messageTextToClient;
             if (currentRequest.requestStatus==='APPROVED'){
-                messageTextToOwner = "Vaša primjedba za lošu zamjenu slike za romobil "
+                messageTextToOwner = `Vaša primjedba za lošu zamjenu slike za romobil `
                     + currentRequest.request.listing.scooter.model
-                    + " je ODBIJENA jer ga originalna slika ne predstavlja dovoljno vjerodostojno."
-                messageTextToClient = "Vaš zahtjev za zamjenom slike za romobil "
+                    + ` je ODBIJENA jer ga originalna slika ne predstavlja dovoljno vjerodostojno.\n`
+                messageTextToClient = `Vaš zamjena slike za romobil `
                     + currentRequest.request.listing.scooter.model
-                    + " je PRIHVAĆEN."
+                    + ` je PRIHVAĆEN.\n`
 
             } else {
-                messageTextToOwner = "Vaša primjedba za lošu zamjenu slike za romobil "
+                messageTextToOwner = `Vaša primjedba za lošu zamjenu slike za romobil `
                     + currentRequest.request.listing.scooter.model
-                    + " je PRIHVAĆENA jer ga je originalna slika dovoljno vjerodostojno predstavljala."
-                messageTextToClient = "Vaš zahtjev za zamjenom slike za romobil "
+                    + ` je PRIHVAĆENA jer ga je originalna slika dovoljno vjerodostojno predstavljala. \n`
+                messageTextToClient = `Vaš zamjena slike za romobil `
                     + currentRequest.request.listing.scooter.model
-                    + " je ODBIJEN."
+                    + ` je ODBIJEN.\n`
             }
             if (reason){
                 messageTextToOwner += " Razlog administratora za odluku: " + reason;

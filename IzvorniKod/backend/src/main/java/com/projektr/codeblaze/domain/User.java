@@ -12,7 +12,7 @@ public class User {
     @Column(name = "userId", updatable = false, nullable = false)
     private Long userId;
 
-    @Column(name = "nickname", updatable = false, length = 50, nullable = false, unique = true)
+    @Column(name = "nickname", length = 50, nullable = false, unique = true)
     private String nickname;
 
     @Column(name = "firstName", nullable = false, length = 100)
@@ -27,7 +27,7 @@ public class User {
     @Column(name = "email", nullable = false, unique = true, length = 255)
     private String email;
 
-    @Column(name = "phoneNumber", nullable = false, unique = true, length = 16)
+    @Column(name = "phoneNumber", nullable = false, unique = true, length = 21)
     private String phoneNumber;
 
     @Column(name = "password", nullable = false, length = 60)

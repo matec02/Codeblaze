@@ -35,29 +35,6 @@ public class UserController {
         this.privacySettingsService = privacySettingsService;
     }
 
-    @DeleteMapping("/delete/{userId}")
-    public ResponseEntity<?> deleteUser(@PathVariable Long userId) {
-        try {
-            User user = userService.findById(userId);
-            Document document = documentService.findById(userId);
-            if (document != null) {
-                documentService.deleteDocuments(userId);
-            }
-            PrivacySettings privacySettings = privacySettingsService.getPrivacySettings(userId);
-            if (privacySettings != null) {
-                privacySettingsService.deletePrivacySettings(userId);
-            }
-            if (user != null) {
-                userService.delete(user.getUserId());
-                return ResponseEntity.ok("User deleted successfully");
-            } else {
-                return ResponseEntity.status(404).body("User not found");
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("Error deleting user");
-        }
-    }
-
 
     @PutMapping("/update-profile")
     public ResponseEntity<?> updateProfile(@RequestBody User updatedUser) {

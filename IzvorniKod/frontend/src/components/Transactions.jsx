@@ -3,9 +3,10 @@ import TransactionCard from './TransactionCard';
 import './Transactions.css';
 import {getNicknameFromToken} from "./RegisterScooterForm";
 import ScooterCard from "./ScooterCard";
+import Invoice from '../assets/racun.jpg';
 
-export const startTransaction = async (owner, client, listingPricePerKm, returnByTime, penaltyFee) => {
-
+export const startTransaction = async (owner, client, listingPricePerKm, returnByTime, penaltyFee, listingId) => {
+    console.log(listingId);
     const kilometersTraveled = (Math.random() * 100).toFixed(2);
     const paymentTime = new Date().toISOString().split('.')[0];
     const returnTimeDate = new Date(returnByTime);
@@ -15,17 +16,15 @@ export const startTransaction = async (owner, client, listingPricePerKm, returnB
         totalPrice = totalPrice + penaltyFee;
     }
 
-    const transactionToSend = {
-        kilometersTraveled: parseFloat(kilometersTraveled),
-        totalPrice: totalPrice,
-        paymentTime: paymentTime,
-        owner: owner,
-        client: client
-    };
+    const formData = new FormData();
+    formData.append('kilometersTraveled', new Blob([JSON.stringify(parseFloat(kilometersTraveled))], { type: "application/json" }));
+    formData.append('totalPrice', new Blob([JSON.stringify(parseFloat(totalPrice))], { type: "application/json" }));
+    formData.append('paymentTime', new Blob([JSON.stringify(paymentTime)], { type: "application/json" }));
+    formData.append('owner', new Blob([JSON.stringify(owner)], { type: "application/json" }));
+    formData.append('client', new Blob([JSON.stringify(client)], { type: "application/json" }));
+    formData.append('listingId', new Blob([JSON.stringify(listingId)], { type: "application/json" }));
 
     try {
-        const formData = new FormData();
-        formData.append('transaction', new Blob([JSON.stringify(transactionToSend)], {type: "application/json"}));
         const response = await fetch('/api/transactions/send', {
             method: 'POST',
             body: formData
@@ -49,6 +48,11 @@ function Transactions() {
     const [clientTransactions, setClientTransaction] = useState([]);
     const [activeTab, setActiveTab] = useState('ownerTransactions');
     const [listings, setListings] = useState([]);
+    const textBeforeBreakOwner = "Trenutno nemate zaprimljenih transakcija"
+    const textAfterBreakOwner = "Postavite svoj romobil na oglašavanje te tako zaradite!"
+    const textBeforeBreakClient = "Trenutno nemate naplaćenih transakcija"
+    const textAfterBreakClient = "Unajmi oglašeni romobil te će Vam se transakcija prikazati!"
+
 
     useEffect(() => {
         handleUser();
@@ -167,7 +171,7 @@ function Transactions() {
 
     return (
         <div className="my-transactions">
-            <h2>Moje transakcije</h2>
+            <h3>Moje transakcije</h3>
             {listings.filter(listing => (listing.scooter.user.userId === user.userId)).length > 0 && (
                 <div className="rented-scooters">
                     <h3>Romobili na iznajmljivanju:</h3>
@@ -191,21 +195,44 @@ function Transactions() {
             </div>
 
             {activeTab === 'ownerTransactions' && (
-                <div className="transactions-tabs">
-                    {ownerTransactions.map(transaction => (
+                ownerTransactions.length > 0 ? (
+                    <div className="transactions-tabs">
+                        {ownerTransactions.map(transaction => (
                             <TransactionCard key={transaction.transactionId} transaction={transaction} type={transaction.status}/>
-                    ))}
-                </div>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="welcome-page">
+                        <div className="welcome-container">
+                            <h5>{textBeforeBreakOwner}<br/>{textAfterBreakOwner}</h5>
+                        </div>
+                        <div className="welcomeImageContainer">
+                            <img src={Invoice} alt="Scooter Adventure" />
+                        </div>
+                    </div>
+                )
             )}
 
             {activeTab === 'clientTransactions' && (
-                <div className="transactions-tabs">
-                    {clientTransactions.map(transaction => (
+                clientTransactions.length > 0 ? (
+                    <div className="transactions-tabs">
+                        {clientTransactions.map(transaction => (
                             <TransactionCard key={transaction.transactionId} transaction={transaction} type="SEEN"/>
-                    ))}
-                </div>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="welcome-page">
+                        <div className="welcome-container">
+                            <h5>{textBeforeBreakClient}<br/>{textAfterBreakClient}</h5>
+                        </div>
+                        <div className="welcomeImageContainer">
+                            <img src={Invoice} alt="Scooter Adventure" />
+                        </div>
+                    </div>
+                )
             )}
         </div>
     );
+
 }
 export default Transactions;

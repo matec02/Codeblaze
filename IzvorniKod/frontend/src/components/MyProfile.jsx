@@ -121,21 +121,19 @@ function MyProfile() {
         return <div>Loading user data...</div>;
     }
 
-    const deleteProfile = async () => {
+    const deleteProfile = async (userId, status) => {
         try {
-            // Replace with your API's endpoint and method to delete the user's profile
-            const response = await fetch(`/api/users/delete/${user.userId}`, {
-                method: 'DELETE',
+            const response = await fetch(`/api/users/${userId}/update-status`, {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                body: JSON.stringify({ status: status })
             });
-
             if (response.ok) {
                 localStorage.removeItem('authToken');
                 navigate('/');
             } else {
-                // Handle errors here
                 setErrorMessage('Failed to delete profile.');
             }
         } catch (error) {
@@ -293,7 +291,7 @@ function MyProfile() {
                         <button onClick={editProfileClick}>Uredi profil</button>
                     </div>
                     <div className="buttonRow">
-                        <button className="deleteButton" onClick={deleteProfile}>Obriši profil</button>
+                        <button className="deleteButton" onClick={() => deleteProfile(user.userId, "DELETED")}>Obriši profil</button>
                     </div>
                 </div>
             </div>

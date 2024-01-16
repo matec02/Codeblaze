@@ -36,11 +36,9 @@ public class Transaction {
     @JoinColumn(name = "clientId", referencedColumnName = "userId", nullable = false)
     private User client;
 
-    /*
     @ManyToOne
     @JoinColumn(name = "listingId", referencedColumnName = "listingId", nullable = false)
     private Listing listing;
-    */
 
     //obrisan invoice
     //kaze u zadatku transakcija se automatski obavi i spremi - ne placas direktno ti pa ni nema biranja nacina placanja

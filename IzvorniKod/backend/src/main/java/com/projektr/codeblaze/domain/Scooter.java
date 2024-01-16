@@ -43,4 +43,7 @@ public class Scooter {
 
     @Column(nullable = false)
     private Boolean availability;
+
+    @Column(nullable = false)
+    private Boolean deleted;
 }

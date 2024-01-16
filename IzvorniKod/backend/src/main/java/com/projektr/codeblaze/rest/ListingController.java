@@ -56,15 +56,6 @@ public class ListingController {
         return ResponseEntity.ok(listing);
     }
 
-    @DeleteMapping("/delete-listing/{listingId}")
-    public ResponseEntity<String> deleteListing(@PathVariable Long listingId) {
-        try {
-            scooterService.deleteListing(listingId);
-            return ResponseEntity.ok("Listing deleted successfully");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Listing not found with ID: " + listingId);
-        }
-    }
     @GetMapping("/listing/{userId}")
     public ResponseEntity<List<Listing>> getListingsByUserId(@PathVariable Long userId) {
         List<Listing> listings = scooterService.getAvailableScooters(true).stream()
@@ -83,7 +74,6 @@ public class ListingController {
             return ResponseEntity.badRequest().build();
         }
     }
-
 
     @PutMapping("/update-listing-status/{listingId}")
     public ResponseEntity<Listing> updateListingStatus(@PathVariable Long listingId, @RequestBody Map<String, String> body) {

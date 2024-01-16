@@ -3,7 +3,7 @@
     width: 250px;
     border: 1px solid #ddd;
     border-radius: 8px;
-    padding: 16px;
+    padding: 16px 16px 0 16px;
     text-align: center;
     margin: 16px;
     background: #fff;
@@ -11,6 +11,37 @@
     transition: all 0.3s ease-in-out;
     cursor: pointer;
 }
+
+.image-container {
+    position: relative;
+    display: inline-block;
+}
+
+
+.tooltip-text {
+    visibility: hidden;
+    position: absolute;
+    bottom: 20%;
+    left: 100%;
+    transform: translate(-50%, 100%);
+    background-color: #FFD860;
+    color: black;
+    padding: 5px 10px;
+    border-radius: 6px;
+    z-index: 1;
+    white-space: nowrap;
+}
+
+#profile-avatar-hover{
+    left: 250%;
+    transform: translate(-50%, 0%);
+
+}
+
+.image-container:hover .tooltip-text {
+    visibility: visible;
+}
+
 
 .scooter:hover {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
@@ -20,7 +51,8 @@
     max-width: 100%;
     height: auto;
     border-radius: 4px;
-    margin-bottom: 8px;
+    margin-top: 10px;
+    display: block;
 }
 
 .ad-form {
@@ -67,7 +99,6 @@
     height: 60px;
     border-radius: 50%;
     border: 2px solid #ddd;
-    margin-bottom: 8px;
     cursor: pointer;
 }
 
@@ -114,7 +145,6 @@
     max-width: 100%;
     max-height: 50vh;
     object-fit: contain;
-    margin-bottom: 10px;
 }
 
 .scooter.expanded .profile-avatar {

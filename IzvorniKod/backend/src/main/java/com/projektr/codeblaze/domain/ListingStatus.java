@@ -6,7 +6,7 @@ public enum ListingStatus {
     //CANCELLED("CANCELLED", "Cancelled");
 
     AVAILABLE("AVAILABLE", "Available"), //prikazuje se na pocetnoj, po defaultu i ako se odbije zahtjev
-    REQUESTED("REQUESTED", "Requested"), //ne prikazuje se na pocetnoj
+    REQUESTED("REQUESTED", "Requested"), //ne prikazuje se na pocetnoj, bit ce ujedno i delete
     RENTED("RENTED", "Rented"), //prikazuje klijentu ako iznajmljivac prihvati
     RETURNED("RETURNED", "Returned"); //ne prikazuje se nigdje
 

@@ -5,7 +5,7 @@ import logo from '../assets/CodeblazeLogo.png';
 import './Navbar.css'
 import {getNicknameFromToken} from "./RegisterScooterForm";
 import { FaFacebook, FaTwitter, FaLinkedin } from 'react-icons/fa';
-import {getUserIdFromToken} from "../utils/authService";
+import {getUserFromToken, getUserIdFromToken} from "../utils/authService";
 import UnreadMessagesContext from "./UnreadMessagesContext";
 
 function SocialMediaModal({ isOpen, onClose, platform, onSave }) {
@@ -45,12 +45,25 @@ function SocialMediaModal({ isOpen, onClose, platform, onSave }) {
         const {unreadCount, setUnreadCount} = useContext(UnreadMessagesContext);
         const [isSocialMediaModalOpen, setIsSocialMediaModalOpen] = useState(false);
         const [currentPlatform, setCurrentPlatform] = useState('');
+        const [userRole, setUserRole] = useState(null);
+
+        useEffect(() => {
+            getUserFromToken().then(user => {
+                console.log(user.role);
+                setUserRole(user.role);  // Update state here
+            }).catch(error => {
+                console.error("Error fetching user:", error);
+            });
+            // Other useEffect content...
+        }, []); // Empty dependency array to run only on component mount
+
 
         useEffect(() => {
             fetchUsers("/api/users/acceptedUsers", setAcceptedUsers);
             fetchUsers("/api/users/admins", setAdmins);
             fetchChats();
         }, []);
+
 
         const dropdownRef = useRef(null);
 
@@ -67,6 +80,7 @@ function SocialMediaModal({ isOpen, onClose, platform, onSave }) {
         }, []);
 
         const toggleDropdown = () => {
+            console.log(userRole);
             setShowDropdown(!showDropdown);
         };
 
@@ -136,17 +150,6 @@ function SocialMediaModal({ isOpen, onClose, platform, onSave }) {
         };
 
 
-        const handleNavigation = () => {
-            let path = '/';
-
-            const isAdmin = admins.some(admin => admin.nickname === getNicknameFromToken());
-
-            if (isAdmin) {
-                path = '/admin-home';
-            }
-            navigate(path);
-        };
-
         const shareUrl = "window.location.href";
 
         const openSocialMediaShare = (platform) => {
@@ -177,13 +180,17 @@ function SocialMediaModal({ isOpen, onClose, platform, onSave }) {
                         <img src={logo} alt="Logo"/>
                     </div>
                     <ul className="navbar-links">
-                        <li onClick={handleNavigation}>Početna</li>
+                        <li onClick={() => navigate('/home')}>Početna</li>
                         <li onClick={() => navigate('/scooters')}>Tvoji Romobili</li>
                         <li onClick={() => navigate('/chat-panel')}>
                             Poruke {unreadCount > 0 && <span className="unread-badge">{unreadCount}</span>}
                         </li>
                         <li onClick={() => navigate('/my-transactions')}>Transakcije</li>
+                        {userRole === 'ADMIN' && (
+                            <li onClick={() => navigate('/admin-dashboard')}>Panel</li>
+                        )}
                     </ul>
+
                     {localStorage.getItem('authToken') && (
                         <div className="social-media-buttons">
                             <FaFacebook onClick={() => openSocialMediaShare('Facebook')}/>

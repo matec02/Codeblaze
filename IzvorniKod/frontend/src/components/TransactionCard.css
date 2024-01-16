@@ -1,7 +1,8 @@
 .transaction-details p {
     color: black;
     margin: 10px;
-    font-size: 14px
+    font-size: 14px;
+    text-align: center;
 }
 
 .transaction-card {
@@ -14,6 +15,11 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     margin-bottom: 10px;
+    display: flex; /* Use flexbox */
+    flex-direction: column; /* Stack children vertically */
+    justify-content: center; /* Center vertically */
+    align-items: center; /* Center horizontally */
+    text-align: center; /* Ensure the text is centered as well */
 }
 
 .box-title {

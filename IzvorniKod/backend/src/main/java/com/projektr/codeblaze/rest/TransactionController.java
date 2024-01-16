@@ -2,7 +2,9 @@ package com.projektr.codeblaze.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.projektr.codeblaze.dao.ListingRepository;
 import com.projektr.codeblaze.dao.TransactionRepository;
+import com.projektr.codeblaze.domain.Listing;
 import com.projektr.codeblaze.domain.Transaction;
 import com.projektr.codeblaze.domain.User;
 import com.projektr.codeblaze.service.DocumentService;
@@ -14,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -23,14 +26,17 @@ public class TransactionController {
 
     private final TransactionRepository transactionRepo;
 
+    private final ListingRepository listingRepository;
     private final TransactionService transactionService;
 
     private static final Logger logger = LoggerFactory.getLogger(DocumentService.class);
 
     @Autowired
-    public TransactionController(TransactionRepository transactionRepo, TransactionService transactionService) {
+    public TransactionController(TransactionRepository transactionRepo, TransactionService transactionService,
+                                 ListingRepository listingRepository) {
         this.transactionRepo = transactionRepo;
         this.transactionService = transactionService;
+        this.listingRepository = listingRepository;
     }
 
     @GetMapping("owner/{userId}")
@@ -63,14 +69,33 @@ public class TransactionController {
     }
 
     @PostMapping(value = "/send", consumes = "multipart/form-data")
-    public ResponseEntity<Transaction> startTransaction(@RequestPart("transaction") String transactionJson) {
+    public ResponseEntity<Transaction> startTransaction(
+            @RequestPart("kilometersTraveled") String kilometersTraveledJson,
+            @RequestPart("totalPrice") String totalPriceJson,
+            @RequestPart("paymentTime") String paymentTimeJson,
+            @RequestPart("owner") String ownerJson,
+            @RequestPart("client") String clientJson,
+            @RequestPart("listingId") String listingIdJson) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.registerModule(new JavaTimeModule());
 
-            logger.debug("Received transaction JSON: {}", transactionJson);
+            float kilometersTraveled = objectMapper.readValue(kilometersTraveledJson, Float.class);
+            float totalPrice = objectMapper.readValue(totalPriceJson, Float.class);
+            LocalDateTime paymentTime = objectMapper.readValue(paymentTimeJson, LocalDateTime.class);
+            User owner = objectMapper.readValue(ownerJson, User.class);
+            User client = objectMapper.readValue(clientJson, User.class);
+            Long listingId = objectMapper.readValue(listingIdJson, Long.class);
+            Listing listing = listingRepository.findById(listingId).orElseThrow();
 
-            Transaction transaction = objectMapper.readValue(transactionJson, Transaction.class);
+            Transaction transaction = new Transaction();
+            transaction.setKilometersTraveled(kilometersTraveled);
+            transaction.setTotalPrice(totalPrice);
+            transaction.setPaymentTime(paymentTime);
+            transaction.setOwner(owner);
+            transaction.setClient(client);
+            transaction.setListing(listing);
+
             logger.debug("Deserialized transaction: {}", transaction);
 
             Transaction savedTransaction = transactionService.saveTransaction(transaction);
@@ -82,6 +107,7 @@ public class TransactionController {
             return ResponseEntity.badRequest().build();
         }
     }
+
 
     @GetMapping("/get-by-id/{transactionId}")
     public ResponseEntity<Transaction> getTransactionById(@PathVariable Long transactionId) {
