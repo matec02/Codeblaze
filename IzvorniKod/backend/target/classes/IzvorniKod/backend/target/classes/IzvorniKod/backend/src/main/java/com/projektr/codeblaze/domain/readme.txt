@@ -1,0 +1,1 @@
+sve radne klase
