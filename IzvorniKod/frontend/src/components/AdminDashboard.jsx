@@ -306,7 +306,7 @@ function AdminDashboard() {
                     <button className="block" onClick={() => handleRoleChange(user.userId, 'USER')}>
                         Ukloni administratora
                     </button>
-                ):(<span>No possible actions</span>)
+                ):(<span>Nema mogućih radnji</span>)
                 }
             </>
         );
