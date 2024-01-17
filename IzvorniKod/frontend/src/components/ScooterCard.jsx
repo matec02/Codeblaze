@@ -1,6 +1,6 @@
 import React, {useCallback, useState, useEffect} from 'react';
 import './ScooterCard.css'
-import {Form, useNavigate} from "react-router-dom";
+import {Form, Navigate, useNavigate} from "react-router-dom";
 import ProfileAvatar from '../assets/profile-avatar.png';
 import {getNicknameFromToken} from "./RegisterScooterForm";
 import {format} from 'date-fns';
@@ -9,6 +9,9 @@ import {FaFacebook, FaTwitter, FaLinkedin} from 'react-icons/fa';
 import {startTransaction} from "./Transactions";
 import {sendMessageFromCodeblazeWithAction} from "../utils/MessageUtils";
 import { useLocation } from "react-router-dom";
+import {getRoleFromToken} from "../utils/authService";
+import {getStatusFromToken} from "../utils/authService";
+
 
 export const ProfileModal = ({isOpen, onClose, profile}) => {
     const [privacySettings, setPrivacySettings] = useState(null);
@@ -77,10 +80,10 @@ export const ProfileModal = ({isOpen, onClose, profile}) => {
                 </h3>
 
 
-                {privacySettings?.firstNameVisible && <h4>Name {profile.firstName}</h4>}
-                {privacySettings?.lastNameVisible && <h4>Lastname {profile.lastName}</h4>}
-                {privacySettings?.emailVisible && <h4>E-mail {profile.email}</h4>}
-                {privacySettings?.phoneNumberVisible && <h4>Phone Number: {profile.phoneNumber} </h4>}
+                {privacySettings?.firstNameVisible && <div style={{paddingBottom: '10px'}}><strong>Name:</strong> {profile.firstName}</div>}
+                {privacySettings?.lastNameVisible && <div style={{paddingBottom: '10px'}}><strong>Prezime:</strong> {profile.lastName}</div>}
+                {privacySettings?.emailVisible && <div style={{paddingBottom: '10px'}}><strong>E-mail:</strong> {profile.email}</div>}
+                {privacySettings?.phoneNumberVisible && <div style={{paddingBottom: '10px'}}><strong>Broj mobitela:</strong> {profile.phoneNumber}</div>}
                 <button onClick={handleStartConversation}>Pošalji Poruku</button>
                 <button onClick={handleOnRating}>Recenzije</button>
                 <button className="modal-close-button" onClick={onClose}>Zatvori</button>
@@ -189,11 +192,20 @@ function ScooterCard({listing}) {
         }
     };
 
-    const handleButtonClick = (event, action) => {
+    const handleButtonClick = async (event, action) => {
         event.stopPropagation();
 
         if (action === 'prijavi') {
             setIsVisible(true);
+            let userRole = getRoleFromToken();
+            let userStatus = await getStatusFromToken();
+            if (userRole === "GUEST") {
+                if (userStatus === "REJECTED") {
+                    navigate("/profile-rejected");
+                } else {
+                    navigate("/profile-pending");
+                }
+            }
         } else if (action === 'uredi') {
             openAdModal();
         } else if (action === 'izbrisi') {
@@ -384,28 +396,36 @@ function ScooterCard({listing}) {
 
     const handleRequest = async () => {
         try {
-            const data = {status: "REQUESTED"}
+            let userRole = getRoleFromToken();
+            let userStatus = await getStatusFromToken();
+            if (userRole === "GUEST") {
+                if (userStatus === "REJECTED"){
+                    navigate("/profile-rejected");
+                } else {
+                    navigate("/profile-pending");
+                }
+            } else {
+                const data = {status: "REQUESTED"};
+                const response = await fetch(`/api/listing/update-listing-status/${listingId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
 
-            const response = await fetch(`/api/listing/update-listing-status/${listingId}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data)
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to update listing status');
+                if (response.ok) {
+                    const chatSessionId = await sendMessageWithAction(scooter.user, listingId, scooter.manufacturer, scooter.model, scooter.yearOfManufacture);
+                    navigate(`/chat-panel`);
+                } else {
+                    throw new Error('Failed to update listing status');
+                }
             }
-
-            const chatSessionId = await sendMessageWithAction(scooter.user, listingId, scooter.manufacturer, scooter.model, scooter.yearOfManufacture);
-            //navigate(`/chat-window/${chatSessionId}`);
-            navigate(`/chat-panel`);
-
         } catch (error) {
             console.error('Error updating listing status:', error);
         }
     };
+
 
     const handleReturn = async () => {
         try {

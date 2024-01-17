@@ -65,6 +65,8 @@ function LoginForm() {
                 } else if (data.status == "BLOCKED"){
                     //localStorage.setItem('authToken', data.authToken); TODO protect all routes
                     navigate('/profile-blocked')
+                } else if (data.status == "REJECTED"){
+                    navigate('/profile-rejected')
                 }
                 else {
                     localStorage.setItem('authToken', data.authToken);

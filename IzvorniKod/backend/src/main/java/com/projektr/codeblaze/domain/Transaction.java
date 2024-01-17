@@ -28,6 +28,13 @@ public class Transaction {
     @Column(name = "transactionStatus", nullable = false, length = 50)
     private TransactionStatus status = TransactionStatus.UNSEEN;
 
+    public Timestamp getPaymentTimestamp() {
+        if (paymentTime != null) {
+            return Timestamp.valueOf(paymentTime);
+        }
+        return null; // Handle the case when paymentTime is null, if needed
+    }
+
     @ManyToOne
     @JoinColumn(name = "ownerId", referencedColumnName = "userId", nullable = false)
     private User owner;

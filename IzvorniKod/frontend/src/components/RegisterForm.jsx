@@ -242,8 +242,8 @@ function RegisterForm() {
             </form>
             {showNotification && (
                 <div className="notification-bubble" id="red-notification">
-                    Uneseni e-mail ili nadimak su već iskorišteni.
-                    Unesite drugačiju e-mail ili nadimak te pokušajte ponovno!
+                    Uneseni e-mail,nadimak ili broj mobitela su već iskorišteni.
+                    Unesite drugačiju e-mail,nadimak ili broj mobitela te pokušajte ponovno!
                 </div>
             )}
         </div>

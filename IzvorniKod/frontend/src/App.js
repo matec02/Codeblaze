@@ -29,6 +29,7 @@ import EditProfile from "./components/EditProfile";
 import ReviewCard from "./components/ReviewCard";
 import ProhibitedReview from "./components/ProhibitedReview";
 import ProtectReview from "./components/ProtectReview";
+import ProfileRejected from "./components/ProfileRejected";
 
 /* Import for ScooterCardHome test
 import ScooterCardHome from "./components/ScooterCardHome";*/
@@ -44,13 +45,18 @@ function App() {
             </header>
             <Routes>
                 <Route path="/" element={<Navigate to="/home" replace/>}/>
-                <Route path="/home" element={<Home/>}/>
+                <Route path="/home"
+                       element={
+                    <Home/>
+                }/>
                 <Route path="/login" element={<LoginForm/>}/>
                 <Route path="/register" element={<RegisterForm/>}/>
 
                 <Route path="/chat-panel" element={
                     <ProtectedRoutes>
-                        <ChatPanel/>
+                        <ProtectedRouteScooter>
+                            <ChatPanel/>
+                        </ProtectedRouteScooter>
                     </ProtectedRoutes>
                     }/>
 
@@ -87,6 +93,9 @@ function App() {
                 <Route path="/profile-blocked" element={
                         <ProfileBlocked />
                 }/>
+                <Route path="/profile-rejected" element={
+                    <ProfileRejected />
+                }/>
                 <Route path="/not-allowed-review" element={
                     <ProhibitedReview />
                 }/>
@@ -104,7 +113,9 @@ function App() {
                 }/>
                 <Route path="/my-transactions" element={
                     <ProtectedRoutes>
-                        <Transactions />
+                        <ProtectedRouteScooter>
+                            <Transactions />
+                        </ProtectedRouteScooter>
                     </ProtectedRoutes>
                 }/>
                 <Route path="/profile" element={
