@@ -1,12 +1,64 @@
 .scooter-grid {
     display: grid;
-    grid-template-columns: repeat(4, 250px); /* 4 columns*/
+    grid-template-columns: repeat(4, 1fr); /* 4 columns */
     grid-gap: 50px;
     justify-content: center;
     padding: 16px;
-    margin: auto; /*Center the grid horizontally */
-    max-width: 1200px; /* Maximum width of the grid*/
+    margin: auto; /* Center the grid horizontally */
+    max-width: 1200px; /* Maximum width of the grid */
 }
+
+/* Optionally, ensure the images within each slide fit the container */
+.welcomeImageContainer img {
+    width: 100%;
+    height: auto; /* Maintain aspect ratio */
+}
+
+.welcomeImageContainer {
+    max-width: 45%; /* Set the maximum width of each slide */
+    display: flex; /* Use flexbox to center the image */
+    justify-content: center; /* Center the image horizontally */
+    align-items: center; /* Center the image vertically if needed */
+    height: 50%; /* Set the height to the height of the slider */
+    transform: translateX(60%);
+}
+
+.welcome-container {
+    background-color: #FFD860; /* Background color for the container */
+    padding: 20px;
+    border-radius: 10px; /* Rounded corners for the container */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* Box shadow for a subtle effect */
+    text-align: center; /* Center the content horizontally */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* Style for the heading */
+.welcome-container h5 {
+    margin-top: 0px;
+    font-size: 24px; /* Adjust the font size as needed */
+    color: #000000; /* Black color for the heading */
+    margin-bottom: 10px; /* Add spacing from the bottom */
+    font-family: 'Arial', sans-serif; /* Stylish font (replace with your preferred font) */
+    white-space: nowrap; /* Prevent text from wrapping to the next line */
+}
+
+
+.slick-slide {
+    display: inline-block;
+    height: auto; /* Adjust the height to maintain aspect ratio */
+    /* Add any additional styles for the slide here */
+}
+
+.slick-slider {
+    overflow: hidden; /* Hide overflow to remove horizontal scrollbar */
+}
+
+
+
 
 @media (max-width: 1200px) {
     .scooter-grid {

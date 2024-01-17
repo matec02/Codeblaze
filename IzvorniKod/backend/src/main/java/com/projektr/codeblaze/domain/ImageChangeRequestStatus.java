@@ -3,7 +3,8 @@ package com.projektr.codeblaze.domain;
 public enum ImageChangeRequestStatus {
     APPROVED("APPROVED", "Approved"),
     REJECTED("REJECTED", "Rejected"),
-    PENDING("PENDING", "Pending");
+    PENDING("PENDING", "Pending"),
+    REQUESTED("REQUESTED", "Requested");
 
     private final String code;
     private final String displayValue;

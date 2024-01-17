@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Data
 @Entity
@@ -16,22 +17,10 @@ public class ChatSession {
     private Long chatSessionId;
 
     @Column(name = "startCommunicationTime")
-    private LocalDateTime startCommunicationTime;
-    public Timestamp getStartCommunicationTime() {
-        if (startCommunicationTime != null) {
-            return Timestamp.valueOf(startCommunicationTime);
-        }
-        return null; // Handle the case when paymentTime is null, if needed
-    }
+    private OffsetDateTime startCommunicationTime;
 
     @Column(name = "lastMessageTime")
-    private LocalDateTime lastMessageTime;
-    public Timestamp getLastMessageTime() {
-        if (lastMessageTime != null) {
-            return Timestamp.valueOf(lastMessageTime);
-        }
-        return null; // Handle the case when paymentTime is null, if needed
-    }
+    private OffsetDateTime lastMessageTime;
 
     @ManyToOne
     @JoinColumn(name = "user1", referencedColumnName = "userId")

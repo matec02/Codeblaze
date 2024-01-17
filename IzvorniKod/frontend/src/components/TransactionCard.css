@@ -1,0 +1,90 @@
+.transaction-details p {
+    color: black;
+    margin: 10px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.transaction-card {
+    width: 230px;
+    border: 1px solid black;
+    border-radius: 8px;
+    padding: 12px;
+    background-color: #ffe69b;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    margin-bottom: 10px;
+    display: flex; /* Use flexbox */
+    flex-direction: column; /* Stack children vertically */
+    justify-content: center; /* Center vertically */
+    align-items: center; /* Center horizontally */
+    text-align: center; /* Ensure the text is centered as well */
+}
+
+.box-title {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.transaction-card:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.transaction-card.expanded {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transform: scale(1.1);
+}
+
+.transaction-details button{
+    padding: 5px 10px;
+    margin: 0 5px;
+    font-size: 10px;
+    border: 1px solid black;
+    background-color: #000;
+    color: #FFD860;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.transaction-details button:hover {
+    background-color: #FFD860;
+    color: black;
+    transition: background-color 0.3s ease;
+}
+
+.transaction-card.SEEN {
+    background-color: #fff0c2;
+}
+
+.transaction-card.UNSEEN {
+    background-color: #fff0c2;
+    animation: pulsate 1.5s infinite, blinking 1.5s infinite;
+}
+
+@keyframes pulsate {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes blinking {
+    0% {
+        box-shadow: 0 0 10px #ffc514;
+    }
+    50% {
+        box-shadow: 0 0 15px #ffc514;
+        opacity: 1;
+    }
+    100% {
+        box-shadow: 0 0 10px #ffc514;
+    }
+}

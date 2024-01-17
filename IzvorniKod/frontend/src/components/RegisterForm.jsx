@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import './RegisterForm.css'
 import PhoneInput from 'react-phone-number-input';
@@ -16,6 +16,7 @@ function RegisterForm() {
     const [cardNumber, setCardNumber] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [password, setPassword] = useState('');
+    const [showNotification, setShowNotification] = useState(false);
 
     // Extra state variables
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -24,6 +25,16 @@ function RegisterForm() {
     // File upload
     const [criminalRecord, setCriminalRecord] = useState(null);
     const [identificationDocument, setIdentificationDocument] = useState(null);
+
+    useEffect(() => {
+        if (showNotification) {
+            const timer = setTimeout(() => {
+                setShowNotification(false);
+            }, 8000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [showNotification]);
 
     const handleFileChange = (event, setFileState) => {
         setFileState(event.target.files[0]);
@@ -58,7 +69,6 @@ function RegisterForm() {
                 body: formDataCR,
             });
 
-            console.log("OKEJ");
             if (responseCR.ok) {
                 const imageUploadCR = await responseCR.json();
 
@@ -94,7 +104,8 @@ function RegisterForm() {
                             localStorage.setItem('userStatus', 'registered'); // Update as needed
                             navigate('/login');
                         } else {
-                            console.error("Registration API failed")
+                            console.error("Registration API failed");
+                            setShowNotification(true);
                         }
                     } else {
                         console.error('ResponseId failed to upload');
@@ -121,15 +132,24 @@ function RegisterForm() {
                     <div className="section-title">Osobni podaci</div>
                     <div className="form-group">
                         <label>Ime:</label>
-                        <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} required/>
+                        <input type="text" value={firstName}
+                               onChange={(e) => setFirstName(e.target.value)}
+                               placeholder="Upišite vlastito ime"
+                               required/>
                     </div>
                     <div className="form-group">
                         <label>Prezime:</label>
-                        <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} required/>
+                        <input type="text" value={lastName}
+                               onChange={(e) => setLastName(e.target.value)}
+                               placeholder="Upišite vlastito prezime"
+                               required/>
                     </div>
                     <div className="form-group">
                         <label>Nadimak:</label>
-                        <input type="text" value={nickname} onChange={(e) => setNickname(e.target.value)} required/>
+                        <input type="text" value={nickname}
+                               onChange={(e) => setNickname(e.target.value)}
+                               placeholder="Upišite željeni nadimak"
+                               required/>
                     </div>
                 </div>
 
@@ -138,12 +158,17 @@ function RegisterForm() {
                     <div className="section-title">Kontakt podaci</div>
                     <div className="form-group">
                         <label>Email:</label>
-                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required/>
+                        <input type="email" value={email}
+                               onChange={(e) => setEmail(e.target.value)}
+                               placeholder="Upišite vlastitu e-mail adresu"
+                               required/>
                     </div>
                     <div className="form-group">
                         <label>Broj mobitela:</label>
                         <PhoneInput defaultCountry="HR" value={phoneNumber}
-                                    onChange={setPhoneNumber} required/>
+                                    onChange={setPhoneNumber}
+                                    placeholder="Upišite vlastiti broj mobitela"
+                                    required/>
                     </div>
                 </div>
 
@@ -164,7 +189,10 @@ function RegisterForm() {
                     <div className="section-title">Plaćanje i sigurnost</div>
                     <div className="form-group">
                         <label>Broj kartice:</label>
-                        <input type="text" value={cardNumber} onChange={(e) => setCardNumber(e.target.value)} required/>
+                        <input type="number" value={cardNumber}
+                               onChange={(e) => setCardNumber(e.target.value)}
+                               placeholder="Upišite broj kartice"
+                               required/>
                     </div>
                     <div className="form-group">
                         <label htmlFor="password">Lozinka:</label>
@@ -173,6 +201,7 @@ function RegisterForm() {
                                 type={showPassword ? "text" : "password"}
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
+                                placeholder="Upišite lozinku"
                                 required
                             />
                             <button
@@ -191,6 +220,7 @@ function RegisterForm() {
                                 type={showPassword ? "text" : "password"}
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
+                                placeholder="Upišite ponovno istu lozinku"
                                 required
                             />
                             <button
@@ -210,6 +240,12 @@ function RegisterForm() {
 
                 {errorMessage && <div className="form-group error-message">{errorMessage}</div>}
             </form>
+            {showNotification && (
+                <div className="notification-bubble" id="red-notification">
+                    Uneseni e-mail ili nadimak su već iskorišteni.
+                    Unesite drugačiju e-mail ili nadimak te pokušajte ponovno!
+                </div>
+            )}
         </div>
     );
 }

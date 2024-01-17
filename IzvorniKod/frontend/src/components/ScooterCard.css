@@ -1,39 +1,81 @@
-/* ScooterCard.css */
+/* General Styles for Scooter Card */
 .scooter {
     width: 250px;
     border: 1px solid #ddd;
     border-radius: 8px;
-    padding: 16px;
+    padding: 16px 16px 0 16px;
     text-align: center;
     margin: 16px;
     background: #fff;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
 }
 
+.image-container {
+    position: relative;
+    display: inline-block;
+}
+
+
+.tooltip-text {
+    visibility: hidden;
+    position: absolute;
+    bottom: 20%;
+    left: 100%;
+    transform: translate(-50%, 100%);
+    background-color: #FFD860;
+    color: black;
+    padding: 5px 10px;
+    border-radius: 6px;
+    z-index: 1;
+    white-space: nowrap;
+}
+
+#profile-avatar-hover{
+    left: 250%;
+    transform: translate(-50%, 0%);
+
+}
+
+.image-container:hover .tooltip-text {
+    visibility: visible;
+}
+
+
 .scooter:hover {
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .scooter-image {
     max-width: 100%;
     height: auto;
     border-radius: 4px;
-    margin-bottom: 8px;
-    cursor: pointer;
+    margin-top: 10px;
+    display: block;
 }
 
-.scooter-name {
-    font-size: 1.4em; /* Povećana veličina fonta */
-    font-weight: bold;
-    margin-bottom: 8px; /* Povećan razmak */
-    text-align: left; /* Poravnanje teksta ulijevo */
+.ad-form {
+    width: 45%; /* or any specific width like 300px */
 }
 
-.scooter-details p {
+.scooter-details {
     margin: 4px 0;
     line-height: 1.4;
     text-align: left;
+}
+
+.scooter-buttons {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 8px;
+}
+
+.scooter-buttons li {
+    margin: 4px;
 }
 
 .scooter-button {
@@ -44,11 +86,127 @@
     padding: 8px 16px;
     font-size: 1em;
     cursor: pointer;
-    margin: 8px;
-    margin-bottom: 0px;
+    white-space: nowrap;
+}
+
+.scooter-button:hover {
+    background-color: #333;
+}
+
+/* Profile Avatar Style */
+.profile-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    cursor: pointer;
+}
+
+.profile-avatar:hover {
+    border-color: #aaa;
+}
+
+/* Expanded View Styles */
+.scooter.expanded {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.scooter.expanded .modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    width: 90%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.scooter.expanded .expanded-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 
-.scooter-button:hover {
+.scooter.expanded .scooter-image {
+    max-width: 100%;
+    max-height: 50vh;
+    object-fit: contain;
+}
+
+.scooter.expanded .profile-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.scooter.expanded .scooter-details {
+    text-align: center;
+    margin-top: 10px;
+    width: 100%; /* Osigurava da se detalji prikazuju u cijeloj širini */
+}
+
+.scooter.expanded .social-share-buttons ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.scooter.expanded .social-share-buttons li {
+    margin: 0 8px;
+}
+
+.scooter.expanded .social-share-buttons a {
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.scooter.expanded .social-share-buttons li a:hover,
+.scooter.expanded .social-share-buttons li a:focus {
+    opacity: 0.7;
+}
+
+.scooter.expanded .scooter-buttons {
+    width: 100%;
+    justify-content: center;
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.scooter.expanded .scooter-button {
+    background-color: #000;
+    color: #FFD860;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    margin: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.scooter.expanded .scooter-button:hover {
     background-color: #333;
 }

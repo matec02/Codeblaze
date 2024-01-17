@@ -44,11 +44,6 @@
     border-top: 1px solid #ccc;
 }
 
-.mine {
-    background-color: #FFD860;
-    align-self: flex-end; /* Poravnavanje na desnu stranu za poruke ulogiranog korisnika */
-}
-
 .theirs {
     background-color: #e1e1e1;
     color: black;
@@ -125,4 +120,106 @@
 
 .send-message-button:hover {
     background-color: #e6c855; /* Tamnija nijansa na hover */
+}
+
+/* ... other styles ... */
+
+.theirs {
+    max-width: 80%; /* Limit the width of message bubbles */
+    margin-bottom: 10px; /* Space between messages */
+    padding: 10px; /* Padding inside message bubbles */
+    border-radius: 16px; /* Rounded corners for message bubbles */
+    color: black; /* Text color */
+    word-wrap: break-word; /* Ensures long words do not overflow */
+}
+
+.mine {
+    background-color: #FFD860;
+    align-self: flex-end; /* Poravnavanje na desnu stranu za poruke ulogiranog korisnika */
+    max-width: 80%; /* Ograničavanje širine poruka */
+    margin-bottom: 10px; /* Razmak između poruka */
+    padding: 10px; /* Unutarnji razmak */
+    border-radius: 16px; /* Zaobljeni rubovi */
+    color: black; /* Boja teksta */
+    word-wrap: break-word; /* Omogućava prelamanje dugih riječi */
+    position: relative; /* Pozicioniranje za "Seen" indikator */
+    padding-bottom: 20px; /* Dodatni prostor na dnu za "Seen" indikator */
+}
+
+
+.theirs {
+    background-color: #e1e1e1;
+    align-self: flex-start; /* Left-align for recipient's messages */
+}
+
+.message-input {
+    display: flex;
+    align-items: center; /* Aligns children vertically in the center */
+    padding: 10px;
+    background-color: #fff;
+    border-top: 1px solid #ccc;
+}
+
+.message-input input {
+    flex-grow: 1; /* Input field takes up most of the space */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    margin-right: 10px; /* Space between input and button */
+}
+
+.message-input button {
+    padding: 10px 20px; /* Slightly larger padding for the button */
+    background-color: #FFD860;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    /* Remove height to allow padding to define button size */
+}
+
+/* Adjust the hover styles for better visual feedback */
+.message-input button:hover {
+    background-color: #E6C757; /* Darker shade on hover */
+}
+
+.send-message-container {
+    display: flex;
+    align-items: center; /* Vertical centering within the container */
+    padding: 10px;
+    border-top: 1px solid #ccc;
+}
+
+.send-message-input {
+    flex-grow: 1; /* Input field grows to available space */
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.send-message-button {
+    background-color: #FFD860;
+    color: black;
+    border: none;
+    padding: 10px 15px;
+    margin-left: 5px; /* Space between input and button */
+    border-radius: 5px;
+    cursor: pointer;
+    /* Remove the height and margin-top to let content and padding define the size */
+}
+
+.send-message-button:hover {
+    background-color: #e6c855; /* Slightly darker on hover */
+}
+
+.other-user-header {
+    background-color: #000000; /* Svijetla pozadinska boja */
+    padding: 10px; /* Unutarnji razmak */
+    text-align: center; /* Centriranje teksta */
+    border-bottom: 1px solid #ccc; /* Donja granica za odvajanje od ostatka poruka */
+    font-size: 1.2em; /* Veća veličina fonta */
+    color: #FFD860; /* Boja teksta */
+    font-weight: bold; /* Podebljanje teksta */
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }

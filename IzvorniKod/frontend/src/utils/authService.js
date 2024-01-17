@@ -3,7 +3,7 @@ import { jwtDecode } from 'jwt-decode';
 export const isUserAuthenticated = () => {
     const token = localStorage.getItem('authToken');
     if (!token) {
-        console.log("Token is invalid");
+        //console.log("Token is invalid");
         return false;
     }
 
@@ -37,13 +37,81 @@ export const getRoleFromToken = () => {
     }
 };
 
+export const getNicknameFromToken = () => {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+        return null;
+    }
+    try {
+        const decodedToken = jwtDecode(token);
+        return decodedToken.nickname;
+    } catch (error) {
+        console.error('Error decoding token:', error);
+        return null;
+    }
+};
+
+export const getUserIdFromToken = async () => {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+        return null;
+    }
+    try {
+        const decodedToken = jwtDecode(token);
+        const nickname = decodedToken.nickname;
+        const response = await fetch(`/api/users/by-nickname/${nickname}`);
+        if (!response.ok) {
+            throw new Error('User not found');
+        }
+        const user = await response.json();
+        return user.userId;
+    } catch (error) {
+        console.error('Error fetching user via nickname: ', error);
+        return null;
+    }
+}
+
+export const getUserFromToken = async () => {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+        return null;
+    }
+    try {
+        const decodedToken = jwtDecode(token);
+        const nickname = decodedToken.nickname;
+        const response = await fetch(`/api/users/by-nickname/${nickname}`);
+        if (!response.ok) {
+            throw new Error('User not found');
+        }
+        const user = await response.json();
+        return user;
+    } catch (error) {
+        console.error('Error fetching user via nickname: ', error);
+        return null;
+    }
+}
+
+export const getCodeblazeUser = async () => {
+    try {
+        const nickname = "Codeblaze";
+        const response = await fetch(`/api/users/by-nickname/${nickname}`);
+        if (!response.ok) {
+            throw new Error('User not found');
+        }
+        const user = await response.json();
+        return user;
+    } catch (error) {
+        console.error('Error fetching user via nickname: ', error);
+        return null;
+    }
+}
+
 export const isAdmin = () => {
     const token = localStorage.getItem('authToken');
     if (!token) {
         return false;
     }
     let currentRole = getRoleFromToken();
-    console.log("Current Role: ", currentRole);
     if (currentRole === "ADMIN") {
         return true;
     }

@@ -1,8 +1,9 @@
 package com.projektr.codeblaze.rest;
 
+import com.projektr.codeblaze.domain.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.projektr.codeblaze.domain.User;
-import com.projektr.codeblaze.domain.UserRole;
+import com.projektr.codeblaze.service.DocumentService;
+import com.projektr.codeblaze.service.PrivacySettingsService;
 import com.projektr.codeblaze.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,12 +20,44 @@ public class UserController {
 
     private final UserService userService;
 
+    private final DocumentService documentService;
+
+    private final PrivacySettingsService privacySettingsService;
+
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, DocumentService documentService,
+                          PrivacySettingsService privacySettingsService) {
+        this.documentService = documentService;
         this.userService = userService;
+        this.privacySettingsService = privacySettingsService;
+    }
+
+
+    @PutMapping("/update-profile")
+    public ResponseEntity<?> updateProfile(@RequestBody User updatedUser) {
+        try {
+
+            User existingUser = userService.findById(updatedUser.getUserId());
+
+            if (existingUser != null) {
+                existingUser.setFirstName(updatedUser.getFirstName());
+                existingUser.setLastName(updatedUser.getLastName());
+                existingUser.setNickname(updatedUser.getNickname());
+                existingUser.setEmail(updatedUser.getEmail());
+                existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
+
+
+                userService.save(existingUser);
+                return ResponseEntity.ok("Profile updated successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating profile");
+        }
     }
 
 
@@ -46,9 +79,6 @@ public class UserController {
     public ResponseEntity<List<User>> getAllPendingUsers() {
         List<User> allUsers = userService.findAll();
         List<User> pendingUsers = userService.getAllPendingUsers(allUsers);
-        if (pendingUsers.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(pendingUsers);
     }
 
@@ -56,9 +86,6 @@ public class UserController {
     public ResponseEntity<List<User>> getAllAcceptedUsers() {
         List<User> allUsers = userService.findAll();
         List<User> acceptedUsers = userService.getAllAcceptedUsers(allUsers);
-        if (acceptedUsers.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(acceptedUsers);
     }
 
@@ -66,9 +93,6 @@ public class UserController {
     public ResponseEntity<List<User>> getAllAdmins() {
         List<User> allUsers = userService.findAll();
         List<User> admins = userService.getAllAdmins(allUsers);
-        if (admins.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(admins);
     }
 
@@ -76,9 +100,6 @@ public class UserController {
     public ResponseEntity<List<User>> getAllBlockedUsers() {
         List<User> allUsers = userService.findAll();
         List<User> blockedUsers = userService.getAllBlockedUsers(allUsers);
-        if (blockedUsers.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(blockedUsers);
     }
 
@@ -86,9 +107,6 @@ public class UserController {
     public ResponseEntity<List<User>> getAllRejectedUsers() {
         List<User> allUsers = userService.findAll();
         List<User> rejectedUsers = userService.getAllRejectedUsers(allUsers);
-        if (rejectedUsers.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(rejectedUsers);
     }
 
@@ -107,8 +125,8 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        User user = userService.findById(id);
+    public ResponseEntity<User> getUserById(@PathVariable Long userId) {
+        User user = userService.findById(userId);
         return user != null ? ResponseEntity.ok(user) : ResponseEntity.notFound().build();
     }
 
@@ -158,13 +176,9 @@ public class UserController {
     @PutMapping("/upgrade-role/{userId}")
     public ResponseEntity<UserRole> upgradeUserRole(@PathVariable Long userId) {
         UserRole updatedRole = userService.upgradeUserRole(userId);
-
-        if (updatedRole != null) {
-            return ResponseEntity.ok(updatedRole);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(updatedRole);
     }
+
 
     @PostMapping
     public User createUser(@RequestBody User user) {

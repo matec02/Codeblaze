@@ -72,10 +72,10 @@ public class UserService {
         // Initialize Privacy Settings for the user
         PrivacySettings privacySettings = new PrivacySettings();
         privacySettings.setUser(savedUser);
-        privacySettings.setFirstNameVisible(false);
-        privacySettings.setLastNameVisible(false);
-        privacySettings.setEmailVisible(false);
-        privacySettings.setPhoneNumberVisible(false);
+        privacySettings.setFirstNameVisible(true);
+        privacySettings.setLastNameVisible(true);
+        privacySettings.setEmailVisible(true);
+        privacySettings.setPhoneNumberVisible(true);
         privacySettingsService.initializePrivacySettings(privacySettings);
 
         return savedUser;
@@ -86,10 +86,6 @@ public class UserService {
     public User login(String email, String password) {
         User user = userRepository.findByEmail(email);
         if (user != null && bCryptPasswordEncoder.matches(password, user.getPassword())) {
-            return user;
-        }
-
-        if (user != null && user.getNickname().equals("admin") && user.getPassword().equals("admin")){
             return user;
         }
         return null;
@@ -133,7 +129,12 @@ public class UserService {
     public User updateUserStatus(Long userId, String newStatus) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + userId));
-
+        if (newStatus.equals("DELETED")) {
+            String uniqueSuffix = "_" + System.currentTimeMillis();
+            user.setNickname("deleted" + uniqueSuffix);
+            user.setPhoneNumber("deleted" + uniqueSuffix);
+            user.setEmail("deleted" + uniqueSuffix);
+        }
         user.setStatus(UserStatus.valueOf(newStatus));
         return userRepository.save(user);
     }

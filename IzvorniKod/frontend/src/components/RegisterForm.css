@@ -6,6 +6,10 @@
     align-items: center;
 }
 
+#red-notification {
+    background-color: #d23737; /* Green background */
+}
+
 .form-title {
     color: #000; /* Black text for the title */
     margin-bottom: 20px;

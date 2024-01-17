@@ -38,8 +38,6 @@ function MyProfile() {
 
                     if (response.ok) {
                         const userData = await response.json();
-                        //console.log("OVO JE NAS USER");
-                        //console.log(userData);
                         setUser(userData);
 
                         fetchPrivacySettings(userData.userId);
@@ -57,7 +55,6 @@ function MyProfile() {
 
         const fetchPrivacySettings = async (userId) => {
             try {
-                //console.log("USER ID: ", userId);
                 const response = await fetch(`/api/privacy-settings/${userId}`, {
                     method: 'GET',
                     headers: {
@@ -67,8 +64,6 @@ function MyProfile() {
 
                 if (response.ok) {
                     const settings = await response.json();
-                    //console.log("privacy settings pri kliku na account: ");
-                    //console.log(settings);
                     setPrivacySettings(settings);
                 } else {
                     setErrorMessage('Unable to fetch privacy settings.');
@@ -106,13 +101,10 @@ function MyProfile() {
             });
 
             if (response.ok) {
-                //console.log("ono sta se treba pospremit");
-                //console.log(privacySettings);
                 navigate("/")
 
                 //     TODO POPUP ili ALERT changes have been saved
             } else {
-                // Handle errors here
                 setErrorMessage('Failed to save privacy settings.');
             }
         } catch (error) {
@@ -128,6 +120,31 @@ function MyProfile() {
     if (!user || !privacySettings) {
         return <div>Loading user data...</div>;
     }
+
+    const deleteProfile = async (userId, status) => {
+        try {
+            const response = await fetch(`/api/users/${userId}/update-status`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ status: status })
+            });
+            if (response.ok) {
+                localStorage.removeItem('authToken');
+                navigate('/');
+            } else {
+                setErrorMessage('Failed to delete profile.');
+            }
+        } catch (error) {
+            console.error('Error deleting profile:', error);
+            setErrorMessage('An error occurred while deleting profile.');
+        }
+    };
+
+    const editProfileClick = () => {
+        navigate('/editprofile');
+    };
 
     return (
         <div>
@@ -265,6 +282,18 @@ function MyProfile() {
                     </div>
                 </div>
                 <button onClick={savePrivacySettings}>Save</button>
+            </div>
+
+            <div className="container">
+                <div className="title">Uređivanje profila</div>
+                <div className="infoSection">
+                    <div className="buttonRow">
+                        <button onClick={editProfileClick}>Uredi profil</button>
+                    </div>
+                    <div className="buttonRow">
+                        <button className="deleteButton" onClick={() => deleteProfile(user.userId, "DELETED")}>Obriši profil</button>
+                    </div>
+                </div>
             </div>
         </div>
     );

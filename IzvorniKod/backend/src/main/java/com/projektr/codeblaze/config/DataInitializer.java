@@ -1,105 +1,89 @@
 package com.projektr.codeblaze.config;
 
+import com.projektr.codeblaze.domain.PrivacySettings;
 import com.projektr.codeblaze.domain.UserStatus;
+import com.projektr.codeblaze.service.PrivacySettingsService;
+import org.aspectj.weaver.BCException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import com.projektr.codeblaze.service.UserService;
 import com.projektr.codeblaze.domain.User;
 import com.projektr.codeblaze.domain.UserRole; // Import your Role enum
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 public class DataInitializer {
 
     private final UserService userService;
+    private final PrivacySettingsService privacySettingsService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
-    // Constructor for dependency injection
-    public DataInitializer(UserService userService) {
+    public DataInitializer(UserService userService, PrivacySettingsService privacySettingsService) {
+
         this.userService = userService;
+        this.privacySettingsService = privacySettingsService;
     }
 
     @Bean
     CommandLineRunner initDatabase() {
         return args -> {
-            // Check if admin user already exists to avoid creating multiple entries
-            if (userService.getUserByNickname("admin") == null) {
-                // Create the admin user
-                User admin = new User();
-                admin.setUserId(1L);
-                admin.setNickname("admin");
-                admin.setFirstName("first");
-                admin.setLastName("admin");
-                admin.setPassword("admin"); // Use a stronger password in production
-                admin.setRole(UserRole.ADMIN); // Use the enum value here
-                admin.setStatus(UserStatus.ACCEPTED);
-                admin.setEmail("admin@gmail.com");
-                admin.setCardNumber("");
-                admin.setPhoneNumber("");
+            createUserIfNotExists("admin", "first", "admin",
+                    bCryptPasswordEncoder.encode("admin"), UserRole.ADMIN,
+                    UserStatus.ACCEPTED, "admin@gmail.com", "1234 5678 9012 3456",
+                    "+385 91 123 4567");
 
-                // Save the admin user using UserService
-                userService.save(admin);
-            }
-            if (userService.getUserByNickname("MLJ22") == null) {
-                User marko = new User();
-                marko.setUserId(2L);
-                marko.setNickname("MLJ22");
-                marko.setFirstName("Marko");
-                marko.setLastName("Ljubić");
-                marko.setPassword("marko");
-                marko.setRole(UserRole.USER);
-                marko.setStatus(UserStatus.BLOCKED);
-                marko.setEmail("marko@gmail.com");
-                marko.setCardNumber("123");
-                marko.setPhoneNumber("+3859123");
+            createUserIfNotExists("Codeblaze", "Code", "Blaze",
+                    bCryptPasswordEncoder.encode("admin"), UserRole.ADMIN,
+                    UserStatus.ACCEPTED, "codeblaze@gmail.com", "2345 6789 0123 4567",
+                    "+385 92 234 5678");
 
-                userService.save(marko);
-            }
-            if (userService.getUserByNickname("AA11") == null) {
-                User ana = new User();
-                ana.setUserId(3L);
-                ana.setNickname("AA11");
-                ana.setFirstName("Ana");
-                ana.setLastName("Anić");
-                ana.setPassword("ana");
-                ana.setRole(UserRole.GUEST);
-                ana.setStatus(UserStatus.REJECTED);
-                ana.setEmail("ana@gmail.com");
-                ana.setCardNumber("456");
-                ana.setPhoneNumber("+38592456");
+            createUserIfNotExists("MLJ22", "Marko", "Ljubić",
+                    bCryptPasswordEncoder.encode("marko"), UserRole.USER,
+                    UserStatus.BLOCKED, "marko@gmail.com", "3456 7890 1234 5678",
+                    "+385 93 345 6789");
 
-                userService.save(ana);
-            }
-            if (userService.getUserByNickname("II31") == null) {
-                User ivo = new User();
-                ivo.setUserId(4L);
-                ivo.setNickname("II31");
-                ivo.setFirstName("Ivo");
-                ivo.setLastName("Ivić");
-                ivo.setPassword("ivo");
-                ivo.setRole(UserRole.USER);
-                ivo.setStatus(UserStatus.ACCEPTED);
-                ivo.setEmail("ivo@gmail.com");
-                ivo.setCardNumber("367");
-                ivo.setPhoneNumber("+38591367");
+            createUserIfNotExists("AA11", "Ana", "Anić",
+                    bCryptPasswordEncoder.encode("ana"), UserRole.USER,
+                    UserStatus.REJECTED, "ana@gmail.com", "4567 8901 2345 6789",
+                    "+385 94 456 7890");
 
-                userService.save(ivo);
-            }
+            createUserIfNotExists("II31", "Ivo", "Ivić",
+                    bCryptPasswordEncoder.encode("ivo"), UserRole.USER,
+                    UserStatus.ACCEPTED, "ivo@gmail.com", "5678 9012 3456 7890",
+                    "+385 95 567 8901");
 
-            if (userService.getUserByNickname("LL97") == null) {
-                User luka = new User();
-                luka.setUserId(5L);
-                luka.setNickname("LL97");
-                luka.setFirstName("Luka");
-                luka.setLastName("Lukić");
-                luka.setPassword("luka");
-                luka.setRole(UserRole.GUEST);
-                luka.setStatus(UserStatus.PENDING);
-                luka.setEmail("luka@gmail.com");
-                luka.setCardNumber("2865");
-                luka.setPhoneNumber("+385972865");
+            createUserIfNotExists("LL97", "Luka", "Lukić",
+                    bCryptPasswordEncoder.encode("luka"), UserRole.USER,
+                    UserStatus.PENDING, "luka@gmail.com", "6789 0123 4567 8901",
+                    "+385 96 678 9012");
 
-                userService.save(luka);
-            }
         };
+    }
+
+    private void createUserIfNotExists(String nickname, String firstName, String lastName, String password, UserRole role, UserStatus status, String email, String cardNumber, String phoneNumber) {
+        if (userService.getUserByNickname(nickname) == null) {
+            User user = new User();
+            user.setNickname(nickname);
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
+            user.setPassword(password);
+            user.setRole(role);
+            user.setStatus(status);
+            user.setEmail(email);
+            user.setCardNumber(cardNumber);
+            user.setPhoneNumber(phoneNumber);
+            user = userService.save(user);
+            /*PrivacySettings privacySettings = new PrivacySettings();
+            privacySettings.setUser(user);
+            System.out.println("USPIO USER");
+            privacySettings.setFirstNameVisible(false);
+            privacySettings.setLastNameVisible(false);
+            privacySettings.setEmailVisible(false);
+            privacySettings.setPhoneNumberVisible(false);
+            System.out.println("Retrieved privacy settings: " + privacySettings);
+            privacySettingsService.initializePrivacySettings(privacySettings);*/
+        }
     }
 }

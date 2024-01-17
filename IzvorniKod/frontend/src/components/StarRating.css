@@ -1,0 +1,17 @@
+.star-rating {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.star-rating span {
+    font-size: 36px; /* Adjust the size as needed */
+    color: #ffd700; /* Gold color for stars */
+    cursor: pointer;
+    margin: 0 5px; /* Space out the stars */
+}
+
+.star-rating span:hover {
+    transform: scale(1.1); /* Slightly enlarge stars on hover */
+    transition: transform 0.2s ease-in-out;
+}

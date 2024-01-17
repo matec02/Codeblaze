@@ -1,0 +1,88 @@
+.transaction-buttons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.transaction-buttons button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: 1px solid #ddd;
+    background-color: #000;
+    color: #FFD860;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.transaction-buttons button.active {
+    background-color: #FFD860;
+    color: black;
+}
+
+.transaction-buttons button:hover {
+    background-color: #FFD860;
+    color: black;
+    transition: background-color 0.3s ease;
+}
+
+.rented-scooters-tabs {
+    display: grid;
+    grid-template-columns: repeat(4, 250px); /* 4 columns*/
+    grid-gap: 50px;
+    justify-content: center;
+    padding: 16px;
+    margin: auto; /*Center the grid horizontally */
+    max-width: 1200px; /* Maximum width of the grid*/
+}
+
+.transactions-tabs {
+    display: grid;
+    grid-template-columns: repeat(4, 250px); /* 4 columns*/
+    grid-gap: 50px;
+    justify-content: center;
+    padding: 16px;
+    margin: auto; /*Center the grid horizontally */
+    max-width: 1200px; /* Maximum width of the grid*/
+}
+
+@media (max-width: 1200px) {
+    .transactions-tabs {
+        grid-template-columns: repeat(3, 250px); /* 3 columns on medium screens */
+    }
+    .rented-scooters-tabs {
+        grid-template-columns: repeat(3, 250px); /* 3 columns on medium screens */
+    }
+}
+
+@media (max-width: 900px) {
+    .transactions-tabs {
+        grid-template-columns: repeat(2, 250px); /* 2 columns on small screens */
+    }
+    .rented-scooters-tabs {
+        grid-template-columns: repeat(2, 250px); /* 3 columns on medium screens */
+    }
+}
+
+@media (max-width: 600px) {
+    .transactions-tabs {
+        grid-template-columns: repeat(1, 250px); /* 1 column on very small screens */
+    }
+    .rented-scooters-tabs {
+        grid-template-columns: repeat(1, 250px); /* 3 columns on medium screens */
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

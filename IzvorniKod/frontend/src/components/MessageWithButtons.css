@@ -1,0 +1,51 @@
+
+.message-text {
+    padding: 10px;
+    border-radius: 4px;
+    margin: 0px;
+}
+
+.message-buttons {
+    display: flex;
+    justify-content: space-around;
+}
+
+.message-buttons button {
+    padding: 5px 10px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: black;
+    color: #FFD860;
+}
+
+.message-buttons button:hover {
+    background-color: #45a049;
+}
+
+.mine {
+    background-color: #FFD860;
+    align-self: flex-end; /* Poravnavanje na desnu stranu za poruke ulogiranog korisnika */
+    padding-bottom: 20px; /* Dodajte dodatni prostor na dnu poruke */
+    position: relative; /* Dodano za pozicioniranje seen indikatora */
+}
+
+
+.theirs {
+    background-color: #e1e1e1;
+    color: black;
+    align-self: flex-start; /* Poravnavanje na lijevu stranu za poruke drugih korisnika */
+}
+
+.seen-indicator {
+    position: absolute;
+    bottom: 5px; /* Pozicioniranje u odnosu na dno poruke */
+    right: 10px; /* Pozicioniranje u odnosu na desnu stranu poruke */
+    font-size: 0.75em;
+    color: #aaa;
+}
+
+.message-with-buttons {
+    position: relative;
+}

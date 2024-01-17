@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 
@@ -14,6 +14,9 @@ import AdminHome from "./components/AdminHome";
 import AdminDashboard from "./components/AdminDashboard";
 import ImageChange from "./components/ImageChange";
 import MyProfile from "./components/MyProfile";
+import Transactions from "./components/Transactions";
+import UnreadMessagesContext from "./components/UnreadMessagesContext";
+import ReviewForm from "./components/ReviewForm";
 
 import AdminRoute from "./components/AdminRoute";
 import ProtectedRoutes from "./components/ProtectedRoutes"
@@ -22,13 +25,20 @@ import Unauthorized from "./components/Unauthorized";
 import ChatPanel from "./components/ChatPanel";
 import ChatWindow from "./components/ChatWindow";
 import ChatMessage from "./components/ChatMessage";
+import EditProfile from "./components/EditProfile";
+import ReviewCard from "./components/ReviewCard";
+import ProhibitedReview from "./components/ProhibitedReview";
+import ProtectReview from "./components/ProtectReview";
 
-/* Import for ScooterCard test
-import ScooterCard from "./components/ScooterCard";*/
+/* Import for ScooterCardHome test
+import ScooterCardHome from "./components/ScooterCardHome";*/
 
 function App() {
+    const [unreadCount, setUnreadCount] = useState(0);
+
     return (
         <Router>
+            <UnreadMessagesContext.Provider value={{ unreadCount, setUnreadCount }}>
             <header>
                 <NavBar/>
             </header>
@@ -45,12 +55,25 @@ function App() {
                     }/>
 
 
-                <Route path="/chat-window" element={
+                <Route path="/chat-window/:chatSessionId" element={
                     <ProtectedRoutes>
                         <ChatWindow/>
                     </ProtectedRoutes>
                 }/>
 
+                <Route path="/reviews/user/:userId" element={
+                    <ProtectedRoutes>
+                        <ReviewCard/>
+                    </ProtectedRoutes>
+                }/>
+
+                <Route path="/leave-review/:transactionId" element={
+                    <ProtectReview>
+                        <ProtectedRoutes>
+                            <ReviewForm/>
+                        </ProtectedRoutes>
+                    </ProtectReview>
+                }/>
 
                 <Route path="/chat-message" element={
                     <ProtectedRoutes>
@@ -64,9 +87,11 @@ function App() {
                 <Route path="/profile-blocked" element={
                         <ProfileBlocked />
                 }/>
+                <Route path="/not-allowed-review" element={
+                    <ProhibitedReview />
+                }/>
                 <Route path="/scooters" element={
                     <ProtectedRoutes>
-                        {/*pending se moze login, ali ne moze dodati scooter*/}
                         <ProtectedRouteScooter>
                             <MyScooter />
                         </ProtectedRouteScooter>
@@ -75,6 +100,11 @@ function App() {
                 <Route path="/add-scooter" element={
                     <ProtectedRoutes>
                         <RegisterScooterForm />
+                    </ProtectedRoutes>
+                }/>
+                <Route path="/my-transactions" element={
+                    <ProtectedRoutes>
+                        <Transactions />
                     </ProtectedRoutes>
                 }/>
                 <Route path="/profile" element={
@@ -92,7 +122,7 @@ function App() {
                         <AdminDashboard/>
                     </AdminRoute>
                 }/>
-                <Route path="/admin-dashboard/imageChange" element={
+                <Route path="/imageChangeRequests" element={
                     <AdminRoute>
                         <ImageChange/>
                     </AdminRoute>
@@ -100,13 +130,13 @@ function App() {
                 <Route path="/unauthorized" element={
                     <Unauthorized/>
                 }/>
-                {/* Test for just 1 ScooterCard - uncomment import and route to test
-                <Route path="/scooter" element={<ScooterCard/>}/>
-                */}
 
+                <Route path="/editprofile" element={
+                    <EditProfile/>
+                }/>
 
-                {/* TODO add all possible routes   */}
             </Routes>
+            </UnreadMessagesContext.Provider>
         </Router>
     );
 }

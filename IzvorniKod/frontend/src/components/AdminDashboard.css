@@ -45,6 +45,11 @@ tbody tr:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
+.highlighted-text {
+    color: #FF0000; /* Or any color you like */
+    font-weight: bold;
+}
+
 h1 {
     text-align: center; /* Centers the text */
     color: #332929; /* White text for readability */
@@ -57,7 +62,7 @@ h3 {
     background-color: #555; /* Slightly lighter background than h1 */
     color: #fff; /* Maintains white text for consistency */
     padding: 10px; /* Less padding than h1 to denote less importance */
-    margin-top: 30px; /* Adds separation from the content above */
+    margin-top: 15px; /* Adds separation from the content above */
     text-align: center; /* Aligns text to the left */
     border-bottom: 2px solid #777; /* Adds a subtle border */
 }

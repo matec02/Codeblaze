@@ -1,8 +1,9 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import './AdminDashboard.css'
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import ImageNotFound from '../assets/ImageNotFound.png';
 import {getNicknameFromToken} from "./RegisterScooterForm";
+import {fetchRequests} from "./ImageChange";
 
 function AdminDashboard() {
     const [pendingUsers, setPendingUsers] = useState([]);
@@ -11,9 +12,12 @@ function AdminDashboard() {
     const [blockedUsers, setBlockedUsers] = useState([]);
     const [rejectedUsers, setRejectedUsers] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
+    const [pendingRequests, setPendingRequests] = useState([]);
     const [documents, setDocuments] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isTaskModalOpen, setIsTaskModalOpen] = useState(true);
     const [currentImageSrc, setCurrentImageSrc] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchUsers("/api/users/pendingUsers", setPendingUsers);
@@ -21,6 +25,7 @@ function AdminDashboard() {
         fetchUsers("/api/users/admins", setAdmins);
         fetchUsers("/api/users/blockedUsers", setBlockedUsers);
         fetchUsers("/api/users/rejectedUsers", setRejectedUsers);
+        fetchRequests("api/imageChangeRequest/pendingRequests", setPendingRequests);
         handleDocument();
 
     }, []);
@@ -48,8 +53,6 @@ function AdminDashboard() {
             }
 
             const data = await response.json();
-            console.log("dokumenti");
-            console.log(data);
             setDocuments(data);
 
         } catch (error) {
@@ -82,13 +85,7 @@ function AdminDashboard() {
                     setAcceptedUsers(prevUsers => [...prevUsers, { ...acceptedUser, status, role: role }]);
                 }
             } else if (status === 'REJECTED') {
-                const rejectedUser = pendingUsers.find(user => user.userId === userId);
-                if (rejectedUser) {
-                    // Add the rejected user to the rejectedUsers state
-                    setRejectedUsers(prevUsers => [...prevUsers, { ...rejectedUser, status }]);
-                    // Then remove the user from the pendingUsers state
-                    setPendingUsers(prevUsers => prevUsers.filter(user => user.userId !== userId));
-                }
+                await fetchUsers("/api/users/blockedUsers", setBlockedUsers);
             } else if (status === 'BLOCKED') {
                 setAcceptedUsers(prevUsers => prevUsers.filter(user => user.userId !== userId));
                 const blockedUser = acceptedUsers.find(user => user.userId === userId);
@@ -183,7 +180,7 @@ function AdminDashboard() {
                             <th>Status</th>
                             <th>Slika potvrde o nekažnjavanju</th>
                             <th>Slika osobne iskaznice</th>
-                            {renderActions && <th>Actions</th>}
+                            {renderActions && <th>Radnje</th>}
                         </tr>
                         </thead>
                         <tbody>
@@ -235,6 +232,55 @@ function AdminDashboard() {
         );
     };
 
+    const TaskModal = ({ isOpen, onClose, pendingRequests, pendingUsers }) => {
+        const renderMessage = () => {
+            if (pendingUsers.length > 0 && pendingRequests.length > 0) {
+                return (
+                    <p>
+                        Imate <span className="highlighted-text">{pendingUsers.length} korisnika na čekanju</span> i
+                        <span className="highlighted-text"> {pendingRequests.length} zahtjeva za promjenu slike na čekanju</span>.
+                    </p>
+                );
+            } else if (pendingUsers.length > 0) {
+                return (
+                    <p>
+                        Imate <span className="highlighted-text">{pendingUsers.length} korisnika na čekanju</span>.
+                    </p>
+                );
+            } else if (pendingRequests.length > 0) {
+                return (
+                    <p>
+                        Imate <span className="highlighted-text">{pendingRequests.length} zahtjeva za promjenu slike na čekanju</span>.
+                    </p>
+                );
+            } else {
+                return <p>Nemate zadatke na čekanju</p>;
+            }
+        };
+
+        return isOpen && (
+            <div className="modal-overlay" onClick={onClose}>
+                <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                    <div className="message-container">
+                        {renderMessage()}
+                    </div>
+                    <div className="action-buttons">
+                    {(pendingUsers.length > 0) &&
+                        (<button className="taskButton" onClick={onClose}>
+                            Korisnici na čekanju
+                        </button>)}
+                    {(pendingRequests.length > 0) &&
+                        (<button className="taskButton" onClick={() => navigate('/imageChangeRequests')}>
+                            Zahtjevi za zamjenu slika
+                        </button>)}
+                    </div>
+                    <button className="reject" onClick={onClose}>Zatvori</button>
+                </div>
+            </div>
+        );
+    };
+
+
 
     const renderPendingActions = (user) => (
         <>
@@ -258,7 +304,7 @@ function AdminDashboard() {
             <>
                 {(user.nickname !== currentUserNickname && user.nickname !== "admin") ? (
                     <button className="block" onClick={() => handleRoleChange(user.userId, 'USER')}>
-                        Remove Admin
+                        Ukloni administratora
                     </button>
                 ):(<span>No possible actions</span>)
                 }
@@ -273,18 +319,16 @@ function AdminDashboard() {
     );
 
 
-    // ...
-
     return (
         <div>
             <h1>PANEL ZA ADMINA</h1>
             <div className="adminNavBar">
-                <a href="#pendingUsers">Korisnici na čekanju</a>
+                <a href="#pendingUsers">Korisnici na čekanju ({pendingUsers.length})</a>
                 <a href="#acceptedUsers">Prihvaćeni korisnici</a>
                 <a href="#admins">Adminstratori</a>
                 <a href="#blockedUsers">Blokirani korisnici</a>
                 <a href="#rejectedUsers">Odbijeni korisnici</a>
-                <Link to="./imageChange">Promjena Slike</Link>
+                <Link to="/imageChangeRequests">Promjena Slike ({pendingRequests.length})</Link>
             </div>
 
                 <>
@@ -300,6 +344,12 @@ function AdminDashboard() {
                 onClose={closeModal}
                 imageSrc={currentImageSrc}
                 altText="Document Image"
+            />
+            <TaskModal
+                isOpen={isTaskModalOpen}
+                onClose={() => setIsTaskModalOpen(false)}
+                pendingRequests={pendingRequests}
+                pendingUsers={pendingUsers}
             />
         </div>
     );

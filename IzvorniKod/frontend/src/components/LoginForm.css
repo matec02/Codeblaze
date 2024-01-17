@@ -31,6 +31,21 @@
     color: #000; /* Black label text */
 }
 
+.invalid-credentials {
+    font-family: 'Arial', sans-serif;
+    color: #D8000C;
+    background-color: #FFD2D2;
+    border: 1px solid #D8000C;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 10px 0;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .form-group input {
     width: 80%; /* Adjust the width as needed */
     padding: 10px;

@@ -24,20 +24,22 @@ public class Transaction {
     @Column(name = "paymentTime", nullable = false)
     private LocalDateTime paymentTime;
 
-    // Getter method for the paymentTimestamp property
-    // If it's needed to get actual Timestamp, CHECK THIS!!!!
-    public Timestamp getPaymentTimestamp() {
-        if (paymentTime != null) {
-            return Timestamp.valueOf(paymentTime);
-        }
-        return null; // Handle the case when paymentTime is null, if needed
-    }
-
     @Enumerated(EnumType.STRING)
     @Column(name = "transactionStatus", nullable = false, length = 50)
-    private TransactionStatus transactionStatus;
+    private TransactionStatus status = TransactionStatus.UNSEEN;
+
+    @ManyToOne
+    @JoinColumn(name = "ownerId", referencedColumnName = "userId", nullable = false)
+    private User owner;
+
+    @ManyToOne
+    @JoinColumn(name = "clientId", referencedColumnName = "userId", nullable = false)
+    private User client;
 
     @ManyToOne
     @JoinColumn(name = "listingId", referencedColumnName = "listingId", nullable = false)
     private Listing listing;
+
+    //obrisan invoice
+    //kaze u zadatku transakcija se automatski obavi i spremi - ne placas direktno ti pa ni nema biranja nacina placanja
 }
