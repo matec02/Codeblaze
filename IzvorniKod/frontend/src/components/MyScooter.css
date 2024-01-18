@@ -153,13 +153,31 @@ body {
         padding: 10px;
     }
 
+    
     .welcome-page {
-        flex-direction: column; /* Stack children vertically on smaller screens */
-        padding: 10px; /* Adjust padding on smaller screens */
+        flex-direction: column;
+        padding: 10px; 
     }
-
-
-
+    .welcome-container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 10px; 
+        box-sizing: border-box; 
+        overflow: hidden;
+    }
+    .welcome-container h5 {
+        display: block; 
+        max-width: 100%; 
+        margin: 0 auto; 
+        padding: 10px; 
+        word-wrap: break-word; 
+        overflow-wrap: break-word; 
+        hyphens: auto;
+        font-size: clamp(12px, 2.5vw, 16px);
+    }
     .scooter-list {
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     }
