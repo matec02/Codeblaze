@@ -214,30 +214,18 @@
 		
 		\section{Upute za puštanje u pogon}
 
-		Za postavljanje aplikacije u produkcijsko okruženje, ključno je implementirati sve komponente na GitHub platformi. Ovaj korak je presudan jer omogućava kreiranje Docker kontejnera, koji su esencijalni za funkcionalnost aplikacije u radnom okruženju. Izvorni kod naše aplikacije dostupan je na https://github.com/Kvesa- Fer/Codeblaze.
+        Nakon što smo temeljito razvili našu aplikaciju, fokusirali smo se na njeno postavljanje u produkcijsko okruženje koristeći Render, cloud-based platformu-as-a-service (PaaS). Postupak smo započeli osiguravanjem da su sve komponente aplikacije pravilno integrirane na GitHubu, čime smo omogućili stvaranje Docker kontejnera ključnih za funkcionalnost naše aplikacije u radnom okruženju. Naš izvorni kod bio je dostupan na GitHub repozitoriju, gdje smo pratili i upravljali verzijama našeg koda.  Izvorni kod naše aplikacije dostupan je na https://github.com/Kvesa- Fer/Codeblaze.
 
-		Implementaciju aplikacije izvodimo kroz Render, cloud-based platformu-as-a-service (PaaS). Render nudi potrebnu infrastrukturu za pokretanje aplikacije. Prije početka rada na Render platformi, neophodno je u korijenskom direktoriju izvornog koda kreirati 'render.yaml' datoteku. Ova datoteka služi kao 'Blueprint spec', konfiguracijski set za implementaciju i aktivaciju aplikacije na Render platformi.
+        Prilikom pripreme za deploy, bilo je potrebno dodati environment varijable u run konfiguraciju našeg IDE-a kako bismo osigurali glatko funkcioniranje lokalnog razvojnog okruženja. Posebnu pozornost posvetili smo Dockerfile-u, osiguravajući da su putanje unutar COPY naredbi pravilno postavljene. U našem 'docker' direktoriju nalazile su se dvije verzije Dockerfile-a, za Maven i Gradle, što nam je pružalo fleksibilnost u izboru alata za automatizaciju izgradnje.
 
-		U 'render.yaml' datoteci definiramo tri ključna servisa naše aplikacije: 'server', 'client', i 'db'. Svaki servis, osim PostgreSQL baze, treba sadržavati atribute 'type', 'name', i 'env'. Za PostgreSQL bazu, potrebno je navesti samo 'name', a detalji implementacije su već dostupni kroz predefiniranu uslugu na Render platformi.
+        U application.properties datoteci, preporučili smo postavljanje server.servlet.context-path na '/api', što je osiguralo da svi backend zahtjevi budu jasno označeni i usmjereni. Također, opcionalno smo dodali željene environment varijable u formatu some.property=${ENV_VAR_NAME:default value} kako bismo dodatno prilagodili naše okruženje.
 
-		Dodatno, definiramo svojstva za preostale servise - frontend i backend. Atribut 'env' određuje okruženje izvođenja i postavljen je na 'Docker', što omogućava izgradnju aplikacije kroz Docker kontejnere. Svaki definirani servis predstavlja zasebnu 'Docker image' datoteku, koja uključuje kod, alate, biblioteke i ostale postavke potrebne za izgradnju kontejnera.
+        Za lokalni razvoj, integrirali smo Liquibase i H2 bazu, što nam je omogućilo efikasno upravljanje promjenama u strukturi baze podataka i olakšalo razvoj i testiranje aplikacije. Dodavanje odgovarajućih dependency-a u 'pom.xml' i kreiranje 'application-dev.properties' za lokalni dev profil omogućilo nam je brzo prebacivanje između različitih konfiguracija i okruženja.
 
-		Za svaki servis, 'repo' svojstvo postavljamo na putanju GitHub repozitorija s izvornim kodom aplikacije. Također, definiramo 'branch' svojstvo na 'main' granu i 'rootDir' za određivanje korijenskog direktorija repozitorija. 'BuildFilter' svojstvo omogućava definiranje putanje do datoteka čije promjene na 'main' grani iniciraju redeployment servisa.
+        Prije deployanja aplikacije, pažljivo smo kreirali bazu podataka na Renderu, postavljajući ime baze i, po potrebi, korisničko ime, dok je lozinka bila automatski generirana. Također, konfiguracija backenda i frontenda na Renderu uključivala je povezivanje s našim GitHub računom, odabir projekta, postavljanje environment varijabli i preciznu konfiguraciju Dockerfile-a.
 
-		Za postavljanje varijabli okruženja, koristimo mogućnost definiranja zavisnosti varijabli jednog servisa o svojstvima već postojećih Render servisa. Varijable okru- ženja za 'backend' servis povezan s bazom podataka dohvaćamo preko definiranih svojstava Render servisa za PostgreSQL bazu. Ostale varijable, koje su privatne, postavljamo direktno na Render platformu.
+        Za deploy frontenda, bilo je potrebno dodati neophodne dependency-e u 'package.json', konfigurirati proxy server i postaviti build i start skripte. Nakon tih koraka, aplikacija je bila spremna za pokretanje i bila je dostupna na URL-u koji se generirao nakon deploya na Render platformi.
 
-		Kreiranje korisničkog računa i prijava na https://dashboard.render.com/ su prvi koraci za korištenje platforme. Nakon toga, odabiremo 'Blueprints' i 'New Blueprint Instance', birajući repozitorij i granu s našim 'render.yaml' datotekom. Render omogućava povezivanje s GitHub računom i odabir repozitorija.
-
-		Nakon spremanja promjena, Render web aplikacija postaje povezana s repozitorijem koji sadrži izvorni kod i 'render.yaml' datoteku. Na osnovu definirane konfiguracije, Render potom pokreće aplikaciju u radno okruženje.
-
-		Konačna verzija aplikacije dostupna je na URL-u koji se generira nakon uspješnog deploya na Render platformi. Važno je napomenuti da, u skladu s uputama za deploy, potrebno je uključiti specifične konfiguracijske korake. To uključuje dodavanje Dockerfile-a, koji se nalazi u 'docker' direktoriju, sa specifičnim verzijama za Maven i Gradle. Također, preporučuje se postavljanje 'server.servlet.context-path' na '/api' u 'application.properties' za backend zahtjeve.
-
-		Za lokalni razvoj, koristeći Liquibase i H2 bazu, preporuča se dodavanje odgovarajućih dependency-a u 'pom.xml' i kreiranje 'application-dev.properties' za lokalni dev profil. Ovo olakšava razvoj i testiranje aplikacije. Važno je paziti na promjene nad bazom, gdje se promjene nad changelogovima ne smiju mijenjati jednom kada su deployani.
-
-		Kreiranje baze podataka na Renderu uključuje postavljanje imena baze te postavljanje opcionalnog korisničkog imena, dok je lozinka automatski generirana. Također, konfiguracija backenda i frontenda na Renderu zahtijeva povezivanje GitHub računa, odabir projekta, postavljanje environment varijabli, i konfiguraciju Dockerfile-a.
-
-		Za deploy frontenda, koraci uključuju dodavanje potrebnih dependency-a u 'package.json', konfiguraciju proxy servera, i postavljanje build i start skripti. Kona- čno, aplikacija će biti dostupna na URL-u koji se generira nakon deploya na Render platformi.
-
-		Konačna aplikacija dostupna je na poveznici:
+        Konačna aplikacija dostupna je na poveznici: https://codeblazefe.onrender.com/home.
 
 		\eject
