@@ -71,7 +71,7 @@ function  ChatPanel() {
                     </div>
                 ))
             ) : (
-                <div>No chat sessions available.</div>
+                <div>Nema dostupnih razgovora</div>
             )}
         </div>
     );

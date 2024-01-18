@@ -10,9 +10,9 @@ const ProfilePending = () => {
     return (
         <div className="profile-pending-container">
             <div className="profile-pending-content">
-                <h1>Profile Pending</h1>
-                <p>Your profile is currently pending review. We appreciate your patience,  in couple of hours review will be completed. In the meantime, feel free to browse our offers.</p>
-                <button onClick={handleExploreClick} className="explore-button">Explore Our Offers</button>
+                <h1>Vaš profil je na čekanju</h1>
+                <p>Vaš profil trenutno prolazi postupak provjere. Provjera će biti završena u roku od nekoliko sati. U međuvremenu, slobodno istražite naše ponude. Zahvaljujemo na strpljenju. </p>
+                <button onClick={handleExploreClick} className="explore-button">Istraži ponude</button>
             </div>
         </div>
     );
