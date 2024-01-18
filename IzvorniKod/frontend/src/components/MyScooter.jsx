@@ -3,9 +3,7 @@ import ScooterCardHome from './ScooterCardHome';
 import ScooterCard from './ScooterCard';
 import RegisterScooterForm from './RegisterScooterForm';
 import './MyScooter.css';
-import MyScooter1 from '../assets/myScooter1.jpg';
-import MyScooter2 from '../assets/myScooter2.jpg';
-import MyScooter3 from '../assets/myScooter3.jpg';
+import MyScooter1 from '../assets/scooters.png';
 import {getNicknameFromToken} from "./RegisterScooterForm";
 import Listing1 from "../assets/exampleListing1.png";
 import WelcomePage from "./WelcomePage";
@@ -125,8 +123,6 @@ function MyScooter() {
                     {scooters.filter(scooter => !scooter.deleted).length === 0 && (
                         <WelcomePage
                             photo1={MyScooter1}
-                            photo2={MyScooter2}
-                            photo3={MyScooter3}
                             textBeforeBreak={textBeforeBreakScooter}
                             textAfterBreak={textAfterBreakScooter}
                         />
@@ -149,14 +145,11 @@ function MyScooter() {
                         }
                     </div>
                 ) : (
-                    <div className="welcome-page">
-                        <div className="welcome-container">
-                            <h5>{textBeforeBreakListing}<br/>{textAfterBreakListing}</h5>
-                        </div>
-                        <div className="welcomeImageContainer">
-                            <img src={Listing1} alt="Scooter Adventure" />
-                        </div>
-                    </div>
+                    <WelcomePage
+                        photo1={MyScooter1}
+                        textBeforeBreak={textBeforeBreakListing}
+                        textAfterBreak={textAfterBreakListing}
+                    />
                 )
             )}
         </div>
