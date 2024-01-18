@@ -1,20 +1,59 @@
 /* General Layout */
 .my-scooter-container {
+    height: 100vh;
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
+    text-align: center;
+
+}
+.my-scooter-container h3 {
+    color: #FFD860;             /* Maintain the existing vibrant yellow color */
+    padding: 20px;               /* Increase padding for a more pronounced look */
+    margin-top: 15px;            /* Keep the top margin to separate from elements above */
+    text-align: center;          /* Center-align text for a balanced appearance */
+    background-color: #333;      /* Add a dark background for contrast */
+    border-radius: 5px;          /* Round the corners of the heading */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    display: block;      /* Make the background only as wide as the content */
+    border: 2px solid #FFD860;   /* Add a border that matches the text color */
+    margin-bottom: 30px;
 }
 
+body, html {
+    height: 100%;
+    margin: 0;
+
+
+}
+
+body {
+    background-image: url('../assets/scooters.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+    
+
+}
 .my-scooter-header {
     text-align: center;
     margin-bottom: 20px;
 }
 
-.welcomePage{
-    height: 100vh;
+.welcome-page {
+    display: flex;
+    justify-content: center; /* align horizontal */
+    align-items: center;
+     /* Centers the content */
 }
-.welcomeImageContainer{
-    opacity: 0.5;
+
+.welcome-container {
+    display: flex; /* Enables Flexbox */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+     /* Take full height of its parent */
 }
 /* Scooter Cards Styling */
 .scooter-list {
@@ -85,7 +124,6 @@
 .tabs button {
     padding: 10px 20px;
     margin: 0 10px;
-    border: 1px solid #ddd;
     background-color: #000;
     color: #FFD860;
     font-weight: bold;
@@ -109,4 +147,31 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
+}
+@media (max-width: 768px) {
+    .my-scooter-container {
+        padding: 10px;
+    }
+
+    .welcome-page {
+        flex-direction: column; /* Stack children vertically on smaller screens */
+        padding: 10px; /* Adjust padding on smaller screens */
+    }
+
+
+
+    .scooter-list {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+
+    .register-scooter-form input,
+    .register-scooter-form textarea,
+    .register-scooter-form button {
+        width: calc(100% - 16px); /* Adjusts for padding */
+    }
+
+    .tabs button {
+        padding: 5px 10px;
+        margin: 0 5px;
+    }
 }

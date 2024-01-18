@@ -44,7 +44,9 @@ tbody tr:hover {
     border-radius: 5px; /* Slightly rounded corners */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
-
+.admin-div{
+    background-color: white;
+}
 .highlighted-text {
     color: #FF0000; /* Or any color you like */
     font-weight: bold;
@@ -59,12 +61,17 @@ h1 {
 }
 
 h3 {
-    background-color: #555; /* Slightly lighter background than h1 */
-    color: #fff; /* Maintains white text for consistency */
-    padding: 10px; /* Less padding than h1 to denote less importance */
-    margin-top: 15px; /* Adds separation from the content above */
-    text-align: center; /* Aligns text to the left */
-    border-bottom: 2px solid #777; /* Adds a subtle border */
+    color: #FFD860;             /* Maintain the existing vibrant yellow color */
+    padding: 20px;               /* Increase padding for a more pronounced look */
+    margin-top: 15px;            /* Keep the top margin to separate from elements above */
+    text-align: center;          /* Center-align text for a balanced appearance */
+    background-color: #333;      /* Add a dark background for contrast */
+    border-radius: 5px;          /* Round the corners of the heading */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    /* Make the background only as wide as the content */
+    border: 2px solid #FFD860;   /* Add a border that matches the text color */
+    margin-bottom: 30px;
+    display: block;
 }
 
 .modal-overlay {

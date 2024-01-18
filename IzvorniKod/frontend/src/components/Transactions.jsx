@@ -206,9 +206,7 @@ function Transactions() {
                         <div className="welcome-container">
                             <h5>{textBeforeBreakOwner}<br/>{textAfterBreakOwner}</h5>
                         </div>
-                        <div className="welcomeImageContainer">
-                            <img src={Invoice} alt="Scooter Adventure" />
-                        </div>
+
                     </div>
                 )
             )}
@@ -225,9 +223,7 @@ function Transactions() {
                         <div className="welcome-container">
                             <h5>{textBeforeBreakClient}<br/>{textAfterBreakClient}</h5>
                         </div>
-                        <div className="welcomeImageContainer">
-                            <img src={Invoice} alt="Scooter Adventure" />
-                        </div>
+
                     </div>
                 )
             )}

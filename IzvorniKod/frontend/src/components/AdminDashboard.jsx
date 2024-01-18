@@ -320,7 +320,7 @@ function AdminDashboard() {
 
 
     return (
-        <div>
+        <div  className={"admin-div"}>
             <h1>PANEL ZA ADMINA</h1>
             <div className="adminNavBar">
                 <a href="#pendingUsers">Korisnici na čekanju ({pendingUsers.length})</a>

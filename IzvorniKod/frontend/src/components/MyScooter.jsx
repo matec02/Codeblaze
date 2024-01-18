@@ -122,7 +122,7 @@ function MyScooter() {
                     </div>
                     {scooters.filter(scooter => !scooter.deleted).length === 0 && (
                         <WelcomePage
-                            photo1={MyScooter1}
+
                             textBeforeBreak={textBeforeBreakScooter}
                             textAfterBreak={textAfterBreakScooter}
                         />
@@ -146,7 +146,7 @@ function MyScooter() {
                     </div>
                 ) : (
                     <WelcomePage
-                        photo1={MyScooter1}
+
                         textBeforeBreak={textBeforeBreakListing}
                         textAfterBreak={textAfterBreakListing}
                     />
