@@ -339,18 +339,26 @@
 		
 		\section{Upute za puštanje u pogon}
 
-        Nakon što smo temeljito razvili našu aplikaciju, fokusirali smo se na njeno postavljanje u produkcijsko okruženje koristeći Render, cloud-based platformu-as-a-service (PaaS). Postupak smo započeli osiguravanjem da su sve komponente aplikacije pravilno integrirane na GitHubu, čime smo omogućili stvaranje Docker kontejnera ključnih za funkcionalnost naše aplikacije u radnom okruženju. Naš izvorni kod bio je dostupan na GitHub repozitoriju, gdje smo pratili i upravljali verzijama našeg koda.  Izvorni kod naše aplikacije dostupan je na https://github.com/Kvesa- Fer/Codeblaze.
 
-        Prilikom pripreme za deploy, bilo je potrebno dodati environment varijable u run konfiguraciju našeg IDE-a kako bismo osigurali glatko funkcioniranje lokalnog razvojnog okruženja. Posebnu pozornost posvetili smo Dockerfile-u, osiguravajući da su putanje unutar COPY naredbi pravilno postavljene. U našem 'docker' direktoriju nalazile su se dvije verzije Dockerfile-a, za Maven i Gradle, što nam je pružalo fleksibilnost u izboru alata za automatizaciju izgradnje.
+		Nakon pažljivog razvoja naše aplikacije, usmjereni smo na implementaciju u produkcijsko okruženje koristeći Render, platformu koja pruža PaaS rješenje. Ovaj proces je zahtijevao integraciju svih aplikacijskih komponenti na GitHubu, omogućujući time stvaranje Docker kontejnera, ključnih za funkcionalnost aplikacije u radnom okruženju.
 
-        U application.properties datoteci, preporučili smo postavljanje server.servlet.context-path na '/api', što je osiguralo da svi backend zahtjevi budu jasno označeni i usmjereni. Također, opcionalno smo dodali željene environment varijable u formatu some.property=${ENV_VAR_NAME:default value} kako bismo dodatno prilagodili naše okruženje.
+		Pregledom izvornog koda na GitHub repozitoriju osigurali smo praćenje i upravljanje verzijama koda. Izvorni kod naše aplikacije dostupan je na https://github.com/Kvesa- Fer/Codeblaze. Prilikom pripreme za deploy, pažljivo smo postavili environment varijable u konfiguraciju našeg IDE-a kako bismo osigurali nesmetano funkcioniranje lokalnog razvojnog okruženja. Posebna pažnja posvećena je Dockerfile-u, gdje smo se pobrinuli da putanje unutar COPY naredbi budu precizno definirane.
 
-        Za lokalni razvoj, integrirali smo Liquibase i H2 bazu, što nam je omogućilo efikasno upravljanje promjenama u strukturi baze podataka i olakšalo razvoj i testiranje aplikacije. Dodavanje odgovarajućih dependency-a u 'pom.xml' i kreiranje 'application-dev.properties' za lokalni dev profil omogućilo nam je brzo prebacivanje između različitih konfiguracija i okruženja.
+		Konfiguracijska datoteka application.properties sadrži ključne informacije za povezivanje s bazom podataka. U razvojnom okruženju, koristili smo H2 in-memory bazu, što je vidljivo iz konfiguracije spring.datasource parametara koji ukazuju na H2 bazu. Za produkcijsko okruženje, komentirane linije sadrže konfiguraciju za povezivanje s PostgreSQL bazom podataka hostiranom na Renderu.
 
-        Prije deployanja aplikacije, pažljivo smo kreirali bazu podataka na Renderu, postavljajući ime baze i, po potrebi, korisničko ime, dok je lozinka bila automatski generirana. Također, konfiguracija backenda i frontenda na Renderu uključivala je povezivanje s našim GitHub računom, odabir projekta, postavljanje environment varijabli i preciznu konfiguraciju Dockerfile-a.
+		Dodatno, omogućili smo pristup H2 konzoli postavljanjem spring.h2.console.enabled na true, što olakšava debugiranje i testiranje aplikacije u razvoju. Secret key, definiran u application.properties, koristi se za JWT autentifikaciju, dok logiranje različitih komponenti aplikacije postavljamo na odgovarajuće razine za detaljno praćenje tijekom razvoja i debugiranja.
 
-        Za deploy frontenda, bilo je potrebno dodati neophodne dependency-e u 'package.json', konfigurirati proxy server i postaviti build i start skripte. Nakon tih koraka, aplikacija je bila spremna za pokretanje i bila je dostupna na URL-u koji se generirao nakon deploya na Render platformi.
+		Dockerfile.txt sadrži naredbe za kreiranje Docker slike aplikacije. Korištenjem dvostupanjskog procesa izgradnje, prvo se stvara build container koji izvršava Maven build, a zatim se finalna izvršna JAR datoteka kopira u runtime container.
 
-        Konačna aplikacija dostupna je na poveznici: https://codeblazefe.onrender.com/home.
+		setupproxy.js definira proxy middleware koji preusmjerava zahtjeve na /api endpointu na backend server, što omogućuje jednostavniju integraciju frontend i backend dijelova aplikacije tijekom razvoja.
+
+		package.json definira metapodatke projekta, dependency-e potrebne za frontend dio aplikacije, kao i skripte koje se koriste za pokretanje i izgradnju projekta. Vidimo i konfiguraciju Node verzije koja se koristi, što osigurava kompatibilnost između različitih razvojnih okruženja.
+
+		app.js postavlja express server koji služi statičke datoteke iz build direktorija i postavlja proxy za API zahtjeve. Konfiguracija se čita iz environment varijabli, što omogućuje fleksibilnost i jednostavnost konfiguracije u različitim okruženjima.
+
+		Kroz ovaj proces, stvorili smo stabilnu, sigurnu i skalabilnu aplikaciju spremnu za produkcijsko okruženje. Deploy aplikacije na Render platformi bio je ključan korak u dostizanju naših operativnih ciljeva, omogućujući nam da našu aplikaciju učinimo dostupnom široj publici.
+
+		Konačna aplikacija dostupna je na poveznici: https://codeblazefe.onrender.com/home.
+
 
 		\eject
