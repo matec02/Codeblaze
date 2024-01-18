@@ -608,7 +608,7 @@ function ScooterCard({listing}) {
     };
 
 
-    const shareUrl = "window.location.href";
+    const shareUrl = "https://codeblazefe.onrender.com/home";
 
     const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`;
     const twitterShareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}`;
