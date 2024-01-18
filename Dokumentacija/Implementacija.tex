@@ -1,18 +1,17 @@
 
 \chapter{Implementacija i korisničko sučelje}
 
-		\usepackage{hyperref}
-		\usepackage{graphicx}
+	
 		
 		\section{Korištene tehnologije i alati}
 
-        \textit{ Timsku komunikaciju smo uspješno ostvarili kroz aplikaciju \href{https://discord.com/}{Discord}, pružajući jednostavnu i iznimno organiziranu interakciju putem "channel" i "thread" opcija. Za izradu UML dijagrama smo koristili alat \href{https://astah.net/products/astah-uml/}{Astah UML}, dok smo za upravljanje izvornim kodom primijenili \href{https://github.com/}{GitHub}.}
+        Timsku komunikaciju smo uspješno ostvarili kroz aplikaciju \href{https://discord.com/}{Discord}, pružajući jednostavnu i iznimno organiziranu interakciju putem "channel" i "thread" opcija. Za izradu UML dijagrama smo koristili alat \href{https://astah.net/products/astah-uml/}{Astah UML}, dok smo za upravljanje izvornim kodom primijenili \href{https://github.com/}{GitHub}.
 
-        \textit{Kao razvojno okruženje odabrali smo \href{https://www.jetbrains.com/idea/}{IntelliJ IDEA}, integrirano razvojno okruženje (IDE) tvrtke JetBrains. Ovo okruženje pruža napredne mogućnosti kao što su dovršavanje koda analizom konteksta, navigacija koda s mogućnošću izravnog skakanja na klasu ili deklaraciju u kodu, refaktoriranje koda, rješavanje pogrešaka te ugrađene naredbe za Git, uz mnogobrojna proširenja za različite programske jezike i alate.}
+        Kao razvojno okruženje odabrali smo \href{https://www.jetbrains.com/idea/}{IntelliJ IDEA}, integrirano razvojno okruženje (IDE) tvrtke JetBrains. Ovo okruženje pruža napredne mogućnosti kao što su dovršavanje koda analizom konteksta, navigacija koda s mogućnošću izravnog skakanja na klasu ili deklaraciju u kodu, refaktoriranje koda, rješavanje pogrešaka te ugrađene naredbe za Git, uz mnogobrojna proširenja za različite programske jezike i alate.
 
-        \textit{Na strani klijentske aplikacije (frontend), koristili smo \href{https://reactjs.org/}{React.js}, popularnu \href{https://www.javascript.com/}{JavaScript} biblioteku za izradu korisničkih sučelja u web aplikacijama. Virtualna DOM tehnologija ovog okvira doprinosi efikasnijem ažuriranju sučelja, unaprjeđujući performanse i korisničko iskustvo.}
+        Na strani klijentske aplikacije (frontend), koristili smo \href{https://reactjs.org/}{React.js}, popularnu \href{https://www.javascript.com/}{JavaScript} biblioteku za izradu korisničkih sučelja u web aplikacijama. Virtualna DOM tehnologija ovog okvira doprinosi efikasnijem ažuriranju sučelja, unaprjeđujući performanse i korisničko iskustvo.
 
-        \textit{Za poslužiteljsku stranu aplikacije (backend) odabrali smo \href{https://spring.io/}{Spring Framework}, sveobuhvatan okvir za \href{https://www.java.com/en/}{Java} programski jezik. Poznat po konceptima inverzije kontrole i ubrizgavanja ovisnosti, Spring olakšava razvoj aplikacija pružajući modularnost, testabilnost te olakšava održavanje koda. Za upravljanje bazama podataka koristili smo \href{https://www.postgresql.org/}{PostgreSQL}, moćan objektno-relacijski sustav otvorenog koda. Njegova pouzdanost, skalabilnost i podrška za kompleksne upite čine ga optimalnim izborom za naše potrebe}.
+        Za poslužiteljsku stranu aplikacije (backend) odabrali smo \href{https://spring.io/}{Spring Framework}, sveobuhvatan okvir za \href{https://www.java.com/en/}{Java} programski jezik. Poznat po konceptima inverzije kontrole i ubrizgavanja ovisnosti, Spring olakšava razvoj aplikacija pružajući modularnost, testabilnost te olakšava održavanje koda. Za upravljanje bazama podataka koristili smo \href{https://www.postgresql.org/}{PostgreSQL}, moćan objektno-relacijski sustav otvorenog koda. Njegova pouzdanost, skalabilnost i podrška za kompleksne upite čine ga optimalnim izborom za naše potrebe.
 			
 			\eject
 		
@@ -23,128 +22,219 @@
 			
 			\subsection{Ispitivanje komponenti}
 
-			 \textit{Provedbu ispitivanja implementiranih funkcionalnosti proveli smo na razini komponenti kroz detaljne unit testove. Fokusirali smo se na provjeru ispravnosti pomoćnih funkcija koje su ključne u različitim dijelovima koda. Ukupno smo izvršili sedam testova, a u nastavku donosimo sažete opise svakog testa zajedno s pripadajućim kodovima. Svaki opis testa popraćen je slikom koja jasno prikazuje rezultate izvođenja. Ovaj pristup omogućio nam je temeljitu analizu osnovne funkcionalnosti i identifikaciju rubnih uvjeta, pridonoseći sigurnosti i stabilnosti cijelog sustava. Nastojali smo osigurati sveobuhvatan pregled implementiranih funkcionalnosti kroz precizno definirane ispitne slučajeve.}
+			 Provedbu ispitivanja implementiranih funkcionalnosti proveli smo na razini komponenti kroz detaljne unit testove. Fokusirali smo se na provjeru ispravnosti pomo- ćnih funkcija koje su ključne u različitim dijelovima koda. Ukupno smo izvršili sedam testova, a u nastavku donosimo sažete opise svakog testa zajedno s pripadajućim kodovima. Svaki opis testa popraćen je slikom koja jasno prikazuje rezultate izvođenja. Ovaj pristup omogućio nam je temeljitu analizu osnovne funkcionalnosti i identifikaciju rubnih uvjeta, pridonoseći sigurnosti i stabilnosti cijelog sustava. Nastojali smo osigurati sveobuhvatan pregled implementiranih funkcionalnosti kroz precizno definirane ispitne slučajeve.
 
 
-            \subsection{Ispitni slučaj 1.: Test provjere svojstva dokumenta}
+            \subsubsection{Ispitni slučaj 1.: Test provjere svojstva dokumenta}
 
-                        \textbf{Ulaz:}
+                        \noindent\textbf{Ulaz:}
+                        \begin{packed_item}
+                        	\item  Stvaranje primjerka korisnika (User) i postavljanje njegovih svojstava (ID i nadimak)
+                        	\item  Stvaranje primjerka dokumenta (Document) i postavljanje njegovih svojstava (ID korisnika, korisnik, status dokumenta).
+                        \end{packed_item}
 
-                        \textit{1. Stvaranje primjerka korisnika (User) i postavljanje njegovih svojstava (ID i nadimak)}
-                        \textit{2. Stvaranje primjerka dokumenta (Document) i postavljanje njegovih svojstava (ID korisnika, korisnik, status dokumenta).}
-
-                        \textbf{Očekivani rezultati:}
-                        \textit{1. Očekujemo da će dokument imati ispravno postavljene vrijednosti svojstava, u skladu s postavljenim ulaznim podacima.}
-
-                        \textbf{Rezultat:}
-                        \textit{1. Izvršavanje ovog dijela testa provjerava ispravnost postavljanja svojstava dokumenta i uspoređuje ih s očekivanim rezultatima.}
-
-            \includegraphics[width=1\linewidth]{slike/DokumentTest.png}
-
-
-            \subsection{Ispitni slučaj 2.: Test provjere funkcionalnosti ImageChangeRequestStatus}
-
-                                    \textbf{Ulaz:}
-                                    \textit{1. Nema posebnog ulaza jer testira vrijednosti unutar samog enuma}
-
-                                    \textbf{Očekivani rezultati:}
-                                    \textit{1. Očekujemo da će vrijednosti enuma biti ispravno postavljene.}
-                                    \textit{2. Očekujemo da će konverzija enuma u String biti ispravna.}
-
-                                    \textbf{Rezultat:}
-                                    \textit{1. Izvršavanje testa provjerava da li su vrijednosti enuma ImageChangeRequestStatus ispravno postavljene}
-                                    ~textit{2. Izvršavanje testa provjerava da li je konverzija enuma ImageChangeRequestStatus u String ispravna}
-
-            \includegraphics[width=1\linewidth]{slike/ImageChangeTest.png}
-            \includegraphics[width=1\linewidth]{slike/ImageChangeTest1.png}
-
-			\subsection{Ispitni slučaj 3.: Provjera Vraćanja Vremena u Razredu Listing}
-
-                                                \textbf{Ulaz:}
-                                                \textit{1. Stvaranje instance razreda Listing}
-                                                \textit{2. Postavljanje vremena povratka (returnByTime) na trenutno vrijeme}
-
-                                                \textbf{Očekivani rezultati:}
-                                                \textit{1. Očekujemo da će vrijeme povratka biti jednako trenutnom vremenu u obliku Timestamp objekta}
-                                                \textit{2. Očekujemo da će vrijednost vremena povratka biti null, budući da nije postavljena}
+                        \noindent\textbf{Očekivani rezultati:}
+                        \begin{packed_item}
+                        	\item  Očekujemo da će dokument imati ispravno postavljene vrijednosti svojstava, u skladu s postavljenim ulaznim podacima.
+                        \end{packed_item}
+                      
+                        \noindent\textbf{Rezultat:}
+                        \begin{packed_item}
+                        	\item  Izvršavanje ovog dijela testa provjerava ispravnost postavljanja svojstava dokumenta i uspoređuje ih s očekivanim rezultatima.
+                        \end{packed_item}
+                       \begin{figure} [H]
+                       	\centering
+                       	\includegraphics[width=0.7\linewidth]{slike/DokumentTest.png}
+                       	\caption{Test provjere svojstva dokumenta}
+                       	\label{fig:Test provjere svojstva dokumenta}
+                       \end{figure}
+                      
 
 
-                                                \textbf{Rezultat:}
-                                                \textit{1. Izvršavanje testa provjerava postavljanje i dohvaćanje vremena povratka, uspoređujući ga s očekivanim rezultatom}
 
-                                                \textit{2. Izvršavanje testa provjerava da li je vrijednost vremena povratka null, što ukazuje na ispravno ponašanje u slučaju ne postavljanja vremena povratka}
+            \subsubsection{Ispitni slučaj 2.: Test provjere funkcionalnosti ImageChangeRequestStatus}
 
-            \includegraphics[width=1\linewidth]{slike/ListingTest.png}
-            \includegraphics[width=1\linewidth]{slike/ListingTest1.png}
+                                    \noindent\textbf{Ulaz:}
+                                    \begin{packed_item}
+                                    	\item Nema posebnog ulaza jer testira vrijednosti unutar samog enuma
+                                    \end{packed_item}
+                      
+                                    \noindent\textbf{Očekivani rezultati:}
+                                    \begin{packed_item}
+                                    	\item Očekujemo da će vrijednosti enuma biti ispravno postavljene.
+                                    	\item Očekujemo da će konverzija enuma u String biti ispravna.
+                                    \end{packed_item}
+                                    \noindent\textbf{Rezultat:}
+                                    \begin{packed_item}
+                                    	\item Izvršavanje testa provjerava da li su vrijednosti enuma ImageChangeRequestStatus ispravno postavljene
+                                    	\item Izvršavanje testa provjerava da li su vrijednosti enuma ImageChangeRequestStatus ispravno postavljene
+                                    \end{packed_item}
+                                    
+                                    
+                        \begin{figure} [H]
+                        	\centering
+                        	\includegraphics[width=0.7\linewidth]{slike/ImageChangeTest.png}
+                        	\caption{Test provjere funkcionalnosti ImageChangeRequestStatus}
+                        	\label{fig:Test provjere funkcionalnosti ImageChangeRequestStatus}
+                        \end{figure}
+                        
+                        \begin{figure} [H]
+                        	\centering
+                        	\includegraphics[width=0.7\linewidth]{slike/ImageChangeTest1.png}
+                        	\caption{Test provjere funkcionalnosti ImageChangeRequestStatus}
+                        	\label{fig:Test provjere funkcionalnosti ImageChangeRequestStatus}
+                        \end{figure}
+                                    
+      
 
-			\subsection{Ispitni slučaj 4.: Test provjere svojstava skutera}
-
-                                                            \textbf{Ulaz:}
-                                                            \textit{1. Stvaranje primjerka korisnika (User) i postavljanje njegovih svojstava (ID i nadimak)}
-
-                                                            \textit{2. Stvaranje primjerka skutera (Scooter) i postavljanje njegovih svojstava (ID, proizvođač, model, kapacitet baterije, maksimalna brzina, putanja do slike, maksimalni doseg, godina proizvodnje, dodatne informacije, korisnik, dostupnost)}
-
-                                                            \textbf{Očekivani rezultati:}
-                                                            \textit{1. Očekujemo da će svojstva skutera biti ispravno postavljena prema unesenim vrijednostima.}
-
-                                                            \textbf{Rezultat:}
-                                                            \textit{1. Izvršavanje testa provjerava ispravnost postavljanja svojstava skutera i uspoređuje ih s očekivanim rezultatima.}
-
-            \includegraphics[width=1\linewidth]{slike/ScooterTest.png}
-
-			\subsection{Ispitni slučaj 5.: Test provjere vremena plaćanja u razredu transakcije}
-
-                                                                        \textbf{Ulaz:}
-                                                                        \textit{1. Stvaranje instance razreda Transaction}
-                                                                        \textit{2. Postavljanje vremena plaćanja (paymentTime) na trenutno vrijeme}
-
-                                                                        \textbf{Očekivani rezultati:}
-                                                                        \textit{1. Očekujemo da će vrijeme plaćanja biti jednako trenutnom vremenu u obliku Timestamp objekta}
-                                                                        \textit{2. Očekujemo da će vrijednost vremena plaćanja biti null, budući da nije postavljena}
-
-
-                                                                        \textbf{Rezultat:}
-                                                                        \textit{1. Izvršavanje testa provjerava postavljanje i dohvaćanje vremena plaćanja, uspoređujući ga s očekivanim rezultatom}
-                                                                        \textit{2. Izvršavanje testa provjerava da li je vrijednost vremena plaćanja null, što ukazuje na ispravno ponašanje u slučaju ne postavljanja vremena plaćanja.}
-
-
-            \includegraphics[width=1\linewidth]{slike/TransactionTest.png}
-            \includegraphics[width=1\linewidth]{slike/TransactionTest1.png}
-
-
-            \subsection{Ispitni slučaj 6.: Test provjere svojstva korisnika}
-
-                                                                                    \textbf{Ulaz:}
-                                                                                    \textit{1. Stvaranje primjerka korisnika (User) i postavljanje njegovih svojstava (ID, nadimak, ime, prezime, broj kartice, e-mail, broj telefona, lozinka, uloga, status)}
-
-                                                                                    \textbf{Očekivani rezultati:}
-                                                                                    \textit{1. Očekujemo da će svojstva korisnika biti ispravno postavljena prema unesenim vrijednostima}
-
-                                                                                    \textbf{Rezultat:}
-                                                                                    \textit{1. Izvršavanje testa provjerava ispravnost postavljanja svojstava korisnika i uspoređuje ih s očekivanim rezultatima}
-
-
-            \includegraphics[width=1\linewidth]{slike/UserTest.png}
-
-
-            \subsection{Ispitni slučaj 7.: Test provjere funkcionalnosti prijave korisnika}
-
-                                                                                                \textbf{Ulaz:}
-                                                                                                \textit{1. Koristi se Mock objekt UserRepository}
-                                                                                                \textit{2. Koristi se UserService objekt, gdje je userService injektiran u UserService pomoću @InjectMocks}
-                                                                                                \textit{3. Postavlja se Mock korisnik (mockUser) s podacima za prijavu}
-
-
-                                                                                                \textbf{Očekivani rezultati:}
-                                                                                                \textit{1. Očekuje se da će korisničko ime i lozinka odgovarati podacima Mock korisnika}
-                                                                                                \textit{2. Očekuje se da će userService uspješno vratiti Mock korisnika}
+			\subsubsection{Ispitni slučaj 3.: Provjera vraćanja vremena u razredu Listing}
+					\noindent\textbf{Ulaz:}
+					\begin{packed_item}
+						\item Stvaranje instance razreda Listing
+						\item Postavljanje vremena povratka (returnByTime) na trenutno vrijeme
+					\end{packed_item}
+					
+					\noindent\textbf{Očekivani rezultati:}
+					\begin{packed_item}
+						\item Očekujemo da će vrijeme povratka biti jednako trenutnom vremenu u obliku Timestamp objekta
+						\item Očekujemo da će vrijednost vremena povratka biti null, budući da nije postavljena
+					\end{packed_item}
+					 \noindent\textbf{Rezultat:}
+					\begin{packed_item}
+						\item  Izvršavanje testa provjerava postavljanje i dohvaćanje vremena povratka, uspo- ređujući ga s očekivanim rezultatom
+						\item  Izvršavanje testa provjerava da li je vrijednost vremena povratka null, što ukazuje na ispravno ponašanje u slučaju ne postavljanja vremena povratka
+					\end{packed_item}
+					
+					 \begin{figure} [H]
+						\centering
+						\includegraphics[width=0.7\linewidth]{slike/ListingTest.png}
+						\caption{Provjera vraćanja vremena u razredu Listing}
+						\label{fig:Provjera vraćanja vremena u razredu Listing}
+					\end{figure}
+					 \begin{figure} [H]
+						\centering
+						\includegraphics[width=0.7\linewidth]{slike/ListingTest1.png}
+						\caption{Provjera vraćanja vremena u razredu Listing}
+						\label{fig:Provjera vraćanja vremena u razredu Listing}
+					\end{figure}
 
 
-                                                                                                \textbf{Rezultat:}
-                                                                                                \textit{1. Izvršava se prijava korisnika pomoću userService.login("test@example.com", "password")}
-                                                                                                \textit{2. Provjerava se je li rezultat jednak Mock korisniku (mockUser)}
+			\subsubsection{Ispitni slučaj 4.: Test provjere svojstava skutera}
 
-                        \includegraphics[width=1\linewidth]{slike/LoginTest.png}
+					\noindent\textbf{Ulaz:}
+					\begin{packed_item}
+						\item Stvaranje primjerka korisnika (User) i postavljanje njegovih svojstava (ID i nadimak)
+						\item Stvaranje primjerka skutera (Scooter) i postavljanje njegovih svojstava (ID, proizvođač, model, kapacitet baterije, maksimalna brzina, putanja do slike, maksimalni doseg, godina proizvodnje, dodatne informacije, korisnik, dostupnost)
+					\end{packed_item}
+					
+					\noindent\textbf{Očekivani rezultati:}
+					\begin{packed_item}
+						\item Očekujemo da će svojstva skutera biti ispravno postavljena prema unesenim vrijednostima.
+					\end{packed_item}
+					\noindent\textbf{Rezultat:}
+					\begin{packed_item}
+						\item  Izvršavanje testa provjerava ispravnost postavljanja svojstava skutera i uspo- ređuje ih s očekivanim rezultatima.
+						 postavljanja vremena povratka
+					\end{packed_item}
+              \begin{figure} [H]
+              	\centering
+              	\includegraphics[width=0.7\linewidth]{slike/ScooterTest.png}
+              	\caption{Test provjere svojstava skutera}
+              	\label{fig:Test provjere svojstava skutera}
+              \end{figure}
+
+     
+			\subsubsection{Ispitni slučaj 5.: Test provjere vremena plaćanja u razredu transakcije}
+			
+			
+			\noindent \textbf{Ulaz:}
+			\begin{packed_item}
+				\item Stvaranje instance razreda Transaction
+				\item Postavljanje vremena plaćanja (paymentTime) na trenutno vrijeme
+			\end{packed_item}
+			
+			\noindent \textbf{Očekivani rezultati:}
+			\begin{packed_item}
+				\item Očekujemo da će vrijeme plaćanja biti jednako trenutnom vremenu u obliku Timestamp objekta
+				\item Očekujemo da će vrijednost vremena plaćanja biti null, budući da nije postavljena
+			\end{packed_item}
+			\noindent \textbf{Rezultat:}
+			\begin{packed_item}
+				\item  Izvršavanje testa provjerava postavljanje i dohvaćanje vremena plaćanja, uspo- ređujući ga s očekivanim rezultatom
+				\item Izvršavanje testa provjerava da li je vrijednost vremena plaćanja null, što ukazuje na ispravno ponašanje u slučaju ne postavljanja vremena plaćanja.
+			\end{packed_item}
+			
+			\begin{figure} [H]
+				\centering
+				\includegraphics[width=0.7\linewidth]{slike/TransactionTest.png}
+				\caption{Test provjere vremena plaćanja u razredu transakcije}
+				\label{fig:Test provjere vremena plaćanja u razredu transakcije}
+			\end{figure}
+			\begin{figure} [H]
+				\centering
+				\includegraphics[width=0.7\linewidth]{slike/TransactionTest1.png}
+				\caption{Test provjere vremena plaćanja u razredu transakcije}
+				\label{fig:Test provjere vremena plaćanja u razredu transakcije}
+			\end{figure}
+
+                                                                      
+           
+
+
+            \subsubsection{Ispitni slučaj 6.: Test provjere svojstva korisnika}
+            
+            \noindent\textbf{Ulaz:}
+            \begin{packed_item}
+            	\item Stvaranje primjerka korisnika (User) i postavljanje njegovih svojstava (ID, nadimak, ime, prezime, broj kartice, e-mail, broj telefona, lozinka, uloga, status)
+            \end{packed_item}
+            
+            \noindent\textbf{Očekivani rezultati:}
+            \begin{packed_item}
+            	\item Očekujemo da će svojstva korisnika biti ispravno postavljena prema unesenim vrijednostima
+            \end{packed_item}
+            \noindent\textbf{Rezultat:}
+            \begin{packed_item}
+            	\item  Izvršavanje testa provjerava ispravnost postavljanja svojstava korisnika i uspo- ređuje ih s očekivanim rezultatima
+            \end{packed_item}
+
+				\begin{figure} [H]
+					\centering
+					\includegraphics[width=0.7\linewidth]{slike/UserTest.png}
+					\caption{Test provjere svojstva korisnika}
+					\label{fig:Test provjere svojstva korisnika}
+				\end{figure}
+
+        
+
+
+            \subsubsection{Ispitni slučaj 7.: Test provjere funkcionalnosti prijave korisnika}
+            
+             \noindent\textbf{Ulaz:}
+            \begin{packed_item}
+            	\item Koristi se Mock objekt UserRepository
+            	\item Koristi se UserService objekt, gdje je userService injektiran u UserService pomoću @InjectMocks
+            	\item Postavlja se Mock korisnik (mockUser) s podacima za prijavu
+            \end{packed_item}
+            
+            \noindent\textbf{Očekivani rezultati:}
+            \begin{packed_item}
+            	\item Očekuje se da će korisničko ime i lozinka odgovarati podacima Mock korisnika
+            	\item Očekuje se da će userService uspješno vratiti Mock korisnika
+            	
+            \end{packed_item}
+            \noindent\textbf{Rezultat:}
+            \begin{packed_item}
+            	\item  Izvršava se prijava korisnika pomoću userService.login("test@example.com", "password")
+            	\item  Provjerava se je li rezultat jednak Mock korisniku (mockUser)
+            \end{packed_item}
+				\begin{figure} [H]
+					\centering
+					\includegraphics[width=0.7\linewidth]{slike/LoginTest.png}
+					\caption{Test provjere funkcionalnosti prijave korisnika}
+					\label{fig:Test provjere funkcionalnosti prijave korisnika}
+				\end{figure}
+                                                                                           
+                       
 
 
 
@@ -152,45 +242,80 @@
 
 
 
-			\subsection{Ispitni slučaj 1: provjera ispravnosti registracije}
-
-                                                            \textbf{Cilj:}
-                                                            \textit{Automatsko testiranje procesa registracije novog korisnika koji ne unese broj mobitela na web stranici pomoću Selenium WebDriver s Chrome preglednikom.}
-
-                                                            \textbf{Koraci testiranja:}
-                                                            \textit{1. Navigacija na stranicu za registraciju}
-                                                            \textit{2. Ispunjavanje svih polja registracijskog obrazca osim polja za broj mobitela}
-                                                            \textit{3. Potvrda Registracije}
-                                                            \textit{4. Provjera je li se korisnik registrirao}
-
-
-                                                            \textbf{Očekivani rezultati:}
-                                                            \textit{1. Korisnik se nije uspio registrirati}
-                                                            \textit{2. Ispisana odgovarajuća poruka}
-
-
-                        \includegraphics[width=1\linewidth]{slike/RegisterSelenium.png}
-                        \includegraphics[width=1\linewidth]{slike/RegisterSeleniumOutput.png}
-
-
-            \subsection{Ispitni slučaj 2: provjera ispravnosti prijave}
-
-                        \textit{Ovaj Selenium test simulira korisničku prijavu na web stranici, unoseći korisničko ime i lozinku te provjerava očekivani rezultat, tj. naslov stranice nakon prijave.}
-
-                                                                        \textbf{Cilj:}
-                                                                        \textit{Automatsko testiranje procesa prijavljivanja na web stranicu pomoću Selenium WebDriver s Chrome preglednikom.}
-
-                                                                        \textbf{Koraci testiranja:}
-                                                                        \textit{1. Navigacija na stranicu za prijavu}
-                                                                        \textit{2. Unos podataka za prijavu}
-                                                                        \textit{3. Provjera stranice nakon prijave}
+			\subsubsection{Ispitni slučaj 1: Provjera ispravnosti registracije}
+			
+			\noindent\textbf{Cilj:}
+			\begin{packed_item}
+				Automatsko testiranje procesa registracije novog korisnika koji ne unese broj mobitela na web stranici pomoću Selenium WebDriver s Chrome preglednikom.
+			\end{packed_item}
+			
+			\noindent\textbf{Koraci testiranja:}
+			\begin{packed_item}
+				\item Navigacija na stranicu za registraciju
+				\item Ispunjavanje svih polja registracijskog obrazca osim polja za broj mobitela
+				\item  Potvrda Registracije
+				\item  Provjera je li se korisnik registrirao
+				
+			\end{packed_item}
+			\noindent\textbf{Očekivani rezultati:}
+			\begin{packed_item}
+				\item  Korisnik se nije uspio registrirati
+				\item Ispisana odgovarajuća poruka
+			\end{packed_item}
 
 
-                                                                        \textbf{Očekivani rezultati:}
-                                                                        \textit{1. Poruka "Assertion successful: 'Codeblaze' is in the title." ispisuje se kao potvrda uspješne prijave.}
+						\begin{figure} [H]
+							\centering
+							\includegraphics[width=0.7\linewidth]{slike/RegisterSelenium.png}
+							\caption{Provjera ispravnosti registracije}
+							\label{fig:Provjera ispravnosti registracije}
+						\end{figure}
+						
+						\begin{figure} [H]
+							\centering
+							\includegraphics[width=0.7\linewidth]{slike/RegisterSeleniumOutput.png}
+							\caption{Provjera ispravnosti registracije}
+							\label{fig:Provjera ispravnosti registracije}
+						\end{figure}
 
-                                    \includegraphics[width=1\linewidth]{slike/LoginSelenium.png}
-                                    \includegraphics[width=1\linewidth]{slike/LoginSeleniumOutput.png}
+                        
+
+
+            \subsubsection{Ispitni slučaj 2: Provjera ispravnosti prijave}
+
+                        Ovaj Selenium test simulira korisničku prijavu na web stranici, unoseći korisničko ime i lozinku te provjerava očekivani rezultat, tj. naslov stranice nakon prijave.
+                        
+                        \noindent\textbf{Cilj:}
+                        \begin{packed_item}
+                        	Automatsko testiranje procesa prijavljivanja na web stranicu pomoću Selenium WebDriver s Chrome preglednikom.
+                        \end{packed_item}
+                        
+                        \noindent\textbf{Koraci testiranja:}
+                        \begin{packed_item}
+                        	\item Navigacija na stranicu za prijavu
+                        	\item  Unos podataka za prijavu
+                        	\item Provjera stranice nakon prijave
+                        	
+                        \end{packed_item}
+                        \noindent\textbf{Očekivani rezultati:}
+                        \begin{packed_item}
+                        	\item  Poruka "Assertion successful: 'Codeblaze' is in the title." ispisuje se kao potvrda uspješne prijave.
+                        \end{packed_item}
+                                                             
+
+				\begin{figure} [H]
+					\centering
+					\includegraphics[width=0.7\linewidth]{slike/LoginSelenium.png}
+					\caption{Provjera ispravnosti prijava}
+					\label{fig:Provjera ispravnosti prijava}
+				\end{figure}
+				\begin{figure} [H]
+					\centering
+					\includegraphics[width=0.7\linewidth]{slike/LoginSeleniumOutput.png}
+					\caption{Provjera ispravnosti prijava}
+					\label{fig:Provjera ispravnosti prijava}
+				\end{figure}
+                                  
 
 
 
