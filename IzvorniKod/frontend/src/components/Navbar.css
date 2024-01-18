@@ -59,7 +59,7 @@
 .social-media-buttons {
     display: flex;
     align-items: center;
-    margin-top: 25px;
+    margin-left: 20px;
     margin-right: 20px;
 }
 
@@ -75,4 +75,13 @@
 .navbar-account {
     display: flex;
     align-items: center;
+}
+@media (max-width: 955px) {
+    .social-media-buttons{
+        margin-top: 20px;
+        margin-bottom: 20px;
+        margin-right: 0px;
+        margin-left: 0;
+
+    }
 }
