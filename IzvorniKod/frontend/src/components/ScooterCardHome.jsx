@@ -117,12 +117,11 @@ function ScooterCardHome({ scooter }) {
 
     useEffect(() => {
         if (NotificationScooterDelete) {
-            // Set a timer to hide the notification
+
             const timer = setTimeout(() => {
                 setNotificationScooterDelete(false);
-            }, 4500); // Change 5000 to however many milliseconds you want the notification to show
+            }, 4500);
 
-            // Clear the timer if the component unmounts
             return () => clearTimeout(timer);
         }
     }, [NotificationScooterDelete]);

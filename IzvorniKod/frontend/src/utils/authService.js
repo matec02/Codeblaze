@@ -17,7 +17,7 @@ export const isUserAuthenticated = () => {
 
         return true;
     } catch (error) {
-        // Handle the error if the token is invalid or expired
+
         localStorage.removeItem('authToken');
         return false;
     }

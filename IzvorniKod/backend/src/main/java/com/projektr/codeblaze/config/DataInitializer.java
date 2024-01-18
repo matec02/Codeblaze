@@ -1,16 +1,13 @@
 package com.projektr.codeblaze.config;
 
-import com.projektr.codeblaze.domain.PrivacySettings;
 import com.projektr.codeblaze.domain.UserStatus;
 import com.projektr.codeblaze.service.PrivacySettingsService;
-import org.aspectj.weaver.BCException;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import com.projektr.codeblaze.service.UserService;
 import com.projektr.codeblaze.domain.User;
-import com.projektr.codeblaze.domain.UserRole; // Import your Role enum
+import com.projektr.codeblaze.domain.UserRole;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
@@ -75,15 +72,7 @@ public class DataInitializer {
             user.setCardNumber(cardNumber);
             user.setPhoneNumber(phoneNumber);
             user = userService.save(user);
-            /*PrivacySettings privacySettings = new PrivacySettings();
-            privacySettings.setUser(user);
-            System.out.println("USPIO USER");
-            privacySettings.setFirstNameVisible(false);
-            privacySettings.setLastNameVisible(false);
-            privacySettings.setEmailVisible(false);
-            privacySettings.setPhoneNumberVisible(false);
-            System.out.println("Retrieved privacy settings: " + privacySettings);
-            privacySettingsService.initializePrivacySettings(privacySettings);*/
+
         }
     }
 }

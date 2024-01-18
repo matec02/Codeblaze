@@ -3,7 +3,7 @@ import TransactionCard from './TransactionCard';
 import './Transactions.css';
 import {getNicknameFromToken} from "./RegisterScooterForm";
 import ScooterCard from "./ScooterCard";
-import Invoice from '../assets/racun.jpg';
+
 
 export const startTransaction = async (owner, client, listingPricePerKm, returnByTime, penaltyFee, listingId) => {
     console.log(listingId);
@@ -113,7 +113,7 @@ function Transactions() {
 
     const handleViewOwnerTransactions = async (event) => {
         try {
-            //dohvacanje transakcija iznajmljivaca
+
             const response = await fetch(`/api/transactions/owner/${user.userId}`, {
                 method: 'GET',
                 headers: {
@@ -124,14 +124,14 @@ function Transactions() {
             if (response.ok) {
                 const transactions = await response.json();
 
-                // Sort transactions based on status, with 'UNSEEN' first
+
                 const sortedTransactions = transactions.sort((a, b) => {
                     if (a.status === 'UNSEEN' && b.status !== 'UNSEEN') {
-                        return -1; // 'UNSEEN' comes first
+                        return -1;
                     } else if (a.status !== 'UNSEEN' && b.status === 'UNSEEN') {
-                        return 1; // 'UNSEEN' comes second
+                        return 1;
                     } else {
-                        // If both have the same status or neither is 'UNSEEN', maintain their current order
+
                         return 0;
                     }
                 });
@@ -148,7 +148,7 @@ function Transactions() {
 
     const handleViewClientTransactions = async (event) => {
         try {
-            //dohvacanje transakcija klijenta
+
             const response = await fetch(`/api/transactions/client/${user.userId}`, {
                 method: 'GET',
                 headers: {

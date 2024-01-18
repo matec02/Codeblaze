@@ -7,7 +7,7 @@ export const getTransactionsByOwnerUserId = async (userId) => {
         return await response.json();
     } catch (error) {
         console.error('Error fetching transactions:', error);
-        return null; // or handle the error as needed
+        return null;
     }
 };
 
@@ -22,7 +22,7 @@ export const getTransactionById = async (transactionId) => {
         return await response.json();
     } catch (error) {
         console.error('Error fetching transaction:', error);
-        // Handle the error appropriately in your application
+
         return null;
     }
 };

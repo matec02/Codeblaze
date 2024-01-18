@@ -58,10 +58,10 @@ public class MessageController {
             Message sentMessage = messageService.sendMessage(message);
             logger.debug("Sent message: {}", sentMessage);
 
-            // Update the lastMessageTime in ChatSession
+
             ChatSession chatSession = sentMessage.getChatSession();
             chatSession.setLastMessageTime(OffsetDateTime.now());
-            chatSessionService.update(chatSession); // Assuming you have an update method in your service
+            chatSessionService.update(chatSession);
 
             return new ResponseEntity<>(sentMessage, HttpStatus.CREATED);
         } catch (Exception e) {

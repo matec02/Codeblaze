@@ -45,11 +45,11 @@ const ReviewForm = () => {
                 console.log('Review created successfully:', createdReview);
             } else {
                 console.error('Failed to create review');
-                // Handle error (e.g., show error message to the user)
+
             }
         } catch (error) {
             console.error('Error submitting review:', error);
-            // Handle error (e.g., show error message to the user)
+
         }
         window.close();
     };

@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
-import {jwtDecode} from 'jwt-decode'; // Make sure this import is correct, usually it's import jwtDecode from 'jwt-decode';
+import {jwtDecode} from 'jwt-decode';
 import './MyProfile.css';
 
 
@@ -11,7 +11,7 @@ export const getNicknameFromToken = () => {
     }
     try {
         const decodedToken = jwtDecode(token);
-        return decodedToken.nickname; // Make sure the token structure has 'nickname'
+        return decodedToken.nickname;
     } catch (error) {
         console.error('Error decoding token:', error);
         return null;
@@ -88,12 +88,12 @@ function MyProfile() {
     };
 
     const savePrivacySettings = async () => {
-        // Replace with your API's endpoint and method to update privacy settings
+
         try {
             const PrivacySettingsSaveDTO = {user: user, privacySettings: privacySettings};
 
             const response = await fetch(`/api/privacy-settings/save`, {
-                method: 'POST', // or 'PATCH' depending on your API
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -103,7 +103,7 @@ function MyProfile() {
             if (response.ok) {
                 navigate("/")
 
-                //     TODO POPUP ili ALERT changes have been saved
+
             } else {
                 setErrorMessage('Failed to save privacy settings.');
             }
@@ -182,7 +182,7 @@ function MyProfile() {
             <div className="container">
                 <div className="title">Postavke privatnosti</div>
                 <div className="infoSection">
-                    {/* Name Visibility */}
+
                     <div className="infoRow">
                         <span className="infoLabel">Ime:</span>
                         <div className="radioGroup">
@@ -206,7 +206,7 @@ function MyProfile() {
                             </label>
                         </div>
                     </div>
-                    {/* LastName Visibility */}
+
                     <div className="infoRow">
                         <span className="infoLabel">Prezime:</span>
                         <div className="radioGroup">
@@ -231,7 +231,7 @@ function MyProfile() {
                         </div>
                     </div>
 
-                    {/* PhoneNumber Visibility */}
+
                     <div className="infoRow">
                         <span className="infoLabel">Broj mobitela:</span>
                         <div className="radioGroup">
@@ -256,7 +256,7 @@ function MyProfile() {
                         </div>
                     </div>
 
-                    {/* Email Visibility */}
+
                     <div className="infoRow">
                         <span className="infoLabel">Email:</span>
                         <div className="radioGroup">

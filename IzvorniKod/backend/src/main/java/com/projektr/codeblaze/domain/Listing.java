@@ -28,7 +28,7 @@ public class Listing {
         if (returnByTime != null) {
             return Timestamp.valueOf(returnByTime);
         }
-        return null; // Handle the case when paymentTime is null, if needed
+        return null;
     }
 
     @Column(name = "pricePerKilometer", nullable = false)
@@ -43,7 +43,7 @@ public class Listing {
         if (listingTime != null) {
             return Timestamp.valueOf(listingTime);
         }
-        return null; // Handle the case when paymentTime is null, if needed
+        return null;
     }
 
     @Column(name = "notes")
@@ -57,8 +57,6 @@ public class Listing {
     @JoinColumn(name = "scooterId", referencedColumnName = "scooterId")
     private Scooter scooter;
 
-    //ovo mozda drugacije - put metoda kod zahtjeva
-    //dok nije iznajmljen nije definirano pa se onda zapisuje
     @ManyToOne
     @JoinColumn(name = "clientId", referencedColumnName = "userId")
     private User user;

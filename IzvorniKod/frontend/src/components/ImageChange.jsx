@@ -14,15 +14,15 @@ export const fetchRequests = async (url, setState) => {
         });
 
         if (response.status === 404) {
-            setState([]); // Explicitly handle no content scenario
-            return; // Exit the function early
+            setState([]);
+            return;
         }
 
         if (!response.ok) {
             throw new Error(`Error in AdminDashboard: ${response.status}`);
         }
         const data = await response.json();
-        setState(data); // Setting the state with the fetched data
+        setState(data);
 
     } catch (error) {
         console.error("Failed to fetch requests: ", error);
@@ -77,8 +77,8 @@ function ImageChange(){
         const [reason, setReason] = useState('');
 
         const handleSubmit = () => {
-            onSubmit(reason); // Pass the reason back to the caller
-            onClose(); // Close the modal
+            onSubmit(reason);
+            onClose();
         };
 
         return (
@@ -140,11 +140,11 @@ function ImageChange(){
 
     const handleRequestAction = (request, requestStatus) => {
         setIsReasonModalOpen(true);
-        setCurrentRequest({request, requestStatus});  // Save the request details
+        setCurrentRequest({request, requestStatus});
     };
 
     const handleReasonSubmit = (reason) => {
-        if (currentRequest) { // Make sure currentRequest isn't null
+        if (currentRequest) {
             let messageTextToOwner;
             let messageTextToClient;
             if (currentRequest.requestStatus==='APPROVED'){
@@ -171,9 +171,9 @@ function ImageChange(){
             sendMessageFromCodeblaze(messageTextToClient, currentRequest.request.user)
             handleAdminDecision(currentRequest.request.imageId, reason, currentRequest.requestStatus,
                 currentRequest.request.oldImageUrl, currentRequest.request.listing.scooter.scooterId);
-            setIsReasonModalOpen(false); // Close the modal after submission
+            setIsReasonModalOpen(false);
         } else {
-            // Handle the error or unexpected case where currentRequest isn't set
+
         }
     };
 
@@ -202,7 +202,7 @@ function ImageChange(){
                         </thead>
                         <tbody>
                         {[...requests].reverse().map((request) => {
-                            // Convert the complaint time to a Date object
+
                             const complaintDate = new Date(request.complaintTime);
                             const options = {
                                 day: '2-digit',
@@ -211,7 +211,7 @@ function ImageChange(){
                                 hour: '2-digit',
                                 minute: '2-digit',
                                 second: '2-digit',
-                                hour12: false // Use a 24-hour clock
+                                hour12: false
                             };
                             const complaintTimeString = complaintDate.toLocaleString('en-GB', options);
                             let decisionTimeString = '';

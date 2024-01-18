@@ -33,7 +33,7 @@ public class RegistrationController {
             User registeredUser = registrationService.registerUserAndUploadDocuments(user, criminalRecordFile, identificationDocumentFile);
 
             if (registeredUser != null) {
-                return ResponseEntity.ok(registeredUser); // Or some success DTO
+                return ResponseEntity.ok(registeredUser);
             } else {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Registration failed.");
             }

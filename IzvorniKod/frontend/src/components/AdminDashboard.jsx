@@ -117,17 +117,17 @@ function AdminDashboard() {
             if (role === 'ADMIN') {
                 const adminUser = acceptedUsers.find(user => user.userId === userId);
                 if (adminUser) {
-                    // Add to admins list
+
                     setAdmins(prevAdmins => [...prevAdmins, { ...adminUser, role }]);
-                    // Remove from accepted users list
+
                     setAcceptedUsers(prevUsers => prevUsers.filter(user => user.userId !== userId));
                 }
             } else if ( role === 'USER') {
                 const User = admins.find(user => user.userId === userId);
                 if (User) {
-                    // Add to admins list
+
                     setAcceptedUsers(prevAccepted => [...prevAccepted, { ...User, role }]);
-                    // Remove from accepted users list
+
                     setAdmins(prevUsers => prevUsers.filter(user => user.userId !== userId));
                 }
             }
@@ -139,7 +139,7 @@ function AdminDashboard() {
     };
 
     const fetchUsers = async (url, setState) => {
-        setErrorMessage(''); // Resetting the error message
+        setErrorMessage('');
 
         try {
             const response = await fetch(url, {
@@ -155,7 +155,7 @@ function AdminDashboard() {
 
 
             const data = await response.json();
-            setState(data); // Setting the state with the fetched data
+            setState(data);
 
         } catch (error) {
             console.error("Failed to fetch users: ", error);
@@ -185,7 +185,7 @@ function AdminDashboard() {
                         </thead>
                         <tbody>
                         {users.map(user => {
-                            // Find the document for the current user
+
                             const document = documents.find(doc => doc.user.userId === user.userId);
                             return (
                                 <tr key={user.userId}>

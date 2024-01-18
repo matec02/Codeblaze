@@ -28,7 +28,7 @@ public class Notification {
         if (sentTime != null) {
             return Timestamp.valueOf(sentTime);
         }
-        return null; // Handle the case when paymentTime is null, if needed
+        return null;
     }
 
     @ManyToOne

@@ -40,6 +40,5 @@ public class Transaction {
     @JoinColumn(name = "listingId", referencedColumnName = "listingId", nullable = false)
     private Listing listing;
 
-    //obrisan invoice
-    //kaze u zadatku transakcija se automatski obavi i spremi - ne placas direktno ti pa ni nema biranja nacina placanja
+
 }

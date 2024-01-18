@@ -10,7 +10,7 @@ export const getNicknameFromToken = () => {
     }
     try {
         const decodedToken = jwtDecode(token);
-        return decodedToken.nickname; // or the appropriate field name where the nickname is stored
+        return decodedToken.nickname;
     } catch (error) {
         console.error('Error decoding token:', error);
         return null;

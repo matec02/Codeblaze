@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
-import {jwtDecode} from 'jwt-decode';
 import './MyProfile.css';
 import {getNicknameFromToken} from "../utils/authService";
 
@@ -31,7 +30,7 @@ function EditProfile() {
         const isNumeric = /^\d+$/;
 
         if (isNumeric.test(newPhoneNumber)) {
-            // If the new phone number contains only digits, update the state
+
             setPhoneNumberInput(newPhoneNumber);
         }
     };
@@ -125,12 +124,12 @@ function EditProfile() {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`, // Include the JWT token for authentication
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
                 },
                 body: JSON.stringify({
-                    userId: user.userId, // Make sure to include the user's ID for identification
-                    firstName: firstNameInput.trim() !== '' ? firstNameInput : user.firstName/* Updated first name from the input field */,
-                    lastName: lastNameInput.trim() !== '' ? lastNameInput : user.lastName/* Updated last name from the input field */,
+                    userId: user.userId,
+                    firstName: firstNameInput.trim() !== '' ? firstNameInput : user.firstName,
+                    lastName: lastNameInput.trim() !== '' ? lastNameInput : user.lastName,
                     nickname: nicknameInput.trim() !== '' ? nicknameInput : user.nickname,
                     email: emailInput.trim() !== '' ? emailInput : user.email,
                     phoneNumber: phoneNumberInput.trim() !== '' ? phoneNumberInput : user.phoneNumber,
@@ -142,11 +141,11 @@ function EditProfile() {
             } else {
                 const data = await response.json();
                 console.error('Profile update failed:', data.message);
-                // Handle error, show error message, etc.
+
             }
         } catch (error) {
             console.error('Profile update error:', error);
-            // Handle error, show error message, etc.
+
         }
     };
 
@@ -162,8 +161,8 @@ function EditProfile() {
                         <span className="infoLabel">Ime:</span>
                         <input
                             type="text"
-                            value={firstNameInput} // Bind input value to state
-                            onChange={handleFirstNameChange} // Handle input change
+                            value={firstNameInput}
+                            onChange={handleFirstNameChange}
                         />
                         <span className="infoValue">{user.firstName}</span>
                     </div>
@@ -176,15 +175,7 @@ function EditProfile() {
                         />
                         <span className="infoValue">{user.lastName}</span>
                     </div>
-                    {/*<div className="infoRow">
-                        <span className="infoLabel">Nadimak:</span>
-                        <input
-                            type="text"
-                            value={nicknameInput} // Bind input value to state
-                            onChange={handleNicknameChange} // Handle input change
-                        />
-                        <span className="infoValue">{user.nickname}</span>
-                    </div>*/}
+
                 </div>
 
 
@@ -194,8 +185,8 @@ function EditProfile() {
                         <span className="infoLabel">Email:</span>
                         <input
                             type="text"
-                            value={emailInput} // Bind input value to state
-                            onChange={handleEmailChange} // Handle input change
+                            value={emailInput}
+                            onChange={handleEmailChange}
                         />
                         <span className="infoValue">{user.email}</span>
                     </div>
@@ -203,8 +194,8 @@ function EditProfile() {
                         <span className="infoLabel">Broj mobitela:</span>
                         <input
                             type="text"
-                            value={phoneNumberInput} // Bind input value to state
-                            onChange={handlePhoneNumberChange} // Handle input change
+                            value={phoneNumberInput}
+                            onChange={handlePhoneNumberChange}
                         />
                         <span className="infoValue">{user.phoneNumber}</span>
                     </div>

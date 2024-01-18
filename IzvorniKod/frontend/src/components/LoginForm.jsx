@@ -8,7 +8,7 @@ function LoginForm() {
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [admins, setAdmins] = useState([]);
-    const navigate = useNavigate();  // Hook to get history object
+    const navigate = useNavigate();
     const [isInvalidCredentials, setIsInvalidCredentials] = useState(false);
 
     useEffect(() => {
@@ -69,11 +69,11 @@ function LoginForm() {
                 else {
                     localStorage.setItem('authToken', data.authToken);
                     const decodedToken = jwtDecode(data.authToken);
-                    // Determine the navigation path based on whether the user is an admin
+
                     const isAdmin = admins.includes(decodedToken.nickname);
                     const path = isAdmin ? '/admin-home' : '/home';
                     navigate(path);
-                    window.location.reload() //only used for showing nickname under the account logo
+                    window.location.reload()
                 }
             } else {
                 setErrorMessage(data.message || 'Login failed. Please try again.');

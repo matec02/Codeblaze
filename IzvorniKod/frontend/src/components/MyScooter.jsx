@@ -3,16 +3,14 @@ import ScooterCardHome from './ScooterCardHome';
 import ScooterCard from './ScooterCard';
 import RegisterScooterForm from './RegisterScooterForm';
 import './MyScooter.css';
-import MyScooter1 from '../assets/scooters.png';
 import {getNicknameFromToken} from "./RegisterScooterForm";
-import Listing1 from "../assets/exampleListing1.png";
 import WelcomePage from "./WelcomePage";
 
 
 function MyScooter() {
     const [scooters, setScooters] = useState([]);
     const [listings, setListings] = useState([]);
-    const [activeTab, setActiveTab] = useState('viewScooters'); // 'viewScooters' or 'addScooter' or 'viewListings'
+    const [activeTab, setActiveTab] = useState('viewScooters');
     const [user, setUser] = useState('');
     const textBeforeBreakScooter = "Trenutačno nemate registriranih romobila"
     const textAfterBreakScooter = "Odaberite opciju dodavanja romobila i započnite iznajmljivati!"
@@ -35,7 +33,7 @@ function MyScooter() {
 
     const addScooter = (newScooter) => {
         setScooters([...scooters, newScooter]);
-        setActiveTab('viewScooters'); // Switch back to the view tab after adding
+        setActiveTab('viewScooters');
     };
 
     const handleUser = async (event) => {
@@ -122,7 +120,6 @@ function MyScooter() {
                     </div>
                     {scooters.filter(scooter => !scooter.deleted).length === 0 && (
                         <WelcomePage
-
                             textBeforeBreak={textBeforeBreakScooter}
                             textAfterBreak={textAfterBreakScooter}
                         />
@@ -146,7 +143,6 @@ function MyScooter() {
                     </div>
                 ) : (
                     <WelcomePage
-
                         textBeforeBreak={textBeforeBreakListing}
                         textAfterBreak={textAfterBreakListing}
                     />

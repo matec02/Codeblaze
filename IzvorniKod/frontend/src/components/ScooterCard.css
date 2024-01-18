@@ -56,7 +56,7 @@
 }
 
 .ad-form {
-    width: 45%; /* or any specific width like 300px */
+    width: 45%;
 }
 
 .scooter-details {
@@ -95,7 +95,7 @@
     transition: background-color 0.3s ease;
 }
 
-/* Profile Avatar Style */
+
 .profile-avatar {
     width: 60px;
     height: 60px;
@@ -108,7 +108,7 @@
     border-color: #aaa;
 }
 
-/* Expanded View Styles */
+
 .scooter.expanded {
     position: fixed;
     top: 0;
@@ -160,7 +160,7 @@
 .scooter.expanded .scooter-details {
     text-align: center;
     margin-top: 10px;
-    width: 100%; /* Osigurava da se detalji prikazuju u cijeloj širini */
+    width: 100%;
 }
 
 .scooter.expanded .social-share-buttons ul {
@@ -215,8 +215,8 @@
 }
 
 .confirm-exchange-button {
-    background-color: #FFD860; /* Žuta pozadina */
-    color: #000; /* Crna boja teksta */
+    background-color: #FFD860;
+    color: #000;
     border: none;
     border-radius: 4px;
     padding: 8px 16px;
@@ -228,6 +228,6 @@
 }
 
 .confirm-exchange-button:hover {
-    background-color: #000; /* Crna pozadina na hover */
-    color: #FFD860; /* Žuti tekst na hover */
+    background-color: #000;
+    color: #FFD860;
 }

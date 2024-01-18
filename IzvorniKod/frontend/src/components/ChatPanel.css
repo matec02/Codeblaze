@@ -1,18 +1,18 @@
 .chat-panel {
     width: 100%;
-    max-width: 600px; /* Maksimalna širina panela */
-    margin: 20px auto; /* Centriranje na stranici */
-    background-color: #f8f8f8; /* Svijetla pozadina */
-    border: 1px solid #ddd; /* Tanak sivi okvir */
-    border-radius: 8px; /* Zaobljeni rubovi */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Blaga sjenka */
-    padding: 20px; /* Unutarnji razmak */
+    max-width: 600px;
+    margin: 20px auto;
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
 }
 
 .chat-list {
-    list-style: none; /* Uklanja stil liste */
-    padding: 0; /* Uklanja padding */
-    margin: 0; /* Uklanja marginu */
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 .chat-item {
@@ -29,16 +29,16 @@
 }
 
 .chat-item:hover {
-    background-color: #f0f0f0; /* Promjena boje pozadine prilikom prelaska miša */
+    background-color: #f0f0f0;
 }
 
 .chat-item .chat-title {
-    margin-top: 0; /* Uklanja gornji margin */
-    margin-bottom: 5px; /* Razmak ispod naslova */
-    color: #000; /* Crna boja za naslov */
+    margin-top: 0;
+    margin-bottom: 5px;
+    color: #000;
     font-size: 1.2em;
-    font-weight: bold; /* Boldani tekst za naslov */
-    text-align: left; /* Tekst poravnat lijevo */
+    font-weight: bold;
+    text-align: left;
 }
 
 .chat-item .last-message {
@@ -47,34 +47,31 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    width: 90%; /* Allow the text to take the full width of the container */
+    width: 90%;
 }
-
-/* Dodatno: stil za neaktivni tekst */
 .chat-item .inactive {
-    color: #aaa; /* Svijetlo siva boja za neaktivan tekst */
+    color: #aaa;
 }
-
 .item-inside {
     display: flex;
     flex-direction: row;
 }
 
 .unread-count {
-    background-color: #FFD860; /* Vibrant red background color */
-    color: black; /* White text color */
-    border-radius: 12px; /* Rounded corners for circular shape */
-    padding: 2px 6px; /* Padding inside the badge */
-    font-size: 0.75em; /* Font size for the text inside the badge */
-    font-weight: bold; /* Bold font weight */
-    margin-left: auto; /* Pushes the badge to the right */
-    margin-right: 15px; /* Margin from the right edge */
+    background-color: #FFD860;
+    color: black;
+    border-radius: 12px;
+    padding: 2px 6px;
+    font-size: 0.75em;
+    font-weight: bold;
+    margin-left: auto;
+    margin-right: 15px;
     margin-bottom: auto;
-    min-width: 20px; /* Minimum width to ensure circular shape for single digits */
-    text-align: center; /* Aligns text in the center of the badge */
-    height: 20px; /* Fixed height for the badge */
-    line-height: 20px; /* Centers text vertically within the badge */
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); /* Optional: slight shadow for depth */
-    display: inline-block; /* Ensures that padding and other box model properties are respected */
-    vertical-align: middle; /* Aligns the badge vertically in the middle with respect to sibling elements */
+    min-width: 20px;
+    text-align: center;
+    height: 20px;
+    line-height: 20px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    display: inline-block;
+    vertical-align: middle;
 }

@@ -27,25 +27,25 @@
 }
 
 .profile-pending-content button {
-    background-color: #0056b3; /* Primary color */
-    color: white; /* Text color */
-    padding: 10px 20px; /* Padding for size */
-    border: none; /* Remove border */
-    border-radius: 5px; /* Rounded corners */
-    font-size: 1em; /* Text size */
-    cursor: pointer; /* Cursor change to indicate clickability */
-    transition: background-color 0.3s, transform 0.2s; /* Smooth transition for hover effects */
-    margin-top: 20px; /* Extra space above the button */
+    background-color: #0056b3;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-top: 20px;
 }
 
 .profile-pending-content button:hover {
-    background-color: #004494; /* Darker shade on hover */
-    transform: translateY(-2px); /* Slight lift on hover */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect on hover for a 'raised' look */
+    background-color: #004494;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .profile-pending-content button:active {
-    transform: translateY(1px); /* Button 'presses down' when clicked */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Less pronounced shadow on click */
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 

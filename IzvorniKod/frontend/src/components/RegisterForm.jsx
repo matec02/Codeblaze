@@ -44,7 +44,7 @@ function RegisterForm() {
 
         if (password !== confirmPassword) {
             setErrorMessage('Passwords do not match.');
-            return; // Stop the form submission if passwords do not match
+            return;
         }
 
         setErrorMessage('');
@@ -111,12 +111,12 @@ function RegisterForm() {
                         console.error('ResponseId failed to upload');
                     }
             } else {
-                // Handle registration failure
+
                 setErrorMessage('Registration failed.');
                 console.error('Registration failed:', responseCR.statusText);
             }
         } catch (error) {
-            // Handle errors that occurred during the fetch call
+
             setErrorMessage('Registration failed.');
             console.error('An error occurred:', error);
         }
@@ -153,7 +153,7 @@ function RegisterForm() {
                     </div>
                 </div>
 
-                {/* Contact Information Section */}
+
                 <div className="section-container">
                     <div className="section-title">Kontakt podaci</div>
                     <div className="form-group">
@@ -172,7 +172,7 @@ function RegisterForm() {
                     </div>
                 </div>
 
-                {/* File Upload Section */}
+
                 <div className="section-container">
                     <div className="section-title">Dokumenti</div>
                     <div className="form-group">
@@ -184,7 +184,7 @@ function RegisterForm() {
                         <input type="file" onChange={(e) => handleFileChange(e, setIdentificationDocument)} required/>
                     </div>
                 </div>
-                {/* Payment and Security Section */}
+
                 <div className="section-container">
                     <div className="section-title">Plaćanje i sigurnost</div>
                     <div className="form-group">

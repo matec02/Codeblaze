@@ -16,7 +16,7 @@
 }
 
 .blocked-user-content h1 {
-    color: #d9534f; /* Red-ish color to indicate a warning/block */
+    color: #d9534f;
     margin-bottom: 20px;
 }
 

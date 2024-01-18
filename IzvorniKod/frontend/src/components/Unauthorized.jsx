@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Unauthorized.css'; // Import the CSS file if you created one
+import './Unauthorized.css';
 
 const Unauthorized = () => {
     const navigate = useNavigate();

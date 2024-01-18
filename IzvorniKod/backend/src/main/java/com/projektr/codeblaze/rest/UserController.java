@@ -139,7 +139,7 @@ public class UserController {
             User registeredUser = userService.register(user);
             if (registeredUser != null) {
                 logger.info("User registered successfully");
-                // Return the registered user or user ID here
+
                 return ResponseEntity.ok(registeredUser);
             } else {
                 logger.debug("Registered User is null");

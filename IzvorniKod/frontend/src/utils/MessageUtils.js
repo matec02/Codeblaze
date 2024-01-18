@@ -1,5 +1,5 @@
 import {getCodeblazeUser, getNicknameFromToken, getUserFromToken, getUserIdFromToken} from "./authService";
-import React from "react";
+
 
 export const chatHistory = function fetchChatHistory(userId) {
     fetch(`/api/messages/history/${userId}`)
@@ -160,14 +160,14 @@ export const fetchListingById = async (listingId) => {
         const response = await fetch(`/api/listing/get-listing-by-id/${listingId}`);
 
         if (!response.ok) {
-            // Handle the error. The server response was not OK.
+
             console.error('Failed to fetch listing with ID:', listingId);
             return null;
         }
 
         return await response.json();
     } catch (error) {
-        // Handle the network error
+
         console.error('Network error when fetching listing:', error);
         return null;
     }
@@ -182,7 +182,7 @@ export const getChatSessionBetweenUsers = async (user1Id, user2Id) => {
         return await response.json();
     } catch (error) {
         console.error('Error fetching chat session:', error);
-        return null; // or handle the error as needed
+        return null;
     }
 };
 

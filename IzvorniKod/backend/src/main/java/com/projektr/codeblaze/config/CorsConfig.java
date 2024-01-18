@@ -16,11 +16,11 @@ public class CorsConfig {
                 registry.addMapping("/**")
                         .allowedOrigins(
                                 "https://codeblazefe.onrender.com",
-                                "http://localhost:3000" // Add any other origins you need
+                                "http://localhost:3000"
                         )
-                        .allowedMethods("*") // You can specify methods like "GET", "POST", etc.
-                        .allowedHeaders("*") // Allows all headers
-                        .allowCredentials(true); // Set this based on your requirements
+                        .allowedMethods("*")
+                        .allowedHeaders("*")
+                        .allowCredentials(true);
             }
         };
     }

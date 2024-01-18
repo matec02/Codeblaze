@@ -50,12 +50,11 @@ function SocialMediaModal({ isOpen, onClose, platform, onSave }) {
         useEffect(() => {
             getUserFromToken().then(user => {
 
-                setUserRole(user.role);  // Update state here
+                setUserRole(user.role);
             }).catch(error => {
                 console.error("Error fetching user:", error);
             });
-            // Other useEffect content...
-        }, []); // Empty dependency array to run only on component mount
+        }, []);
 
 
         useEffect(() => {
@@ -125,7 +124,7 @@ function SocialMediaModal({ isOpen, onClose, platform, onSave }) {
         };
 
         const fetchUsers = async (url, setState) => {
-            setErrorMessage(''); // Resetting the error message
+            setErrorMessage('');
 
             try {
                 const response = await fetch(url, {
@@ -141,7 +140,7 @@ function SocialMediaModal({ isOpen, onClose, platform, onSave }) {
 
 
                 const data = await response.json();
-                setState(data); // Setting the state with the fetched data
+                setState(data);
 
             } catch (error) {
                 console.error("Failed to fetch users: ", error);
@@ -212,7 +211,7 @@ function SocialMediaModal({ isOpen, onClose, platform, onSave }) {
                             )}
                         </div>
                     ) : (
-                        <div>
+                        <div className="login-register">
                             <div className="navbar-login" onClick={() => navigate('/login')}>
                                 Prijava
                             </div>

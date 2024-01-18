@@ -144,12 +144,9 @@ function ScooterCard({listing}) {
 
     useEffect(() => {
         if (NotificationImageChange) {
-            // Set a timer to hide the notification
             const timer = setTimeout(() => {
                 setNotificationImageChange(false);
-            }, 3000); // Change 5000 to however many milliseconds you want the notification to show
-
-            // Clear the timer if the component unmounts
+            }, 3000);
             return () => clearTimeout(timer);
         }
     }, [NotificationImageChange]);
@@ -259,7 +256,7 @@ function ScooterCard({listing}) {
         }
 
         try {
-            // First, make a GET request to fetch the user by nickname
+
             const userResponse = await fetch(`/api/users/by-nickname/${nickname}`);
             if (!userResponse.ok) {
 
@@ -343,7 +340,7 @@ function ScooterCard({listing}) {
                 {text: 'Zamjeni sliku', onClick: (e) => handleButtonClick(e, 'prijavi')}
             ];
         } else if (isCurrentUserOwner) {
-            let actions = []; // Initialize actions here to make it available in the entire block
+            let actions = [];
             let isListingRequestedForImageChange = allRequests.some(request =>
                 request.listing.listingId === listing.listingId && request.status === "REQUESTED");
 
@@ -371,7 +368,7 @@ function ScooterCard({listing}) {
                 ];
             } else {
                 const handleLoginClick = (e) => {
-                    e.stopPropagation();  // Stop the event from bubbling up
+                    e.stopPropagation();
                     setNotificationLogin(true);
                     setTimeout(() => {
                         navigate("/login");
@@ -405,7 +402,7 @@ function ScooterCard({listing}) {
             }
 
             const chatSessionId = await sendMessageWithAction(scooter.user, listingId, scooter.manufacturer, scooter.model, scooter.yearOfManufacture);
-            //navigate(`/chat-window/${chatSessionId}`);
+
             navigate(`/chat-panel`);
 
         } catch (error) {

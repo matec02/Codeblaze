@@ -7,14 +7,11 @@
 .admin-home-container h2 {
     text-align: center;
     background-color:  #FFD860;
-                /* Maintain the existing vibrant yellow color */
-    padding: 20px;               /* Increase padding for a more pronounced look */
-    margin-top: 15px;            /* Keep the top margin to separate from elements above */
-         /* Add a dark background for contrast */
-    border-radius: 5px;          /* Round the corners of the heading */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    /* Make the background only as wide as the content */
-    border: 2px solid #FFD860;   /* Add a border that matches the text color */
+    padding: 20px;
+    margin-top: 15px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 2px solid #FFD860;
     margin-bottom: 30px;
     display: inline-block;
 

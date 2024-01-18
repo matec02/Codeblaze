@@ -26,7 +26,6 @@ public class Document {
     @Column(name = "status", nullable = false, length = 50)
     private DocumentStatus status;
 
-    // getters and setters
 }
 
 

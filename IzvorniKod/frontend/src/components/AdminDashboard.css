@@ -2,30 +2,30 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* subtle shadow for depth */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 th, td {
     border: 1px solid #ddd;
     padding: 10px;
-    text-align: center; /* Center-align data */
-    vertical-align: middle; /* Align data vertically in the middle */
+    text-align: center;
+    vertical-align: middle;
 }
 
 th {
-    background-color: #eaecef; /* Smooth, light gray background for the header */
-    color: #333; /* Darker text for contrast */
+    background-color: #eaecef;
+    color: #333;
     font-size: 16px;
 }
 
 
 tbody tr:hover {
-    background-color: #f1f1f1; /* Slight change in background color on hover */
+    background-color: #f1f1f1;
 }
 
 .approve {
     padding: 6px 12px;
-    background-color: #4da852; /* A pleasant green background for buttons */
+    background-color: #4da852;
     color: white;
     border: none;
     border-radius: 4px;
@@ -33,43 +33,42 @@ tbody tr:hover {
 }
 
 .approve:hover {
-    background-color: #8ae58c; /* Darker shade of green on hover */
+    background-color: #8ae58c;
 }
 
 .adminNavBar {
-    background-color: #f2f2f2; /* Light gray background */
-    padding: 10px 20px; /* Padding around the content */
-    margin-bottom: 20px; /* Space below the navbar */
-    text-align: center; /* Center the links */
-    border-radius: 5px; /* Slightly rounded corners */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    background-color: #f2f2f2;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 .admin-div{
     background-color: white;
 }
 .highlighted-text {
-    color: #FF0000; /* Or any color you like */
+    color: #FF0000;
     font-weight: bold;
 }
 
 h1 {
-    text-align: center; /* Centers the text */
-    color: #332929; /* White text for readability */
-    padding: 20px; /* Adds space around the text */
-    margin-top: 0; /* Removes the default top margin */
-    border-radius: 5px; /* Rounds the corners of the background */
+    text-align: center;
+    color: #332929;
+    padding: 20px;
+    margin-top: 0;
+    border-radius: 5px;
 }
 
 h3 {
-    color: #FFD860;             /* Maintain the existing vibrant yellow color */
-    padding: 20px;               /* Increase padding for a more pronounced look */
-    margin-top: 15px;            /* Keep the top margin to separate from elements above */
-    text-align: center;          /* Center-align text for a balanced appearance */
-    background-color: #333;      /* Add a dark background for contrast */
-    border-radius: 5px;          /* Round the corners of the heading */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    /* Make the background only as wide as the content */
-    border: 2px solid #FFD860;   /* Add a border that matches the text color */
+    color: #FFD860;
+    padding: 20px;
+    margin-top: 15px;
+    text-align: center;
+    background-color: #333;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 2px solid #FFD860;
     margin-bottom: 30px;
     display: block;
 }
@@ -84,7 +83,7 @@ h3 {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1000; /* Ensure it's above other content */
+    z-index: 1000;
 }
 
 .modal-content {
@@ -105,19 +104,19 @@ h3 {
     height: auto;
 }
 
-/* Target the action buttons specifically within the user table */
+
 .user-table-action-buttons {
     text-align: center;
     vertical-align: middle;
 }
 
-/* Apply to all cells within the user table if needed */
+
 .user-table td {
     text-align: center;
     vertical-align: middle;
 }
 
-/* If the button inside the user table cells needs centering */
+
 .user-table-button {
     display: block;
     margin: 0 auto;
@@ -126,35 +125,32 @@ h3 {
 
 
 .action-buttons {
-    text-align: center; /* Center the content of the cell */
-    padding: 8px; /* Add some padding */
+    text-align: center;
+    padding: 8px;
 }
 
 .action-buttons button {
-    margin: 0 5px; /* Add space between buttons */
-    /* Additional button styles */
+    margin: 0 5px;
 }
 
-/* You might also want to add styles for the buttons themselves */
 button.approve, button.reject, button.make-admin, button.block {
-    padding: 5px 10px; /* Padding inside the buttons */
-    border: none; /* Remove the border */
-    border-radius: 4px; /* Rounded corners */
-    cursor: pointer; /* Change the cursor to a pointer */
-    /* Add more styles if needed */
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 button.approve, button.make-admin {
-    background-color: #4CAF50; /* Green background for approve */
+    background-color: #4CAF50;
     color: white;
 }
 
 button.reject, button.block {
-    background-color: #f44336; /* Red background for reject */
+    background-color: #f44336;
     color: white;
 }
 
-/* Hover effect for buttons */
+
 button.approve:hover {
     background-color: #45a049;
 }
@@ -165,55 +161,46 @@ button.reject:hover {
 
 
 .adminNavBar a {
-    color: #333; /* Darker text color for better contrast */
-    margin: 0 10px; /* Spacing between links */
-    text-decoration: none; /* Remove underline from links */
-    font-weight: bold; /* Make text bold */
+    color: #333;
+    margin: 0 10px;
+    text-decoration: none;
+    font-weight: bold;
 }
 
 .adminNavBar a:hover {
-    color: #007bff; /* Change color on hover for interactivity */
-    text-decoration: underline; /* Add underline on hover */
+    color: #007bff;
+    text-decoration: underline;
 }
 
-/* Other styles... */
-
-/* Responsive table */
 @media screen and (max-width: 1000px) {
-    /* Make table rows behave like rows */
     table, thead, tbody, tr {
         display: block;
     }
-
     tr {
         border: 3px solid #000;
         margin-bottom: 15px;
     }
-    /* Hide table headers */
     thead {
         display: none;
     }
-
-    /* Style each cell */
     td {
         display: block;
         text-align: right;
-        padding-left: 50%;  /* Adjust as needed */
+        padding-left: 50%;
         position: relative;
     }
 
-    /* Add the header text before each cell */
+
     td::before {
         content: attr(data-label);
         position: absolute;
         left: 0;
-        width: 50%;  /* Adjust as needed */
-        padding-right: 10px; /* Space between header text and cell content */
+        width: 50%;
+        padding-right: 10px;
         font-weight: bold;
         text-align: left;
     }
 
-    /* Additional styling for cells to separate them visually */
     td {
         border-bottom: 1px solid #ddd;
         padding: 8px;

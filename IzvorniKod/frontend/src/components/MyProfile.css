@@ -1,13 +1,12 @@
-/* MyProfile.css */
 .container {
-    width: 40%; /* Širina kontejnera */
-    background-color: #fff; /* Bijela pozadina */
-    border: 1px solid #ddd; /* Sivi border */
-    border-radius: 8px; /* Zaobljeni rubovi */
+    width: 40%;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
     padding: 16px;
-    margin: 20px auto; /* Automatska margina za centriranje */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Sjenčanje kao kod scooter karte */
-    text-align: center; /* Tekst centriran */
+    margin: 20px auto;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
     transition: box-shadow 0.3s ease-in-out;
 }
 
@@ -43,24 +42,22 @@
 .infoLabel {
     font-weight: bold;
     color: #555;
-    min-width: 150px; /* Postavite minimalnu širinu za labele */
-    text-align: left; /* Tekst poravnajte ulijevo */
+    min-width: 150px;
+    text-align: left;
 }
 
 .infoValue {
     color: #777;
-    text-align: right; /* Tekst poravnajte udesno */
+    text-align: right;
 }
 
 .radioGroup {
     display: flex;
-    justify-content: flex-end; /* Poravnajte elemente na početak */
+    justify-content: flex-end;
     align-items: center;
-    width: calc(100% - 150px); /* Oduzmite širinu labele od ukupne širine */
+    width: calc(100% - 150px);
 }
 
-
-/* Style for radio buttons and save button */
 input[type="radio"] {
     margin: 0 5px;
 }
@@ -81,7 +78,7 @@ button:hover {
 
 .deleteButton {
     padding: 8px 16px;
-    background-color: #dc3545; /* Red color */
+    background-color: #dc3545;
     color: white;
     border: none;
     border-radius: 4px;
@@ -90,5 +87,5 @@ button:hover {
 }
 
 .deleteButton:hover {
-    background-color: #c82333; /* Darker red on hover */
+    background-color: #c82333;
 }

@@ -42,7 +42,7 @@
     margin-bottom: 10px;
 }
 
-/* NavBar styles */
+
 .navbar {
 
     display: flex;
@@ -51,11 +51,11 @@
     background-color: #000;
     padding: 0.5rem 1rem;
     color: #FFD860;
-    font-size: 1.2rem; /*Provjeri s ostalima*/
+    font-size: 1.2rem;
 }
 
 .navbar-logo img {
-    height: 50px; /* Adjust size as necessary */
+    height: 50px;
 }
 
 .navbar-links {
@@ -67,7 +67,7 @@
 }
 
 .navbar-logo img {
-    height: 50px; /* Adjust as needed */
+    height: 50px;
     cursor: pointer;
 }
 
@@ -85,10 +85,10 @@
 }
 
 .navbar-links li:hover {
-    color: #ddd; /* Adjust hover color as needed */
+    color: #ddd;
 }
 
-/* Account and dropdown styles */
+
 .navbar-account {
     position: relative;
 }
@@ -100,12 +100,13 @@
     cursor: pointer;
     display: flex;
     align-items: center;
-    font-size: 16px; /* Adjust as needed */
+    font-size: 16px;
+    margin-top: 0;
 }
 
 .navbar-account img {
     margin-right: 10px;
-    height: 30px; /* Adjust as needed */
+    height: 30px;
 }
 
 .dropdown-menu {
@@ -146,7 +147,7 @@
 
 
 .navbar-links li {
-    padding: 0 1rem; /* Adjust spacing as necessary */
+    padding: 0 1rem;
 }
 
 .navbar-links li a {
@@ -155,7 +156,7 @@
 }
 
 .navbar-links li a:hover {
-    text-decoration: underline; /* Or any other hover effect you prefer */
+    text-decoration: underline;
 }
 
 .navbar-login a {
@@ -165,7 +166,7 @@
 }
 
 .navbar-login a:hover {
-    text-decoration: underline; /* Or any other hover effect you prefer */
+    text-decoration: underline;
 }
 
 .navbar-register a {
@@ -175,15 +176,29 @@
 }
 
 .navbar-register a:hover {
-    text-decoration: underline; /* Or any other hover effect you prefer */
+    text-decoration: underline;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
+
+@media (max-width: 955px) {
     .navbar {
         flex-direction: column;
     }
+    .social-media-buttons{
+        margin-right: 0;
 
+    }
+    .login-register{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .navbar-account{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+    }
     .navbar-links {
         flex-direction: column;
     }
@@ -192,11 +207,13 @@
     .navbar-login {
         width: 100%;
         text-align: center;
+        align-items: center;
+        margin-left: 0;
     }
 }
 
 .navbar-links li, .navbar-login {
-    cursor: pointer; /* Makes the mouse cursor indicate clickable items */
+    cursor: pointer;
     color: #FFD860;
     text-decoration: none;
     padding: 0.5rem 1rem;
@@ -204,14 +221,14 @@
 }
 
 .navbar-links li:hover, .navbar-login:hover {
-    text-decoration: underline; /* Or any other hover effect you prefer */
+    text-decoration: underline;
 }
 
 .navbar-account img {
     background-color: white;
-    display: flex;        /* Enable flexbox */
-    flex-direction: column; /* Stack flex items vertically */
-    align-items: center;  /* Center items horizontally */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     cursor: pointer;
     border-radius: 7px;
 }
@@ -228,14 +245,13 @@
     background-color: #FFD860;
     color: black;
     border-radius: 30%;
-    padding: 0.5em; /* Adjust padding as needed */
+    padding: 0.5em;
     font-size: 0.75em;
-    /* Align the badge closer to the text */
     position: relative;
-    top: -20px; /* Adjust as needed for vertical alignment */
-    right: -20px; /* Adjust as needed for horizontal alignment */
-    margin-left: -20px; /* Use negative margin to pull the badge closer */
-    display: inline-block; /* This makes it possible to use top/right properties */
+    top: -20px;
+    right: -20px;
+    margin-left: -20px;
+    display: inline-block;
 }
 
 

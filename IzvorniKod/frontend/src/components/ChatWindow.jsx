@@ -10,7 +10,7 @@ import MessageRequestWithButton from "./MessageRequestWithButton";
 
 function ChatWindow() {
     const [newMessage, setNewMessage] = useState('');
-    const [messages, setMessages] = useState([]); // State to store messages from the server
+    const [messages, setMessages] = useState([]);
     const {chatSessionId} = useParams();
     const currentNickname = getNicknameFromToken()
     const [otherUser, setOtherUser] = useState(null);
@@ -150,8 +150,8 @@ function ChatWindow() {
                 {messages.map(message => {
                     const messageSenderClass = message.senderUsername === currentNickname ? 'mine' : 'theirs';
                     const isLastSentMessage = message.messageId === lastSentMessageId(messages);
-                    //console.log(message.listingId) tu je undefined
-                    //console.log(message.text) ovaj je dobar
+
+                    //console.log(message.text)
 
                     if (message.messageType === "ACTION") {
                         return (
