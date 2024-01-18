@@ -3,11 +3,11 @@ import "./MessageWithButtons.css";
 import {fetchListingById, sendMessageResponse} from "../utils/MessageUtils";
 
 
-function MessageWithButtons({ messageId, chatSessionId, senderUsername, listingId, text, sender, isSeen }) {
+function MessageWithButtons({messageId, chatSessionId, senderUsername, listingId, text, sender, isSeen}) {
     const [listing, setListing] = useState(null);
 
-    useEffect( () => {
-        const fetchListing = async() => {
+    useEffect(() => {
+        const fetchListing = async () => {
             const data = await fetchListingById(listingId);
             setListing(data);
         };
@@ -26,8 +26,8 @@ function MessageWithButtons({ messageId, chatSessionId, senderUsername, listingI
     const handleOnAccept = async () => {
         try {
             const formData = new FormData();
-            formData.append('status', new Blob([JSON.stringify("RENTED")], { type: "application/json" }));
-            formData.append('clientUsername', new Blob([JSON.stringify(senderUsername)], { type: "application/json" }));
+            formData.append('status', new Blob([JSON.stringify("RENTED")], {type: "application/json"}));
+            formData.append('clientUsername', new Blob([JSON.stringify(senderUsername)], {type: "application/json"}));
 
             const response = await fetch(`/api/listing/update-listing/${listingId}`, {
                 method: 'PUT',
@@ -49,22 +49,24 @@ function MessageWithButtons({ messageId, chatSessionId, senderUsername, listingI
                     String(date.getMinutes()).padStart(2, '0') + ':' +
                     String(date.getSeconds()).padStart(2, '0');
                 let listingDetails = `Trenutna adresa: ${listing.currentAddress}\n Povratak na adresu: ${listing.returnAddress}\n VRATI DO: ${formattedDate}\n`;
-                if (listing.notes) { listingDetails += "Dodatne napomene: ${listing.notes}"}
+                if (listing.notes) {
+                    listingDetails += "Dodatne napomene: ${listing.notes}"
+                }
                 await sendMessageResponse(`Dogovoreno! Poštuj sljedeće uvjete oglasa i želim ti sretnu i sigurnu vožnju\n\n ${listingDetails}`, chatSessionId);
             } else {
                 await sendMessageResponse("Dogovoreno! Molim te da paziš na romobil i punkcionalnost te želim ti sretnu i sigurnu vožnju.", chatSessionId);
             }
             window.location.reload();
         } catch (error) {
-                console.error('Error updating listing:', error);
-            }
+            console.error('Error updating listing:', error);
+        }
     };
 
     const handleOnDecline = async () => {
         try {
             const formData = new FormData();
-            formData.append('status', new Blob([JSON.stringify("AVAILABLE")], { type: "application/json" }));
-            formData.append('clientUsername', new Blob([JSON.stringify(null)], { type: "application/json" }));
+            formData.append('status', new Blob([JSON.stringify("AVAILABLE")], {type: "application/json"}));
+            formData.append('clientUsername', new Blob([JSON.stringify(null)], {type: "application/json"}));
 
             const response = await fetch(`/api/listing/update-listing/${listingId}`, {
                 method: 'PUT',
@@ -105,14 +107,14 @@ function MessageWithButtons({ messageId, chatSessionId, senderUsername, listingI
                     {text.split('\n').map((line, index) => (
                         <span key={index}>
                             {line}
-                            <br />
+                            <br/>
                         </span>
                     ))}
                 </p>
-                { (sender === "theirs") &&
+                {(sender === "theirs") &&
                     <div className="message-buttons">
-                        <button onClick={handleOnAccept}>Prihvati</button>
-                        <button onClick={handleOnDecline}>Odbij</button>
+                        <button onClick={handleOnAccept} className="accept-button">Prihvati</button>
+                        <button onClick={handleOnDecline} className="decline-button">Odbij</button>
                     </div>
                 }
                 {renderSeenIndicator()}

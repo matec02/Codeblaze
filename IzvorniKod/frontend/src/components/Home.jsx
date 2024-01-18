@@ -16,7 +16,6 @@ function Home() {
     const text2 = "Trenutačno su svi romobili iznajmljeni ili nema dostupnih oglasa!"
 
 
-
     useEffect(() => {
         handleAvailableListings();
     }, []);
@@ -105,7 +104,7 @@ function Home() {
                         <h3>Trenutno koristite:</h3>
                         <div className="scooter-grid">
                             {rentedListings.map((listing, index) => (
-                                <ScooterCard key={index} listing={listing} />
+                                <ScooterCard key={index} listing={listing}/>
                             ))}
                         </div>
                     </div>
@@ -113,10 +112,10 @@ function Home() {
 
                 {availableListings.length > 0 && (
                     <div className="available">
-                        <h3>Dostupni oglasi:</h3>
+                        <h3>Dostupni oglasi</h3>
                         <div className="scooter-grid">
                             {availableListings.map((listing, index) => (
-                                <ScooterCard key={index} listing={listing} />
+                                <ScooterCard key={index} listing={listing}/>
                             ))}
                         </div>
                     </div>

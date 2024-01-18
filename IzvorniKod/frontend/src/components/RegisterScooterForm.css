@@ -15,13 +15,18 @@
 
 .register-scooter-form label {
     font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.text-head {
     margin-bottom: 5px;
+
 }
 
 .register-scooter-form input[type="text"],
 .register-scooter-form input[type="number"],
-.register-scooter-form textarea {
-    width: 100%;
+.register-scooter-form input[type="file"] {
+    width: 90%;
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 4px;

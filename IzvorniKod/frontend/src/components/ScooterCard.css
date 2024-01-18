@@ -32,7 +32,7 @@
     white-space: nowrap;
 }
 
-#profile-avatar-hover{
+#profile-avatar-hover {
     left: 250%;
     transform: translate(-50%, 0%);
 
@@ -90,7 +90,9 @@
 }
 
 .scooter-button:hover {
-    background-color: #333;
+    background-color: #FFD860;
+    color: #000;
+    transition: background-color 0.3s ease;
 }
 
 /* Profile Avatar Style */
@@ -134,6 +136,7 @@
     flex-direction: column;
     align-items: center;
 }
+
 .scooter.expanded .expanded-content {
     display: flex;
     flex-direction: column;
@@ -209,4 +212,22 @@
 
 .scooter.expanded .scooter-button:hover {
     background-color: #333;
+}
+
+.confirm-exchange-button {
+    background-color: #FFD860; /* Žuta pozadina */
+    color: #000; /* Crna boja teksta */
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 1em;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin-bottom: 10px;
+}
+
+.confirm-exchange-button:hover {
+    background-color: #000; /* Crna pozadina na hover */
+    color: #FFD860; /* Žuti tekst na hover */
 }

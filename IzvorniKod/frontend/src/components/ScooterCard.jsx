@@ -4,11 +4,16 @@ import {Form, useNavigate} from "react-router-dom";
 import ProfileAvatar from '../assets/profile-avatar.png';
 import {getNicknameFromToken} from "./RegisterScooterForm";
 import {format} from 'date-fns';
-import {handleEndOfTransactionMessage, sendMessageResponse, sendMessageWithAction, startConversation} from "../utils/MessageUtils";
+import {
+    handleEndOfTransactionMessage,
+    sendMessageResponse,
+    sendMessageWithAction,
+    startConversation
+} from "../utils/MessageUtils";
 import {FaFacebook, FaTwitter, FaLinkedin} from 'react-icons/fa';
 import {startTransaction} from "./Transactions";
 import {sendMessageFromCodeblazeWithAction} from "../utils/MessageUtils";
-import { useLocation } from "react-router-dom";
+import {useLocation} from "react-router-dom";
 
 export const ProfileModal = ({isOpen, onClose, profile}) => {
     const [privacySettings, setPrivacySettings] = useState(null);
@@ -61,7 +66,7 @@ export const ProfileModal = ({isOpen, onClose, profile}) => {
         }
     }
 
-    const handleOnRating = async() => {
+    const handleOnRating = async () => {
         navigate(`/reviews/user/${profile.userId}`);
     }
 
@@ -235,6 +240,7 @@ function ScooterCard({listing}) {
     const handleCardClick = () => {
         setIsExpanded(true);
     };
+
     function toLocalDateTime(date) {
         const offset = date.getTimezoneOffset();
         const localTime = new Date(date.getTime() - offset * 60000);
@@ -372,8 +378,8 @@ function ScooterCard({listing}) {
                     }, 2000);
                 };
                 return [
-                    { text: 'Unajmi', onClick: (e) => handleLoginClick(e)},
-                    { text: 'Zamjeni sliku', onClick: (e) => handleLoginClick(e) }
+                    {text: 'Unajmi', onClick: (e) => handleLoginClick(e)},
+                    {text: 'Zamjeni sliku', onClick: (e) => handleLoginClick(e)}
                 ];
             }
         }
@@ -446,12 +452,12 @@ function ScooterCard({listing}) {
         try {
             let matchingRequest = allRequests.find(request => request.listing.listingId === listing.listingId
                 && request.status == 'REQUESTED');
-            const response = await fetch (`/api/imageChangeRequest/update-status/${matchingRequest.imageId}`, {
+            const response = await fetch(`/api/imageChangeRequest/update-status/${matchingRequest.imageId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ status: 'PENDING' })
+                body: JSON.stringify({status: 'PENDING'})
             });
 
             if (!response.ok) {
@@ -504,9 +510,11 @@ function ScooterCard({listing}) {
             const {name, value} = event.target;
             const dateTime = new Date(localListing.returnByTime);
             const formattedDateTime = dateTime.toISOString().split('.')[0];
-            setLocalListing({...localListing,
+            setLocalListing({
+                ...localListing,
                 listingTime: formattedDateTime,
-                [name]: value});
+                [name]: value
+            });
         };
         const handleAdSubmit = async (event) => {
             event.preventDefault();
@@ -545,13 +553,13 @@ function ScooterCard({listing}) {
                             <label>Trenutna adresa</label>
                             <input type="text" name="currentAddress" value={localListing.currentAddress}
                                    onChange={handleAdChange}
-                                   placeholder="Upišite trenutnu adresu romobila" required />
+                                   placeholder="Upišite trenutnu adresu romobila" required/>
                         </div>
                         <div className="form-group">
                             <label>Adresa povratka</label>
                             <input type="text" name="returnAddress" value={localListing.returnAddress}
                                    placeholder="Upišite adresu povratka romobila"
-                                   onChange={handleAdChange} required />
+                                   onChange={handleAdChange} required/>
                         </div>
                         <div className="form-group">
                             <label>Cijena po kilometru</label>
@@ -600,10 +608,10 @@ function ScooterCard({listing}) {
                 <img src={ProfileAvatar} alt={"PROFILE"} className="profile-avatar"
                      onClick={(e) => handleViewProfile(e)}
                      style={{cursor: 'pointer'}}/>
-                    <span className="tooltip-text" id="profile-avatar-hover">Pogledaj profil iznajmljivača
+                <span className="tooltip-text" id="profile-avatar-hover">Pogledaj profil iznajmljivača
                     </span>
             </div>
-            <div className="renter-nickname" style={{ cursor: 'pointer', marginBottom: '8px' }}
+            <div className="renter-nickname" style={{cursor: 'pointer', marginBottom: '8px'}}
                  onClick={(e) => handleViewProfile(e)}>
                 {scooter.user.nickname}
             </div>
@@ -612,8 +620,8 @@ function ScooterCard({listing}) {
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                         <div className="expanded-content">
 
-                                <img src={imagePath} alt={`${model} Scooter`} className="scooter-image"
-                                     style={{paddingBottom: '5%'}}/>
+                            <img src={imagePath} alt={`${model} Scooter`} className="scooter-image"
+                                 style={{paddingBottom: '5%'}}/>
 
 
                             <div className="image-container">
@@ -630,8 +638,10 @@ function ScooterCard({listing}) {
                                 <h3>{model}</h3>
                                 <p><strong>Brzina:</strong> {maxSpeed} km/h</p>
                                 <p><strong>Kapacitet:</strong> {batteryCapacity} kWh</p>
-                                <p><strong>Godina Proizvodnje:</strong> {scooter.yearOfManufacture || "Trenutačno nepoznato"} </p>
-                                <p><strong>Dodatne informacije:</strong> {scooter.additionalInformation || "Trenutačno nepoznato"}</p>
+                                <p><strong>Godina
+                                    Proizvodnje:</strong> {scooter.yearOfManufacture || "Trenutačno nepoznato"} </p>
+                                <p><strong>Dodatne
+                                    informacije:</strong> {scooter.additionalInformation || "Trenutačno nepoznato"}</p>
                                 <p><strong>Doseg:</strong> {(scooter.maxRange + " km") || "Trenutačno nepoznato"} </p>
                                 <p><strong>Trenutna adresa:</strong> {listing.currentAddress} </p>
                                 <p><strong>Adresa povratka:</strong> {listing.returnAddress} </p>
@@ -687,7 +697,7 @@ function ScooterCard({listing}) {
                                     className="scooter-button"
                                     onClick={button.onClick}
                                     style={button.text === "Prijava loše zamjene slike"
-                                        ? { display: isButtonForBadChangeHidden ? "none" : "block" } : {}}
+                                        ? {display: isButtonForBadChangeHidden ? "none" : "block"} : {}}
                                 >
                                     {button.text}
                                 </button>
@@ -718,7 +728,8 @@ function ScooterCard({listing}) {
                                         name="comments"
                                         value={comments}
                                         onChange={(e) => setComments(e.target.value)}
-                                        style={{ width: '85%',
+                                        style={{
+                                            width: '85%',
                                             height: '80px',
                                             resize: 'none'
                                         }}
@@ -728,9 +739,10 @@ function ScooterCard({listing}) {
                             </div>
                             <div>
                                 <button className="scooter-button" onClick={() => setIsVisible(false)}
-                                        style={{marginTop: '0px'}}>Zatvori</button>
+                                        style={{marginTop: '0px'}}>Zatvori
+                                </button>
                             </div>
-                            <button type="submit" style={{marginBottom: '15px', marginTop: '10px'}}>Potvrdi zamjenu</button>
+                            <button type="submit" className="confirm-exchange-button">Potvrdi zamjenu</button>
                         </div>
                     </form>
 

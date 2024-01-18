@@ -1,15 +1,16 @@
 .review-form {
     max-width: 600px;
-    margin: 0 auto;
+    margin: 20px auto;
     padding: 20px;
-    background-color: #f3f3f3;
+    background-color: #f9f9f9;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    box-sizing: border-box;
 }
 
 .review-form h2 {
     text-align: center;
-    color: #333;
+    color: #000;
     margin-bottom: 20px;
 }
 
@@ -22,13 +23,14 @@
     border-radius: 4px;
     font-size: 16px;
     resize: none;
+    box-sizing: border-box;
 }
 
 .review-form button {
     width: 100%;
     padding: 10px 0;
-    background-color: #007bff;
-    color: white;
+    background-color: #000;
+    color: #FFD860;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -36,7 +38,9 @@
 }
 
 .review-form button:hover {
-    background-color: #0056b3;
+    background-color: #FFD860;
+    color: #000;
+    transition: background-color 0.3s ease;
 }
 
 .star-rating {
@@ -47,9 +51,5 @@
 
 .star-rating .star {
     cursor: pointer;
-    font-size: 24px; /* Adjust the size as needed */
-}
-
-.star-rating .star:hover {
-    /* Optional: Add any hover effect you'd like here */
+    font-size: 24px;
 }

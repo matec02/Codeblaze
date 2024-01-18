@@ -119,10 +119,10 @@
 }
 
 .send-message-button:hover {
-    background-color: #e6c855; /* Tamnija nijansa na hover */
+    background-color: black;
+    color: #FFD860;
+    transition: background-color 0.3s ease;
 }
-
-/* ... other styles ... */
 
 .theirs {
     max-width: 80%; /* Limit the width of message bubbles */
@@ -208,9 +208,6 @@
     /* Remove the height and margin-top to let content and padding define the size */
 }
 
-.send-message-button:hover {
-    background-color: #e6c855; /* Slightly darker on hover */
-}
 
 .other-user-header {
     background-color: #000000; /* Svijetla pozadinska boja */

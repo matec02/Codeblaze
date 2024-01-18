@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import './RegisterScooterForm.css';
-import { jwtDecode }  from 'jwt-decode';
-import { checkScootersAndUpgrade } from "../utils/checkScootersAndUpgradeRole"
+import {jwtDecode} from 'jwt-decode';
+import {checkScootersAndUpgrade} from "../utils/checkScootersAndUpgradeRole"
 
 export const getNicknameFromToken = () => {
     const token = localStorage.getItem('authToken');
@@ -16,6 +16,7 @@ export const getNicknameFromToken = () => {
         return null;
     }
 };
+
 function RegisterScooterForm() {
     const [showNotification, setShowNotification] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
@@ -39,7 +40,7 @@ function RegisterScooterForm() {
     }
 
     const handleChange = (event) => {
-        setScooter({ ...scooter, [event.target.name]: event.target.value });
+        setScooter({...scooter, [event.target.name]: event.target.value});
     };
 
     const handleSubmit = async (event) => {
@@ -80,9 +81,9 @@ function RegisterScooterForm() {
                 const photoUrl = imageUploadResult.image;
 
                 const formData = new FormData();
-                formData.append('user', new Blob([JSON.stringify(user)], { type: "application/json" }));
-                formData.append('scooter', new Blob([JSON.stringify(scooter)], { type: "application/json" }));
-                formData.append('photoUrl', new Blob([JSON.stringify(photoUrl)], { type: "application/json" }));
+                formData.append('user', new Blob([JSON.stringify(user)], {type: "application/json"}));
+                formData.append('scooter', new Blob([JSON.stringify(scooter)], {type: "application/json"}));
+                formData.append('photoUrl', new Blob([JSON.stringify(photoUrl)], {type: "application/json"}));
 
                 const response = await fetch('/api/scooters/register', {
                     method: 'POST',
@@ -110,8 +111,7 @@ function RegisterScooterForm() {
                 }
 
 
-
-                const scooterData = { ...scooter, imagePath: photoUrl };
+                const scooterData = {...scooter, imagePath: photoUrl};
 
             } catch (error) {
                 console.error('Image upload error:', error);
@@ -130,7 +130,7 @@ function RegisterScooterForm() {
         <div className="register-scooter-form">
             <form onSubmit={handleSubmit}>
                 <label>
-                    Proizvođač:
+                    <div className="text-head">Proizvođač:</div>
                     <input type="text" name="manufacturer"
                            value={scooter.manufacturer} onChange={handleChange}
                            placeholder="Upišite ime proizvođača romobila"
@@ -138,7 +138,7 @@ function RegisterScooterForm() {
                     />
                 </label>
                 <label>
-                    Model:
+                    <div className="text-head">Model:</div>
                     <input type="text" name="model"
                            value={scooter.model} onChange={handleChange}
                            placeholder="Upišite model romobila"
@@ -146,7 +146,7 @@ function RegisterScooterForm() {
                     />
                 </label>
                 <label>
-                    Kapacitet baterije:
+                    <div className="text-head">Kapacitet baterije:</div>
                     <input type="number" name="batteryCapacity"
                            value={scooter.batteryCapacity}
                            onChange={handleChange}
@@ -155,7 +155,7 @@ function RegisterScooterForm() {
                     />
                 </label>
                 <label>
-                    Maksimalna brzina:
+                    <div className="text-head">Maksimalna brzina:</div>
                     <input type="number" name="maxSpeed"
                            value={scooter.maxSpeed} onChange={handleChange}
                            placeholder="Upišite maksimalnu brzinu romobila u km/h"
@@ -163,11 +163,13 @@ function RegisterScooterForm() {
                     />
                 </label>
                 <div className="form-group">
-                    <label>Slika romobila:</label>
+                    <label>
+                        <div className="text-head">Slika romobila:</div>
+                    </label>
                     <input type="file" onChange={(e) => handleFileChange(e, setScooterPhoto)} required/>
                 </div>
                 <label>
-                    Maksimalni domet:
+                    <div className="text-head">Maksimalni domet:</div>
                     <input type="number" step="0.1" name="maxRange"
                            value={scooter.maxRange} onChange={handleChange}
                            placeholder="Upišite maksimalni domet romobila"
@@ -175,7 +177,7 @@ function RegisterScooterForm() {
                     />
                 </label>
                 <label>
-                    Godina proizvodnje:
+                    <div className="text-head">Godina proizvodnje:</div>
                     <input type="number" name="yearOfManufacture"
                            value={scooter.yearOfManufacture} onChange={handleChange}
                            placeholder="Upišite godinu proizvodnje romobila"
@@ -184,14 +186,10 @@ function RegisterScooterForm() {
                     />
                 </label>
                 <label>
-                    Dodatne informacije:
+                    <div className="text-head">Dodatne informacije:</div>
                     <textarea name="additionalInformation" value={scooter.additionalInformation}
                               onChange={handleChange}
                               placeholder="Upišite dodatne informacije o romobilu"
-                              style={{ width: '100%',
-                                  height: '80px',
-                                  resize: 'none'
-                              }}
                     />
                 </label>
                 <button type="submit" disabled={isSubmitting}>Registriraj romobil</button>

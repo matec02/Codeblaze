@@ -11,8 +11,18 @@
 }
 
 .form-title {
-    color: #000; /* Black text for the title */
-    margin-bottom: 20px;
+    color: #FFD860; /* Maintain the existing vibrant yellow color */
+    width: 100%;
+    max-width: 360px;
+    padding: 20px; /* Increase padding for a more pronounced look */
+    margin-top: 15px; /* Keep the top margin to separate from elements above */
+    text-align: center; /* Center-align text for a balanced appearance */
+    background-color: #333; /* Add a dark background for contrast */
+    border-radius: 5px; /* Round the corners of the heading */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    display: block; /* Make the background only as wide as the content */
+    border: 2px solid #FFD860; /* Add a border that matches the text color */
+    margin-bottom: 15px;
 }
 
 .register-form {
@@ -76,7 +86,9 @@
 }
 
 .register-form-button:hover {
-    opacity: 0.9; /* Slight opacity change on hover */
+    background-color: #FFD860;
+    color: #000;
+    transition: background-color 0.3s ease;
 }
 
 .error-message {

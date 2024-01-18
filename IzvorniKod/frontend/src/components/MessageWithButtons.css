@@ -20,9 +20,6 @@
     color: #FFD860;
 }
 
-.message-buttons button:hover {
-    background-color: #45a049;
-}
 
 .mine {
     background-color: #FFD860;
@@ -48,4 +45,16 @@
 
 .message-with-buttons {
     position: relative;
+}
+
+.decline-button:hover {
+    background-color: #d40808;
+    color: black;
+    transition: background-color 0.2s ease;
+}
+
+.accept-button:hover {
+    background-color: #4ab04a;
+    color: black;
+    transition: background-color 0.2s ease;
 }
