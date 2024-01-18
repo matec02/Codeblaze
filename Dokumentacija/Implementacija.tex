@@ -342,19 +342,61 @@
 
 		Nakon pažljivog razvoja naše aplikacije, usmjereni smo na implementaciju u produkcijsko okruženje koristeći Render, platformu koja pruža PaaS rješenje. Ovaj proces je zahtijevao integraciju svih aplikacijskih komponenti na GitHubu, omogućujući time stvaranje Docker kontejnera, ključnih za funkcionalnost aplikacije u radnom okruženju.
 
+		\begin{figure} [H]
+			\centering
+			\includegraphics[width=0.7\linewidth]{slike/render.png}
+			\caption{Prikaz Render platforme.}
+			\label{fig:Prikaz Render platforme.}
+		\end{figure}
+
 		Pregledom izvornog koda na GitHub repozitoriju osigurali smo praćenje i upravljanje verzijama koda. Izvorni kod naše aplikacije dostupan je na https://github.com/Kvesa- Fer/Codeblaze. Prilikom pripreme za deploy, pažljivo smo postavili environment varijable u konfiguraciju našeg IDE-a kako bismo osigurali nesmetano funkcioniranje lokalnog razvojnog okruženja. Posebna pažnja posvećena je Dockerfile-u, gdje smo se pobrinuli da putanje unutar COPY naredbi budu precizno definirane.
 
 		Konfiguracijska datoteka application.properties sadrži ključne informacije za povezivanje s bazom podataka. U razvojnom okruženju, koristili smo H2 in-memory bazu, što je vidljivo iz konfiguracije spring.datasource parametara koji ukazuju na H2 bazu. Za produkcijsko okruženje, komentirane linije sadrže konfiguraciju za povezivanje s PostgreSQL bazom podataka hostiranom na Renderu.
 
 		Dodatno, omogućili smo pristup H2 konzoli postavljanjem spring.h2.console.enabled na true, što olakšava debugiranje i testiranje aplikacije u razvoju. Secret key, definiran u application.properties, koristi se za JWT autentifikaciju, dok logiranje različitih komponenti aplikacije postavljamo na odgovarajuće razine za detaljno praćenje tijekom razvoja i debugiranja.
 
+		\begin{figure} [H]
+			\centering
+			\includegraphics[width=0.7\linewidth]{slike/ap.png}
+			\caption{Lokalni razvoj (koristeći H2 bazu).}
+			\label{fig:Lokalni razvoj (koristeći H2 bazu).}
+		\end{figure}
+
 		Dockerfile.txt sadrži naredbe za kreiranje Docker slike aplikacije. Korištenjem dvostupanjskog procesa izgradnje, prvo se stvara build container koji izvršava Maven build, a zatim se finalna izvršna JAR datoteka kopira u runtime container.
+
+		\begin{figure} [H]
+			\centering
+			\includegraphics[width=0.7\linewidth]{slike/docker.png}
+			\caption{Izgradnja i konfiguracija Docker kontejnera}
+			\label{fig:Izgradnja i konfiguracija Docker kontejnera}
+		\end{figure}
 
 		setupproxy.js definira proxy middleware koji preusmjerava zahtjeve na /api endpointu na backend server, što omogućuje jednostavniju integraciju frontend i backend dijelova aplikacije tijekom razvoja.
 
+		\begin{figure} [H]
+			\centering
+			\includegraphics[width=0.7\linewidth]{slike/setupproxy.png}
+			\caption{Konfiguracija proxy middlewarea za preusmjeravanje API zahtjeva}
+			\label{fig:Konfiguracija proxy middlewarea za preusmjeravanje API zahtjeva}
+		\end{figure}
+
 		package.json definira metapodatke projekta, dependency-e potrebne za frontend dio aplikacije, kao i skripte koje se koriste za pokretanje i izgradnju projekta. Vidimo i konfiguraciju Node verzije koja se koristi, što osigurava kompatibilnost između različitih razvojnih okruženja.
 
+		\begin{figure} [H]
+			\centering
+			\includegraphics[width=0.7\linewidth]{slike/package.png}
+			\caption{Definicija skripti za pokretanje i izgradnju projekta}
+			\label{fig:Definicija skripti za pokretanje i izgradnju projekta}
+		\end{figure}
+
 		app.js postavlja express server koji služi statičke datoteke iz build direktorija i postavlja proxy za API zahtjeve. Konfiguracija se čita iz environment varijabli, što omogućuje fleksibilnost i jednostavnost konfiguracije u različitim okruženjima.
+
+		\begin{figure} [H]
+			\centering
+			\includegraphics[width=0.7\linewidth]{slike/app.png}
+			\caption{Postavljanje Express servera s proxyjem i statickim serviranjem}
+			\label{fig:Postavljanje Express servera s proxyjem i statickim serviranjem}
+		\end{figure}
 
 		Kroz ovaj proces, stvorili smo stabilnu, sigurnu i skalabilnu aplikaciju spremnu za produkcijsko okruženje. Deploy aplikacije na Render platformi bio je ključan korak u dostizanju naših operativnih ciljeva, omogućujući nam da našu aplikaciju učinimo dostupnom široj publici.
 
