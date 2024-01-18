@@ -22,25 +22,22 @@
 }
 
 .welcome-container {
-    background-color: #FFD860;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 10px;
-    margin-bottom: 10px;
 }
 .welcome-container h5 {
-    margin-top: 0px;
-    font-size: 24px;
-    color: #000000;
-    margin-bottom: 10px;
-    font-family: 'Arial', sans-serif;
-    white-space: nowrap;
+        text-align: center;
+        background-color:  #FFD860;
+        padding: 20px;
+        margin-top: 15px;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border: 2px solid #FFD860;
+        margin-bottom: 30px;
+        display: inline-block;
+        font-size: 18px;
+
 }
+
 
 .slick-slide {
     display: inline-block;

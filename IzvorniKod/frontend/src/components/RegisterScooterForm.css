@@ -19,7 +19,9 @@
 }
 
 .text-head {
+    text-align: left;
     margin-bottom: 5px;
+    margin-left: 20px;
 
 }
 

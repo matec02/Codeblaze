@@ -76,7 +76,7 @@
     display: flex;
     align-items: center;
 }
-@media (max-width: 955px) {
+@media (max-width: 969px) {
     .social-media-buttons{
         margin-top: 20px;
         margin-bottom: 20px;

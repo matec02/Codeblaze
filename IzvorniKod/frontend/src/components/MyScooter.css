@@ -51,10 +51,21 @@ body {
 }
 
 .welcome-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    padding: 30px;
+    text-align: center;
 }
+.welcome-container h5 {
+    text-align: center;
+    background-color:  #FFD860;
+    padding: 20px;
+    margin-top: 15px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 2px solid #FFD860;
+    margin-bottom: 30px;
+    display: inline-block;
+}
+
 .scooter-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -159,40 +170,13 @@ body {
         padding: 10px;
     }
 
-
     .welcome-page {
         flex-direction: column;
         padding: 10px;
     }
 
     .welcome-container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
         text-align: center;
-        padding: 10px;
-        box-sizing: border-box;
-        overflow: hidden;
-    }
-
-    .welcome-container h5 {
-        display: block;
-        max-width: 100%;
-        margin: 0 auto;
-        padding: 10px;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-        hyphens: auto;
-        font-size: clamp(12px, 2.5vw, 16px);
-    }
-
-
-
-    .register-scooter-form input,
-    .register-scooter-form textarea,
-    .register-scooter-form button {
-        width: calc(100% - 16px);
     }
 
     .tabs button {

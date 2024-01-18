@@ -180,7 +180,7 @@
 }
 
 
-@media (max-width: 955px) {
+@media (max-width: 969px) {
     .navbar {
         flex-direction: column;
     }
