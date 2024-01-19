@@ -87,9 +87,9 @@ function AdminDashboard() {
             } else if (status === 'REJECTED') {
                 const rejectedUser = pendingUsers.find(user => user.userId === userId);
                 if (rejectedUser) {
-                    // Add the rejected user to the rejectedUsers state
+
                     setRejectedUsers(prevUsers => [...prevUsers, { ...rejectedUser, status }]);
-                    // Then remove the user from the pendingUsers state
+
                     setPendingUsers(prevUsers => prevUsers.filter(user => user.userId !== userId));
                 }
             } else if (status === 'BLOCKED') {
@@ -303,7 +303,7 @@ function AdminDashboard() {
     );
 
     const removeAdmin = (user) => {
-        // Assuming getNicknameFromToken() gets the nickname of the currently logged-in user
+
         const currentUserNickname = getNicknameFromToken();
 
         return (

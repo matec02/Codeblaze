@@ -18,11 +18,9 @@ function RegisterForm() {
     const [password, setPassword] = useState('');
     const [showNotification, setShowNotification] = useState(false);
 
-    // Extra state variables
     const [confirmPassword, setConfirmPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
 
-    // File upload
     const [criminalRecord, setCriminalRecord] = useState(null);
     const [identificationDocument, setIdentificationDocument] = useState(null);
 

@@ -7,7 +7,6 @@ function TransactionCard({transaction, type}) {
     const [localType, setLocalType] = useState(type);
 
     const handleCardClick = () => {
-        console.log(typeof transaction.paymentTime)
         setExpanded(true);
         setLocalType("SEEN");
     };

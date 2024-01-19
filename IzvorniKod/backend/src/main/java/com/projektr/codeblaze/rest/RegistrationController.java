@@ -38,7 +38,6 @@ public class RegistrationController {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Registration failed.");
             }
         } catch (Exception e) {
-            // Exception handling logic here...
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred during registration.");
         }
     }

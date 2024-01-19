@@ -95,7 +95,6 @@ export const sendMessageWithAction = async (owner, listingId, manufacturer, mode
     const senderNickname = await getNicknameFromToken();
     const senderUser = await getUserFromToken();
     const chatSession = await startConversation(owner);
-    console.log("sendMWA" + listingId);
 
     const messageText = `Hej ${owner.nickname},\n ${senderNickname} želi iznajmiti tvoj ${manufacturer} ${model} proizveden ${yearOfManufacture}! Pristaješ li na najam?`;
 
@@ -192,8 +191,6 @@ export const handleEndOfTransactionMessage = async (user1Id, user2Id, transactio
         const reviewPageUrl = `/leave-review/${transactionId}`; // Replace with your actual domain and route
         const messageWithLink = `Vožnja je gotova i Vaš romobil je vraćen! Hvala na izboru mog romobila.\nMolimo Vas da ostavite <a href="${reviewPageUrl}" target="_blank">osvrt</a> na mene kao klijenta.`;
         await sendMessageResponse(messageWithLink, chatSession.chatSessionId);
-    } else {
-        console.log("ERROR, can not return scooter.");
     }
 };
 

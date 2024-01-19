@@ -54,7 +54,6 @@ function RegisterScooterForm() {
         }
 
         try {
-            // First, make a GET request to fetch the user by nickname
             const userResponse = await fetch(`/api/users/by-nickname/${nickname}`);
             if (!userResponse.ok) {
                 setErrorMessage('User not found.');

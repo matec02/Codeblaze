@@ -79,7 +79,6 @@ function SocialMediaModal({ isOpen, onClose, platform, onSave }) {
         }, []);
 
         const toggleDropdown = () => {
-            console.log(userRole);
             setShowDropdown(!showDropdown);
         };
 

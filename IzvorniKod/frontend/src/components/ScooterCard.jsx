@@ -16,7 +16,7 @@ import {sendMessageFromCodeblazeWithAction} from "../utils/MessageUtils";
 import { useLocation } from "react-router-dom";
 import {getRoleFromToken} from "../utils/authService";
 import {getStatusFromToken} from "../utils/authService";
-import {useLocation} from "react-router-dom";
+
 export const ProfileModal = ({isOpen, onClose, profile}) => {
     const [privacySettings, setPrivacySettings] = useState(null);
     const [averageRating, setAverageRating] = useState(null);
@@ -63,8 +63,6 @@ export const ProfileModal = ({isOpen, onClose, profile}) => {
         const {chatSessionId} = await startConversation(profile);
         if (chatSessionId) {
             navigate(`/chat-window/${chatSessionId}`);
-        } else {
-            console.log("Error while starting conversation");
         }
     }
 

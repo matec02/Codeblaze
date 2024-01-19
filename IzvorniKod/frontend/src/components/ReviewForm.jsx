@@ -42,7 +42,6 @@ const ReviewForm = () => {
 
             if (response.ok) {
                 const createdReview = await response.json();
-                console.log('Review created successfully:', createdReview);
             } else {
                 console.error('Failed to create review');
 

@@ -6,7 +6,6 @@ import ScooterCard from "./ScooterCard";
 
 
 export const startTransaction = async (owner, client, listingPricePerKm, returnByTime, penaltyFee, listingId) => {
-    console.log(listingId);
     const kilometersTraveled = (Math.random() * 100).toFixed(2);
     const paymentTime = new Date().toISOString().split('.')[0];
     const returnTimeDate = new Date(returnByTime);

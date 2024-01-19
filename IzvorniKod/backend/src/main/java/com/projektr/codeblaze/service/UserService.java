@@ -69,7 +69,6 @@ public class UserService {
         user.setStatus(UserStatus.PENDING);
         User savedUser = userRepository.save(user);
 
-        // Initialize Privacy Settings for the user
         PrivacySettings privacySettings = new PrivacySettings();
         privacySettings.setUser(savedUser);
         privacySettings.setFirstNameVisible(true);

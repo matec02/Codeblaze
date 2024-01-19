@@ -1,9 +1,6 @@
 package com.projektr.codeblaze.domain;
 
 public enum ListingStatus {
-    //ACTIVE("ACTIVE", "Active"),
-    //FINISHED("FINISHED", "Finished"),
-    //CANCELLED("CANCELLED", "Cancelled");
 
     AVAILABLE("AVAILABLE", "Available"), //prikazuje se na pocetnoj, po defaultu i ako se odbije zahtjev
     REQUESTED("REQUESTED", "Requested"), //ne prikazuje se na pocetnoj, bit ce ujedno i delete

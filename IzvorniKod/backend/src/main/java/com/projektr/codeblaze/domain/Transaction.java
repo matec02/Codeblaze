@@ -32,7 +32,7 @@ public class Transaction {
         if (paymentTime != null) {
             return Timestamp.valueOf(paymentTime);
         }
-        return null; // Handle the case when paymentTime is null, if needed
+        return null;
     }
 
     @ManyToOne
