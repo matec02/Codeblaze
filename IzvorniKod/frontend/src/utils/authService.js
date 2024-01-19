@@ -71,6 +71,26 @@ export const getUserIdFromToken = async () => {
     }
 }
 
+export const getStatusFromToken = async () => {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+        return null;
+    }
+    try {
+        const decodedToken = jwtDecode(token);
+        const nickname = decodedToken.nickname;
+        const response = await fetch(`/api/users/by-nickname/${nickname}`);
+        if (!response.ok) {
+            throw new Error('User not found');
+        }
+        const user = await response.json();
+        return user.status;
+    } catch (error) {
+        console.error('Error fetching user via nickname: ', error);
+        return null;
+    }
+}
+
 export const getUserFromToken = async () => {
     const token = localStorage.getItem('authToken');
     if (!token) {

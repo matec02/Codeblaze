@@ -118,7 +118,7 @@ function MyProfile() {
     }
 
     if (!user || !privacySettings) {
-        return <div>Loading user data...</div>;
+        return <div><h3>Učitavanje podataka...</h3></div>;
     }
 
     const deleteProfile = async (userId, status) => {

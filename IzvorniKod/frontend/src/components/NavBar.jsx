@@ -149,7 +149,7 @@ function SocialMediaModal({ isOpen, onClose, platform, onSave }) {
         };
 
 
-        const shareUrl = "window.location.href";
+        const shareUrl = "https://codeblazefe.onrender.com/home";
 
         const openSocialMediaShare = (platform) => {
             let url = '';

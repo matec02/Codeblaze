@@ -85,7 +85,13 @@ function AdminDashboard() {
                     setAcceptedUsers(prevUsers => [...prevUsers, { ...acceptedUser, status, role: role }]);
                 }
             } else if (status === 'REJECTED') {
-                await fetchUsers("/api/users/blockedUsers", setBlockedUsers);
+                const rejectedUser = pendingUsers.find(user => user.userId === userId);
+                if (rejectedUser) {
+                    // Add the rejected user to the rejectedUsers state
+                    setRejectedUsers(prevUsers => [...prevUsers, { ...rejectedUser, status }]);
+                    // Then remove the user from the pendingUsers state
+                    setPendingUsers(prevUsers => prevUsers.filter(user => user.userId !== userId));
+                }
             } else if (status === 'BLOCKED') {
                 setAcceptedUsers(prevUsers => prevUsers.filter(user => user.userId !== userId));
                 const blockedUser = acceptedUsers.find(user => user.userId === userId);
