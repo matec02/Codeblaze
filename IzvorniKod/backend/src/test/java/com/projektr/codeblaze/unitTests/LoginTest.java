@@ -5,13 +5,13 @@ import com.projektr.codeblaze.domain.User;
 
 import com.projektr.codeblaze.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -25,27 +25,29 @@ public class LoginTest {
     @InjectMocks
     private UserService userService;
 
+
     @Mock
     private User mockUser;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
+        userService = new UserService(userRepository);
     }
 
     @Test
     void testValidUserLogin() {
+        String email = "test@example.com";
+        String password = "password";
+        String encodedPassword = new BCryptPasswordEncoder().encode(password);
 
-        String admin = "admin";
+        Mockito.when(mockUser.getEmail()).thenReturn(email);
+        Mockito.when(mockUser.getPassword()).thenReturn(encodedPassword);
 
-        Mockito.when(mockUser.getNickname()).thenReturn(admin);
-        Mockito.when(mockUser.getPassword()).thenReturn(admin);
+        Mockito.when(userRepository.findByEmail(email)).thenReturn(mockUser);
+        User result = userService.login(email, password);
 
-        Mockito.when(userService.login("test@example.com", "password")).thenReturn(mockUser);
-
-        User result = userService.login("test@example.com", "password");
-
-        assertEquals(mockUser, result);
+        assertEquals(mockUser, result, "Rezultati su jednaki");
     }
 
     @Test
