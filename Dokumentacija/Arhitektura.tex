@@ -83,6 +83,49 @@ Ovaj entitet sadrzava sve važne informacije o korisniku aplikacije. Sadrži atr
 	status	& UserStatus & status korisnika (pending, rejected, accepted, deleted, blocked) 	\\ \hline
 \end{longtblr}
 
+
+\subsection{Preferences}
+
+
+Ovaj entitet sadrzava sve važne informacije o preferencama korisnika aplikacije. Sadrži atribute: userId, language i darkMode. Ovaj entitet ima \textit{One-to-one} vezu s entitetom User preko atributa userId.
+
+
+\begin{longtblr}[
+	label=none,
+	entry=none
+]{
+	width = \textwidth,
+	colspec={|X[10,l]|X[7, l]|X[15, l]|},
+	rowhead = 1,
+} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+	\hline \SetCell[c=3]{c}{\textbf{Preferences}}	 \\ \hline[3pt]
+	\SetCell{LightGreen}userId & INT	&  jedinstveni identifikator korisnika (Ref: User.userId) \\ \hline
+	language	& UserLanguage & jezik korisnika   	\\ \hline
+	darkMode & BOOLEAN &  omogućen dark mode \\ \hline
+\end{longtblr}
+
+\subsection{Social Media}
+
+
+Ovaj entitet sadrzava sve važne informacije o socijalnim mrežama korisnika aplikacije. Sadrži atribute: userId, instagram, facebook, google i tikTok. Ovaj entitet ima \textit{One-to-one} vezu s entitetom User preko atributa userId.
+
+
+\begin{longtblr}[
+	label=none,
+	entry=none
+]{
+	width = \textwidth,
+	colspec={|X[10,l]|X[7, l]|X[15, l]|},
+	rowhead = 1,
+} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+	\hline \SetCell[c=3]{c}{\textbf{Social Media}}	 \\ \hline[3pt]
+	\SetCell{LightGreen}userId & INT	&  jedinstveni identifikator korisnika (Ref: User.userId)	\\ \hline
+	instagram	& VARCHAR &   	instagram account korisnika \\ \hline
+	facebook & VARCHAR & facebook account korisnika  \\ \hline
+	google & VARCHAR	&  google account korisnika		\\ \hline
+	tikTok	& VARCHAR &  tikTok account korisnika 	\\ \hline
+\end{longtblr}
+
 \subsection{PrivacySettings}
 
 
@@ -312,7 +355,7 @@ Ovaj entitet sadrzava sve važne informacije o zahtjevu za promjenom slike. Sadr
 
 \begin{figure} [H]
 	
-	\includegraphics[width=1\linewidth]{slike/RelacijskiDijagramBP.png}
+	\includegraphics[width=1\linewidth]{dijagrami/relacijskidijagram.png}
 	\centering
 	\caption{Prikaz dijagrama baze podataka}
 	\label{fig:Prikaz dijagrama baze podataka}
