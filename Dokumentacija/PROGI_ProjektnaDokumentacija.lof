@@ -1,47 +1,47 @@
 \babel@toc {croatian}{}\relax 
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Prikaz pronalaska romobila i početka vožnje}}{9}{figure.2.1}%
-\contentsline {figure}{\numberline {2.2}{\ignorespaces Prikaz dodatnih mogućnosti}}{9}{figure.2.2}%
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Prikaz pronalaska romobila i početka vožnje}}{10}{figure.2.1}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Prikaz dodatnih mogućnosti}}{10}{figure.2.2}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Dijagram obrasca uporabe - funkcionalnost iznajmljivača}}{26}{figure.3.1}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Dijagram obrasca uporabe - funkcionalnost klijenta i banke}}{27}{figure.3.2}%
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Dijagram obrasca uporabe - funkcionalnost neregistriranog korisnika i administratora}}{28}{figure.3.3}%
-\contentsline {figure}{\numberline {3.4}{\ignorespaces Sekvencijski dijagram obrasca UC10 - Registriraj romobil}}{30}{figure.3.4}%
-\contentsline {figure}{\numberline {3.5}{\ignorespaces Sekvencijski dijagram obrasca UC14 - Oglasi romobil}}{32}{figure.3.5}%
-\contentsline {figure}{\numberline {3.6}{\ignorespaces Sekvencijski dijagram obrasca UC20 - Reagiraj na zahtjev za iznajmljivanje}}{33}{figure.3.6}%
-\contentsline {figure}{\numberline {3.7}{\ignorespaces Sekvencijski dijagram obrasca UC24 - Vrati romobil}}{34}{figure.3.7}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Dijagram obrasca uporabe - funkcionalnost iznajmljivača}}{27}{figure.3.1}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Dijagram obrasca uporabe - funkcionalnost klijenta i banke}}{28}{figure.3.2}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Dijagram obrasca uporabe - funkcionalnost neregistriranog korisnika i administratora}}{29}{figure.3.3}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Sekvencijski dijagram obrasca UC10 - Registriraj romobil}}{31}{figure.3.4}%
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Sekvencijski dijagram obrasca UC14 - Oglasi romobil}}{33}{figure.3.5}%
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Sekvencijski dijagram obrasca UC20 - Reagiraj na zahtjev za iznajmljivanje}}{34}{figure.3.6}%
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Sekvencijski dijagram obrasca UC24 - Vrati romobil}}{35}{figure.3.7}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Prikaz MVC obrasca}}{38}{figure.4.1}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Prikaz dijagrama baze podataka}}{56}{figure.4.2}%
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Prikaz prvog isječka dijagrama razreda}}{57}{figure.4.3}%
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Prikaz drugog isječka dijagrama razreda}}{58}{figure.4.4}%
-\contentsline {figure}{\numberline {4.5}{\ignorespaces Prikaz trećeg isječka dijagrama razreda}}{59}{figure.4.5}%
-\contentsline {figure}{\numberline {4.6}{\ignorespaces Prikaz Controller dijagrama}}{60}{figure.4.6}%
-\contentsline {figure}{\numberline {4.7}{\ignorespaces Prikaz Service dijagrama}}{61}{figure.4.7}%
-\contentsline {figure}{\numberline {4.8}{\ignorespaces Dijagram stanja - klijent}}{62}{figure.4.8}%
-\contentsline {figure}{\numberline {4.9}{\ignorespaces Dijagram aktivnosti - oglašavanje romobila}}{64}{figure.4.9}%
-\contentsline {figure}{\numberline {4.10}{\ignorespaces Dijagram komponenti}}{65}{figure.4.10}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Prikaz MVC obrasca}}{39}{figure.4.1}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Prikaz dijagrama baze podataka}}{48}{figure.4.2}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Prikaz prvog isječka dijagrama razreda}}{49}{figure.4.3}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Prikaz drugog isječka dijagrama razreda}}{50}{figure.4.4}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Prikaz trećeg isječka dijagrama razreda}}{51}{figure.4.5}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Prikaz Controller dijagrama}}{52}{figure.4.6}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Prikaz Service dijagrama}}{53}{figure.4.7}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Dijagram stanja - klijent}}{54}{figure.4.8}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Dijagram aktivnosti - oglašavanje romobila}}{56}{figure.4.9}%
+\contentsline {figure}{\numberline {4.10}{\ignorespaces Dijagram komponenti}}{57}{figure.4.10}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Test provjere svojstva dokumenta}}{68}{figure.5.1}%
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Test provjere funkcionalnosti ImageChangeRequestStatus}}{68}{figure.5.2}%
-\contentsline {figure}{\numberline {5.3}{\ignorespaces Test provjere funkcionalnosti ImageChangeRequestStatus}}{69}{figure.5.3}%
-\contentsline {figure}{\numberline {5.4}{\ignorespaces Provjera vraćanja vremena u razredu Listing}}{69}{figure.5.4}%
-\contentsline {figure}{\numberline {5.5}{\ignorespaces Provjera vraćanja vremena u razredu Listing}}{69}{figure.5.5}%
-\contentsline {figure}{\numberline {5.6}{\ignorespaces Test provjere svojstava skutera}}{70}{figure.5.6}%
-\contentsline {figure}{\numberline {5.7}{\ignorespaces Test provjere vremena plaćanja u razredu transakcije}}{71}{figure.5.7}%
-\contentsline {figure}{\numberline {5.8}{\ignorespaces Test provjere vremena plaćanja u razredu transakcije}}{71}{figure.5.8}%
-\contentsline {figure}{\numberline {5.9}{\ignorespaces Test provjere svojstva korisnika}}{72}{figure.5.9}%
-\contentsline {figure}{\numberline {5.10}{\ignorespaces Test provjere funkcionalnosti prijave korisnika}}{73}{figure.5.10}%
-\contentsline {figure}{\numberline {5.11}{\ignorespaces Provjera ispravnosti registracije}}{74}{figure.5.11}%
-\contentsline {figure}{\numberline {5.12}{\ignorespaces Provjera ispravnosti registracije}}{74}{figure.5.12}%
-\contentsline {figure}{\numberline {5.13}{\ignorespaces Provjera ispravnosti prijava}}{75}{figure.5.13}%
-\contentsline {figure}{\numberline {5.14}{\ignorespaces Provjera ispravnosti prijava}}{75}{figure.5.14}%
-\contentsline {figure}{\numberline {5.15}{\ignorespaces Prikaz dijagrama razmještanja}}{77}{figure.5.15}%
-\contentsline {figure}{\numberline {5.16}{\ignorespaces Prikaz Render platforme.}}{78}{figure.5.16}%
-\contentsline {figure}{\numberline {5.17}{\ignorespaces Lokalni razvoj (koristeći H2 bazu).}}{79}{figure.5.17}%
-\contentsline {figure}{\numberline {5.18}{\ignorespaces Izgradnja i konfiguracija Docker kontejnera}}{79}{figure.5.18}%
-\contentsline {figure}{\numberline {5.19}{\ignorespaces Konfiguracija proxy middlewarea za preusmjeravanje API zahtjeva}}{80}{figure.5.19}%
-\contentsline {figure}{\numberline {5.20}{\ignorespaces Definicija skripti za pokretanje i izgradnju projekta}}{80}{figure.5.20}%
-\contentsline {figure}{\numberline {5.21}{\ignorespaces Postavljanje Express servera s proxyjem i statickim serviranjem}}{81}{figure.5.21}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Test provjere svojstva dokumenta}}{60}{figure.5.1}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Test provjere funkcionalnosti ImageChangeRequestStatus}}{60}{figure.5.2}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Test provjere funkcionalnosti ImageChangeRequestStatus}}{61}{figure.5.3}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Provjera vraćanja vremena u razredu Listing}}{61}{figure.5.4}%
+\contentsline {figure}{\numberline {5.5}{\ignorespaces Provjera vraćanja vremena u razredu Listing}}{61}{figure.5.5}%
+\contentsline {figure}{\numberline {5.6}{\ignorespaces Test provjere svojstava skutera}}{62}{figure.5.6}%
+\contentsline {figure}{\numberline {5.7}{\ignorespaces Test provjere vremena plaćanja u razredu transakcije}}{63}{figure.5.7}%
+\contentsline {figure}{\numberline {5.8}{\ignorespaces Test provjere vremena plaćanja u razredu transakcije}}{63}{figure.5.8}%
+\contentsline {figure}{\numberline {5.9}{\ignorespaces Test provjere svojstva korisnika}}{64}{figure.5.9}%
+\contentsline {figure}{\numberline {5.10}{\ignorespaces Test provjere funkcionalnosti prijave korisnika}}{65}{figure.5.10}%
+\contentsline {figure}{\numberline {5.11}{\ignorespaces Provjera ispravnosti registracije}}{66}{figure.5.11}%
+\contentsline {figure}{\numberline {5.12}{\ignorespaces Provjera ispravnosti registracije}}{66}{figure.5.12}%
+\contentsline {figure}{\numberline {5.13}{\ignorespaces Provjera ispravnosti prijava}}{67}{figure.5.13}%
+\contentsline {figure}{\numberline {5.14}{\ignorespaces Provjera ispravnosti prijava}}{67}{figure.5.14}%
+\contentsline {figure}{\numberline {5.15}{\ignorespaces Prikaz dijagrama razmještanja}}{69}{figure.5.15}%
+\contentsline {figure}{\numberline {5.16}{\ignorespaces Prikaz Render platforme.}}{70}{figure.5.16}%
+\contentsline {figure}{\numberline {5.17}{\ignorespaces Lokalni razvoj (koristeći H2 bazu).}}{71}{figure.5.17}%
+\contentsline {figure}{\numberline {5.18}{\ignorespaces Izgradnja i konfiguracija Docker kontejnera}}{71}{figure.5.18}%
+\contentsline {figure}{\numberline {5.19}{\ignorespaces Konfiguracija proxy middlewarea za preusmjeravanje API zahtjeva}}{72}{figure.5.19}%
+\contentsline {figure}{\numberline {5.20}{\ignorespaces Definicija skripti za pokretanje i izgradnju projekta}}{72}{figure.5.20}%
+\contentsline {figure}{\numberline {5.21}{\ignorespaces Postavljanje Express servera s proxyjem i statickim serviranjem}}{73}{figure.5.21}%
 \addvspace {10\p@ }
