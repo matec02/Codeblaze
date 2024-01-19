@@ -157,7 +157,7 @@
 							    \item 	Neregistrirani korisnik unosi podatke za registraciju
 								\item 	Unesena kopija osobne iskaznice i potvrda o nekažnjavanju šalju se administratoru na pregled
 								\item 	Stvara se novi korisnički račun čiji se podatci pohranjuju u bazu podataka
-								\item 	Neregistriranom korisniku se prikazuje stranica za čekanje odobrenja registracije
+								\item 	Neregistriranom korisniku se prikazuje stranica za prijavu
 								
 								 
 								
@@ -345,11 +345,10 @@
 									\item Korisnik mijenja potrebne podatke i završava s unosom ili odustaje od promjene 
 									
 								\end{packed_enum}
-								\item[3.a] Korisnik ne potvrdi promjenu odabirom opcije „Spremi promjene“    
+								\item[3.a] Korisnik odabere opciju „Odustani“
 								\item[] \begin{packed_enum}
 									
-									\item Korisnik dobiva obavijest da nije spremio podatke prije izlaska iz prozora za promjenu podataka   
-									\item Korisnik sprema promjene 
+									\item Promjene se ne spremaju
 									
 								\end{packed_enum}
 								
@@ -457,14 +456,6 @@
 									
 								\end{packed_enum}
 								
-								\item[4.a] 	Korisnik ne potvrdi promjenu odabirom opcije „Spremi promjene“
-								\item[] \begin{packed_enum}
-									
-									\item Korisnik dobiva obavijest da nije spremio podatke prije izlaska iz prozora za zamjenu podataka
-									\item Korisnik sprema podatke
-									
-								\end{packed_enum}
-								
 								
 							\end{packed_item}
 						\end{packed_item}
@@ -535,8 +526,7 @@
 								\item Iznajmljivač odabire opciju „Objavi na društvenu mrežu“  
 								\item Iznajmljivač odabire društvenu mrežu na koju bi htio objaviti svoj oglas 
 								\item Generira se objava za iznajmljivanje romobila 
-								\item Iznajmljivač potvrđuje objavu 
-								\item Oglas se objavljuje na društvenoj mreži 
+								\item Iznajmljivač potvrđuje objavu
 							\end{packed_enum}
 							
 							
@@ -582,13 +572,6 @@
 									
 									\item Iznajmljivač dobiva odgovarajuću obavijest o neispravnosti podataka
 									\item Iznajmljivač mijenja potrebne podatke i završava s unosom ili odustaje od oglašavanja romobila
-									
-								\end{packed_enum}
-								\item[4.a] Korisnik ne potvrdi promjenu odabirom opcije „Spremi promjene“
-								\item[] \begin{packed_enum}
-									
-									\item Korisnik dobiva obavijest da nije spremio podatke prije izlaska iz prozora za zamjenu podataka
-									\item Korisnik sprema podatke
 									
 								\end{packed_enum}
 								
@@ -799,7 +782,7 @@
 						\begin{packed_item}
 							
 							\item \textbf{Glavni sudionik: }Klijent
-							\item  \textbf{Cilj: }Dobiti uvid u sve prethodne transakcije gdje je klijent iznajmljivao romobil
+							\item  \textbf{Cilj: }Dobiti uvid u sve prethodne transakcije
 							\item  \textbf{Sudionici: }Baza podataka
 							\item  \textbf{Preduvjet: }Klijent je prijavljen
 							\item  \textbf{Opis osnovnog tijeka:}
@@ -828,24 +811,8 @@
 								
 							\end{packed_enum}
 						\end{packed_item}
-						\noindent \underbar{\textbf{UC30 - Izbriši recenziju}}
-						\begin{packed_item}
-							
-							\item \textbf{Glavni sudionik: }Iznajmljivač, administrator
-							\item  \textbf{Cilj:}Izbrisati recenziju o drugom korisniku
-							\item  \textbf{Sudionici:}Baza podataka
-							\item  \textbf{Preduvjet:}Ako je korisnik iznajmljivač, mora postojati recenzija na profilu klijenta koju je iznajmljivač napisao i koju želi izbrisati. Administrator može obrisati bilo koju recenziju.
-							\item  \textbf{Opis osnovnog tijeka:}
-							
-							\item[] \begin{packed_enum}
-								
-								\item Korisnik pronalazi profil drugog korisnika 
-								\item Korisnik odabire opciju „Izbriši recenziju“ 
-								\item Recenzija se briše s profila korisnika na kojem je bila objavljena
-								
-							\end{packed_enum}
-						\end{packed_item}
-						\noindent \underbar{\textbf{UC31 - Pregledaj razgovor}}
+
+						\noindent \underbar{\textbf{UC30 - Pregledaj razgovor}}
 						\begin{packed_item}
 							
 							\item \textbf{Glavni sudionik: }Klijent
@@ -862,7 +829,7 @@
 							\end{packed_enum}
 						\end{packed_item}
 						
-						\noindent \underbar{\textbf{UC32 - Pošalji poruku}}
+						\noindent \underbar{\textbf{UC31 - Pošalji poruku}}
 						\begin{packed_item}
 							
 							\item \textbf{Glavni sudionik: }Klijent
@@ -892,25 +859,8 @@
 								
 							\end{packed_item}
 						\end{packed_item}
-						\noindent \underbar{\textbf{UC33 - Izbriši razgovor}}
-						\begin{packed_item}
-							
-							\item \textbf{Glavni sudionik: }Klijent
-							\item  \textbf{Cilj: }Izbrisati razgovor s drugim korisnikom
-							\item  \textbf{Sudionici: }Baza podataka
-							\item  \textbf{Preduvjet: }Klijent je prijavljen
-							\item  \textbf{Opis osnovnog tijeka:}
-							
-							\item[] \begin{packed_enum}
-								
-								\item Klijent pronalazi razgovor s korisnikom koji želi obrisati
-								\item Klijent odabire opciju „Izbriši razgovor"
-								\item Razgovor se briše iz pregleda razgovora kod oba korisnika
-								\item Ažurira se baza podataka
-							\end{packed_enum}
-							
-						\end{packed_item}
-						\noindent \underbar{\textbf{UC34 - Blokiraj korisnika}}
+
+						\noindent \underbar{\textbf{UC32 - Blokiraj korisnika}}
 						\begin{packed_item}
 							
 							\item \textbf{Glavni sudionik: }Administrator
@@ -927,7 +877,7 @@
 							\end{packed_enum}
 							
 						\end{packed_item}
-						\noindent \underbar{\textbf{UC35 - Odblokiraj korisnika}}
+						\noindent \underbar{\textbf{UC33 - Odblokiraj korisnika}}
 						\begin{packed_item}
 							
 							\item \textbf{Glavni sudionik: }Administrator
@@ -944,7 +894,7 @@
 							\end{packed_enum}
 							
 						\end{packed_item}
-						\noindent \underbar{\textbf{UC36 - Dodaj administratora}}
+						\noindent \underbar{\textbf{UC34 - Dodaj administratora}}
 						\begin{packed_item}
 							
 							\item \textbf{Glavni sudionik: }Administrator
@@ -966,7 +916,7 @@
 							
 						\end{packed_item}
 						
-						\noindent \underbar{\textbf{UC37 - Izbriši administratora}}
+						\noindent \underbar{\textbf{UC35 - Izbriši administratora}}
 						\begin{packed_item}
 							
 							\item \textbf{Glavni sudionik: }Administrator
