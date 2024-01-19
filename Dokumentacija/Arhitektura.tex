@@ -116,17 +116,18 @@ U kontekstu našeg sustava, baza podataka igra ključnu ulogu, pružajući struk
 \begin{longtblr}[
 	label=none,
 	entry=none
-]{
-	width = \textwidth,
-	colspec={|X[6,l]|X[6, l]|X[20, l]|},
-	rowhead = 1,
-} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
-	\hline \SetCell[c=3]{c}{\textbf{Social Media}}	 \\ \hline[3pt]
-	\SetCell{LightGreen}userId & INT	&  jedinstveni identifikator korisnika	 	\\ \hline
-	instagram	& VARCHAR &   	\\ instagram account korisnika \hline
-	facebook & VARCHAR & facebook account korisnika  \\ \hline
-	google & VARCHAR	&  google account korisnika		\\ \hline
-	tikTok	& VARCHAR &  tikTok account korisnika 	\\ \hline
+	]{
+		width = \textwidth,
+		colspec={|X[6,l]|X[6,l]|X[20,l]|},
+		rowhead = 1,
+		hlines, vlines, % Use hlines and vlines for horizontal and vertical lines
+	}
+	\SetCell[c=3]{c}\textbf{Social Media} \\ 
+	\SetRow{bg=LightGreen} userId & INT & jedinstveni identifikator korisnika \\
+	instagram & VARCHAR & instagram account korisnika \\
+	facebook & VARCHAR & facebook account korisnika \\
+	google & VARCHAR & google account korisnika \\
+	tikTok & VARCHAR & tikTok account korisnika \\
 \end{longtblr}
 
 \subsection{PrivacySettings}
@@ -135,20 +136,22 @@ U kontekstu našeg sustava, baza podataka igra ključnu ulogu, pružajući struk
 \textit{Ovaj entitet sadrzava sve važne informacije o postavkama privatnosti korisnika aplikacije. Sadrži atribute: userId, isFirstNameVisible, isLastNameVisible, isNicknameVisible i isEmailVisible. Ovaj entitet ima One-to-one vezu s entitetom User preko atributa userId.}
 
 
+
 \begin{longtblr}[
 	label=none,
 	entry=none
-]{
-	width = \textwidth,
-	colspec={|X[6,l]|X[6, l]|X[20, l]|},
-	rowhead = 1,
-} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
-	\hline \SetCell[c=3]{c}{\textbf{Privacy Settings}}	 \\ \hline[3pt]
-	\SetCell{LightGreen}userId & INT	&  	 jedinstveni identifikator korisnika	\\ \hline
-	isFirstNameVisible	& BOOLEAN &   omogućena vidljivost imena korisnika	\\ \hline
-	isLastNameVisible & BOOLEAN &   \\ omogućena vidljivost prezimena korisnika\hline
-	isNicknameVisible & BOOLEAN	&  		omogućena vidljivost nadimka korisnika\\ \hline
-	isEmailVisible & BOOLEAN	&  		omogućena vidljivost emaila korisnika\\ \hline
+	]{
+		width = \textwidth,
+		colspec={|X[6,l]|X[6,l]|X[20,l]|},
+		rowhead = 1,
+		hlines, vlines, 
+	}
+	\SetCell[c=3]{c}\textbf{Privacy Settings} \\ 
+	\SetRow{bg=LightGreen} userId & INT & jedinstveni identifikator korisnika \\
+	isFirstNameVisible & BOOLEAN & omogućena vidljivost imena korisnika \\
+	isLastNameVisible & BOOLEAN & omogućena vidljivost prezimena korisnika \\
+	isNicknameVisible & BOOLEAN & omogućena vidljivost nadimka korisnika \\
+	isEmailVisible & BOOLEAN & omogućena vidljivost emaila korisnika \\
 \end{longtblr}
 
 \subsection{Document}
@@ -808,6 +811,13 @@ Dijagramom aktivnosti prikazan je tijek prijave registriranog korisnika u sustav
 
 \section{Dijagram komponenti}
 
-\textbf{\textit{dio 2. revizije}}\\
 
-\textit{Potrebno je priložiti dijagram komponenti s pripadajućim opisom. Dijagram komponenti treba prikazivati strukturu cijele aplikacije.}
+
+Dijagram komponenti prikazuje arhitekturu sustava i način na koji se komponente međusobno povezuju. Frontend dio aplikacije izgrađen je pomoću React biblioteke, gdje komponente upravljaju prikazom korisničkog sučelja te se koriste za dinamičko prikazivanje sadržaja koristeći HTML, CSS i JavaScript datoteke. React-view komunicira s Codeblaze aplikacijom preko dostupnih sučelja te na korisnikove zahtjeve osvježava prikaz. Modulu REST API, koji poslužuje podatke koji pripadaju backendu, pristupa se preko sučelja za dohvat JSON podataka. Za dohvaćanje podataka iz baze pomoću SQL upita, zaduženi su repozitoriji. Servisni sloj prima podatke iz repozitorija i može ih dodatno obraditi. Zatim se podaci prosljeđuju kontroleru koji šalje odgovor frontendu u JSON formatu.
+
+\begin{figure} [H]
+	\centering
+	\includegraphics[width=1\linewidth]{dijagrami/DijagramKomponenti.png}
+	\caption{Dijagram komponenti}
+	\label{fig:Dijagram komponenti}
+\end{figure}
